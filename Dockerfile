@@ -10,7 +10,7 @@ WORKDIR /code
 
 # Install dependencies
 COPY requirements.txt /tmp/requirements.txt
-RUN python3 -m pip install -r /tmp/requirements.txt
+RUN pip install -r /tmp/requirements.txt
 
 # Copy project
 COPY . /code/
