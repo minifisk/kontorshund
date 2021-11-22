@@ -39,10 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third-party
+    'allauth', 
+    'allauth.account',
+
+    # Local
     'accounts',
 ]
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# django-allauth config
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
