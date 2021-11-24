@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'allauth', 
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
     'crispy_forms',
 
     # Local
@@ -140,24 +141,60 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # django-allauth config
-ACCOUNT_SESSION_REMEMBER = True
 
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
-
-LOGIN_REDIRECT_URL = 'home'
-
-ACCOUNT_LOGOUT_REDIRECT = 'home'
-
-SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = \
+    {'facebook':
+       {'METHOD': 'oauth2',
+        'SCOPE': ['email','public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time'],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': lambda request: 'kr_KR',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v2.4'}
+    }
+
+# Facebook
+SOCIAL_AUTH_FACEBOOK_KEY = '596768574908566'  # App KEY
+SOCIAL_AUTH_FACEBOOK_SECRET ='693a7cd09ba4ddadf46bdeadd3777f5f' #app secret
+
+SITE_ID = 1
+
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+LOGIN_REDIRECT_URL = 'home'
+ACCOUNT_LOGOUT_REDIRECT = 'home'
+
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True  # False by default
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True  # True by default
+
+
 
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
