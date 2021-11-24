@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
     'crispy_forms',
 
     # Local
@@ -151,9 +152,11 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Provider specific settings
-SOCIALACCOUNT_PROVIDERS = \
-    {'facebook':
-       {'METHOD': 'oauth2',
+SOCIALACCOUNT_PROVIDERS = {
+
+    # Facebook
+    'facebook': {
+        'METHOD': 'oauth2',
         'SCOPE': ['email','public_profile', 'user_friends'],
         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
         'FIELDS': [
@@ -171,8 +174,20 @@ SOCIALACCOUNT_PROVIDERS = \
         'EXCHANGE_TOKEN': True,
         'LOCALE_FUNC': lambda request: 'kr_KR',
         'VERIFIED_EMAIL': False,
-        'VERSION': 'v2.4'}
+        'VERSION': 'v2.4'
+    },
+
+    # Google
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
     }
+}
 
 # Facebook
 SOCIAL_AUTH_FACEBOOK_KEY = '596768574908566'  # App KEY
