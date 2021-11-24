@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     # Local
     'accounts',
+    'core',
 ]
 
 CISPY_TEMPLATE_PACK = 'bootstrap4'

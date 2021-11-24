@@ -11,4 +11,5 @@ urlpatterns = [
 
     # Local apps
     path('', include('accounts.urls')),
+    path('', include('core.urls')),
 ]
