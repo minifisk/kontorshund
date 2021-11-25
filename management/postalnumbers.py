@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+# coding=utf-8
+
+
+import pprint
 
 postalareas = [
     {'postal_number': '293 31', 'area': 'Olofström', 'dist': 'Olofströms kommun'},
@@ -10000,7 +10005,6 @@ postalareas = [
     {'postal_number': '521 91', 'area': 'Falköping',' ''dist': 'Falköpings kommun'},
     {'postal_number': '521 92', 'area': 'Odensberg',' ''dist': 'Falköpings kommun'},
     {'postal_number': '521 93', 'area': 'Falköping',' ''dist': 'Falköpings kommun'},
-
     {'postal_number': '521 94', 'area': 'Falköping', 'dist': 'Falköpings kommun'},
     {'postal_number': '521 95', 'area': 'Kättilstorp', 'dist': 'Falköpings kommun'},
     {'postal_number': '521 96', 'area': 'Torbjörntorp', 'dist': 'Falköpings kommun'},
@@ -10320,3 +10324,17 @@ postalareas = [
 
 ]
 
+
+def new_list():
+    my_set = set()
+
+    for index in range(len(postalareas)):
+        for key in postalareas[index]:
+            if key == 'dist':
+                my_set.add(postalareas[index][key])
+                #print(postalareas[index][key])
+
+    pprint.pprint(my_set)
+
+
+new_list()
