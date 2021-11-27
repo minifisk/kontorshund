@@ -7,8 +7,21 @@ User = get_user_model()
 
 # Create your models here.
 
+class Province(models.Model):
+    name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
+
+class Municipality(models.Model):
+    name= models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
 class Advertisement(SoftDeleteModel, TimeStampedModel):
 
+    # Choices declaration
     DAYS_PER_WEEK_CHOICES = (
         ("1", "1 day per weeks"),
         ("1-5", "1-4 days per week"),
@@ -605,14 +618,21 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
         ("XL", "Extra Large"),
     )
 
+    # Foreign keys
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    province = models.ForeignKey(Province, on_delete=models.CASCADE)
+    municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE)
+
+    # String data
     title = models.CharField(max_length=150)
     description = models.CharField(max_length=500)
+    
+    # Choices
     days_per_week = models.CharField(max_length=3, choices=DAYS_PER_WEEK_CHOICES, default=1)
     breed = models.CharField(max_length=3, choices=DOG_BREEDS_CHOICES, default=3)
     size = models.CharField(max_length=2, choices=DOG_SIZE_CHOICES, default="S")
 
-
-
+    def __str__(self):
+        return self.title
 
 
