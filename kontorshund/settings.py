@@ -89,11 +89,11 @@ WSGI_APPLICATION = 'kontorshund.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db',
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'postgres',
-        'PORT': 5432
+        'HOST': 'host.docker.internal',
+        'PORT': 5455
     }
 }
 

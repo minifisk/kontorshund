@@ -11,15 +11,3 @@ services:
     ports: 
       - 8000:8000
 
-  db:
-    container_name: postgres
-    restart: always
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: "db"
-      POSTGRES_PASSWORD: mypassword
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-
