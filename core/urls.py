@@ -8,4 +8,6 @@ urlpatterns = [
     path('ads/', views.AdListView.as_view(), name='ad_changelist'),
     path('add/', views.AdCreateView.as_view(), name='ad_add'),
     path('<int:pk>/', views.AdUpdateView.as_view(), name='ad_change'),
+
+    path('ajax/load-municipalities/', views.load_municipalities, name='ajax_load_municipalities'), 
 ]

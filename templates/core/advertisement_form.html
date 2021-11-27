@@ -1,9 +1,10 @@
-
 {% extends '_base.html' %}
 
 {% block content %}
-  <h2>Person Form</h2>
-  <form method="post" novalidate>
+
+  <h2>Advirtesement Form</h2>
+
+  <form method="post" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" novalidate>
     {% csrf_token %}
     <table>
       {{ form.as_table }}
@@ -11,4 +12,46 @@
     <button type="submit">Save</button>
     <a href="{% url 'ad_changelist' %}">Nevermind</a>
   </form>
+
+  <div class="result"></div>
+
+  <script>
+      console.log("testing");
+
+      const baseURI = window.location.origin
+      const request_url = document.getElementById('adForm')['attributes']['data-municipalities-url']['value']
+
+      console.log(baseURI)
+      console.log(request_url)
+
+
+      const province = document.getElementById('id_province');
+      
+      province.addEventListener('change', (event) => {
+          const result = document.querySelector('.result');
+
+          xhttp.open("GET", "demo_get.asp");
+          xhttp.send();
+
+          result.textContent = `You like ${event.target.value}`;});
+
+
+
+    // $("#id_province").change(function () {
+    //   var url = $("#adForm").attr("data-municipalities-url");  // get the url of the `load_cities` view
+    //   var provinceId = $(this).val();  // get the selected country ID from the HTML input
+
+    //   $.ajax({                       // initialize an AJAX request
+    //     url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+    //     data: {
+    //       'municipality': ProvinceId       // add the country id to the GET parameters
+    //     },
+    //     success: function (data) {   // `data` is the return of the `load_cities` view function
+    //       $("#id_province").html(data);  // replace the contents of the city input with the data that came from the server
+    //     }
+    //   });
+
+    // });
+  </script>
+
 {% endblock %}

@@ -14,6 +14,7 @@ class Province(models.Model):
         return self.name
 
 class Municipality(models.Model):
+    province = models.ForeignKey(Province, on_delete=models.CASCADE)
     name= models.CharField(max_length=100)
 
     def __str__(self):
