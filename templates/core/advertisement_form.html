@@ -16,24 +16,30 @@
   <div class="result"></div>
 
   <script>
-      console.log("testing");
 
       const baseURI = window.location.origin
       const request_url = document.getElementById('adForm')['attributes']['data-municipalities-url']['value']
 
-      console.log(baseURI)
-      console.log(request_url)
-
-
       const province = document.getElementById('id_province');
-      
+      const municipalities = document.getElementById('id_municipality');
+
       province.addEventListener('change', (event) => {
-          const result = document.querySelector('.result');
+        
+        var xhr = new XMLHttpRequest();
 
-          xhttp.open("GET", "demo_get.asp");
-          xhttp.send();
+        xhr.onload = function () {
+          if (xhr.readyState === xhr.DONE) {
+              if (xhr.status === 200) {
+                  municipalities.innerHTML = xhr.response
+              }
+          }
+        };
 
-          result.textContent = `You like ${event.target.value}`;});
+        xhr.open('GET',  baseURI + request_url, true);
+        xhr.setRequestHeader('province', province.value)
+        xhr.send();
+
+      });
 
 
 

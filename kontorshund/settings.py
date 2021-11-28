@@ -22,6 +22,11 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+
+    # Django autocomplete light
+    #'dal',
+    #'dal_select2',
+
     # Django-Default
     'django.contrib.admin',
     'django.contrib.auth',

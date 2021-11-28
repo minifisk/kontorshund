@@ -24,11 +24,11 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
 
     # Choices declaration
     DAYS_PER_WEEK_CHOICES = (
-        ("1", "1 day per weeks"),
-        ("1-5", "1-4 days per week"),
+        ("1", "1 day per week"),
+        ("1-5", "1-2 days per week"),
         ("1-3", "1-3 days per week"),
-        ("1-4", "1-3 days per week"),
-        ("1-5", "1-3 days per week"),
+        ("1-4", "1-4 days per week"),
+        ("1-5", "1-5 days per week"),
     )
 
     DOG_BREEDS_CHOICES = (
