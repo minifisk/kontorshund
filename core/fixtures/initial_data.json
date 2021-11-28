@@ -1,0 +1,1344 @@
+
+[
+    {
+      "model": "core.Province",
+      "pk": 1,
+      "fields": {
+        "name": "Norrbotten"
+      }
+    },
+    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Arjeplog"
+        }
+    },
+    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Arvidsjaur"
+        }
+    },
+    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Boden"
+        }
+    },    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Gällivare"
+        }
+    },    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Haparanda"
+        }
+    },    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Jokkmokk"
+        }
+    },    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Kalix"
+        }
+    },    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Kiruna"
+        }
+    },    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Luleå"
+        }
+    },    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Pajala"
+        }
+    },    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Piteå"
+        }
+    },    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Älvsbyn"
+        }
+    },    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Överkalix"
+        }
+    },    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Övertorneå"
+        }
+    },
+
+
+
+
+
+
+    {
+        "model": "core.Province",
+        "pk": 1,
+        "fields": {
+          "name": "Västerbotten"
+        }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Bjurholm"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Dorotea"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Lycksele"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Malå"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Nordmaling"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Norsjö"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Robertfors"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Skellefteå"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Sorsele"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Storuman"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Umeå"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Vilhelmina"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Vindeln"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Vännäs"
+          }
+      },
+      {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Åsele"
+        }
+    },
+
+
+
+
+
+    {
+        "model": "core.Province",
+        "pk": 1,
+        "fields": {
+          "name": "Jämtland"
+        }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Berg"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Bräcke"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Härjedalen"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Krokum"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Ragunda"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Strömsund"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Åre"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Östersund"
+          }
+      },    
+      
+
+
+
+
+
+    {
+        "model": "core.Province",
+        "pk": 1,
+        "fields": {
+          "name": "Västernorrland"
+        }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Härnösand"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Kramfors"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Sollefteå"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Sundsvall"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Timrå"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Ånge"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Örnsköldsvik"
+          }
+      },    
+     
+
+
+
+
+
+    {
+        "model": "core.Province",
+        "pk": 1,
+        "fields": {
+          "name": "Gävleborg"
+        }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Bollnäs"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Gävle"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Hofors"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Hudiksvall"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Ljusdal"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Nordanstig"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Ockelbo"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Ovanåker"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Sandviken"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Söderhamn"
+          }
+      },    
+     
+
+
+
+
+
+    {
+        "model": "core.Province",
+        "pk": 1,
+        "fields": {
+          "name": "Dalarna"
+        }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Avesta"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Borlänge"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Falun"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Gagnef"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Hedemora"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Lexand"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Ludvika"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Malung-Sälen"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Mora"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Orsa"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Rättvik"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Smedjebacken"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Säter"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Vansbro"
+          }
+      },
+      {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Älvdalen"
+        }
+    },
+
+
+
+
+
+
+    {
+        "model": "core.Province",
+        "pk": 1,
+        "fields": {
+          "name": "Värmland"
+        }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Arvika"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Eda"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Filipstad"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Forshaga"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Grums"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Hafors"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Hammarö"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Karlstad"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Kil"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Kristinehamn"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Munkfors"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Storfors"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Sunne"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Säffle"
+          }
+      },
+      {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Torsby"
+        }
+    },
+    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Årjäng"
+        }
+    },
+
+
+
+
+
+
+    {
+        "model": "core.Province",
+        "pk": 1,
+        "fields": {
+          "name": "Örebro"
+        }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Askersund"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Degerfors"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Hallsberg"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Hällefors"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Karlskoga"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Kumla"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Laxå"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Lekeberg"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Lindesberg"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Ljusnarsberg"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Nora"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Örebro"
+          }
+      },    
+      
+
+
+
+
+
+    {
+        "model": "core.Province",
+        "pk": 1,
+        "fields": {
+          "name": "Västmanland"
+        }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Arboga"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Fagersta"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Halstahammar"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Kungsör"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Köping"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Norberg"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Sala"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Skinnskatteberg"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Surahammar"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Västerås"
+          }
+      },    
+      
+
+
+
+
+
+
+
+    {
+        "model": "core.Province",
+        "pk": 1,
+        "fields": {
+          "name": "Uppsala"
+        }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Enköping"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Heby"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Håbo"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Knivsta"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Tierp"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Uppsala"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Älvkarleby"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Östhammar"
+          }
+      },    
+    
+
+
+
+
+
+
+    {
+        "model": "core.Province",
+        "pk": 1,
+        "fields": {
+          "name": "Stockholm"
+        }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Botkyrka"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Danderyd"
+          }
+      },
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Ekerö"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Haninge"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Huddinge"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Järfälla"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Lidingö"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Nacka"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Norrtälje"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Nykvarn"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Nynäshamn"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Salem"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Siguna"
+          }
+      },    
+      {
+          "model": "core.Municipality",
+          "pk": 1,
+          "fields": {
+            "province": 1,
+            "name": "Sollentuna"
+          }
+      },
+      {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Solna"
+        }
+    },
+    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Sundbyberg"
+        }
+    },
+    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Södertälje"
+        }
+    },
+    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Tyresö"
+        }
+    },
+    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Täby"
+        }
+    },
+    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Upplands Väsby"
+        }
+    },
+    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Upplands-Bro"
+        }
+    },
+    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Vallentuna"
+        }
+    },
+    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Vaxholm"
+        }
+    },
+    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Värmdö"
+        }
+    },
+    {
+        "model": "core.Municipality",
+        "pk": 1,
+        "fields": {
+          "province": 1,
+          "name": "Österåker"
+        }
+    },
+
+    {
+        "model": "core.Area",
+        "pk": 1,
+        "fields": {
+          "municipality": 1,
+          "name": "Bromma"
+        }
+    },
+    {
+        "model": "core.Area",
+        "pk": 1,
+        "fields": {
+          "municipality": 1,
+          "name": "Enskede, Årsta, Skarpnäck"
+        }
+    },
+    {
+        "model": "core.Area",
+        "pk": 1,
+        "fields": {
+          "municipality": 1,
+          "name": "Hägersten, Liljeholmen"
+        }
+    },
+    {
+        "model": "core.Area",
+        "pk": 1,
+        "fields": {
+          "municipality": 1,
+          "name": "Kataina, Sofia"
+        }
+    },
+    {
+        "model": "core.Area",
+        "pk": 1,
+        "fields": {
+          "municipality": 1,
+          "name": "Kista, Hässelby, Vällinby, Spånga"
+        }
+    },
+    {
+        "model": "core.Area",
+        "pk": 1,
+        "fields": {
+          "municipality": 1,
+          "name": "Kungsholmen"
+        }
+    },
+    {
+        "model": "core.Area",
+        "pk": 1,
+        "fields": {
+          "municipality": 1,
+          "name": "Maria, Gamla Stan, Högalid"
+        }
+    },
+    {
+        "model": "core.Area",
+        "pk": 1,
+        "fields": {
+          "municipality": 1,
+          "name": "Skärholmen, Bredäng"
+        }
+    },
+    {
+        "model": "core.Area",
+        "pk": 1,
+        "fields": {
+          "municipality": 1,
+          "name": "Vasastan, Norrmalm"
+        }
+    },
+    {
+        "model": "core.Area",
+        "pk": 1,
+        "fields": {
+          "municipality": 1,
+          "name": "Älvsjö, Farsta, Vantör"
+        }
+    },
+    {
+        "model": "core.Area",
+        "pk": 1,
+        "fields": {
+          "municipality": 1,
+          "name": "Östermalm, Djurgården"
+        }
+    }
+
+
+    SÖDERMANLAND:
+      
+]
