@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.models import Province, Municipality, Advertisement
+from core.models import Province, Municipality, Advertisement, Area
 from core.forms import AdvertisementForm
 
 # Register your models here.
@@ -15,6 +15,12 @@ class MunicipalityAdmin(admin.ModelAdmin):
     model = Municipality
 
 admin.site.register(Municipality, MunicipalityAdmin)
+
+class AreaAdmin(admin.ModelAdmin):
+    model = Area
+
+admin.site.register(Area, AreaAdmin)
+
 
 
 class AdvertisementAdmin(admin.ModelAdmin):
