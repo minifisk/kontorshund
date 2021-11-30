@@ -630,6 +630,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
     municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE)
 
     # String data
     title = models.CharField(max_length=150)

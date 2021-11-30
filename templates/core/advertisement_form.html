@@ -1,10 +1,13 @@
 {% extends '_base.html' %}
 
 {% block content %}
+  <body onload="hide_area_field()">
+    
+
 
   <h2>Advirtesement Form</h2>
 
-  <form method="post" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" novalidate>
+  <form method="post" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
     {% csrf_token %}
     <table>
       {{ form.as_table }}
@@ -15,31 +18,69 @@
 
   <div class="result"></div>
 
+</body>
+
   <script>
 
+      function hide_area_field() {
+        const area_selector = document.getElementById('id_area');
+        area_selector.style.display = 'none';
+      }
+
+      /* Get URL for requesting list of municipalities & Areas */
       const baseURI = window.location.origin
-      const request_url = document.getElementById('adForm')['attributes']['data-municipalities-url']['value']
+      const municipality_url = document.getElementById('adForm')['attributes']['data-municipalities-url']['value']
+      const area_url = document.getElementById('adForm')['attributes']['data-areas-url']['value']
 
-      const province = document.getElementById('id_province');
-      const municipalities = document.getElementById('id_municipality');
 
-      province.addEventListener('change', (event) => {
+      /* Get relevant objects from DOM */
+      const province_selector = document.getElementById('id_province');
+      const municipality_selector = document.getElementById('id_municipality');
+      const area_selector = document.getElementById('id_area');
+
+      /* Update municipalities when Province have been chosen */
+      province_selector.addEventListener('change', (event) => {
         
         var xhr = new XMLHttpRequest();
 
         xhr.onload = function () {
           if (xhr.readyState === xhr.DONE) {
               if (xhr.status === 200) {
-                  municipalities.innerHTML = xhr.response
+                  municipality_selector.innerHTML = xhr.response
               }
           }
         };
 
-        xhr.open('GET',  baseURI + request_url, true);
-        xhr.setRequestHeader('province', province.value)
+        xhr.open('GET',  baseURI + municipality_url, true);
+        xhr.setRequestHeader('province', province_selector.value)
         xhr.send();
 
       });
+
+
+      /* Update Areas when Municipiality have been chosen */
+      municipality_selector.addEventListener('change', (event) => {
+      
+      var xhr = new XMLHttpRequest();
+
+      xhr.onload = function () {
+        if (xhr.readyState === xhr.DONE) {
+            if (xhr.status === 200) {
+                if (xhr.response.length > 58) {
+                  area_selector.style.display = ''
+                  area_selector.innerHTML = xhr.response
+                } else {
+                  area_selector.style.display = 'none'
+                }
+            }
+        }
+      };
+
+      xhr.open('GET',  baseURI + area_url, true);
+      xhr.setRequestHeader('municipality', municipality_selector.value)
+      xhr.send();
+
+    });
 
 
 

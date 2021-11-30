@@ -6,7 +6,7 @@ from django.http import HttpResponse
 #from dal import autocomplete
 
 from core.forms import AdvertisementForm
-from core.models import Advertisement, Municipality, Province
+from core.models import Advertisement, Municipality, Province, Area
 
 # Create your views here.
 
@@ -39,3 +39,9 @@ def load_municipalities(request):
     province_id = request.headers['province']
     municipalities = Municipality.objects.filter(province_id=province_id).order_by('name')
     return render(request, 'municipality_dropdown_list_options.html', {'municipalities': municipalities})
+
+# View to be used for getting Areas connected to a Municipality
+def load_areas(request):
+    municipality_id = request.headers['municipality']
+    areas = Area.objects.filter(municipality_id=municipality_id).order_by('name')
+    return render(request, 'area_dropdown_list_options.html', {'areas': areas})

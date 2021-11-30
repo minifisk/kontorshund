@@ -10,4 +10,5 @@ urlpatterns = [
     path('<int:pk>/', views.AdUpdateView.as_view(), name='ad_change'),
 
     path('ajax/load-municipalities/', views.load_municipalities, name='ajax_load_municipalities'), 
+    path('ajax/load-areas/', views.load_areas, name='ajax_load_areas'), 
 ]
