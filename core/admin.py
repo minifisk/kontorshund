@@ -1,7 +1,6 @@
 from django.contrib import admin
 
 from core.models import Province, Municipality, Advertisement, Area
-from core.forms import AdvertisementForm
 
 # Register your models here.
 

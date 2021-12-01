@@ -7,11 +7,17 @@
 
   <h2>Advirtesement Form</h2>
 
-  <form method="post" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
+  {% if form.is_multipart %}
+    <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
+  {% else %}
+    <form method="post" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
+  {% endif %}
+  
     {% csrf_token %}
-    <table>
+    <table>  
       {{ form.as_table }}
     </table>
+
     <button type="submit">Save</button>
     <a href="{% url 'ad_changelist' %}">Nevermind</a>
   </form>

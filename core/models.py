@@ -632,16 +632,26 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun')
     area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, verbose_name='Område')
 
+    # Type of Ad (Offering own dog or requesting a dog)
+    is_offering_own_dog = models.BooleanField()
+
     # String data
     title = models.CharField(max_length=150, verbose_name='Titel')
     description = models.CharField(max_length=500, verbose_name='Beskrivning')
     
     # Choices
     days_per_week = models.CharField(max_length=3, choices=DAYS_PER_WEEK_CHOICES, default=1, verbose_name='Dagar per vecka')
-    breed = models.CharField(max_length=3, choices=DOG_BREEDS_CHOICES, default=3, verbose_name='Ras')
+    breed = models.CharField(max_length=3, choices=DOG_BREEDS_CHOICES, default=3, verbose_name='Ras', null=True, blank=True)
     size = models.CharField(max_length=2, choices=DOG_SIZE_CHOICES, default="S", verbose_name='Storlek')
+
+    # Images
+    image1 = models.ImageField(null=True, blank=True)
+    image2 = models.ImageField(null=True, blank=True)
+    image3 = models.ImageField(null=True, blank=True)
+
 
     def __str__(self):
         return self.title
+
 
 

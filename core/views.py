@@ -5,7 +5,7 @@ from django.http import HttpResponse
 
 #from dal import autocomplete
 
-from core.forms import AdvertisementForm
+from core.forms import NewAdTakeMyDogForm
 from core.models import Advertisement, Municipality, Province, Area
 
 # Create your views here.
@@ -24,18 +24,32 @@ class AdListView(ListView):
     model = Advertisement
     context_object_name = 'ads'
 
-class AdCreateView(CreateView):
+
+class NewAdTakeMyDog(CreateView):
     model = Advertisement
-    form_class = AdvertisementForm
+    form_class = NewAdTakeMyDogForm
     success_url = reverse_lazy('ad_changelist')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        form.instance.is_offering_own_dog = True
         return super().form_valid(form)
+
+
+class NewAdGetMeADog(CreateView):
+    model = Advertisement
+    form_class = NewAdTakeMyDogForm
+    success_url = reverse_lazy('ad_changelist')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.is_offering_own_dog = False
+        return super().form_valid(form)
+
 
 class AdUpdateView(UpdateView):
     model = Advertisement
-    form_class = AdvertisementForm
+    form_class = NewAdTakeMyDogForm
     success_url = reverse_lazy('ad_changelist')
 
 # View to be used for getting Municipalities connected to a Province

@@ -1,13 +1,13 @@
 from django import forms
 from .models import Advertisement, Municipality, Area
 
-class AdvertisementForm(forms.ModelForm):
+class NewAdTakeMyDogForm(forms.ModelForm):
     class Meta:
         model = Advertisement
-        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'breed', 'size')
+        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'breed', 'size', 'image1', 'image2', 'image3')
 
     def __init__(self, *args, **kwargs):
-        super(AdvertisementForm, self).__init__(*args, **kwargs)
+        super(NewAdTakeMyDogForm, self).__init__(*args, **kwargs)
         self.fields['municipality'].queryset = Municipality.objects.none()
         self.fields['area'].queryset = Area.objects.none()
         self.fields['area'].required = False
