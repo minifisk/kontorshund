@@ -29,6 +29,10 @@ class AdCreateView(CreateView):
     form_class = AdvertisementForm
     success_url = reverse_lazy('ad_changelist')
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
 class AdUpdateView(UpdateView):
     model = Advertisement
     form_class = AdvertisementForm

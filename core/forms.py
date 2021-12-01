@@ -1,13 +1,13 @@
 from django import forms
-from .models import Advertisement, Province, Municipality, Area
+from .models import Advertisement, Municipality, Area
 
 class AdvertisementForm(forms.ModelForm):
     class Meta:
         model = Advertisement
-        fields = ('author', 'province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'breed', 'size')
+        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'breed', 'size')
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(AdvertisementForm, self).__init__(*args, **kwargs)
         self.fields['municipality'].queryset = Municipality.objects.none()
         self.fields['area'].queryset = Area.objects.none()
         self.fields['area'].required = False
@@ -21,6 +21,7 @@ class AdvertisementForm(forms.ModelForm):
                 # Set area queryset
                 municipality_id = int(self.data.get('municipality'))
                 self.fields['area'].queryset = Area.objects.filter(municipality_id=municipality_id).order_by('name')
+                
 
             except (ValueError, TypeError):
                 pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset

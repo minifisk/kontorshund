@@ -628,18 +628,18 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
 
     # Foreign keys
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE)
-    municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE)
-    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True)
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap')
+    municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun')
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, verbose_name='Område')
 
     # String data
-    title = models.CharField(max_length=150)
-    description = models.CharField(max_length=500)
+    title = models.CharField(max_length=150, verbose_name='Titel')
+    description = models.CharField(max_length=500, verbose_name='Beskrivning')
     
     # Choices
-    days_per_week = models.CharField(max_length=3, choices=DAYS_PER_WEEK_CHOICES, default=1)
-    breed = models.CharField(max_length=3, choices=DOG_BREEDS_CHOICES, default=3)
-    size = models.CharField(max_length=2, choices=DOG_SIZE_CHOICES, default="S")
+    days_per_week = models.CharField(max_length=3, choices=DAYS_PER_WEEK_CHOICES, default=1, verbose_name='Dagar per vecka')
+    breed = models.CharField(max_length=3, choices=DOG_BREEDS_CHOICES, default=3, verbose_name='Ras')
+    size = models.CharField(max_length=2, choices=DOG_SIZE_CHOICES, default="S", verbose_name='Storlek')
 
     def __str__(self):
         return self.title
