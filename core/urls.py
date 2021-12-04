@@ -17,8 +17,11 @@ urlpatterns = [
     # Update for take and get-ads
     path('<int:pk>/', views.AdUpdateView.as_view(), name='ad_change'),
 
-
     # Path's for area generation
     path('ajax/load-municipalities/', views.load_municipalities, name='ajax_load_municipalities'), 
     path('ajax/load-areas/', views.load_areas, name='ajax_load_areas'), 
+
+    # Autocomplete Breeds URL
+    path('breed-autocomplete', views.BreedAutocomplete, name='breed-autocomplete'), 
+
 ]

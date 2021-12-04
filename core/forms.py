@@ -1,10 +1,19 @@
 from django import forms
-from .models import Advertisement, Municipality, Area
+from .models import Advertisement, Municipality, Area, DogBreeds
+
+from dal import autocomplete
+
 
 class NewAdTakeMyDogForm(forms.ModelForm):
+
+    size_offered = forms.ModelChoiceField(
+        queryset=DogBreeds.objects.all(),
+        widget=autocomplete.ModelSelect2(url='breed-autocomplete')
+    )
+
     class Meta:
         model = Advertisement
-        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'breed', 'size_offered', 'image1', 'image2', 'image3')
+        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'size_offered', 'breed', 'image1', 'image2', 'image3')
 
     def __init__(self, *args, **kwargs):
         super(NewAdTakeMyDogForm, self).__init__(*args, **kwargs)

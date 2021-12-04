@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from core.models import Province, Municipality, Advertisement, Area, DogSizeChoices, DogBreeds
+from core.forms import NewAdTakeMyDogForm
 
 # Register your models here.
 
@@ -34,6 +35,6 @@ admin.site.register(DogBreeds, DogBreedsAdmin)
 
 
 class AdvertisementAdmin(admin.ModelAdmin):
-    model = Advertisement
+    form = NewAdTakeMyDogForm
 
 admin.site.register(Advertisement, AdvertisementAdmin)

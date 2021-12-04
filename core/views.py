@@ -8,7 +8,7 @@ from django.views import generic
 #from dal import autocomplete
 
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm
-from core.models import Advertisement, Municipality, Area
+from core.models import Advertisement, Municipality, Area, DogBreeds
 
 
 from dal import autocomplete
@@ -19,13 +19,13 @@ from dal import autocomplete
 def index(request):
     return render(request, 'core/index.html')
 
-class CityAutocomplete(autocomplete.Select2QuerySetView):
+class BreedAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
 
         if not self.request.user.is_authenticated():
-            return Advertisement.objects.none()
+            return DogBreeds.objects.none()
 
-        qs = Advertisement.objects.all()
+        qs = DogBreeds.objects.all()
 
         if self.q:
             qs = qs.filter(name__istartswith=self.q)

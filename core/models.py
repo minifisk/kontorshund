@@ -650,7 +650,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     
     # Choices
     days_per_week = models.CharField(max_length=3, choices=DAYS_PER_WEEK_CHOICES, default=1, verbose_name='Omfattning')
-    breed = models.CharField(max_length=3, choices=DOG_BREEDS_CHOICES, default=3, verbose_name='Ras', null=True, blank=True)
+    breed = models.ForeignKey(DogBreeds, on_delete=models.CASCADE, null=True, verbose_name='Hundras')
     size_offered = models.ForeignKey(DogSizeChoices, verbose_name='Min hunds storlek', on_delete=models.CASCADE, related_name='size_offered', null=True)
     size_requested = models.ManyToManyField(DogSizeChoices, verbose_name='Möjliga hundstorlekar', related_name='size_requested')
 
