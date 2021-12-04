@@ -1,3 +1,4 @@
+from io import open_code
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -26,6 +27,12 @@ class Area(models.Model):
 
     def __str__(self):
         return self.name
+
+class DogSizeChoices(models.Model):
+    size = models.CharField(max_length=20) 
+
+    def __str__(self):
+        return self.size
 
 class Advertisement(SoftDeleteModel, TimeStampedModel):
 
@@ -627,7 +634,6 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     )
 
 
-    #TODO-ALEX MPC for storlek när man gör hund sökes
 
     # Foreign keys
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -645,7 +651,9 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     # Choices
     days_per_week = models.CharField(max_length=3, choices=DAYS_PER_WEEK_CHOICES, default=1, verbose_name='Omfattning')
     breed = models.CharField(max_length=3, choices=DOG_BREEDS_CHOICES, default=3, verbose_name='Ras', null=True, blank=True)
-    size = models.CharField(max_length=2, choices=DOG_SIZE_CHOICES, default="S", verbose_name='Storlek')
+    size_offered = models.ForeignKey(DogSizeChoices, verbose_name='Min hunds storlek', on_delete=models.CASCADE, related_name='size_offered', null=True)
+    size_requested = models.ManyToManyField(DogSizeChoices, verbose_name='Möjliga hundstorlekar', related_name='size_requested', null=True)
+
 
     # Images
     image1 = models.ImageField(null=True, blank=True)

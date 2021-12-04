@@ -4,7 +4,7 @@ from .models import Advertisement, Municipality, Area
 class NewAdTakeMyDogForm(forms.ModelForm):
     class Meta:
         model = Advertisement
-        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'breed', 'size', 'image1', 'image2', 'image3')
+        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'breed', 'size_offered', 'image1', 'image2', 'image3')
 
     def __init__(self, *args, **kwargs):
         super(NewAdTakeMyDogForm, self).__init__(*args, **kwargs)
@@ -30,7 +30,10 @@ class NewAdTakeMyDogForm(forms.ModelForm):
 class NewAdGetMeADogForm(forms.ModelForm):
     class Meta:
         model = Advertisement
-        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'size', 'image1', 'image2', 'image3')
+        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'size_requested', 'image1', 'image2', 'image3')
+        help_texts = {
+            'size_requested': 'Håll in cmd (mac) eller ctrl (windows) för att markera flera',
+        }
 
     def __init__(self, *args, **kwargs):
         super(NewAdGetMeADogForm, self).__init__(*args, **kwargs)
