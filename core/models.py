@@ -34,6 +34,13 @@ class DogSizeChoices(models.Model):
     def __str__(self):
         return self.size
 
+
+class DogBreeds(models.Model):
+    name = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.name
+
 class Advertisement(SoftDeleteModel, TimeStampedModel):
 
     # Choices declaration
@@ -626,13 +633,6 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
         ("582", "Östsibirisk lajka"),
     )
 
-    DOG_SIZE_CHOICES = (
-        ("S", "Liten hund"),
-        ("M", "Mellanstor hund"),
-        ("L", "Stor hund"),
-        ("XL", "Väldigt stor hund"),
-    )
-
 
 
     # Foreign keys
@@ -652,7 +652,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     days_per_week = models.CharField(max_length=3, choices=DAYS_PER_WEEK_CHOICES, default=1, verbose_name='Omfattning')
     breed = models.CharField(max_length=3, choices=DOG_BREEDS_CHOICES, default=3, verbose_name='Ras', null=True, blank=True)
     size_offered = models.ForeignKey(DogSizeChoices, verbose_name='Min hunds storlek', on_delete=models.CASCADE, related_name='size_offered', null=True)
-    size_requested = models.ManyToManyField(DogSizeChoices, verbose_name='Möjliga hundstorlekar', related_name='size_requested', null=True)
+    size_requested = models.ManyToManyField(DogSizeChoices, verbose_name='Möjliga hundstorlekar', related_name='size_requested')
 
 
     # Images

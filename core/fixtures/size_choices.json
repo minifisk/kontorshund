@@ -1,0 +1,33 @@
+
+[
+    {
+      "model": "core.DogSizeChoices",
+      "pk": 1,
+      "fields": {
+        "size": "Liten hund"
+      }
+    },
+    {
+      "model": "core.DogSizeChoices",
+      "pk": 1,
+      "fields": {
+        "size": "Mellanstor hund"
+      }
+    },
+    {
+      "model": "core.DogSizeChoices",
+      "pk": 1,
+      "fields": {
+        "size": "Stor hund"
+      }
+    },
+    {
+      "model": "core.DogSizeChoices",
+      "pk": 1,
+      "fields": {
+        "size": "Väldigt stor hund"
+      }
+    }
+   
+
+]

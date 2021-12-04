@@ -10,16 +10,28 @@ from django.views import generic
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm
 from core.models import Advertisement, Municipality, Area
 
+
+from dal import autocomplete
+
+
 # Create your views here.
 
 def index(request):
     return render(request, 'core/index.html')
 
-# class CityAutocomplete(autocomplete.Select2ListView):
-#     def get_list(self):
-#         # return all cities name here, it will be auto filtered by super class
-#         return ['Pune', 'Patna', 'Mumbai', 'Delhi', ...]
-        
+class CityAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+
+        if not self.request.user.is_authenticated():
+            return Advertisement.objects.none()
+
+        qs = Advertisement.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
+
+        return qs
+
 
 
 class AdListTakeMyDog(generic.ListView):
