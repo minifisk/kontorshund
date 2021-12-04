@@ -20,9 +20,10 @@ def index(request):
     return render(request, 'core/index.html')
 
 class BreedAutocomplete(autocomplete.Select2QuerySetView):
+
     def get_queryset(self):
 
-        if not self.request.user.is_authenticated():
+        if not self.request.user.is_authenticated:
             return DogBreeds.objects.none()
 
         qs = DogBreeds.objects.all()

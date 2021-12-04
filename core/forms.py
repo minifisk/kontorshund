@@ -6,7 +6,7 @@ from dal import autocomplete
 
 class NewAdTakeMyDogForm(forms.ModelForm):
 
-    size_offered = forms.ModelChoiceField(
+    breed = forms.ModelChoiceField(
         queryset=DogBreeds.objects.all(),
         widget=autocomplete.ModelSelect2(url='breed-autocomplete')
     )

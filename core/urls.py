@@ -22,6 +22,6 @@ urlpatterns = [
     path('ajax/load-areas/', views.load_areas, name='ajax_load_areas'), 
 
     # Autocomplete Breeds URL
-    path('breed-autocomplete', views.BreedAutocomplete, name='breed-autocomplete'), 
+    path('breed-autocomplete', views.BreedAutocomplete.as_view(), name='breed-autocomplete'), 
 
 ]
