@@ -4,8 +4,9 @@
   <body onload="hide_area_field()">
     
 
-
-  <h2>Advirtesement Form</h2>
+  {% block form_title %}
+    <h2>Advirtesement Form</h2>
+  {% endblock form_title %}
 
   {% if form.is_multipart %}
     <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
@@ -13,13 +14,12 @@
     <form method="post" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
   {% endif %}
   
-    {% csrf_token %}
+    {% csrf_token %}  
     <table>  
       {{ form.as_table }}
     </table>
 
-    <button type="submit">Save</button>
-    <a href="{% url 'ad_changelist' %}">Nevermind</a>
+    <button type="submit">Publicera annons</button>
   </form>
 
   <div class="result"></div>

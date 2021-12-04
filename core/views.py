@@ -1,12 +1,14 @@
+from django.views import generic
 from django.views.generic import ListView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views import generic
 
 #from dal import autocomplete
 
-from core.forms import NewAdTakeMyDogForm
-from core.models import Advertisement, Municipality, Province, Area
+from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm
+from core.models import Advertisement, Municipality, Area
 
 # Create your views here.
 
@@ -20,15 +22,32 @@ def index(request):
         
 
 
-class AdListView(ListView):
+class AdListTakeMyDog(generic.ListView):
     model = Advertisement
     context_object_name = 'ads'
+    template_name = 'core/advertisement_list_take.html'
+
+    def get_queryset(self):
+        queryset = Advertisement.objects.filter(is_offering_own_dog=True)
+        return queryset
+
+
+class AdListGetMeADog(generic.ListView):
+    model = Advertisement
+    context_object_name = 'ads'
+    template_name = 'core/advertisement_list_get.html'
+
+    def get_queryset(self):
+        queryset = Advertisement.objects.filter(is_offering_own_dog=False)
+        return queryset
+
 
 
 class NewAdTakeMyDog(CreateView):
     model = Advertisement
     form_class = NewAdTakeMyDogForm
-    success_url = reverse_lazy('ad_changelist')
+    success_url = reverse_lazy('view_ads_take_my_dog')
+    template_name = 'core/advertisement_form_take.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -38,8 +57,9 @@ class NewAdTakeMyDog(CreateView):
 
 class NewAdGetMeADog(CreateView):
     model = Advertisement
-    form_class = NewAdTakeMyDogForm
+    form_class = NewAdGetMeADogForm
     success_url = reverse_lazy('ad_changelist')
+    template_name = 'core/advertisement_form_get.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user

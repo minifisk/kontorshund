@@ -31,11 +31,11 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
 
     # Choices declaration
     DAYS_PER_WEEK_CHOICES = (
-        ("1", "1 day per week"),
-        ("1-5", "1-2 days per week"),
-        ("1-3", "1-3 days per week"),
-        ("1-4", "1-4 days per week"),
-        ("1-5", "1-5 days per week"),
+        ("1", "1 dag per vecka"),
+        ("1-5", "1-2 dagar per vecka"),
+        ("1-3", "1-3 dagar per vecka"),
+        ("1-4", "1-4 dagar per vecka"),
+        ("1-5", "1-5 dagar per vecka"),
     )
 
     DOG_BREEDS_CHOICES = (
@@ -620,11 +620,14 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     )
 
     DOG_SIZE_CHOICES = (
-        ("S", "Small"),
-        ("M", "Medium"),
-        ("L", "Large"),
-        ("XL", "Extra Large"),
+        ("S", "Liten hund"),
+        ("M", "Mellanstor hund"),
+        ("L", "Stor hund"),
+        ("XL", "Väldigt stor hund"),
     )
+
+
+    #TODO-ALEX MPC for storlek när man gör hund sökes
 
     # Foreign keys
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -640,7 +643,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     description = models.CharField(max_length=500, verbose_name='Beskrivning')
     
     # Choices
-    days_per_week = models.CharField(max_length=3, choices=DAYS_PER_WEEK_CHOICES, default=1, verbose_name='Dagar per vecka')
+    days_per_week = models.CharField(max_length=3, choices=DAYS_PER_WEEK_CHOICES, default=1, verbose_name='Omfattning')
     breed = models.CharField(max_length=3, choices=DOG_BREEDS_CHOICES, default=3, verbose_name='Ras', null=True, blank=True)
     size = models.CharField(max_length=2, choices=DOG_SIZE_CHOICES, default="S", verbose_name='Storlek')
 
