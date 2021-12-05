@@ -17,7 +17,7 @@
     
     {"model": "core.DogBreeds", "pk": 8, "fields": {"name": "Alano español"}}, 
     
-    {"model": "core.DogBreeds", "pk": 9, "fields": {"name": "Alentejomastiff, se Rafeiro do alentejo"}}, 
+    {"model": "core.DogBreeds", "pk": 9, "fields": {"name": "Alentejomastiff"}}, 
     
     {"model": "core.DogBreeds", "pk": 10, "fields": {"name": "Alaskan malamute"}}, 
     
@@ -28,46 +28,30 @@
     {"model": "core.DogBreeds", "pk": 13, "fields": {"name": "American akita (Great japanese dog)"}}, 
     
     {"model": "core.DogBreeds", "pk": 14, "fields": {"name": "American Bulldog"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 15, "fields": {"name": "American English Coonhound"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 16, "fields": {"name": "American eskimo dog"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 17, "fields": {"name": "American foxhound"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 18, "fields": {"name": "American hairless terrier"}}, 
     
     {"model": "core.DogBreeds", "pk": 19, "fields": {"name": "American Leopard Hound"}}, 
     
     {"model": "core.DogBreeds", "pk": 20, "fields": {"name": "American staffordshire terrier"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 21, "fields": {"name": "American toy fox terrier"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 22, "fields": {"name": "American water spaniel (Amerikansk vattenspaniel)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 23, "fields": {"name": "Amerikansk cocker spaniel"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 24, "fields": {"name": "Amerikansk pitbullterrier (Pitbull Terrier)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 25, "fields": {"name": "Anatolisk herdehund (Karabash), se Kangal Çoban Köpeği"}}, 
+            
+    {"model": "core.DogBreeds", "pk": 25, "fields": {"name": "Anatolisk herdehund (Karabash), Kangal Çoban Köpeği"}}, 
     
     {"model": "core.DogBreeds", "pk": 26, "fields": {"name": "Anglo-français de petite vénerie"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 27, "fields": {"name": "Anglo-russkaja gontjaja (Rysk fläckig stövare)"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 28, "fields": {"name": "Appenzeller sennenhund"}}, 
     
     {"model": "core.DogBreeds", "pk": 29, "fields": {"name": "Ariégeois"}}, 
     
     {"model": "core.DogBreeds", "pk": 30, "fields": {"name": "Australian cattledog"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 31, "fields": {"name": "Australian kelpie"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 32, "fields": {"name": "Australian Silky Terrier, se Silky terrier"}}, 
-    
+            
     {"model": "core.DogBreeds", "pk": 33, "fields": {"name": "Australian shepherd"}}, 
     
-    {"model": "core.DogBreeds", "pk": 34, "fields": {"name": "Australian stock dog, se Working kelpie"}}, 
+    {"model": "core.DogBreeds", "pk": 34, "fields": {"name": "Australian stock dog, (Working kelpie)"}}, 
     
     {"model": "core.DogBreeds", "pk": 35, "fields": {"name": "Australian stumpy tail cattle dog"}}, 
     
@@ -80,9 +64,7 @@
     {"model": "core.DogBreeds", "pk": 39, "fields": {"name": "Balgarsko gontje (Bulgarisk stövare)"}}, 
     
     {"model": "core.DogBreeds", "pk": 40, "fields": {"name": "Balgarsko ovtjarsko kutje (Karakatjan)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 41, "fields": {"name": "Balkanski gonic, se Serbski gonic"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 42, "fields": {"name": "Barbado da Terceira"}}, 
     
     {"model": "core.DogBreeds", "pk": 43, "fields": {"name": "Barbet (Fransk vattenhund)"}}, 
@@ -114,24 +96,14 @@
     {"model": "core.DogBreeds", "pk": 56, "fields": {"name": "Belgisk vallhund; groenendael, laekenois, malinois och tervueren"}}, 
     
     {"model": "core.DogBreeds", "pk": 57, "fields": {"name": "Bergamasco"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 58, "fields": {"name": "Berger blanc suisse, se Vit herdehund"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 59, "fields": {"name": "Berger de Bauce, se Beauceron"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 60, "fields": {"name": "Berger de Brie, se Briard"}}, 
-    
+                
     {"model": "core.DogBreeds", "pk": 61, "fields": {"name": "Berger de Crau"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 62, "fields": {"name": "Berger des pyrénées (Pyreneisk vallhund); à poil long och à face rase"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 63, "fields": {"name": "Berger picard (Picardy)"}}, 
     
     {"model": "core.DogBreeds", "pk": 64, "fields": {"name": "Berner sennenhund"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 65, "fields": {"name": "Bernerstövare, se Schweiziska stövare"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 66, "fields": {"name": "Bichon petit chien lion, se Löwchen"}}, 
+        
+    {"model": "core.DogBreeds", "pk": 66, "fields": {"name": "Bichon petit chien lion, Löwchen"}}, 
     
     {"model": "core.DogBreeds", "pk": 67, "fields": {"name": "Bichon frisé"}}, 
     
@@ -153,20 +125,16 @@
     
     {"model": "core.DogBreeds", "pk": 76, "fields": {"name": "Bolognese"}}, 
     
-    {"model": "core.DogBreeds", "pk": 77, "fields": {"name": "Bolonka, se Russkaja tsvetnaja bolonka"}}, 
+    {"model": "core.DogBreeds", "pk": 77, "fields": {"name": "Bolonka, Russkaja tsvetnaja bolonka"}}, 
     
     {"model": "core.DogBreeds", "pk": 78, "fields": {"name": "Border collie"}}, 
     
     {"model": "core.DogBreeds", "pk": 79, "fields": {"name": "Borderterrier"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 80, "fields": {"name": "Borzoi (Rysk vinthund)"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 81, "fields": {"name": "Bosanski ostrodlaki gonic-barak"}}, 
     
     {"model": "core.DogBreeds", "pk": 82, "fields": {"name": "Bostonterrier"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 83, "fields": {"name": "Bordeauxdogg, se Dogue de bordeaux"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 84, "fields": {"name": "Bouvier des ardennes"}}, 
     
     {"model": "core.DogBreeds", "pk": 85, "fields": {"name": "Bouvier des flandres"}}, 
@@ -174,9 +142,7 @@
     {"model": "core.DogBreeds", "pk": 86, "fields": {"name": "Boxer"}}, 
     
     {"model": "core.DogBreeds", "pk": 87, "fields": {"name": "Boykin Spaniel"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 88, "fields": {"name": "Bracco italiano (Italiensk pointer)"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 89, "fields": {"name": "Brandlbracke (vieräugl)"}}, 
     
     {"model": "core.DogBreeds", "pk": 90, "fields": {"name": "Braque d'auvergne"}}, 
@@ -190,9 +156,7 @@
     {"model": "core.DogBreeds", "pk": 94, "fields": {"name": "Braque français; type gascogne och type pyrénées"}}, 
     
     {"model": "core.DogBreeds", "pk": 95, "fields": {"name": "Braque saint-germain"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 96, "fields": {"name": "Breton"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 97, "fields": {"name": "Briard (Berger de Brie)"}}, 
     
     {"model": "core.DogBreeds", "pk": 98, "fields": {"name": "Briquet de Provence"}}, 
@@ -207,22 +171,18 @@
     
     {"model": "core.DogBreeds", "pk": 103, "fields": {"name": "Buldogue serrano"}}, 
     
-    {"model": "core.DogBreeds", "pk": 104, "fields": {"name": "Bull Dog, se Engelsk bulldogg"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 105, "fields": {"name": "Bullenbeisser (utdöd)"}}, 
-    
+    {"model": "core.DogBreeds", "pk": 104, "fields": {"name": "Bull Dog, Engelsk bulldogg"}}, 
+        
     {"model": "core.DogBreeds", "pk": 106, "fields": {"name": "Bullmastiff"}}, 
     
     {"model": "core.DogBreeds", "pk": 107, "fields": {"name": "Bullterrier"}}, 
     
     {"model": "core.DogBreeds", "pk": 108, "fields": {"name": "Burjat-mongolskij volkodav (Burjatvarghund)"}}, 
     
-    {"model": "core.DogBreeds", "pk": 109, "fields": {"name": "Böhmisk vallhund, se Chodský pes"}}, 
+    {"model": "core.DogBreeds", "pk": 109, "fields": {"name": "Böhmisk vallhund, Chodský pes"}}, 
     
     {"model": "core.DogBreeds", "pk": 110, "fields": {"name": "Ca de bestiar (Perro de pastor mallorquín)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 111, "fields": {"name": "Ca de bou, se Perro dogo mallorquin"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 112, "fields": {"name": "Cairnterrier"}}, 
     
     {"model": "core.DogBreeds", "pk": 113, "fields": {"name": "Canaan dog"}}, 
@@ -230,9 +190,7 @@
     {"model": "core.DogBreeds", "pk": 114, "fields": {"name": "Canadian eskimo dog"}}, 
     
     {"model": "core.DogBreeds", "pk": 115, "fields": {"name": "Cane corso"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 116, "fields": {"name": "Cane da pastore Bergamasco, se Bergamasco"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 117, "fields": {"name": "Cão da serra da estrela"}}, 
     
     {"model": "core.DogBreeds", "pk": 118, "fields": {"name": "Cão da serra de aires"}}, 
@@ -266,15 +224,9 @@
     {"model": "core.DogBreeds", "pk": 132, "fields": {"name": "Chart polski"}}, 
     
     {"model": "core.DogBreeds", "pk": 133, "fields": {"name": "Chesapeake bay retriever"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 134, "fields": {"name": "Chien Corse, se Cursinu"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 135, "fields": {"name": "Chien d’artois"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 136, "fields": {"name": "Chien de Montagne de l'Atlas, se Aidi"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 137, "fields": {"name": "Chien gris de Saint Louis (utdöd)"}}, 
-    
+            
     {"model": "core.DogBreeds", "pk": 138, "fields": {"name": "Chihuahua; kort- och långhårig"}}, 
     
     {"model": "core.DogBreeds", "pk": 139, "fields": {"name": "Chinese crested dog (Kinesisk nakenhund); hairless och powder puff"}}, 
@@ -282,9 +234,7 @@
     {"model": "core.DogBreeds", "pk": 140, "fields": {"name": "Chinook"}}, 
     
     {"model": "core.DogBreeds", "pk": 141, "fields": {"name": "Chippiparai"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 142, "fields": {"name": "Chodský pes (Böhmisk vallhund)"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 143, "fields": {"name": "Chortaj"}}, 
     
     {"model": "core.DogBreeds", "pk": 144, "fields": {"name": "Chow chow"}}, 
@@ -302,15 +252,11 @@
     {"model": "core.DogBreeds", "pk": 150, "fields": {"name": "Cirneco dell'etna"}}, 
     
     {"model": "core.DogBreeds", "pk": 151, "fields": {"name": "Clumber spaniel"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 152, "fields": {"name": "Coban Köpegi, se Anatolisk herdehund"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 153, "fields": {"name": "Cocker spaniel (Engelsk cocker spaniel)"}}, 
     
     {"model": "core.DogBreeds", "pk": 154, "fields": {"name": "Collie; kort- och långhårig"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 155, "fields": {"name": "Combai (Kombai)"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 156, "fields": {"name": "Coton de tuléar"}}, 
     
     {"model": "core.DogBreeds", "pk": 157, "fields": {"name": "Crnogorski planinski gonic"}}, 
@@ -318,11 +264,7 @@
     {"model": "core.DogBreeds", "pk": 158, "fields": {"name": "Curly coated retriever"}}, 
     
     {"model": "core.DogBreeds", "pk": 159, "fields": {"name": "Cursinu (Chien Corse)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 160, "fields": {"name": "Czeslovakian Wolfdog, se Ceskoslovenský vlciak"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 161, "fields": {"name": "Dalbohund (utdöd)"}}, 
-    
+            
     {"model": "core.DogBreeds", "pk": 162, "fields": {"name": "Dalmatiner"}}, 
     
     {"model": "core.DogBreeds", "pk": 163, "fields": {"name": "Dandie dinmont terrier"}}, 
@@ -330,25 +272,11 @@
     {"model": "core.DogBreeds", "pk": 164, "fields": {"name": "Dansk spids"}}, 
     
     {"model": "core.DogBreeds", "pk": 165, "fields": {"name": "Dansk-svensk gårdshund"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 166, "fields": {"name": "Deutsch Drahthaar, se Strävhårig vorsteh"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 167, "fields": {"name": "Deutsch Kurzhaar, se Korthårig vorsteh"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 168, "fields": {"name": "Deutsch Langhaar, se Långhårig vorsteh"}}, 
-    
+            
     {"model": "core.DogBreeds", "pk": 169, "fields": {"name": "Deutsch stichelhaar (Stichelhaariger deutscher vorsteh)"}}, 
     
     {"model": "core.DogBreeds", "pk": 170, "fields": {"name": "Deutsche bracke"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 171, "fields": {"name": "Deutsche Dogge, se Grand danois"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 172, "fields": {"name": "Deutscher Jagdterrier, se Tysk jaktterrier"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 173, "fields": {"name": "Deutscher Pinscher, se Pinscher"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 174, "fields": {"name": "Dhokhi apso, se Tibetansk terrier"}}, 
-    
+                    
     {"model": "core.DogBreeds", "pk": 175, "fields": {"name": "Dingo"}}, 
     
     {"model": "core.DogBreeds", "pk": 176, "fields": {"name": "Dobermann"}}, 
@@ -362,9 +290,7 @@
     {"model": "core.DogBreeds", "pk": 180, "fields": {"name": "Dogue brasileiro"}}, 
     
     {"model": "core.DogBreeds", "pk": 181, "fields": {"name": "Dogue de bordeaux (Bordeauxdogg)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 182, "fields": {"name": "Do-Khyi, se Tibetansk mastiff"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 183, "fields": {"name": "Drentsche patrijshond"}}, 
     
     {"model": "core.DogBreeds", "pk": 184, "fields": {"name": "Drever"}}, 
@@ -372,38 +298,22 @@
     {"model": "core.DogBreeds", "pk": 185, "fields": {"name": "Dunkerstövare"}}, 
     
     {"model": "core.DogBreeds", "pk": 186, "fields": {"name": "Dvärgpinscher"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 187, "fields": {"name": "Dvärgpudel, se Pudel"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 188, "fields": {"name": "Dvärgschnauzer"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 189, "fields": {"name": "Dvärgspets, se Pomeranian"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 190, "fields": {"name": "Dvärgtax, se Tax; kort-, lång- och strävhårig"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 191, "fields": {"name": "Engelsk blodhund, se Blodhund"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 192, "fields": {"name": "Engelsk bulldogg (Bull Dog)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 193, "fields": {"name": "Engelsk cocker spaniel, se Cocker spaniel"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 194, "fields": {"name": "Engelsk foxhound, se Foxhound"}}, 
-    
+                            
     {"model": "core.DogBreeds", "pk": 195, "fields": {"name": "Engelsk setter"}}, 
     
     {"model": "core.DogBreeds", "pk": 196, "fields": {"name": "Engelsk springer spaniel"}}, 
     
-    {"model": "core.DogBreeds", "pk": 197, "fields": {"name": "English Coonhound (Redtick Coonhound), se American English Coonhound"}}, 
+    {"model": "core.DogBreeds", "pk": 197, "fields": {"name": "English Coonhound (Redtick Coonhound), American English Coonhound"}}, 
     
     {"model": "core.DogBreeds", "pk": 198, "fields": {"name": "English toy terrier"}}, 
     
     {"model": "core.DogBreeds", "pk": 199, "fields": {"name": "Entlebucher sennenhund"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 200, "fields": {"name": "Épagneul Barbet, se Barbet"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 201, "fields": {"name": "Épagneul bleu de picardie"}}, 
     
-    {"model": "core.DogBreeds", "pk": 202, "fields": {"name": "Épagneul Breton, se Breton"}}, 
+    {"model": "core.DogBreeds", "pk": 202, "fields": {"name": "Épagneul Breton, Breton"}}, 
     
     {"model": "core.DogBreeds", "pk": 203, "fields": {"name": "Épagneul de pont-audemer"}}, 
     
@@ -412,14 +322,12 @@
     {"model": "core.DogBreeds", "pk": 205, "fields": {"name": "Épagneul français"}}, 
     
     {"model": "core.DogBreeds", "pk": 206, "fields": {"name": "Épagneul picard"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 207, "fields": {"name": "Erdélyi kopó"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 208, "fields": {"name": "Estnisk stövare (Eesti hagijas)"}}, 
     
     {"model": "core.DogBreeds", "pk": 209, "fields": {"name": "Eurasier"}}, 
     
-    {"model": "core.DogBreeds", "pk": 210, "fields": {"name": "Euskal Artzain Txakurra, se Perro de Pastor Vasco"}}, 
+    {"model": "core.DogBreeds", "pk": 210, "fields": {"name": "Euskal Artzain Txakurra, Perro de Pastor Vasco"}}, 
     
     {"model": "core.DogBreeds", "pk": 211, "fields": {"name": "Faraohund (Kelbtal Fenek)"}}, 
     
@@ -446,10 +354,8 @@
     {"model": "core.DogBreeds", "pk": 222, "fields": {"name": "Français tricolore"}}, 
     
     {"model": "core.DogBreeds", "pk": 223, "fields": {"name": "Fransk bulldogg"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 224, "fields": {"name": "Fransk vattenspaniel / Fransk vattenhund, se Barbet"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 225, "fields": {"name": "Frisisk vattenhund, se Wetterhoun"}}, 
+        
+    {"model": "core.DogBreeds", "pk": 225, "fields": {"name": "Frisisk vattenhund, Wetterhoun"}}, 
     
     {"model": "core.DogBreeds", "pk": 226, "fields": {"name": "Galgo español"}}, 
     
@@ -465,9 +371,7 @@
     
     {"model": "core.DogBreeds", "pk": 232, "fields": {"name": "Gordonsetter"}}, 
     
-    {"model": "core.DogBreeds", "pk": 233, "fields": {"name": "Gos d'atura catalá (Perro de pastor catalán, Katalansk vallhund)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 234, "fields": {"name": "Gos Rater Valencià, se Ratonero Valenciano"}}, 
+    {"model": "core.DogBreeds", "pk": 234, "fields": {"name": "Gos Rater Valencià, Ratonero Valenciano"}}, 
     
     {"model": "core.DogBreeds", "pk": 235, "fields": {"name": "Gotlandsstövare"}}, 
     
@@ -482,13 +386,9 @@
     {"model": "core.DogBreeds", "pk": 240, "fields": {"name": "Grand bleu de gascogne"}}, 
     
     {"model": "core.DogBreeds", "pk": 241, "fields": {"name": "Grand danois (Deutsche Dogge)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 242, "fields": {"name": "Grand gascon saintongeois, se Gascon saintongeois"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 243, "fields": {"name": "Grand griffon vendéen"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 244, "fields": {"name": "Great japanese dog, se American akita"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 245, "fields": {"name": "Greyhound"}}, 
     
     {"model": "core.DogBreeds", "pk": 246, "fields": {"name": "Griffon à poil laineux (Griffon Boulet)"}}, 
@@ -499,22 +399,14 @@
     
     {"model": "core.DogBreeds", "pk": 249, "fields": {"name": "Griffon bruxellois"}}, 
     
-    {"model": "core.DogBreeds", "pk": 250, "fields": {"name": "Griffon d'arret à poil dur (korthals)"}}, 
-    
     {"model": "core.DogBreeds", "pk": 251, "fields": {"name": "Griffon fauve de bretagne"}}, 
     
     {"model": "core.DogBreeds", "pk": 252, "fields": {"name": "Griffon nivernais"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 253, "fields": {"name": "Groenendael, se Belgisk vallhund"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 254, "fields": {"name": "Grosser münsterländer"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 255, "fields": {"name": "Grosser schweizer sennenhund"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 256, "fields": {"name": "Grosspitz (Tysk spets / Grosspitz)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 257, "fields": {"name": "Gråhund, se Norsk älghund, grå"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 258, "fields": {"name": "Grönlandshund"}}, 
     
     {"model": "core.DogBreeds", "pk": 259, "fields": {"name": "Haldenstövare"}}, 
@@ -563,7 +455,7 @@
     
     {"model": "core.DogBreeds", "pk": 281, "fields": {"name": "Istarski gonic (Istrian hound); kratkodlaki och ostrodlaki"}}, 
     
-    {"model": "core.DogBreeds", "pk": 282, "fields": {"name": "Italiensk pointer, se Bracco italiano"}}, 
+    {"model": "core.DogBreeds", "pk": 282, "fields": {"name": "Italiensk pointer, Bracco italiano"}}, 
     
     {"model": "core.DogBreeds", "pk": 283, "fields": {"name": "Italiensk vinthund"}}, 
     
@@ -575,39 +467,21 @@
     
     {"model": "core.DogBreeds", "pk": 287, "fields": {"name": "Japansk spets"}}, 
     
-    {"model": "core.DogBreeds", "pk": 288, "fields": {"name": "Japansk terrier, se Nihon teria"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 289, "fields": {"name": "Jemtse apso, se Tibetansk spaniel"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 290, "fields": {"name": "Jugoslovenski Ovcarski Pas, se Sarplaninac"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 291, "fields": {"name": "Jurastövare, se Schweiziska stövare"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 292, "fields": {"name": "Juzjnorusskaja ovtjarka (Sydrysk ovtjarka)"}}, 
-    
+    {"model": "core.DogBreeds", "pk": 288, "fields": {"name": "Japansk terrier, Nihon teria"}}, 
+                    
     {"model": "core.DogBreeds", "pk": 293, "fields": {"name": "Jämthund"}}, 
     
     {"model": "core.DogBreeds", "pk": 294, "fields": {"name": "Kai (Kai ken)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 295, "fields": {"name": "Kangal Çoban Köpeği (Anatolisk herdehund / Karabash)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 296, "fields": {"name": "Kanintax, se Tax; kort-, lång- och strävhårig"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 297, "fields": {"name": "Karabash, se (Karabash)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 298, "fields": {"name": "Karakatjan, se Balgarsko ovtjarsko kutje"}}, 
-    
+                    
     {"model": "core.DogBreeds", "pk": 299, "fields": {"name": "Karelsk björnhund"}}, 
     
-    {"model": "core.DogBreeds", "pk": 300, "fields": {"name": "Katalansk vallhund, se Gos d'atura catalá"}}, 
+    {"model": "core.DogBreeds", "pk": 300, "fields": {"name": "Katalansk vallhund, Gos d'atura catalá"}}, 
     
-    {"model": "core.DogBreeds", "pk": 301, "fields": {"name": "Kaukasisk ovtjarka, se Kavkazskaja ovtjarka"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 302, "fields": {"name": "Kavkazskaja ovtjarka (Kaukasisk ovtjarka)"}}, 
-    
+    {"model": "core.DogBreeds", "pk": 301, "fields": {"name": "Kaukasisk ovtjarka, Kavkazskaja ovtjarka"}}, 
+        
     {"model": "core.DogBreeds", "pk": 303, "fields": {"name": "Keeshond (Tysk spets / Wolfspitz)"}}, 
     
-    {"model": "core.DogBreeds", "pk": 304, "fields": {"name": "Kelpie, se Australian kelpie"}}, 
+    {"model": "core.DogBreeds", "pk": 304, "fields": {"name": "Kelpie, Australian kelpie"}}, 
     
     {"model": "core.DogBreeds", "pk": 305, "fields": {"name": "Kerry Beagle"}}, 
     
@@ -627,17 +501,17 @@
     
     {"model": "core.DogBreeds", "pk": 313, "fields": {"name": "Kokoni"}}, 
     
-    {"model": "core.DogBreeds", "pk": 314, "fields": {"name": "Kombai, se Combai"}}, 
+    {"model": "core.DogBreeds", "pk": 314, "fields": {"name": "Kombai, Combai"}}, 
     
     {"model": "core.DogBreeds", "pk": 315, "fields": {"name": "Komondor"}}, 
     
-    {"model": "core.DogBreeds", "pk": 316, "fields": {"name": "Kooikerhondje, se Nederlandse kooikerhondje"}}, 
+    {"model": "core.DogBreeds", "pk": 316, "fields": {"name": "Kooikerhondje, Nederlandse kooikerhondje"}}, 
     
-    {"model": "core.DogBreeds", "pk": 317, "fields": {"name": "Kopó (Transsylvansk kopó), se Erdélyi kopó"}}, 
+    {"model": "core.DogBreeds", "pk": 317, "fields": {"name": "Kopó (Transsylvansk kopó), Erdélyi kopó"}}, 
     
     {"model": "core.DogBreeds", "pk": 318, "fields": {"name": "Korea jindo dog"}}, 
     
-    {"model": "core.DogBreeds", "pk": 319, "fields": {"name": "Korthals, se Griffon d'arret à poil dur"}}, 
+    {"model": "core.DogBreeds", "pk": 319, "fields": {"name": "Korthals, Griffon d'arret à poil dur"}}, 
     
     {"model": "core.DogBreeds", "pk": 320, "fields": {"name": "Korthårig vorsteh (Deutsch Kurzhaar)"}}, 
     
@@ -657,9 +531,7 @@
     
     {"model": "core.DogBreeds", "pk": 328, "fields": {"name": "Lakelandterrier"}}, 
     
-    {"model": "core.DogBreeds", "pk": 329, "fields": {"name": "Lakenois, se Belgisk vallhund"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 330, "fields": {"name": "Lajka, se Rysk-europeisk lajka, Västsibirisk lajka och Östsibirisk"}}, 
+    {"model": "core.DogBreeds", "pk": 330, "fields": {"name": "Lajka, Rysk-europeisk lajka, Västsibirisk lajka och Östsibirisk"}}, 
     
     {"model": "core.DogBreeds", "pk": 331, "fields": {"name": "Lancashire heeler"}}, 
     
@@ -676,22 +548,14 @@
     {"model": "core.DogBreeds", "pk": 337, "fields": {"name": "Lietuviu skalikas (Litauisk stövare)"}}, 
     
     {"model": "core.DogBreeds", "pk": 338, "fields": {"name": "Lupo italiano"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 339, "fields": {"name": "Luzernerstövare, se Schweiziska stövare"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 340, "fields": {"name": "Långhårig vorsteh (Deutsch Langhaar)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 341, "fields": {"name": "Löwchen (Bichon petit chien lion)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 342, "fields": {"name": "Magyar agár (Ungersk vinthund)"}}, 
-    
+            
     {"model": "core.DogBreeds", "pk": 343, "fields": {"name": "Majorero"}}, 
     
     {"model": "core.DogBreeds", "pk": 344, "fields": {"name": "Mali medimurski pas (Medi)"}}, 
     
-    {"model": "core.DogBreeds", "pk": 345, "fields": {"name": "Malinois, se Belgisk vallhund"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 346, "fields": {"name": "Mallorcamastiff, se Perro dogo mallorquín"}}, 
+    {"model": "core.DogBreeds", "pk": 346, "fields": {"name": "Mallorcamastiff, Perro dogo mallorquín"}}, 
     
     {"model": "core.DogBreeds", "pk": 347, "fields": {"name": "Malteser"}}, 
     
@@ -705,23 +569,15 @@
     
     {"model": "core.DogBreeds", "pk": 352, "fields": {"name": "Mastiff"}}, 
     
-    {"model": "core.DogBreeds", "pk": 353, "fields": {"name": "Mastín del Pirineo, se Pyreneisk mastiff"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 354, "fields": {"name": "Mastin español (Spansk mastiff)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 355, "fields": {"name": "Mastino napoletano (Neapolitansk mastiff)"}}, 
-    
+    {"model": "core.DogBreeds", "pk": 353, "fields": {"name": "Mastín del Pirineo, Pyreneisk mastiff"}}, 
+            
     {"model": "core.DogBreeds", "pk": 356, "fields": {"name": "Mâtin Belge"}}, 
     
-    {"model": "core.DogBreeds", "pk": 357, "fields": {"name": "Mellanasiatisk ovtjarka, se Sredneasiatskaja ovtjarka"}}, 
+    {"model": "core.DogBreeds", "pk": 357, "fields": {"name": "Mellanasiatisk ovtjarka, Sredneasiatskaja ovtjarka"}}, 
+            
+    {"model": "core.DogBreeds", "pk": 360, "fields": {"name": "Mellanschnauzer, Schnauzer"}}, 
     
-    {"model": "core.DogBreeds", "pk": 358, "fields": {"name": "Mellanpinscher, se Pinscher"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 359, "fields": {"name": "Mellanpudel, se Pudel"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 360, "fields": {"name": "Mellanschnauzer, se Schnauzer"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 361, "fields": {"name": "Mexikansk nakenhund, se Xoloitzcuintle"}}, 
+    {"model": "core.DogBreeds", "pk": 361, "fields": {"name": "Mexikansk nakenhund, Xoloitzcuintle"}}, 
     
     {"model": "core.DogBreeds", "pk": 362, "fields": {"name": "Miniatyrbullterrier"}}, 
     
@@ -734,27 +590,19 @@
     {"model": "core.DogBreeds", "pk": 366, "fields": {"name": "Mops"}}, 
     
     {"model": "core.DogBreeds", "pk": 367, "fields": {"name": "Moskovskaja storozjevaja (Moskvavakthund)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 368, "fields": {"name": "Moskvadvärgterrier, se Russkiy toy"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 369, "fields": {"name": "Mountain Cur"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 370, "fields": {"name": "Mudhol, se Caravan Hound"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 371, "fields": {"name": "Mudi"}}, 
     
     {"model": "core.DogBreeds", "pk": 372, "fields": {"name": "Münsterländer; (kleiner münsterländer och grosser münsterländer"}}, 
     
-    {"model": "core.DogBreeds", "pk": 373, "fields": {"name": "Neapolitansk mastiff, se Mastino napoletano"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 374, "fields": {"name": "Nederlandse kooikerhondje"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 375, "fields": {"name": "Nenetskaja olenegonka lajka, se Olenegonka sjpits"}}, 
+    {"model": "core.DogBreeds", "pk": 373, "fields": {"name": "Neapolitansk mastiff, Mastino napoletano"}}, 
+        
+    {"model": "core.DogBreeds", "pk": 375, "fields": {"name": "Nenetskaja olenegonka lajka, Olenegonka sjpits"}}, 
     
     {"model": "core.DogBreeds", "pk": 376, "fields": {"name": "Newfoundlandshund"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 377, "fields": {"name": "Nihon teria (Japansk terrier)"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 378, "fields": {"name": "Norfolkterrier"}}, 
     
     {"model": "core.DogBreeds", "pk": 379, "fields": {"name": "Norrbottenspets"}}, 
@@ -776,9 +624,7 @@
     {"model": "core.DogBreeds", "pk": 387, "fields": {"name": "Olde english bulldogge brasileiro"}}, 
     
     {"model": "core.DogBreeds", "pk": 388, "fields": {"name": "Ogar polski"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 389, "fields": {"name": "Ohar, se Slovenský hrubosrsty stavac"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 390, "fields": {"name": "Old english sheepdog"}}, 
     
     {"model": "core.DogBreeds", "pk": 391, "fields": {"name": "Olenegonnyj sjpits (Nenetskaja olenegonka lajka, Nenetsrenhund)"}}, 
@@ -794,48 +640,30 @@
     {"model": "core.DogBreeds", "pk": 396, "fields": {"name": "Papillon"}}, 
     
     {"model": "core.DogBreeds", "pk": 397, "fields": {"name": "Parson russell terrier"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 398, "fields": {"name": "Pashmi, se Caravan Hound"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 399, "fields": {"name": "Pekingese"}}, 
     
     {"model": "core.DogBreeds", "pk": 400, "fields": {"name": "Perdiguero de burgos"}}, 
     
     {"model": "core.DogBreeds", "pk": 401, "fields": {"name": "Perdigueiro português"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 402, "fields": {"name": "Perro de agua español (Spansk vattenhund)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 403, "fields": {"name": "Perro de pastor catalán, se Gos d'atura catalá"}}, 
-    
+            
     {"model": "core.DogBreeds", "pk": 404, "fields": {"name": "Perro de pastor garafiano"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 405, "fields": {"name": "Perro de pastor mallorquín, se Ca de bestiar"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 406, "fields": {"name": "Perro de pastor vasco (Euskal Artzain Txakurra)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 407, "fields": {"name": "Perro dogo mallorquín (Ca de bou, Mallorcamastiff)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 408, "fields": {"name": "Perro leonés de pastor, se Carea leonés"}}, 
-    
+                    
     {"model": "core.DogBreeds", "pk": 409, "fields": {"name": "Perro sin pelo del perú (Peruansk nakenhund); liten, mellan och stor"}}, 
     
-    {"model": "core.DogBreeds", "pk": 410, "fields": {"name": "Peruansk nakenhund, se Perro sin pelo de perú"}}, 
+    {"model": "core.DogBreeds", "pk": 410, "fields": {"name": "Peruansk nakenhund, Perro sin pelo de perú"}}, 
     
     {"model": "core.DogBreeds", "pk": 411, "fields": {"name": "Petit basset griffon vendéen"}}, 
     
     {"model": "core.DogBreeds", "pk": 412, "fields": {"name": "Petit bleu de gascogne"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 413, "fields": {"name": "Petit gascon saintongeois, se Gascon saintongeois"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 414, "fields": {"name": "Petit brabancon"}}, 
     
     {"model": "core.DogBreeds", "pk": 415, "fields": {"name": "Phaléne"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 416, "fields": {"name": "Picardy, se Berger picard"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 417, "fields": {"name": "Pinscher"}}, 
     
-    {"model": "core.DogBreeds", "pk": 418, "fields": {"name": "Pitbull Terrier (se Amerikansk pitbullterrier)"}}, 
+    {"model": "core.DogBreeds", "pk": 418, "fields": {"name": "Pitbull Terrier"}}, 
     
     {"model": "core.DogBreeds", "pk": 419, "fields": {"name": "Plott"}}, 
     
@@ -856,9 +684,7 @@
     {"model": "core.DogBreeds", "pk": 427, "fields": {"name": "Polski owczarek nizinny"}}, 
     
     {"model": "core.DogBreeds", "pk": 428, "fields": {"name": "Polski owczarek podhalanski"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 429, "fields": {"name": "Pomeranian (Tysk spets / Zwergspitz, Dvärgspets)"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 430, "fields": {"name": "Porcelaine"}}, 
     
     {"model": "core.DogBreeds", "pk": 431, "fields": {"name": "Portugisisk vattenhund (Cão de agua portugués)"}}, 
@@ -876,13 +702,9 @@
     {"model": "core.DogBreeds", "pk": 437, "fields": {"name": "Pumi"}}, 
     
     {"model": "core.DogBreeds", "pk": 438, "fields": {"name": "Pyrenéerhund"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 439, "fields": {"name": "Pyreneisk mastiff"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 440, "fields": {"name": "Pyreneisk vallhund, se Berger des pyrénées"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 441, "fields": {"name": "Rafeiro do alentejo (Alentejomastiff)"}}, 
-    
+        
+    {"model": "core.DogBreeds", "pk": 440, "fields": {"name": "Pyreneisk vallhund, Berger des pyrénées"}}, 
+        
     {"model": "core.DogBreeds", "pk": 442, "fields": {"name": "Rajapalayam"}}, 
     
     {"model": "core.DogBreeds", "pk": 443, "fields": {"name": "Rampur Hound"}}, 
@@ -890,40 +712,26 @@
     {"model": "core.DogBreeds", "pk": 444, "fields": {"name": "Rastreador brasileiro"}}, 
     
     {"model": "core.DogBreeds", "pk": 445, "fields": {"name": "Ratonero bodeguero andaluz"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 446, "fields": {"name": "Ratonero valenciano (Gos rater valencià)"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 447, "fields": {"name": "Rat terrier"}}, 
     
     {"model": "core.DogBreeds", "pk": 448, "fields": {"name": "Redbone Coonhound"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 449, "fields": {"name": "Redtick Coonhound, se American English Coonhound"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 450, "fields": {"name": "Rhodesian ridgeback"}}, 
     
     {"model": "core.DogBreeds", "pk": 451, "fields": {"name": "Riesenschnauzer"}}, 
     
     {"model": "core.DogBreeds", "pk": 452, "fields": {"name": "Rottweiler"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 453, "fields": {"name": "Russkaja gontjaja (Rysk stövare)"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 454, "fields": {"name": "Russkaja ochotnitjija spaniel (Rysk jaktspaniel)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 455, "fields": {"name": "Russkaja pegaja gontjaja, se Anglo-russkaja gontjaja"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 456, "fields": {"name": "Russkaja tsvetnaja bolonka"}}, 
-    
+            
     {"model": "core.DogBreeds", "pk": 457, "fields": {"name": "Russkiy toy (Moskvadvärgterrier)"}}, 
     
     {"model": "core.DogBreeds", "pk": 458, "fields": {"name": "Rysk-europeisk lajka"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 459, "fields": {"name": "Rysk fläckig stövare, se Anglo-russkaja gontjaja"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 460, "fields": {"name": "Rysk stövare, se Russkaja gontjaja"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 461, "fields": {"name": "Rysk svart terrier (Tjornyj terjer)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 462, "fields": {"name": "Rysk vinthund, se Borzoi"}}, 
+        
+    {"model": "core.DogBreeds", "pk": 460, "fields": {"name": "Rysk stövare, Russkaja gontjaja"}}, 
+        
+    {"model": "core.DogBreeds", "pk": 462, "fields": {"name": "Rysk vinthund, Borzoi"}}, 
     
     {"model": "core.DogBreeds", "pk": 463, "fields": {"name": "Saarloos wolfhond"}}, 
     
@@ -944,18 +752,14 @@
     {"model": "core.DogBreeds", "pk": 472, "fields": {"name": "Schillerstövare"}}, 
     
     {"model": "core.DogBreeds", "pk": 473, "fields": {"name": "Schipperke"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 474, "fields": {"name": "Schnauzer (Mellanschnauzer)"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 475, "fields": {"name": "Schweizer sennenhund, se Grosser schweizer sennenhund"}}, 
+        
+    {"model": "core.DogBreeds", "pk": 475, "fields": {"name": "Schweizer sennenhund, Grosser schweizer sennenhund"}}, 
     
     {"model": "core.DogBreeds", "pk": 476, "fields": {"name": "Schweiziska små stövare; berner, jura, luzerner och schwyzer"}}, 
     
     {"model": "core.DogBreeds", "pk": 477, "fields": {"name": "Schweiziska stövare; berner, jura, luzerner och schwyzer"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 478, "fields": {"name": "Schwyzerstövare, se Schweiziska stövare"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 479, "fields": {"name": "Schäfer, se Tysk schäferhund"}}, 
+        
+    {"model": "core.DogBreeds", "pk": 479, "fields": {"name": "Schäfer"}}, 
     
     {"model": "core.DogBreeds", "pk": 480, "fields": {"name": "Sealyhamterrier"}}, 
     
@@ -1003,14 +807,12 @@
     
     {"model": "core.DogBreeds", "pk": 502, "fields": {"name": "Smålandsstövare"}}, 
     
-    {"model": "core.DogBreeds", "pk": 503, "fields": {"name": "Spansk mastiff, se Mastin español"}}, 
+    {"model": "core.DogBreeds", "pk": 503, "fields": {"name": "Spansk mastiff, Mastin español"}}, 
     
-    {"model": "core.DogBreeds", "pk": 504, "fields": {"name": "Spansk vattenhund, se Perro de agua español"}}, 
+    {"model": "core.DogBreeds", "pk": 504, "fields": {"name": "Spansk vattenhund, Perro de agua español"}}, 
     
     {"model": "core.DogBreeds", "pk": 505, "fields": {"name": "Spinone"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 506, "fields": {"name": "Sredneasiatskaja ovtjarka (Mellanasiatisk ovtjarka)"}}, 
-    
+        
     {"model": "core.DogBreeds", "pk": 507, "fields": {"name": "Srpski pastirski pas (Serbisk herdehund)"}}, 
     
     {"model": "core.DogBreeds", "pk": 508, "fields": {"name": "Stabijhoun"}}, 
@@ -1018,13 +820,7 @@
     {"model": "core.DogBreeds", "pk": 509, "fields": {"name": "Staffordshire bullterrier"}}, 
     
     {"model": "core.DogBreeds", "pk": 510, "fields": {"name": "Steirische rauhhaarbracke"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 511, "fields": {"name": "Stichelhaariger deutscher vorsteh, se Deutsch stichelhaar"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 512, "fields": {"name": "Storpudel, se Pudel"}}, 
-    
-    {"model": "core.DogBreeds", "pk": 513, "fields": {"name": "Strellufstövare, se Drever"}}, 
-    
+                
     {"model": "core.DogBreeds", "pk": 514, "fields": {"name": "Strävhårig foxterrier"}}, 
     
     {"model": "core.DogBreeds", "pk": 515, "fields": {"name": "Strävhårig vorsteh (Deutsch Drahthaar)"}}, 
@@ -1033,13 +829,13 @@
     
     {"model": "core.DogBreeds", "pk": 517, "fields": {"name": "Sussex spaniel"}}, 
     
-    {"model": "core.DogBreeds", "pk": 518, "fields": {"name": "Svart terrier, se Rysk svart terrier"}}, 
+    {"model": "core.DogBreeds", "pk": 518, "fields": {"name": "Svart terrier, Rysk svart terrier"}}, 
     
     {"model": "core.DogBreeds", "pk": 519, "fields": {"name": "Svensk lapphund"}}, 
     
     {"model": "core.DogBreeds", "pk": 520, "fields": {"name": "Svensk vit älghund"}}, 
     
-    {"model": "core.DogBreeds", "pk": 521, "fields": {"name": "Sydrysk ovtjarka, se Juzjnorusskaja ovtjarka"}}, 
+    {"model": "core.DogBreeds", "pk": 521, "fields": {"name": "Sydrysk ovtjarka, Juzjnorusskaja ovtjarka"}}, 
     
     {"model": "core.DogBreeds", "pk": 522, "fields": {"name": "Taigan[531]"}},
 
@@ -1055,8 +851,6 @@
 
     {"model": "core.DogBreeds", "pk": 528, "fields": {"name": "Terrier chileno"}}, 
 
-    {"model": "core.DogBreeds", "pk": 529, "fields": {"name": "Tervueren, se Belgisk vallhund"}}, 
-
     {"model": "core.DogBreeds", "pk": 530, "fields": {"name": "Thai bangkaew dog"}}, 
 
     {"model": "core.DogBreeds", "pk": 531, "fields": {"name": "Thai ridgeback dog"}}, 
@@ -1069,37 +863,25 @@
 
     {"model": "core.DogBreeds", "pk": 535, "fields": {"name": "Tirolerbracke"}}, 
 
-    {"model": "core.DogBreeds", "pk": 536, "fields": {"name": "Tjornyj terjer, se Svart terrier"}}, 
-
     {"model": "core.DogBreeds", "pk": 537, "fields": {"name": "Tjukotskaja jesdovaja"}}, 
 
     {"model": "core.DogBreeds", "pk": 538, "fields": {"name": "Tornjak"}}, 
 
     {"model": "core.DogBreeds", "pk": 539, "fields": {"name": "Tosa (Tosa inu)"}}, 
 
-    {"model": "core.DogBreeds", "pk": 540, "fields": {"name": "Toy Fox Terrier, se American toy fox terrier"}}, 
-
-    {"model": "core.DogBreeds", "pk": 541, "fields": {"name": "Toypudel, se Pudel"}}, 
-
-    {"model": "core.DogBreeds", "pk": 542, "fields": {"name": "Transsylvansk kopó, se Erdélyi kopó"}}, 
+    {"model": "core.DogBreeds", "pk": 540, "fields": {"name": "Toy Fox Terrier, American toy fox terrier"}}, 
 
     {"model": "core.DogBreeds", "pk": 543, "fields": {"name": "Treeing Tennessee Brindle"}}, 
 
     {"model": "core.DogBreeds", "pk": 544, "fields": {"name": "Treeing walker coonhound"}}, 
 
-    {"model": "core.DogBreeds", "pk": 545, "fields": {"name": "Tweed Water Spaniel (utdöd)"}}, 
-
     {"model": "core.DogBreeds", "pk": 546, "fields": {"name": "Tysk jaktterrier (Deutscher Jagdterrier)"}}, 
-
-    {"model": "core.DogBreeds", "pk": 547, "fields": {"name": "Tysk schäferhund; normalhårig och långhårig"}}, 
 
     {"model": "core.DogBreeds", "pk": 548, "fields": {"name": "Tysk spets; grosspitz, kleinspitz, mittelspitz, keeshond (wolfspitz) och pomeranian (zwergspitz / dvärgspets)"}}, 
 
-    {"model": "core.DogBreeds", "pk": 549, "fields": {"name": "Ungersk vinthund, se Magyar agár"}}, 
+    {"model": "core.DogBreeds", "pk": 549, "fields": {"name": "Ungersk vinthund, Magyar agár"}}, 
 
     {"model": "core.DogBreeds", "pk": 550, "fields": {"name": "Ungersk viszla, kort- och strävhårig"}}, 
-
-    {"model": "core.DogBreeds", "pk": 551, "fields": {"name": "Utterhund, se Otterhound"}}, 
 
     {"model": "core.DogBreeds", "pk": 552, "fields": {"name": "Veadeiro pampeano"}}, 
 
@@ -1131,23 +913,11 @@
 
     {"model": "core.DogBreeds", "pk": 566, "fields": {"name": "Westfälische dachsbracke"}}, 
 
-    {"model": "core.DogBreeds", "pk": 567, "fields": {"name": "Wetterhoun (Frisisk vattenhund)"}}, 
-
     {"model": "core.DogBreeds", "pk": 568, "fields": {"name": "Whippet"}}, 
 
-    {"model": "core.DogBreeds", "pk": 569, "fields": {"name": "Viszla, se Ungersk vizsla"}}, 
-
-    {"model": "core.DogBreeds", "pk": 570, "fields": {"name": "Wolfspitz, se Keeshond"}}, 
-
-    {"model": "core.DogBreeds", "pk": 571, "fields": {"name": "Working kelpie"}}, 
-
-    {"model": "core.DogBreeds", "pk": 572, "fields": {"name": "Xoloitzcuintle (Mexikansk nakenhund); liten, mellan och stor"}}, 
+    {"model": "core.DogBreeds", "pk": 569, "fields": {"name": "Viszla, Ungersk vizsla"}}, 
 
     {"model": "core.DogBreeds", "pk": 573, "fields": {"name": "Yorkshireterrier"}}, 
-
-    {"model": "core.DogBreeds", "pk": 574, "fields": {"name": "Zwergspitz, se Pomeranian"}}, 
-
-    {"model": "core.DogBreeds", "pk": 575, "fields": {"name": "Österreichischer pinscher (Österreichischer kurzhaariger pinscher)"}}, 
 
     {"model": "core.DogBreeds", "pk": 576, "fields": {"name": "Östsibirisk lajka"}}
 

@@ -9,21 +9,21 @@
     },
     {
       "model": "core.DogSizeChoices",
-      "pk": 1,
+      "pk": 2,
       "fields": {
         "size": "Mellanstor hund"
       }
     },
     {
       "model": "core.DogSizeChoices",
-      "pk": 1,
+      "pk": 3,
       "fields": {
         "size": "Stor hund"
       }
     },
     {
       "model": "core.DogSizeChoices",
-      "pk": 1,
+      "pk": 4,
       "fields": {
         "size": "Väldigt stor hund"
       }
