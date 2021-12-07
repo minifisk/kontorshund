@@ -4,6 +4,8 @@ from django.urls import reverse_lazy
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import generic
+from django.core.files.storage import FileSystemStorage
+
 
 #from dal import autocomplete
 
@@ -96,3 +98,16 @@ def load_areas(request):
     municipality_id = request.headers['municipality']
     areas = Area.objects.filter(municipality_id=municipality_id).order_by('name')
     return render(request, 'area_dropdown_list_options.html', {'areas': areas})
+
+
+def image_upload(request):
+    if request.method == "POST" and request.FILES["image_file"]:
+        image_file = request.FILES["image_file"]
+        fs = FileSystemStorage()
+        filename = fs.save(image_file.name, image_file)
+        image_url = fs.url(filename)
+        print(image_url)
+        return render(request, "core/upload.html", {
+            "image_url": image_url
+        })
+    return render(request, "core/upload.html")

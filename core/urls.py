@@ -1,5 +1,8 @@
 from django.urls import path
 from core.views import index
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 from . import views
 
@@ -24,4 +27,10 @@ urlpatterns = [
     # Autocomplete Breeds URL
     path('breed-autocomplete', views.BreedAutocomplete.as_view(), name='breed-autocomplete'), 
 
+    path("upload", views.image_upload, name="upload"),
+
+
 ]
+
+if bool(settings.DEBUG):
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

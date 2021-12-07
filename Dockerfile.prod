@@ -44,6 +44,8 @@ RUN adduser --system --group kontorshund
 ENV HOME=/home/kontorshund
 ENV APP_HOME=/home/kontorshund/web
 RUN mkdir $APP_HOME
+RUN mkdir $APP_HOME/staticfiles
+RUN mkdir $APP_HOME/mediafiles
 WORKDIR $APP_HOME
 
 # install dependencies
