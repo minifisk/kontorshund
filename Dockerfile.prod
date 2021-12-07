@@ -1,0 +1,62 @@
+###########
+# BUILDER #
+###########
+
+# pull official base image
+FROM python:3.9.6 as builder
+
+# set work directory
+WORKDIR /usr/src/kontorshund
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# install psycopg2 dependencies
+RUN apt-get update -y \
+    && apt-get -y install gcc python3-dev musl-dev
+
+# lint
+RUN pip install --upgrade pip
+#COPY . .
+#RUN pip install flake8==3.9.2
+#RUN flake8 --ignore=E501,F401 .
+
+# install dependencies
+COPY ./requirements.txt .
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/kontorshund/wheels -r requirements.txt
+
+
+#########
+# FINAL #
+#########
+
+# pull official base image
+FROM python:3.9.6
+
+# create directory for the app user
+RUN mkdir -p /home/kontorshund
+
+# create the app user
+RUN adduser --system --group kontorshund 
+
+# create the appropriate directories
+ENV HOME=/home/kontorshund
+ENV APP_HOME=/home/kontorshund/web
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+
+# install dependencies
+RUN apt-get update -y && apt-get -y install libpq-dev
+COPY --from=builder /usr/src/kontorshund/wheels /wheels
+COPY --from=builder /usr/src/kontorshund/requirements.txt .
+RUN pip install --no-cache /wheels/*
+
+# copy project
+COPY . $APP_HOME
+
+# chown all the files to the app user
+RUN chown -R kontorshund:kontorshund $APP_HOME
+
+# change to the app user
+USER kontorshund

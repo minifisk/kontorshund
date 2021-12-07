@@ -1,16 +1,17 @@
-# Pull base image
-FROM python:3.9
+# pull official base image
+FROM python:3.9.6
 
-# Set environment variables
+# set work directory
+WORKDIR /usr/src/kontorshund
+
+# set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONBUFFERED 1
+ENV PYTHONUNBUFFERED 1
 
-# Set work directory
-WORKDIR /code
+# install dependencies
+RUN pip install --upgrade pip
+COPY ./requirements.txt .
+RUN pip install -r requirements.txt
 
-# Install dependencies
-COPY requirements.txt /tmp/requirements.txt
-RUN pip install -r /tmp/requirements.txt
-
-# Copy project
-COPY . /code/
+# copy project
+COPY . .
