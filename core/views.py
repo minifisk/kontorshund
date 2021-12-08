@@ -101,12 +101,14 @@ def load_areas(request):
 
 
 def image_upload(request):
+    print("Hello? Anyone there?", flush=True)
     if request.method == "POST" and request.FILES["image_file"]:
         image_file = request.FILES["image_file"]
         fs = FileSystemStorage()
         filename = fs.save(image_file.name, image_file)
         image_url = fs.url(filename)
-        print(image_url)
+        print("URL IS:........")
+        print(image_url, flush=True)
         return render(request, "core/upload.html", {
             "image_url": image_url
         })
