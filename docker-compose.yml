@@ -5,7 +5,7 @@ services:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/usr/src/kontorshund/
+      - ./:/usr/src/kontorshund/
     ports:
       - 8000:8000
       - 3000:3000
