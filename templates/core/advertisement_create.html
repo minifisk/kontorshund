@@ -12,19 +12,24 @@
 
   
   
-  {% csrf_token %}  
-  {% if form.is_multipart %}
+  
+  <!-- {% if form.is_multipart %} -->
     <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
+    {% csrf_token %}  
+<!-- 
   {% else %}
     <form method="post" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
-  {% endif %}
-  
+    {% csrf_token %}  
+
+    {% endif %} -->
+      
+
     <table>  
       {{ form.as_p }}
     </table>
 
     <button type="submit">Publicera annons</button>
-
+    {{ form.media }}
   </form>
 
 </body>
@@ -42,7 +47,7 @@
   <script type="text/javascript" src="{% static 'autocomplete_light/vendor/select2/dist/js/select2.full.js' %}"></script>
   <script type="text/javascript" src="{% static 'autocomplete_light/forward.js' %}"></script>
   <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
-  {{ form.media }}
+
 
 
 

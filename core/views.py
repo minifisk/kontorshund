@@ -6,20 +6,16 @@ from django.http import HttpResponse
 from django.views import generic
 from django.core.files.storage import FileSystemStorage
 
-
-#from dal import autocomplete
+from dal import autocomplete
 
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm
 from core.models import Advertisement, Municipality, Area, DogBreeds
-
-
-from dal import autocomplete
-
 
 # Create your views here.
 
 def index(request):
     return render(request, 'core/index.html')
+
 
 class BreedAutocomplete(autocomplete.Select2QuerySetView):
 
@@ -34,7 +30,6 @@ class BreedAutocomplete(autocomplete.Select2QuerySetView):
             qs = qs.filter(name__istartswith=self.q)
 
         return qs
-
 
 
 class AdListTakeMyDog(generic.ListView):
@@ -55,7 +50,6 @@ class AdListGetMeADog(generic.ListView):
     def get_queryset(self):
         queryset = Advertisement.objects.filter(is_offering_own_dog=False)
         return queryset
-
 
 
 class NewAdTakeMyDog(CreateView):
@@ -100,16 +94,16 @@ def load_areas(request):
     return render(request, 'area_dropdown_list_options.html', {'areas': areas})
 
 
-def image_upload(request):
-    print("Hello? Anyone there?", flush=True)
-    if request.method == "POST" and request.FILES["image_file"]:
-        image_file = request.FILES["image_file"]
-        fs = FileSystemStorage()
-        filename = fs.save(image_file.name, image_file)
-        image_url = fs.url(filename)
-        print("URL IS:........")
-        print(image_url, flush=True)
-        return render(request, "core/upload.html", {
-            "image_url": image_url
-        })
-    return render(request, "core/upload.html")
+# def image_upload(request):
+#     print("Hello? Anyone there?", flush=True)
+#     if request.method == "POST" and request.FILES["image_file"]:
+#         image_file = request.FILES["image_file"]
+#         fs = FileSystemStorage()
+#         filename = fs.save(image_file.name, image_file)
+#         image_url = fs.url(filename)
+#         print("URL IS:........")
+#         print(image_url, flush=True)
+#         return render(request, "core/upload.html", {
+#             "image_url": image_url
+#         })
+#     return render(request, "core/upload.html")

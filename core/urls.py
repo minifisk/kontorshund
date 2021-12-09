@@ -27,7 +27,7 @@ urlpatterns = [
     # Autocomplete Breeds URL
     path('breed-autocomplete', views.BreedAutocomplete.as_view(), name='breed-autocomplete'), 
 
-    path("upload", views.image_upload, name="upload"),
+    #path("upload", views.image_upload, name="upload"),
 
 
 ]
