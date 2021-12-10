@@ -12,20 +12,11 @@ breakpoint()
   {% endblock form_title %}
 
   {% load debug_tag %}
-  {% set_breakpoint %}
+  {% set_breakpoint %}  
   
-  
-  
-  <!-- {% if form.is_multipart %} -->
     <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
     {% csrf_token %}  
-<!-- 
-  {% else %}
-    <form method="post" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
-    {% csrf_token %}  
 
-    {% endif %} -->
-      
 
     <table>  
       {{ form.as_p }}

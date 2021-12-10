@@ -5,9 +5,14 @@ services:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./:/usr/src/kontorshund/
+      - static_volume:/home/kontorshund/web/staticfiles
+      - media_volume:/home/kontorshund/web/mediafiles
     ports:
       - 8000:8000
       - 3000:3000
     env_file:
       - ./.env.dev
+
+volumes:
+  static_volume:
+  media_volume:

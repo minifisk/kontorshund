@@ -12,12 +12,9 @@
 
   
   
-  {% csrf_token %}  
-  {% if form.is_multipart %}
-    <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
-  {% else %}
-    <form method="post" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
-  {% endif %}
+  <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
+    {% csrf_token %}  
+
   
     <table>  
       {{ form.as_p }}
