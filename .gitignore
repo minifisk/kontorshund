@@ -79,6 +79,8 @@ celerybeat-schedule.*
 .env 
 .env.dev
 .env.prod
+.env.staging
+.env.staging.proxy-comparison
 .venv 
 env/ 
 venv/ 
