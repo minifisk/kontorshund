@@ -26,3 +26,10 @@ WORKDIR $APP_HOME
 
 # copy project
 COPY . $APP_HOME
+
+# Add a user named "app" and chown all the files to the user
+RUN addgroup --system app && adduser --system app --ingroup app
+RUN chown -R app:app $APP_HOME
+
+# change to the app user
+USER app

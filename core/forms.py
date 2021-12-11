@@ -32,7 +32,7 @@ class NewAdTakeMyDogForm(forms.ModelForm):
                 self.fields['area'].queryset = Area.objects.filter(municipality_id=municipality_id).order_by('name')
                 
 
-            except (ValueError, TypeError):
+            except (ValueError, TypeError) as e:
                 pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
             
 
