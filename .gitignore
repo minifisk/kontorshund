@@ -81,6 +81,7 @@ celerybeat-schedule.*
 .env.prod
 .env.staging
 .env.staging.proxy-companion
+.env.prod.proxy-companion
 .venv 
 env/ 
 venv/ 
