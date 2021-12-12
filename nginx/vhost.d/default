@@ -5,5 +5,5 @@ location /static/ {
 
 location /media/ {
     alias /home/kontorshund/web/mediafiles/;
-    add_header Access-Control-Allow-Origin *;w
+    add_header Access-Control-Allow-Origin *;
 }
