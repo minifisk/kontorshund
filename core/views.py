@@ -27,7 +27,7 @@ class BreedAutocomplete(autocomplete.Select2QuerySetView):
         qs = DogBreeds.objects.all()
 
         if self.q:
-            qs = qs.filter(name__istartswith=self.q)
+            qs = qs.filter(name__icontains=self.q)
 
         return qs
 
