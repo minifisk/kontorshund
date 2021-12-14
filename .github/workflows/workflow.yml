@@ -6,7 +6,7 @@ name: Build and deploy Kontorshund to Docker Hub
 on:
  push:
    branches:
-     - dockerize
+     - master
 
 jobs:
 
