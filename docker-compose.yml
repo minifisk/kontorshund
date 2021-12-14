@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   web:
-    #image: oneandonly1337/kontorshund
-    build: .
+    image: index.docker.io/oneandonly1337/kontorshund
+    #build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - static_volume:/home/kontorshund/web/staticfiles
