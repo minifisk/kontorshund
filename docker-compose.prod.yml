@@ -5,6 +5,8 @@ services:
   web:
     container_name: web
     restart: always
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
     image: index.docker.io/oneandonly1337/kontorshund
     #build:
     #  context: .
@@ -55,7 +57,7 @@ services:
     - /var/run/docker.sock:/var/run/docker.sock
     env_file:
       - ./.env.prod
-    command: --interval 120 --debug=true web
+    command: --interval 120  --label-enable
 
 
 volumes:
