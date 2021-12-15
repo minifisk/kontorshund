@@ -4,4 +4,25 @@
 
 {% block content %}
   <p>Hello, world! Let's test this, again! and again! Mjau</p>
-{% endblock content %}
+
+
+  <button id="swish">Swish</button>
+
+  {% endblock content %}
+
+
+
+
+{% block footer %}
+<script>
+
+const swish_button = document.getElementById('swish')
+
+swish_button.addEventListener('click', (event) => {
+  alert("CLICKED")
+})
+
+
+
+</script>
+{% endblock footer %}

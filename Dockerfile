@@ -13,23 +13,13 @@ RUN pip install --upgrade pip
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
-# create directory for the app user
-RUN mkdir -p /home/kontorshund
 
 # create the appropriate directories
-ENV HOME=/home/kontorshund
-ENV APP_HOME=/home/kontorshund/web
+ENV APP_HOME=/code
+
 RUN mkdir $APP_HOME
 RUN mkdir $APP_HOME/staticfiles
 RUN mkdir $APP_HOME/mediafiles
+
 WORKDIR $APP_HOME
 
-# copy project
-COPY . $APP_HOME
-
-# Add a user named "app" and chown all the files to the user
-RUN addgroup --system app && adduser --system app --ingroup app
-RUN chown -R app:app $APP_HOME
-
-# change to the app user
-USER app
