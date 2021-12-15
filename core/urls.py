@@ -1,5 +1,4 @@
 from django.urls import path
-from core.views import index
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -7,7 +6,7 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path('', index, name='home'),
+    path('', views.index, name='home'),
 
     # See take and get-ads
     path('ads/take-my-dog', views.AdListTakeMyDog.as_view(), name='view_ads_take_my_dog'),
@@ -28,6 +27,9 @@ urlpatterns = [
     path('breed-autocomplete', views.BreedAutocomplete.as_view(), name='breed-autocomplete'), 
 
     #path("upload", views.image_upload, name="upload"),
+
+    # Swish callback
+    path('swish/callback', views.swish_callback, name='swish_callback'),
 
 
 ]

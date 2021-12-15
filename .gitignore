@@ -5,6 +5,9 @@
 __pycache__
 db.sqlite3
 media
+/Test_certificates
+/Prod_certificates
+
 
 # Backup files # 
 *.bak 
