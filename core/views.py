@@ -28,8 +28,8 @@ def index(request):
 
     SWISH_PAYEEALIAS = "1234011961" # This would be your merchant swish number in production. In test it doesnt matter
 
-    SWISH_ROOTCA = "/code/Test_certificates/Swish_TLS_RootCA.pem"
-    SWISH_CERT = ("/code/Test_certificates/Swish_Merchant_TestCertificate_1234679304.pem", "/code/Test_certificates/Swish_Merchant_TestCertificate_1234679304-nopw.key")
+    SWISH_ROOTCA = "/code/Certificates_test/Swish_TLS_RootCA.pem"
+    SWISH_CERT = ("/code/Certificates_test/Swish_Merchant_TestCertificate_1234679304.pem", "/code/Certificates_test/Swish_Merchant_TestCertificate_1234679304-nopw.key")
 
     SWISH_URL = "https://mss.cpc.getswish.net/swish-cpcapi/api/"
     #SWISH_URL = "https://cpc.getswish.net/swish-cpcapi/api/" # PRODUCTION
