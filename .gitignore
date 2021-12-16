@@ -7,7 +7,7 @@ db.sqlite3
 media
 /Certificates_test
 /Certificates_prod
-
+*.png
 
 # Backup files # 
 *.bak 
