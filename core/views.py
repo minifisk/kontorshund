@@ -104,13 +104,16 @@ class AdListGetMeADog(generic.ListView):
 class NewAdTakeMyDog(CreateView):
     model = Advertisement
     form_class = NewAdTakeMyDogForm
-    success_url = reverse_lazy('view_ads_take_my_dog')
     template_name = 'core/advertisement_form_take.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.is_offering_own_dog = True
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        pk = form.instance.pk
+        #success_url = reverse_lazy('view_ads_take_my_dog')
+        print(pk)
+        return response
 
 
 class NewAdGetMeADog(CreateView):
@@ -129,6 +132,11 @@ class AdUpdateView(UpdateView):
     model = Advertisement
     form_class = NewAdTakeMyDogForm
     success_url = reverse_lazy('ad_changelist')
+
+
+class AdDetailView(generic.DetailView):
+    model = Advertisement
+    context_object_name = 'ad'
 
 # View to be used for getting Municipalities connected to a Province
 def load_municipalities(request):
