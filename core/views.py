@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.views import generic
 from django.core.files.storage import FileSystemStorage
 
+import os
 from dal import autocomplete
 import requests
 import json
@@ -26,22 +27,22 @@ def index(request):
 
     SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
 
-    SWISH_PAYEEALIAS = "1234011961" # This would be your merchant swish number in production. In test it doesnt matter
+    SWISH_PAYEEALIAS = os.environ.get('MERCHANT_SWISH_NUMBER') # This would be your merchant swish number in production. In test it doesnt matter
 
-    SWISH_ROOTCA = "/code/Certificates_test/Swish_TLS_RootCA.pem"
-    SWISH_CERT = ("/code/Certificates_test/Swish_Merchant_TestCertificate_1234679304.pem", "/code/Certificates_test/Swish_Merchant_TestCertificate_1234679304-nopw.key")
+    SWISH_ROOTCA = "/code/Certificates_prod/Swish_TLS_RootCA.pem"
+    SWISH_CERT = ("/code/Certificates_prod/swish_certificate_202112151645.pem", "/code/Certificates_prod/private.key")
 
-    SWISH_URL = "https://mss.cpc.getswish.net/swish-cpcapi/api/"
-    #SWISH_URL = "https://cpc.getswish.net/swish-cpcapi/api/" # PRODUCTION
+    #SWISH_URL = "https://mss.cpc.getswish.net/swish-cpcapi/api/"
+    SWISH_URL = "https://cpc.getswish.net/swish-cpcapi/api/" # PRODUCTION
 
 
     payload = {
         "payeePaymentReference": "0123456789",
         "callbackUrl": SWISH_CALLBACKURL,
         "payeeAlias": SWISH_PAYEEALIAS,
-        "payerAlias": "4672193819",    # Payers (your) phone number
+        "payerAlias": os.environ.get('CUSTOMER_SWISH_NUMBER'),    # Payers (your) phone number
         "currency": "SEK",
-        "amount": "2",
+        "amount": "1",
         "message": "100-pack plastpåsar"
     }
 

@@ -41,7 +41,11 @@ class DogBreeds(models.Model):
     def __str__(self):
         return self.name
 
+
 class Advertisement(SoftDeleteModel, TimeStampedModel):
+
+
+    # Payment status
 
     # Choices declaration
     DAYS_PER_WEEK_CHOICES = (
@@ -71,7 +75,6 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     size_offered = models.ForeignKey(DogSizeChoices, verbose_name='Min hunds storlek', on_delete=models.CASCADE, related_name='size_offered', null=True)
     size_requested = models.ManyToManyField(DogSizeChoices, verbose_name='Möjliga hundstorlekar', related_name='size_requested')
 
-
     # Images
     image1 = models.ImageField(null=True, blank=True)
     image2 = models.ImageField(null=True, blank=True)
@@ -81,5 +84,24 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     def __str__(self):
         return self.title
 
+
+class Payments(models.Model):
+
+    PAYMENT_TYPES = (
+        ("1", "Initial payment"),
+        ("2", "Extend ad run-time payment"),
+        ("3", "Other"),
+    )
+
+    advertisement = models.ForeignKey(Advertisement, on_delete=models.CASCADE, verbose_name='advertisement')
+    payer = models.ForeignKey(User, on_delete=models.CASCADE)  
+    payment_type = models.CharField(max_length=1, choices=PAYMENT_TYPES, default=1, verbose_name='payment_type')
+    amount = models.IntegerField()
+    payment_reference = models.CharField(max_length=25)
+    date_time = models.DateTimeField()
+
+
+    def __str__(self):
+        return f'#{self.payment_type} Payment of {self.amount} made by {self.payer} on ad {self.advertisement}'
 
 
