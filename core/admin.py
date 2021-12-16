@@ -36,5 +36,6 @@ admin.site.register(DogBreeds, DogBreedsAdmin)
 
 class AdvertisementAdmin(admin.ModelAdmin):
     form = NewAdTakeMyDogForm
+    readonly_fields = ('id',)
 
 admin.site.register(Advertisement, AdvertisementAdmin)
