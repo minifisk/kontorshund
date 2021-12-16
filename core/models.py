@@ -46,6 +46,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
 
 
     # Payment status
+    is_published = models.BooleanField(default=False)
 
     # Choices declaration
     DAYS_PER_WEEK_CHOICES = (
