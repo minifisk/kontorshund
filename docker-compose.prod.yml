@@ -15,6 +15,7 @@ services:
     volumes:
       - static_volume:/home/kontorshund/web/staticfiles
       - media_volume:/home/kontorshund/web/mediafiles
+      - /home/kontorshund/kontorshund/Certificates_prod:/home/kontorshund/web/Certificates_prod
     expose:
       - 8000
     env_file:
