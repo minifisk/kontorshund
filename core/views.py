@@ -111,6 +111,8 @@ class NewAdTakeMyDog(CreateView):
         form.instance.is_offering_own_dog = True
         response = super().form_valid(form)
         pk = form.instance.pk
+
+        # Set the success_url to lead to the new ad
         #success_url = reverse_lazy('view_ads_take_my_dog')
         print(pk)
         return response
