@@ -23,31 +23,31 @@ from core.models import Advertisement, Municipality, Area, DogBreeds
 
 def index(request):
  
-    NGROK_URL = "https://e40c-92-33-202-136.ngrok.io/"
+    # NGROK_URL = "https://e40c-92-33-202-136.ngrok.io/"
 
-    SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
+    # SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
 
-    SWISH_PAYEEALIAS = os.environ.get('MERCHANT_SWISH_NUMBER') # This would be your merchant swish number in production. In test it doesnt matter
+    # SWISH_PAYEEALIAS = os.environ.get('MERCHANT_SWISH_NUMBER') # This would be your merchant swish number in production. In test it doesnt matter
 
-    SWISH_ROOTCA = "/home/kontorshund/web/Certificates_prod/Swish_TLS_RootCA.pem"
-    SWISH_CERT = ("/home/kontorshund/web/Certificates_prod/swish_certificate_202112151645.pem", "/home/kontorshund/web/Certificates_prod/private.key")
+    # SWISH_ROOTCA = "/home/kontorshund/web/Certificates_prod/Swish_TLS_RootCA.pem"
+    # SWISH_CERT = ("/home/kontorshund/web/Certificates_prod/swish_certificate_202112151645.pem", "/home/kontorshund/web/Certificates_prod/private.key")
 
-    #SWISH_URL = "https://mss.cpc.getswish.net/swish-cpcapi/api/"
-    SWISH_URL = "https://cpc.getswish.net/swish-cpcapi/api/" # PRODUCTION
+    # #SWISH_URL = "https://mss.cpc.getswish.net/swish-cpcapi/api/"
+    # SWISH_URL = "https://cpc.getswish.net/swish-cpcapi/api/" # PRODUCTION
 
 
-    payload = {
-        "payeePaymentReference": "0123456789",
-        "callbackUrl": SWISH_CALLBACKURL,
-        "payeeAlias": SWISH_PAYEEALIAS,
-        "payerAlias": os.environ.get('CUSTOMER_SWISH_NUMBER'),    # Payers (your) phone number
-        "currency": "SEK",
-        "amount": "1",
-        "message": "100-pack plastpåsar"
-    }
+    # payload = {
+    #     "payeePaymentReference": "0123456789",
+    #     "callbackUrl": SWISH_CALLBACKURL,
+    #     "payeeAlias": SWISH_PAYEEALIAS,
+    #     "payerAlias": os.environ.get('CUSTOMER_SWISH_NUMBER'),    # Payers (your) phone number
+    #     "currency": "SEK",
+    #     "amount": "1",
+    #     "message": "100-pack plastpåsar"
+    # }
 
-    resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
-    print(resp.status_code, resp.text)
+    # resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
+    # print(resp.status_code, resp.text)
 
     return render(request, 'core/index.html')
 
