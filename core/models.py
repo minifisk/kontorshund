@@ -44,9 +44,11 @@ class DogBreeds(models.Model):
 
 class Advertisement(SoftDeleteModel, TimeStampedModel):
 
-
-    # Payment status
-    is_published = models.BooleanField(default=False, null=True)
+    # Foreign keys
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap')
+    municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun')
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, verbose_name='Område')
 
     # Choices declaration
     DAYS_PER_WEEK_CHOICES = (
@@ -57,11 +59,17 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
         ("1-5", "1-5 dagar per vecka"),
     )
 
-    # Foreign keys
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap')
-    municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun')
-    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, verbose_name='Område')
+    # Choices declaration
+    PAYMENT_CHOICES = (
+        ("S", "Swish"),
+        ("B", "Bankgiro"),
+    )
+
+
+    # Payment status
+    is_published = models.BooleanField(default=False, null=True)
+    payment_type = models.CharField(max_length=1, choices=PAYMENT_CHOICES, default=1, verbose_name='Betalningsmetod', null=True)
+
 
     # Type of Ad (Offering own dog or requesting a dog)
     is_offering_own_dog = models.BooleanField()

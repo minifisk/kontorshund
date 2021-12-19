@@ -1,10 +1,21 @@
 from django import forms
+from django.conf import settings
+
+from kontorshund.settings import PRICE_BANKGIRO
+from kontorshund.settings import PRICE_SWISH
+
+
 from .models import Advertisement, Municipality, Area, DogBreeds
 
 from dal import autocomplete
 
 
+
+
 class NewAdTakeMyDogForm(forms.ModelForm):
+    
+    CHOICES = [('S',f'Swish - {PRICE_SWISH}'),('B',f'Bankgiro - {PRICE_BANKGIRO}')]
+    payment_type = forms.CharField(label='Betalsätt', widget=forms.RadioSelect(choices=CHOICES))
 
     breed = forms.ModelChoiceField(
         queryset=DogBreeds.objects.all(),
@@ -13,7 +24,7 @@ class NewAdTakeMyDogForm(forms.ModelForm):
 
     class Meta:
         model = Advertisement
-        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'size_offered', 'breed', 'image1', 'image2', 'image3')
+        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'size_offered', 'breed', 'image1', 'image2', 'image3', 'payment_type')
 
     def __init__(self, *args, **kwargs):
         super(NewAdTakeMyDogForm, self).__init__(*args, **kwargs)

@@ -104,13 +104,17 @@ class AdListGetMeADog(generic.ListView):
 class NewAdTakeMyDog(CreateView):
     model = Advertisement
     form_class = NewAdTakeMyDogForm
+    success_url = reverse_lazy('view_ads_take_my_dog')
     template_name = 'core/advertisement_form_take.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.is_offering_own_dog = True
+        form.instance.is_published = False
         response = super().form_valid(form)
         pk = form.instance.pk
+
+        print(form.instance.payment_type)
 
         # Set the success_url to lead to the new ad
         #success_url = reverse_lazy('view_ads_take_my_dog')

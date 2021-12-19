@@ -1,6 +1,11 @@
 import os
 from pathlib import Path
 
+
+PRICE_SWISH = '60 kr'
+PRICE_BANKGIRO = '60 kr'
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
