@@ -1,4 +1,4 @@
-from django.http.response import JsonResponse
+from django.http.response import HttpResponseRedirect, JsonResponse
 from django.views import generic
 from django.views.generic import ListView, CreateView, UpdateView
 from django.urls import reverse_lazy
@@ -107,24 +107,36 @@ class NewAdTakeMyDog(CreateView):
     model = Advertisement
     form_class = NewAdTakeMyDogForm
     template_name = 'core/advertisement_form_take.html'
+    success_url = reverse_lazy('view_ads_take_my_dog')
+
+    def __init__(self):
+        self.pk = None
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.is_offering_own_dog = True
         form.instance.is_published = False
         response = super().form_valid(form)
-        pk = form.instance.pk
-        payment_type = form.instance.payment_type
-        if payment_type == 'S':
-            # Render swish payment site
-            return redirect(reverse('swish_payment', kwargs={'pk': pk}))
-            #success_url = reverse_lazy('swish_payment', kwargs={'pk': pk})
-        else:
-            pass
-            # Generate bankgiro instruction site
-
-        #success_url = reverse_lazy('view_ads_take_my_dog')
+        #self.form = form
+        #pk = self.form.instance.pk
+        #self.get_success_url()
+        #payment_type = form.instance.payment_type
+        #return HttpResponseRedirect(self.get_success_url(pk))
         return response
+
+        # if payment_type == 'S':
+        #     # Render swish payment site
+        #     return redirect(reverse('swish_payment', kwargs={'pk': self.pk}))
+        #     #success_url = reverse_lazy('swish_payment', kwargs={'pk': pk})
+        # else:
+        #     #Generate bankgiro instruction site
+        #     return redirect(reverse('other_view', kwargs={'pk': self.pk}))
+
+
+    def get_success_url(self):
+        print(self.object.payment_type)
+        return reverse('swish_payment', kwargs={'pk': self.object.pk})
+
 
 def PayForAdSwish(request, pk):
     if request.method == "GET":
