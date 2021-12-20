@@ -2,10 +2,12 @@ from django.http.response import JsonResponse
 from django.views import generic
 from django.views.generic import ListView, CreateView, UpdateView
 from django.urls import reverse_lazy
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import generic
 from django.core.files.storage import FileSystemStorage
+from django.urls import reverse
+
 
 import os
 from dal import autocomplete
@@ -104,7 +106,6 @@ class AdListGetMeADog(generic.ListView):
 class NewAdTakeMyDog(CreateView):
     model = Advertisement
     form_class = NewAdTakeMyDogForm
-    success_url = reverse_lazy('view_ads_take_my_dog')
     template_name = 'core/advertisement_form_take.html'
 
     def form_valid(self, form):
@@ -113,13 +114,28 @@ class NewAdTakeMyDog(CreateView):
         form.instance.is_published = False
         response = super().form_valid(form)
         pk = form.instance.pk
+        payment_type = form.instance.payment_type
+        if payment_type == 'S':
+            # Render swish payment site
+            return redirect(reverse('swish_payment', kwargs={'pk': pk}))
+            #success_url = reverse_lazy('swish_payment', kwargs={'pk': pk})
+        else:
+            pass
+            # Generate bankgiro instruction site
 
-        print(form.instance.payment_type)
-
-        # Set the success_url to lead to the new ad
         #success_url = reverse_lazy('view_ads_take_my_dog')
-        print(pk)
         return response
+
+def PayForAdSwish(request, pk):
+    if request.method == "GET":
+        # Generate template to fill in your phone number
+        return render(request, 'swish_phone_number.html')
+
+    if request.method == "POST":
+        # Generate swish payment request
+        #print(pk)
+        return render(request, 'swish_phone_number.html')
+
 
 
 class NewAdGetMeADog(CreateView):

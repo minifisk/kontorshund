@@ -1,0 +1,11 @@
+<h1>Make swish payment</h1>
+
+<form method="POST" action={% url 'swish_payment' 10 %}>
+
+
+    <label for="phone">Fyll i ditt telefonnummer</label>
+    <input type="tel" id="phone" name="phone">
+
+    <button type="submit">Skapa betalning</button>
+
+</form>

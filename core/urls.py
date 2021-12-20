@@ -14,6 +14,10 @@ urlpatterns = [
 
     # View of a specific ad
     path('ads/<int:pk>', views.AdDetailView.as_view(), name='ad-detail'),
+
+    # Pay for an ad
+    path('swish-pay/<int:pk>', views.PayForAdSwish, name='swish_payment'),
+
     
     # Create take and get-ads
     path('add/take-my-dog', views.NewAdTakeMyDog.as_view(), name='new_ad_take_my_dog'),
