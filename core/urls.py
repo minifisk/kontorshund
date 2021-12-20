@@ -17,6 +17,7 @@ urlpatterns = [
 
     # Pay for an ad
     path('swish-pay/<int:pk>', views.PayForAdSwish, name='swish_payment'),
+    path('bg-pay/<int:pk>', views.PayForAdBG, name='bg_payment'),
 
     
     # Create take and get-ads

@@ -8,6 +8,8 @@ from django.views import generic
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse
 
+from kontorshund.settings import PRICE_BANKGIRO
+from kontorshund.settings import PRICE_SWISH
 
 import os
 from dal import autocomplete
@@ -135,7 +137,11 @@ class NewAdTakeMyDog(CreateView):
 
     def get_success_url(self):
         print(self.object.payment_type)
-        return reverse('swish_payment', kwargs={'pk': self.object.pk})
+
+        if self.object.payment_type == 'S':
+            return reverse('swish_payment', kwargs={'pk': self.object.pk})
+        if self.object.payment_type == 'B':
+            return reverse('bg_payment', kwargs={'pk': self.object.pk})
 
 
 def PayForAdSwish(request, pk):
@@ -147,6 +153,17 @@ def PayForAdSwish(request, pk):
         # Generate swish payment request
         #print(pk)
         return render(request, 'swish_phone_number.html')
+
+
+def PayForAdBG(request, pk):
+
+    url = request.build_absolute_uri('/')
+    ad_path = f'ads/{pk}'
+    full_path = f'{url}{ad_path}'
+
+    if request.method == "GET":
+        # Generate template to fill in your phone number
+        return render(request, 'bg_instructions.html', {'pk': pk, 'price': PRICE_BANKGIRO, 'ad_path': full_path})
 
 
 
