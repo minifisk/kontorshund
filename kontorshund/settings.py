@@ -1,9 +1,20 @@
 import os
 from pathlib import Path
+from urllib.parse import urljoin
 
-
+# Price constants
 PRICE_SWISH = '60 kr'
 PRICE_BANKGIRO = '60 kr'
+
+# Swish constants
+NGROK_URL = "https://e0c8-92-33-202-136.ngrok.io" # Fill out with new value when testing 
+SWISH_PAYEEALIAS = os.environ.get('MERCHANT_SWISH_NUMBER') # This would be your merchant swish number in production. In test it doesnt matter
+SWISH_ROOTCA = "/home/kontorshund/web/Certificates_prod/Swish_TLS_RootCA.pem"
+SWISH_CERT = ("/home/kontorshund/web/Certificates_prod/swish_certificate_202112151645.pem", "/home/kontorshund/web/Certificates_prod/private.key")
+#SWISH_URL = "https://mss.cpc.getswish.net/swish-cpcapi/api/" # DEVELOPMENT
+SWISH_URL = "https://cpc.getswish.net/swish-cpcapi/api/" # PRODUCTION
+
+ALLOWED_NGROK = NGROK_URL[8:]
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,6 +31,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "ndkwjankgsa")
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", " ").split(" ")
+ALLOWED_HOSTS.append(ALLOWED_NGROK)
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 

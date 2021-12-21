@@ -8,8 +8,9 @@ from django.views import generic
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse
 
-from kontorshund.settings import PRICE_BANKGIRO
-from kontorshund.settings import PRICE_SWISH
+from kontorshund.settings import PRICE_BANKGIRO, PRICE_SWISH, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
+
+
 
 import os
 from dal import autocomplete
@@ -119,25 +120,10 @@ class NewAdTakeMyDog(CreateView):
         form.instance.is_offering_own_dog = True
         form.instance.is_published = False
         response = super().form_valid(form)
-        #self.form = form
-        #pk = self.form.instance.pk
-        #self.get_success_url()
-        #payment_type = form.instance.payment_type
-        #return HttpResponseRedirect(self.get_success_url(pk))
         return response
-
-        # if payment_type == 'S':
-        #     # Render swish payment site
-        #     return redirect(reverse('swish_payment', kwargs={'pk': self.pk}))
-        #     #success_url = reverse_lazy('swish_payment', kwargs={'pk': pk})
-        # else:
-        #     #Generate bankgiro instruction site
-        #     return redirect(reverse('other_view', kwargs={'pk': self.pk}))
 
 
     def get_success_url(self):
-        print(self.object.payment_type)
-
         if self.object.payment_type == 'S':
             return reverse('swish_payment', kwargs={'pk': self.object.pk})
         if self.object.payment_type == 'B':
@@ -146,16 +132,41 @@ class NewAdTakeMyDog(CreateView):
 
 def PayForAdSwish(request, pk):
     if request.method == "GET":
-        # Generate template to fill in your phone number
         return render(request, 'swish_phone_number.html')
 
     if request.method == "POST":
+
+        # Generate callback url if development
+        if os.environ.get('IS_DEVELOPMENT') == 1:
+            SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
+
+        # Generate callback url if production
+        if os.environ.get('IS_DEVELOPMENT') == 0:
+            url = request.build_absolute_uri('/')
+            callback_path = f'swish/callback'
+            SWISH_CALLBACKURL= f'{url}{callback_path}'
+
+        payload = {
+            "payeePaymentReference": pk,
+            "callbackUrl": SWISH_CALLBACKURL,
+            "payeeAlias": SWISH_PAYEEALIAS,
+            "payerAlias": os.environ.get('CUSTOMER_SWISH_NUMBER'),    # Payers (your) phone number
+            "currency": "SEK",
+            "amount": "1",
+            "message": "100-pack plastpåsar"
+        }
+
+        resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
+        print(resp.status_code, resp.text)
+
         # Generate swish payment request
         #print(pk)
         return render(request, 'swish_phone_number.html')
 
 
 def PayForAdBG(request, pk):
+    from django.contrib.sites.models import Site
+
 
     url = request.build_absolute_uri('/')
     ad_path = f'ads/{pk}'
