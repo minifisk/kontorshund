@@ -21,7 +21,7 @@ from django.views.decorators.csrf import csrf_exempt
 from pprint import pprint 
 
 
-from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm
+from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm, PhoneNumberForm
 from core.models import Advertisement, Municipality, Area, DogBreeds
 
 # Create your views here.
@@ -75,8 +75,8 @@ class BreedAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
 
-        if not self.request.user.is_authenticated:
-            return DogBreeds.objects.none()
+        #if not self.request.user.is_authenticated:
+        #    return DogBreeds.objects.none()
 
         qs = DogBreeds.objects.all()
 
@@ -132,36 +132,53 @@ class NewAdTakeMyDog(CreateView):
 
 def PayForAdSwish(request, pk):
     if request.method == "GET":
-        return render(request, 'swish_phone_number.html')
+        ad_title = Advertisement.objects.get(pk=pk).title
+        form = PhoneNumberForm()
+
+        return render(request, 'swish_phone_number.html', {'form': form, 'title': ad_title, 'price': PRICE_SWISH})
 
     if request.method == "POST":
+        form = PhoneNumberForm(request.POST)
+        if form.is_valid():
 
-        # Generate callback url if development
-        if os.environ.get('IS_DEVELOPMENT') == 1:
-            SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
+            print(form.cleaned_data)
+            
+            phone_number = form.cleaned_data['phone_number']
+            phone_number_with_46 = f'46{phone_number}'
 
-        # Generate callback url if production
-        if os.environ.get('IS_DEVELOPMENT') == 0:
-            url = request.build_absolute_uri('/')
-            callback_path = f'swish/callback'
-            SWISH_CALLBACKURL= f'{url}{callback_path}'
+            # Generate callback url if development
+            if os.environ.get('IS_DEVELOPMENT') == 1:
+                print("1")
+                SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
 
-        payload = {
-            "payeePaymentReference": pk,
-            "callbackUrl": SWISH_CALLBACKURL,
-            "payeeAlias": SWISH_PAYEEALIAS,
-            "payerAlias": os.environ.get('CUSTOMER_SWISH_NUMBER'),    # Payers (your) phone number
-            "currency": "SEK",
-            "amount": "1",
-            "message": "100-pack plastpåsar"
-        }
+            # Generate callback url if production
+            if os.environ.get('IS_DEVELOPMENT') == 0:
+                print("2")
+                url = request.build_absolute_uri('/')
+                callback_path = f'swish/callback'
+                SWISH_CALLBACKURL= f'{url}{callback_path}'
 
-        resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
-        print(resp.status_code, resp.text)
+            print("3")
+            # Set-up variables for payment request
+            payload = {
+                "payeePaymentReference": pk,
+                "callbackUrl": SWISH_CALLBACKURL,
+                "payeeAlias": SWISH_PAYEEALIAS,
+                "payerAlias": phone_number,    # Payers phone number
+                "currency": "SEK",
+                "amount": "1",
+                "message": "100-pack plastpåsar"
+            }
 
-        # Generate swish payment request
-        #print(pk)
-        return render(request, 'swish_phone_number.html')
+            resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
+            print(resp.status_code, resp.text)
+
+            return resp.status_code, resp.text, pk
+
+        else:
+            ad_title = Advertisement.objects.get(pk=pk).title
+            return render(request, 'swish_phone_number.html', {'form': form, 'title': ad_title, 'price': PRICE_SWISH})
+
 
 
 def PayForAdBG(request, pk):

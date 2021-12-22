@@ -1,5 +1,7 @@
 from django import forms
 from django.conf import settings
+from django.core.validators import RegexValidator
+
 
 from kontorshund.settings import PRICE_BANKGIRO
 from kontorshund.settings import PRICE_SWISH
@@ -75,3 +77,14 @@ class NewAdGetMeADogForm(forms.ModelForm):
             except (ValueError, TypeError):
                 pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
             
+phone_number_validator = RegexValidator(r"^(07[0236])\s*(\d{4})\s*(\d{3})$", "Telefonnummer skall anges i formatet 0723456789 (utan mellanslag)")
+
+class PhoneNumberForm(forms.Form):
+    phone_number = forms.CharField(
+        required=True,
+        label='Ditt telefonnummer', 
+        validators=[phone_number_validator], 
+        widget=forms.TextInput(attrs={'placeholder': '0701234567'})
+    )
+
+

@@ -1,11 +1,14 @@
-<h1>Make swish payment</h1>
+<h1>Betala för annons "{{ title }}" med Swish</h1>
 
 <form method="POST" action={% url 'swish_payment' 10 %}>
 
+    {% csrf_token %}
+    {{ form }}
 
-    <label for="phone">Fyll i ditt telefonnummer</label>
-    <input type="tel" id="phone" name="phone">
+    <p>Genom att klicka på knappen nedan, skapas en betalning om <b>{{ price }}</b> i din Swish app.</p>
+    <p>När du godkänt betalningen i din telefon, skickas du automatiskt till den publicerade annonsen.</p>
 
-    <button type="submit">Skapa betalning</button>
+    <button type="submit">Skapa swish betalning </button>
+    
 
 </form>
