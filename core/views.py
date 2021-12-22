@@ -140,31 +140,27 @@ def PayForAdSwish(request, pk):
     if request.method == "POST":
         form = PhoneNumberForm(request.POST)
         if form.is_valid():
-
-            print(form.cleaned_data)
             
             phone_number = form.cleaned_data['phone_number']
-            phone_number_with_46 = f'46{phone_number}'
+            phone_number_with_46 = f'46{phone_number[1:]}'
+
 
             # Generate callback url if development
-            if os.environ.get('IS_DEVELOPMENT') == 1:
-                print("1")
+            if bool(os.environ.get('IS_DEVELOPMENT')) == True:
                 SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
 
             # Generate callback url if production
-            if os.environ.get('IS_DEVELOPMENT') == 0:
-                print("2")
+            if bool(os.environ.get('IS_DEVELOPMENT')) == False:
                 url = request.build_absolute_uri('/')
                 callback_path = f'swish/callback'
                 SWISH_CALLBACKURL= f'{url}{callback_path}'
 
-            print("3")
             # Set-up variables for payment request
             payload = {
                 "payeePaymentReference": pk,
                 "callbackUrl": SWISH_CALLBACKURL,
                 "payeeAlias": SWISH_PAYEEALIAS,
-                "payerAlias": phone_number,    # Payers phone number
+                "payerAlias": phone_number_with_46,    # Payers phone number
                 "currency": "SEK",
                 "amount": "1",
                 "message": "100-pack plastpåsar"
