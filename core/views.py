@@ -169,11 +169,11 @@ def PayForAdSwish(request, pk):
             resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
             print(resp.status_code, resp.text)
 
-            return resp.status_code, resp.text, pk
+            return render(request, 'swish_phone_number.html', {'form': form, 'title': ad_title, 'price': PRICE_SWISH})
 
         else:
             ad_title = Advertisement.objects.get(pk=pk).title
-            return render(request, 'swish_phone_number.html', {'form': form, 'title': ad_title, 'price': PRICE_SWISH})
+            return render(request, 'swish_phone_number.html', {'pk': pk, 'form': form, 'title': ad_title, 'price': PRICE_SWISH})
 
 
 
