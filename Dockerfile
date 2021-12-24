@@ -13,13 +13,15 @@ RUN pip install --upgrade pip
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
-
 # create the appropriate directories
-ENV APP_HOME=/code
-
+RUN mkdir -p /home/kontorshund
+ENV HOME=/home/kontorshund
+ENV APP_HOME=/home/kontorshund/web
 RUN mkdir $APP_HOME
 RUN mkdir $APP_HOME/staticfiles
 RUN mkdir $APP_HOME/mediafiles
-
 WORKDIR $APP_HOME
+
+COPY . $APP_HOME
+
 
