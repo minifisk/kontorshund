@@ -13,4 +13,10 @@
 
 </form>
 
-<!-- When pressed button submit-make AJAX request to /Swish-payment -->
+<!-- JS: When pressed button submit-make AJAX request to /Swish-payment -->
+<!-- JS: When recieved 201 response - means that SWISH payment has been created on issuers phone -->
+<!-- JS: When recieved the 201, start message - Open swish on your phone -->
+<!-- PY: Create a view in Django that check is the Ad has the status is_payed=1 and return True/False -->
+<!-- JS: Make a JS request to the is_payed view every 5 seconds  -->
+<!-- JS: When payment have been recieved, set the status of the Ad to is_payed=1 -->
+<!-- JS: When check for payment have been recieved, redirect the user to the Ad -->
