@@ -1,6 +1,6 @@
 <h1>Betala för annons "{{ title }}" med Swish</h1>
 
-<form method="POST" action={% url 'swish_payment' 10 %}>
+<form method="POST" action={% url 'swish_payment' {{ pk }} %}>
 
     {% csrf_token %}
     {{ form }}
@@ -12,3 +12,5 @@
     
 
 </form>
+
+<!-- When pressed button submit-make AJAX request to /Swish-payment -->
