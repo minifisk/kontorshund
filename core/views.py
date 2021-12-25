@@ -10,7 +10,8 @@ from django.urls import reverse
 
 from kontorshund.settings import PRICE_BANKGIRO, PRICE_SWISH, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
 
-
+import io
+import qrcode 
 import json
 import os
 from dal import autocomplete
@@ -68,6 +69,33 @@ def swish_callback(request):
     pprint(data_dict)
 
     return JsonResponse("This is fine", status=200, safe=False)
+
+
+def get_qr_code(token):
+
+    qr = qrcode.QRCode(
+        version = 1,
+        error_correction = qrcode.constants.ERROR_CORRECT_L,
+        box_size = 5,
+        border = 0,
+    )
+
+    qr.add_data("D" + token)
+    qr.make(fit=True)
+    qr_img = qr.make_image()
+
+    #img = qr.make_image(fill='black', back_color='white')
+    #img.save('qrcode001.png')
+
+    bytesio_object = io.BytesIO()
+    qr_img.save(bytesio_object)
+
+    file_data = bytesio_object.getvalue()
+    response = HttpResponse(content_type=f'image/png')
+    response['Content-Disposition'] = f'inline; filename="qr-code-image"'
+    response.write(file_data)
+
+    return response 
 
 
 
@@ -136,13 +164,13 @@ def PayForAdSwishTemplate(request, pk):
 
     return render(request, 'swish_phone_number.html', {'pk': pk, 'form': form, 'title': ad_title, 'price': PRICE_SWISH})
 
-def GeneratePaymentRequestToken(request):
 
 
-    data=request.body
-    decoded_data = data.decode('UTF-8')
-    pk = json.loads(decoded_data)['pk']
-    
+
+
+
+
+def GeneratePaymentRequestToken(request, pk):
 
     # Generate callback url if development
     if bool(os.environ.get('IS_DEVELOPMENT')) == True:
@@ -167,8 +195,17 @@ def GeneratePaymentRequestToken(request):
 
     resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
     print(resp.status_code, resp.text, resp.headers)
-    ad_title = Advertisement.objects.get(pk=pk).title
-    return render(request, 'swish_phone_number.html', {'title': ad_title, 'price': PRICE_SWISH})
+    PaymentRequestToken = resp.headers['PaymentRequestToken']
+
+    qr_image_response = get_qr_code(PaymentRequestToken)
+
+    print(qr_image_response)
+
+
+    #ad_title = Advertisement.objects.get(pk=pk).title
+
+
+    return qr_image_response
 
 
 

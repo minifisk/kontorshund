@@ -17,7 +17,7 @@ urlpatterns = [
 
     # Pay for an ad
     path('swish-pay/<int:pk>', views.PayForAdSwishTemplate, name='swish_payment_template'),
-    path('generate-swish-token', views.GeneratePaymentRequestToken, name='swish_payment_token'),
+    path('generate-swish-token/<int:pk>', views.GeneratePaymentRequestToken, name='swish_payment_token'),
     path('bg-pay/<int:pk>', views.PayForAdBG, name='bg_payment'),
 
     

@@ -47,7 +47,7 @@
           }
         };
         //console.log(params)
-        xhr.open('POST',  "{% url 'swish_payment_token' %}", true);
+        xhr.open('POST',  "{% url 'swish_payment_token' pk %}", true);
         xhr.setRequestHeader("X-CSRFToken", csrftoken); 
         xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
         xhr.send((JSON.stringify(params)));
