@@ -1,17 +1,13 @@
 <h1>Betala för annons "{{ title }}" med Swish</h1>
 
-<form method="POST" action={% url 'swish_payment' {{ pk }} %}>
-
-    {% csrf_token %}
-    {{ form }}
-
-    <p>Genom att klicka på knappen nedan, skapas en betalning om <b>{{ price }}</b> i din Swish app.</p>
+    <p>Genom att klicka på knappen nedan, öppnas en QR kod för en Swish betalning om <b>{{ price }}.</b> </p>
+    <p>Öppna Swish-appen i din telefon, välj QR-kod och rikta kameran mot QR-koden och utför betalningen.</p>
     <p>När du godkänt betalningen i din telefon, skickas du automatiskt till den publicerade annonsen.</p>
-
-    <button type="submit">Skapa swish betalning </button>
     
-
+    
 </form>
+
+<button id="submit">Skapa swish betalning </button>
 
 <!-- JS: When pressed button submit-make AJAX request to /Swish-payment -->
 <!-- JS: When recieved 201 response - means that SWISH payment has been created on issuers phone -->
@@ -20,3 +16,43 @@
 <!-- JS: Make a JS request to the is_payed view every 5 seconds  -->
 <!-- JS: When payment have been recieved, set the status of the Ad to is_payed=1 -->
 <!-- JS: When check for payment have been recieved, redirect the user to the Ad -->
+
+
+
+  <script>
+ 
+      const submit_button = document.getElementById('submit');
+
+
+      /* When button clicked, send request to swish payment with pk */
+      submit_button.addEventListener('click', (event) => {
+
+        //alert("Clicked")
+        let cookie = document.cookie
+        let csrftoken = cookie.substring(cookie.indexOf('=') + 1)
+
+
+        var params = {
+          "pk": "{{ pk }}"
+        }
+        
+        
+        var xhr = new XMLHttpRequest();
+
+        xhr.onload = function () {
+          if (xhr.readyState === xhr.DONE) {
+              if (xhr.status === 201) {
+                  console.log('Payment recieved by payers Swish app!')
+              }
+          }
+        };
+        //console.log(params)
+        xhr.open('POST',  "{% url 'swish_payment_token' %}", true);
+        xhr.setRequestHeader("X-CSRFToken", csrftoken); 
+        xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
+        xhr.send((JSON.stringify(params)));
+
+      });
+
+
+  </script>

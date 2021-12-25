@@ -11,7 +11,7 @@ from django.urls import reverse
 from kontorshund.settings import PRICE_BANKGIRO, PRICE_SWISH, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
 
 
-
+import json
 import os
 from dal import autocomplete
 import requests
@@ -125,55 +125,50 @@ class NewAdTakeMyDog(CreateView):
 
     def get_success_url(self):
         if self.object.payment_type == 'S':
-            return reverse('swish_payment', kwargs={'pk': self.object.pk})
+            return reverse('swish_payment_template', kwargs={'pk': self.object.pk})
         if self.object.payment_type == 'B':
             return reverse('bg_payment', kwargs={'pk': self.object.pk})
 
 
-def PayForAdSwish(request, pk):
-    if request.method == "GET":
-        ad_title = Advertisement.objects.get(pk=pk).title
-        form = PhoneNumberForm()
+def PayForAdSwishTemplate(request, pk):
+    ad_title = Advertisement.objects.get(pk=pk).title
+    form = PhoneNumberForm()
 
-        return render(request, 'swish_phone_number.html', {'form': form, 'title': ad_title, 'price': PRICE_SWISH})
+    return render(request, 'swish_phone_number.html', {'pk': pk, 'form': form, 'title': ad_title, 'price': PRICE_SWISH})
 
-    if request.method == "POST":
-        form = PhoneNumberForm(request.POST)
-        if form.is_valid():
-            
-            phone_number = form.cleaned_data['phone_number']
-            phone_number_with_46 = f'46{phone_number[1:]}'
+def GeneratePaymentRequestToken(request):
 
 
-            # Generate callback url if development
-            if bool(os.environ.get('IS_DEVELOPMENT')) == True:
-                SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
+    data=request.body
+    decoded_data = data.decode('UTF-8')
+    pk = json.loads(decoded_data)['pk']
+    
 
-            # Generate callback url if production
-            if bool(os.environ.get('IS_DEVELOPMENT')) == False:
-                url = request.build_absolute_uri('/')
-                callback_path = f'swish/callback'
-                SWISH_CALLBACKURL= f'{url}{callback_path}'
+    # Generate callback url if development
+    if bool(os.environ.get('IS_DEVELOPMENT')) == True:
+        SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
 
-            # Set-up variables for payment request
-            payload = {
-                "payeePaymentReference": pk,
-                "callbackUrl": SWISH_CALLBACKURL,
-                "payeeAlias": SWISH_PAYEEALIAS,
-                "payerAlias": phone_number_with_46,    # Payers phone number
-                "currency": "SEK",
-                "amount": "1",
-                "message": "100-pack plastpåsar"
-            }
+    # Generate callback url if production
+    if bool(os.environ.get('IS_DEVELOPMENT')) == False:
+        url = request.build_absolute_uri('/')
+        callback_path = f'swish/callback'
+        SWISH_CALLBACKURL= f'{url}{callback_path}'
 
-            resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
-            print(resp.status_code, resp.text)
+    # Set-up variables for payment request
+    payload = {
+        "payeePaymentReference": pk,
+        "callbackUrl": SWISH_CALLBACKURL,
+        "payeeAlias": SWISH_PAYEEALIAS,
+        #"payerAlias": phone_number_with_46,    # Payers phone number
+        "currency": "SEK",
+        "amount": "1",
+        "message": "100-pack plastpåsar"
+    }
 
-            return render(request, 'swish_phone_number.html', {'form': form, 'title': ad_title, 'price': PRICE_SWISH})
-
-        else:
-            ad_title = Advertisement.objects.get(pk=pk).title
-            return render(request, 'swish_phone_number.html', {'pk': pk, 'form': form, 'title': ad_title, 'price': PRICE_SWISH})
+    resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
+    print(resp.status_code, resp.text, resp.headers)
+    ad_title = Advertisement.objects.get(pk=pk).title
+    return render(request, 'swish_phone_number.html', {'title': ad_title, 'price': PRICE_SWISH})
 
 
 
