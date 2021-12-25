@@ -9,6 +9,8 @@
 
 <button id="submit">Skapa swish betalning </button>
 
+<img id="captchaImg" />
+
 <!-- JS: When pressed button submit-make AJAX request to /Swish-payment -->
 <!-- JS: When recieved 201 response - means that SWISH payment has been created on issuers phone -->
 <!-- JS: When recieved the 201, start message - Open swish on your phone -->
@@ -38,11 +40,17 @@
         
         
         var xhr = new XMLHttpRequest();
+        xhr.responseType = "arraybuffer";
+
 
         xhr.onload = function () {
+          console.log('onlopad')
           if (xhr.readyState === xhr.DONE) {
-              if (xhr.status === 201) {
-                  console.log('Payment recieved by payers Swish app!')
+              if (xhr.status === 200) {
+                  //qr_code_div.innerHTML = xhr.response
+                  document.getElementById("captchaImg").setAttribute('src', 'data:image/png;base64,' + btoa(String.fromCharCode.apply(null, new Uint8Array(xhr.response))));
+
+                  
               }
           }
         };
