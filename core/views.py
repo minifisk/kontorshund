@@ -1,3 +1,4 @@
+from django.core.checks import messages
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.views import generic
 from django.views.generic import ListView, CreateView, UpdateView
@@ -10,6 +11,7 @@ from django.urls import reverse
 
 from kontorshund.settings import PRICE_BANKGIRO, PRICE_SWISH, PRICE_SWISH_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
 
+import datetime
 import io
 import qrcode 
 import json
@@ -23,7 +25,7 @@ from pprint import pprint
 
 
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm, PhoneNumberForm
-from core.models import Advertisement, Municipality, Area, DogBreeds
+from core.models import Advertisement, Municipality, Area, DogBreeds, Payment
 
 # Create your views here.
 
@@ -69,6 +71,43 @@ def swish_callback(request):
     pprint(data_dict)
 
     # Check if payment was successfull
+    if data_dict['status'] == 'PAID':
+
+        ad_id = data_dict['payeePaymentReference']
+        amount = data_dict['amount']
+        date_paid_str = data_dict['datePaid']
+        date_paid_obj = datetime.datetime.strptime(date_paid_str, '%Y-%m-%dT%H:%M:%S.%f%z')
+        payment_reference = data_dict['paymentReference']
+        payer_alias = data_dict['payerAlias']
+
+        try:
+            ad_object = Advertisement.objects.get(pk=ad_id)
+        except Advertisement.DoesNotExist:
+            return JsonResponse("Ad does not exist", status=404, safe=False)
+
+        payment_obj = ad_object.create_payment(
+            payment_type=1, 
+            amount=amount, 
+            payment_reference=payment_reference,
+            date_time_paid = date_paid_obj,
+            payer_alias = payer_alias
+            )
+
+        print(f'Payment created, payment id {payment_obj.pk}')
+
+        return JsonResponse(f"Payment was created, id: {payment_obj.pk}", status=201, safe=False)
+
+    else:
+
+        error_code = data_dict['errorCode']
+        error_message = data_dict['errorCode']
+
+
+        print(f'Problem creating payment: {error_code} {error_message}')
+        return JsonResponse(f"Payment couldn't be created: {error_code} {error_message}", status=401, safe=False)
+
+
+
 
         # if yes
 

@@ -96,7 +96,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
 
     def create_payment(self, payment_type, amount, payment_reference, date_time_paid, payer_alias):
         
-        new_payment = Payments.objects.create(
+        new_payment = Payment.objects.create(
             advertisement=self,
             payment_type=payment_type,
             amount=amount,
@@ -119,9 +119,9 @@ class Payment(models.Model):
     advertisement = models.ForeignKey(Advertisement, on_delete=models.CASCADE, verbose_name='advertisement')
     payment_type = models.CharField(max_length=1, choices=PAYMENT_TYPES, default=1, verbose_name='payment_type')
     amount = models.IntegerField()
-    payment_reference = models.CharField(max_length=25)
+    payment_reference = models.CharField(max_length=50)
     date_time_paid = models.DateTimeField()
-    payer_alias = models.IntegerField(null=True)
+    payer_alias = models.CharField(max_length=50, null=True)
 
 
     def __str__(self):
