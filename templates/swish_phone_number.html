@@ -106,8 +106,9 @@
                   if (xhr_token.status === 201) {
                     var response = JSON.parse(xhr_token.response)
                     var token = response['token']
+                    var pk = '{{ pk }}'
                     var callback_url = response['callback_url']
-                    window.location = `swish://paymentrequest?token=${token}&callbackurl=${callback_url}`
+                    window.location = `swish://paymentrequest?token=${token}&callbackurl=${callback_url}&pk=${pk}`
 
                   }
               }

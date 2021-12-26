@@ -51,9 +51,9 @@ def swish_callback(request):
     print("******************")
     print("Swish Callback ***")
 
-    print(request)
-    print(request.body)
-    print(len(request.body))
+    print(request, flush=True)
+    print(request.body, flush=True)
+    print(len(request.body), flush=True)
 
     data=request.body
     data_dict = json.loads(data.decode("utf-8"))
