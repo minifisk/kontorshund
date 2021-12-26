@@ -94,7 +94,21 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
         return self.title
 
 
-class Payments(models.Model):
+    def create_payment(self, payment_type, amount, payment_reference, date_time_paid, payer_alias):
+        
+        new_payment = Payments.objects.create(
+            advertisement=self,
+            payment_type=payment_type,
+            amount=amount,
+            payment_reference=payment_reference,
+            date_time_paid=date_time_paid,
+            payer_alias=payer_alias
+        )
+
+        return new_payment
+
+
+class Payment(models.Model):
 
     PAYMENT_TYPES = (
         ("1", "Initial payment"),
@@ -103,14 +117,14 @@ class Payments(models.Model):
     )
 
     advertisement = models.ForeignKey(Advertisement, on_delete=models.CASCADE, verbose_name='advertisement')
-    payer = models.ForeignKey(User, on_delete=models.CASCADE)  
     payment_type = models.CharField(max_length=1, choices=PAYMENT_TYPES, default=1, verbose_name='payment_type')
     amount = models.IntegerField()
     payment_reference = models.CharField(max_length=25)
-    date_time = models.DateTimeField()
+    date_time_paid = models.DateTimeField()
+    payer_alias = models.IntegerField(null=True)
 
 
     def __str__(self):
-        return f'#{self.payment_type} Payment of {self.amount} made by {self.payer} on ad {self.advertisement}'
+        return f'#{self.payment_type} Payment of {self.amount} made by {self.payer_alias} on ad {self.advertisement}'
 
 

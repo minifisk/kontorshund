@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.models import Province, Municipality, Advertisement, Area, DogSizeChoices, DogBreeds
+from core.models import Payment, Province, Municipality, Advertisement, Area, DogSizeChoices, DogBreeds
 from core.forms import NewAdTakeMyDogForm
 
 # Register your models here.
@@ -39,3 +39,8 @@ class AdvertisementAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
 
 admin.site.register(Advertisement, AdvertisementAdmin)
+
+class PaymentAdmin(admin.ModelAdmin):
+    model = Payment
+
+admin.site.register(Payment, PaymentAdmin)
