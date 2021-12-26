@@ -8,7 +8,7 @@ from django.views import generic
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse
 
-from kontorshund.settings import PRICE_BANKGIRO, PRICE_SWISH, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
+from kontorshund.settings import PRICE_BANKGIRO, PRICE_SWISH, PRICE_SWISH_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
 
 import io
 import qrcode 
@@ -67,6 +67,16 @@ def swish_callback(request):
     data=request.body
     data_dict = json.loads(data.decode("utf-8"))
     pprint(data_dict)
+
+    # Check if payment was successfull
+
+        # if yes
+
+            # Update said ad with a payment
+
+        # if no
+
+            # Return error code
 
     return JsonResponse("This is fine", status=200, safe=False)
 
@@ -189,8 +199,8 @@ def GeneratePaymentRequestToken(request, pk):
         "payeeAlias": SWISH_PAYEEALIAS,
         #"payerAlias": phone_number_with_46,    # Payers phone number
         "currency": "SEK",
-        "amount": "1",
-        "message": "100-pack plastpåsar"
+        "amount": PRICE_SWISH_IN_SEK,
+        "message": f"Betalning för annons med ID {pk}"
     }
 
     resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
@@ -198,11 +208,6 @@ def GeneratePaymentRequestToken(request, pk):
     PaymentRequestToken = resp.headers['PaymentRequestToken']
 
     qr_image_response = get_qr_code(PaymentRequestToken)
-
-    print(qr_image_response)
-
-
-    #ad_title = Advertisement.objects.get(pk=pk).title
 
 
     return qr_image_response
