@@ -30,34 +30,18 @@ from core.models import Advertisement, Municipality, Area, DogBreeds, Payment
 # Create your views here.
 
 def index(request):
- 
-    # NGROK_URL = "https://e40c-92-33-202-136.ngrok.io/"
-
-    # SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
-
-    # SWISH_PAYEEALIAS = os.environ.get('MERCHANT_SWISH_NUMBER') # This would be your merchant swish number in production. In test it doesnt matter
-
-    # SWISH_ROOTCA = "/home/kontorshund/web/Certificates_prod/Swish_TLS_RootCA.pem"
-    # SWISH_CERT = ("/home/kontorshund/web/Certificates_prod/swish_certificate_202112151645.pem", "/home/kontorshund/web/Certificates_prod/private.key")
-
-    # #SWISH_URL = "https://mss.cpc.getswish.net/swish-cpcapi/api/"
-    # SWISH_URL = "https://cpc.getswish.net/swish-cpcapi/api/" # PRODUCTION
-
-
-    # payload = {
-    #     "payeePaymentReference": "0123456789",
-    #     "callbackUrl": SWISH_CALLBACKURL,
-    #     "payeeAlias": SWISH_PAYEEALIAS,
-    #     "payerAlias": os.environ.get('CUSTOMER_SWISH_NUMBER'),    # Payers (your) phone number
-    #     "currency": "SEK",
-    #     "amount": "1",
-    #     "message": "100-pack plastpåsar"
-    # }
-
-    # resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
-    # print(resp.status_code, resp.text)
-
     return render(request, 'core/index.html')
+
+def check_payment_status(request, pk):
+    try:
+        ad = Advertisement.objects.get(pk=pk)
+    except Advertisement.DoesNotExist:
+        return JsonResponse("Ad does not exist", status=404, safe=False)
+
+    if ad.has_initial_payment():
+        return JsonResponse("Payment is complete!", status=200, safe=False)
+    else:
+        return JsonResponse("Payment is NOT complete", status=404, safe=False)
 
 
 @csrf_exempt
@@ -106,18 +90,6 @@ def swish_callback(request):
         print(f'Problem creating payment: {error_code} {error_message}')
         return JsonResponse(f"Payment couldn't be created: {error_code} {error_message}", status=401, safe=False)
 
-
-
-
-        # if yes
-
-            # Update said ad with a payment
-
-        # if no
-
-            # Return error code
-
-    return JsonResponse("This is fine", status=200, safe=False)
 
 
 def get_qr_code(token):

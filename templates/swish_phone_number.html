@@ -1,64 +1,125 @@
+<body onload="hide_completed_payment_button()">
+
+
 <h1>Betala för annons "{{ title }}" med Swish</h1>
 
-    <p>Genom att klicka på knappen nedan, öppnas en QR kod för en Swish betalning om <b>{{ price }}.</b> </p>
-    <p>Öppna Swish-appen i din telefon, välj QR-kod och rikta kameran mot QR-koden och utför betalningen.</p>
-    <p>När du godkänt betalningen i din telefon, skickas du automatiskt till den publicerade annonsen.</p>
-    
-    
-</form>
-
-<button id="submit">Skapa swish betalning </button>
-
+<p>Genom att klicka på knappen nedan, öppnas en QR kod för en Swish betalning om <b>{{ price }}.</b> </p>
+<p>Öppna Swish-appen i din telefon, välj QR-kod och rikta kameran mot QR-koden och utför betalningen.</p>
+<p>När du godkänt betalningen i din telefon, skickas du automatiskt till den publicerade annonsen.</p>
+<p>OBS. Varje QR kod kan endast användas en gång, slutar den att fungera är det bara trycka på knappen igen.</p>
+<button id="submit">Generera Swish-QR-kod </button>
+<br>
+<br>
 <img id="captchaImg" />
-
-<!-- JS: When pressed button submit-make AJAX request to /Swish-payment -->
-<!-- JS: When recieved 201 response - means that SWISH payment has been created on issuers phone -->
-<!-- JS: When recieved the 201, start message - Open swish on your phone -->
-<!-- PY: Create a view in Django that check is the Ad has the status is_payed=1 and return True/False -->
-<!-- JS: Make a JS request to the is_payed view every 5 seconds  -->
-<!-- JS: When payment have been recieved, set the status of the Ad to is_payed=1 -->
-<!-- JS: When check for payment have been recieved, redirect the user to the Ad -->
+<br>
+<button id="completed-payment">Jag har betalt </button>
+<p id="payment-status"></p>
+<a href="{% url 'ad-detail' pk %}" id="go-to-ad">Gå till din annons </a>
 
 
 
   <script>
- 
+
+      ///////////////////////////
+      /* "PAYMENT-DONE" BUTTON */
+      ///////////////////////////
+
+      // Hiding/unhiding button
+      function hide_completed_payment_button() {
+        const completed_payment = document.getElementById('completed-payment');
+        const go_to_ad_button = document.getElementById('go-to-ad')
+        go_to_ad_button.style.display = 'none';
+        completed_payment.style.display = 'none';
+      }
+
+      function show_completed_payment_button() {
+        const completed_payment = document.getElementById('completed-payment');
+        const go_to_ad_button = document.getElementById('go-to-ad')
+        go_to_ad_button.style.display = 'none';
+        completed_payment.style.display = 'block';
+      }
+      
+        // Creating the request
+        const completed_payment_button = document.getElementById('completed-payment');
+        const status_field = document.getElementById('payment-status')
+        const go_to_ad_button = document.getElementById('go-to-ad')
+
+
+        completed_payment_button.addEventListener('click', (event) => {
+
+          // CSRF Set-up
+          let cookie = document.cookie
+          let csrftoken = cookie.substring(cookie.indexOf('=') + 1)
+
+          var xhr_complete = new XMLHttpRequest();
+          
+          xhr_complete.onload = function () {
+            if (xhr_complete.readyState === xhr_complete.DONE) {
+                if (xhr_complete.status === 200) {
+                 
+                  status_field.innerHTML = 'Annonsen är betald!'
+                  status_field.style.color = 'green'
+                  go_to_ad_button.style.display = 'block';
+
+                 
+                } 
+                else {
+                  status_field.innerHTML = 'Annonsen är INTE betald, dubbelkolla så att betalningen gått igenom i din Swish-app! Problem? Maila oss på <a href="mailto:info@kontorshund.se">info@kontorshund.se</a> '
+                }
+            }
+          };
+          //console.log(params)
+          xhr_complete.open('POST',  "{% url 'swish_payment_status' pk %}", true);
+          xhr_complete.setRequestHeader("X-CSRFToken", csrftoken); 
+          xhr_complete.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
+          xhr_complete.send();
+
+        });
+        
+
+
+
+      /////////////////////////
+      /* GENERATING QR CODE */
+      ////////////////////////
+
       const submit_button = document.getElementById('submit');
-
-
-      /* When button clicked, send request to swish payment with pk */
       submit_button.addEventListener('click', (event) => {
 
-        //alert("Clicked")
+        // CSRF Set-up
         let cookie = document.cookie
         let csrftoken = cookie.substring(cookie.indexOf('=') + 1)
 
-
+        var xhr_qr = new XMLHttpRequest();
+        xhr_qr.responseType = "arraybuffer";
+        
         var params = {
           "pk": "{{ pk }}"
         }
         
-        
-        var xhr = new XMLHttpRequest();
-        xhr.responseType = "arraybuffer";
+        xhr_qr.onload = function () {
+          if (xhr_qr.readyState === xhr_qr.DONE) {
+              if (xhr_qr.status === 200) {
+                
+                // Generate QR-Code and display on site
+                document.getElementById("captchaImg").setAttribute('src', 'data:image/png;base64,' + btoa(String.fromCharCode.apply(null, new Uint8Array(xhr_qr.response))));
 
+                // Display button - "I have completed payment"
+                show_completed_payment_button()
 
-        xhr.onload = function () {
-          console.log('onlopad')
-          if (xhr.readyState === xhr.DONE) {
-              if (xhr.status === 200) {
-                  //qr_code_div.innerHTML = xhr.response
-                  document.getElementById("captchaImg").setAttribute('src', 'data:image/png;base64,' + btoa(String.fromCharCode.apply(null, new Uint8Array(xhr.response))));
+                // When button pressed, poll against view to check if ad has recieved payment
 
-                  
+                // If not, display "Payment haven't been recieved yet"
+
+                // If yes, display "Payment have been recieved" and show button - "Continue to ad"
               }
           }
         };
         //console.log(params)
-        xhr.open('POST',  "{% url 'swish_payment_token' pk %}", true);
-        xhr.setRequestHeader("X-CSRFToken", csrftoken); 
-        xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
-        xhr.send((JSON.stringify(params)));
+        xhr_qr.open('POST',  "{% url 'swish_payment_token' pk %}", true);
+        xhr_qr.setRequestHeader("X-CSRFToken", csrftoken); 
+        xhr_qr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
+        xhr_qr.send((JSON.stringify(params)));
 
       });
 
