@@ -47,8 +47,13 @@ def check_payment_status(request, pk):
 @csrf_exempt
 def swish_callback(request):
 
+
     print("******************")
     print("Swish Callback ***")
+
+    print(request)
+    print(request.body)
+    print(len(request.body))
 
     data=request.body
     data_dict = json.loads(data.decode("utf-8"))
@@ -254,9 +259,6 @@ def GenerateSwishPaymentQrCode(request, pk):
 
 
 def PayForAdBG(request, pk):
-    from django.contrib.sites.models import Site
-
-
     url = request.build_absolute_uri('/')
     ad_path = f'ads/{pk}'
     full_path = f'{url}{ad_path}'
@@ -300,18 +302,3 @@ def load_areas(request):
     municipality_id = request.headers['municipality']
     areas = Area.objects.filter(municipality_id=municipality_id).order_by('name')
     return render(request, 'area_dropdown_list_options.html', {'areas': areas})
-
-
-# def image_upload(request):
-#     print("Hello? Anyone there?", flush=True)
-#     if request.method == "POST" and request.FILES["image_file"]:
-#         image_file = request.FILES["image_file"]
-#         fs = FileSystemStorage()
-#         filename = fs.save(image_file.name, image_file)
-#         image_url = fs.url(filename)
-#         print("URL IS:........")
-#         print(image_url, flush=True)
-#         return render(request, "core/upload.html", {
-#             "image_url": image_url
-#         })
-#     return render(request, "core/upload.html")
