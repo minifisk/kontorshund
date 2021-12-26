@@ -186,12 +186,40 @@ def PayForAdSwishTemplate(request, pk):
     return render(request, 'swish_phone_number.html', {'pk': pk, 'form': form, 'title': ad_title, 'price': PRICE_SWISH})
 
 
+def GenerateSwishPaymentRequestToken(request, pk):
+
+    # Generate callback url if development
+    if bool(os.environ.get('IS_DEVELOPMENT')) == True:
+        SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
+
+    # Generate callback url if production
+    if bool(os.environ.get('IS_DEVELOPMENT')) == False:
+        url = request.build_absolute_uri('/')
+        callback_path = f'swish/callback'
+        SWISH_CALLBACKURL= f'{url}{callback_path}'
+
+    # Set-up variables for payment request
+    payload = {
+        "payeePaymentReference": pk,
+        "callbackUrl": SWISH_CALLBACKURL,
+        "payeeAlias": SWISH_PAYEEALIAS,
+        #"payerAlias": phone_number_with_46,    # Payers phone number
+        "currency": "SEK",
+        "amount": PRICE_SWISH_IN_SEK,
+        "message": f"Betalning för annons med ID {pk}"
+    }
+
+    resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
+    print(resp.status_code, resp.text, resp.headers)
+    PaymentRequestToken = resp.headers['PaymentRequestToken']
+
+    return JsonResponse({'token': PaymentRequestToken, 'callback_url': SWISH_CALLBACKURL}, status=201, safe=False)
 
 
 
 
 
-def GeneratePaymentRequestToken(request, pk):
+def GenerateSwishPaymentQrCode(request, pk):
 
     # Generate callback url if development
     if bool(os.environ.get('IS_DEVELOPMENT')) == True:

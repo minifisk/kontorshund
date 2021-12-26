@@ -7,7 +7,10 @@
 <p>Öppna Swish-appen i din telefon, välj QR-kod och rikta kameran mot QR-koden och utför betalningen.</p>
 <p>När du godkänt betalningen i din telefon, skickas du automatiskt till den publicerade annonsen.</p>
 <p>OBS. Varje QR kod kan endast användas en gång, slutar den att fungera är det bara trycka på knappen igen.</p>
-<button id="submit">Generera Swish-QR-kod </button>
+<button id="generate-qr">Generera Swish-QR-kod </button>
+<br>
+<button id="open-swish">Öppna Swish app på denna enhet</button>
+
 <br>
 <br>
 <img id="captchaImg" />
@@ -19,6 +22,10 @@
 
 
   <script>
+
+
+      // window.location = "swish://paymentrequest?token=" + PaymentRequestToken + "&callbackurl="/din/callback/url"
+
 
       ///////////////////////////
       /* "PAYMENT-DONE" BUTTON */
@@ -68,7 +75,6 @@
                 }
             }
           };
-          //console.log(params)
           xhr_complete.open('POST',  "{% url 'swish_payment_status' pk %}", true);
           xhr_complete.setRequestHeader("X-CSRFToken", csrftoken); 
           xhr_complete.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
@@ -83,7 +89,39 @@
       /* GENERATING QR CODE */
       ////////////////////////
 
-      const submit_button = document.getElementById('submit');
+      if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        console.log("testing")
+        const open_swish_button = document.getElementById('open-swish');
+
+        open_swish_button.addEventListener('click', (event) => {
+
+            // CSRF Set-up
+            let cookie = document.cookie
+            let csrftoken = cookie.substring(cookie.indexOf('=') + 1)
+
+            var xhr_token = new XMLHttpRequest();
+
+            xhr_token.onload = function () {
+              if (xhr_token.readyState === xhr_token.DONE) {
+                  if (xhr_token.status === 201) {
+                    var response = JSON.parse(xhr_token.response)
+                    var token = response['token']
+                    var callback_url = response['callback_url']
+                    window.location = `swish://paymentrequest?token=${token}&callbackurl=${callback_url}`
+
+                  }
+              }
+            };
+            xhr_token.open('POST',  "{% url 'swish_request_token' pk %}", true);
+            xhr_token.setRequestHeader("X-CSRFToken", csrftoken); 
+            xhr_token.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
+            xhr_token.send();
+
+          });
+
+      }
+
+      const submit_button = document.getElementById('generate-qr');
       submit_button.addEventListener('click', (event) => {
 
         // CSRF Set-up
@@ -92,10 +130,6 @@
 
         var xhr_qr = new XMLHttpRequest();
         xhr_qr.responseType = "arraybuffer";
-        
-        var params = {
-          "pk": "{{ pk }}"
-        }
         
         xhr_qr.onload = function () {
           if (xhr_qr.readyState === xhr_qr.DONE) {
@@ -107,19 +141,13 @@
                 // Display button - "I have completed payment"
                 show_completed_payment_button()
 
-                // When button pressed, poll against view to check if ad has recieved payment
-
-                // If not, display "Payment haven't been recieved yet"
-
-                // If yes, display "Payment have been recieved" and show button - "Continue to ad"
               }
           }
         };
-        //console.log(params)
-        xhr_qr.open('POST',  "{% url 'swish_payment_token' pk %}", true);
+        xhr_qr.open('POST',  "{% url 'swish_payment_qr_code' pk %}", true);
         xhr_qr.setRequestHeader("X-CSRFToken", csrftoken); 
         xhr_qr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
-        xhr_qr.send((JSON.stringify(params)));
+        xhr_qr.send();
 
       });
 
