@@ -6,6 +6,7 @@ cryptography==36.0.0
 debugpy==1.5.1
 defusedxml==0.7.1
 Django==3.2.9
+django-admin-env-notice==0.4
 django-allauth==0.46.0
 django-autocomplete-light==3.8.2
 django-crispy-forms==1.13.0
