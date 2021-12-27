@@ -106,8 +106,10 @@
                     if( /iPhone|iPad|iPod/i.test(navigator.userAgent) ) {
                       window.location = `swish://paymentrequest?token=${token}&callbackurl=`;
                     } else {
-                    window.location = `swish://paymentrequest?token=${token}&callbackurl=${callback_url}`
-                    }
+                        var host = window.location.protocol + "//" + window.location.host;
+                        var redirect_url = `${host}/swish-successfull-android`
+                        window.location = `swish://paymentrequest?token=${token}&callbackurl=${redirect_url}`
+                      }
                   }
               }
             };

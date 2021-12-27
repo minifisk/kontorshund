@@ -48,18 +48,15 @@ def check_payment_status(request, pk):
     else:
         return JsonResponse("Payment is NOT complete", status=404, safe=False)
 
+def android_success_page(request):
+    return render(request, 'android_swish_success.html')
+
 
 @csrf_exempt
 def swish_callback(request):
 
-
     print("******************")
     print("Swish Callback ***")
-
-    print(request, flush=True)
-    print(request.body, flush=True)
-    print(len(request.body), flush=True)
-    print(request.headers, flush=True)
 
     data=request.body
     data_dict = json.loads(data.decode("utf-8"))
