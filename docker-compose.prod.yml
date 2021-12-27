@@ -7,7 +7,7 @@ services:
     restart: always
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
-    image: index.docker.io/oneandonly1337/kontorshund
+    image: index.docker.io/oneandonly1337/kontorshund:latest
     #build:
     #  context: .
     #  dockerfile: Dockerfile.prod
