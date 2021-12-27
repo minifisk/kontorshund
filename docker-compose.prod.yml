@@ -60,7 +60,7 @@ services:
     #- /home/kontorshund/snap/docker/1125/.docker/config.json:/config.json
     env_file:
       - ./.env.prod
-    command: --interval 60  --label-enable --warn-on-head-failure never
+    command: --interval 120  --label-enable --warn-on-head-failure never
 
 
 volumes:
