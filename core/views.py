@@ -32,6 +32,11 @@ from core.models import Advertisement, Municipality, Area, DogBreeds, Payment
 def index(request):
     return render(request, 'core/index.html')
 
+
+def testindex(request):
+    return JsonResponse("Kontorshund.se kommer i februari 2022 - Annonsplatsen d'a'r du kan erbjuda eller s'o'ka en kontorshund!", status=404, safe=False)
+
+
 def check_payment_status(request, pk):
     try:
         ad = Advertisement.objects.get(pk=pk)
@@ -54,6 +59,7 @@ def swish_callback(request):
     print(request, flush=True)
     print(request.body, flush=True)
     print(len(request.body), flush=True)
+    print(request.headers, flush=True)
 
     data=request.body
     data_dict = json.loads(data.decode("utf-8"))

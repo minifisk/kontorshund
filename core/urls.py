@@ -6,7 +6,9 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path('', views.index, name='home'),
+    path('', views.testindex, name='home'),
+
+    path('testindex', views.index, name='home'), 
 
     # See take and get-ads
     path('ads/take-my-dog', views.AdListTakeMyDog.as_view(), name='view_ads_take_my_dog'),
