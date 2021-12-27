@@ -101,11 +101,26 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                "django_admin_env_notice.context_processors.from_settings",
+                'django_admin_env_notice.context_processors.from_settings',
             ],
         },
     },
 ]
+
+env_color = "#FF2222"
+if bool(os.environ.get('IS_DEVELOPMENT')) == True:
+    env_color = "#00FF00"
+    env_text_color = "#000000"
+
+elif bool(os.environ.get('IS_DEVELOPMENT')) == False:
+    env_color = "#FF2222"
+    env_text_color = "#FFFFFF"
+
+ENVIRONMENT_NAME = os.environ.get("ENVIRONMENT_NAME") 
+ENVIRONMENT_COLOR = env_color 
+ENVIRONMENT_FLOAT = True
+ENVIRONMENT_TEXT_COLOR = env_text_color
+
 
 WSGI_APPLICATION = 'kontorshund.wsgi.application'
 
