@@ -83,10 +83,7 @@
       /* MAKE PAYMENT VIA PHONE */
       ////////////////////////////
 
-
-
       if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-        console.log("testing")
         const open_swish_button = document.getElementById('open-swish');
 
         open_swish_button.addEventListener('click', (event) => {
@@ -94,15 +91,21 @@
             // CSRF Set-up
             let cookie = document.cookie
             let csrftoken = cookie.substring(cookie.indexOf('=') + 1)
-
             var xhr_token = new XMLHttpRequest();
 
+            // Runs when token have been retrieved
             xhr_token.onload = function () {
               if (xhr_token.readyState === xhr_token.DONE) {
                   if (xhr_token.status === 201) {
+                    
+                    // Display button - "I have completed payment"
+                    show_completed_payment_button()
+                    
+                    // Get variables from token response and open swish-app on ios/android
                     var response = JSON.parse(xhr_token.response)
                     var token = response['token']
                     var callback_url = response['callback_url']
+
                     if( /iPhone|iPad|iPod/i.test(navigator.userAgent) ) {
                       window.location = `swish://paymentrequest?token=${token}&callbackurl=`;
                     } else {
@@ -113,6 +116,8 @@
                   }
               }
             };
+
+            // Retrieve token
             xhr_token.open('POST',  "{% url 'swish_request_token' pk %}", true);
             xhr_token.setRequestHeader("X-CSRFToken", csrftoken); 
             xhr_token.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
