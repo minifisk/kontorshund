@@ -108,19 +108,12 @@ TEMPLATES = [
 ]
 
 # Set color stripe in Django-Admin to production by default, otherwise to development
-env_color = ""
-if bool(os.environ.get('IS_DEVELOPMENT')) == False:
-    env_color = "#FF2222"
-    env_text_color = "#FFFFFF"
+env_color = "#FF2222"
+env_text_color = "#FFFFFF"
 
-else:
+if (os.environ.get('IS_DEVELOPMENT')) == "True":
     env_color = "#00FF00"
     env_text_color = "#000000"
-
-
-print(os.environ.get('IS_DEVELOPMENT'), flush=True)
-print(env_color, flush=True)
-
 
 ENVIRONMENT_NAME = os.environ.get("ENVIRONMENT_NAME") 
 ENVIRONMENT_COLOR = env_color 
