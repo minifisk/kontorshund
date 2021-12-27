@@ -23,10 +23,6 @@
 
   <script>
 
-
-      // window.location = "swish://paymentrequest?token=" + PaymentRequestToken + "&callbackurl="/din/callback/url"
-
-
       ///////////////////////////
       /* "PAYMENT-DONE" BUTTON */
       ///////////////////////////
@@ -83,11 +79,11 @@
         });
         
 
+      ////////////////////////////
+      /* MAKE PAYMENT VIA PHONE */
+      ////////////////////////////
 
 
-      /////////////////////////
-      /* GENERATING QR CODE */
-      ////////////////////////
 
       if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
         console.log("testing")
@@ -106,12 +102,12 @@
                   if (xhr_token.status === 201) {
                     var response = JSON.parse(xhr_token.response)
                     var token = response['token']
-                    //var pk = '{{ pk }}'
                     var callback_url = response['callback_url']
+                    if( /iPhone|iPad|iPod/i.test(navigator.userAgent) ) {
+                      window.location = `swish://paymentrequest?token=${token}&callbackurl=`;
+                    } else {
                     window.location = `swish://paymentrequest?token=${token}&callbackurl=${callback_url}`
-                    //window.location = `swish://paymentrequest?token=${token}&callbackurl=merchant%253A%252F%252F`;
-
-
+                    }
                   }
               }
             };
@@ -123,6 +119,11 @@
           });
 
       }
+
+      /////////////////////////
+      /* GENERATING QR CODE */
+      ////////////////////////
+
 
       const submit_button = document.getElementById('generate-qr');
       submit_button.addEventListener('click', (event) => {
