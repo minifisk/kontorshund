@@ -1,9 +1,9 @@
 location /static/ {
-    alias /home/dockeruser/web/staticfiles/;
+    alias /home/kontorshund/web/staticfiles/;
     add_header Access-Control-Allow-Origin *;
 }
 
 location /media/ {
-    alias /home/dockeruser/web/mediafiles/;
+    alias /home/kontorshund/web/mediafiles/;
     add_header Access-Control-Allow-Origin *;
 }
