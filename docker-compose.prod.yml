@@ -56,7 +56,7 @@ services:
     image: containrrr/watchtower 
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - /kontorshund/.docker/config.json:/config.json
+    - /home/kontorshund/.docker/config.json:/config.json
     #- /home/kontorshund/snap/docker/1125/.docker/config.json:/config.json
     env_file:
       - ./.env.prod
