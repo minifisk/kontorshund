@@ -116,6 +116,10 @@ elif bool(os.environ.get('IS_DEVELOPMENT')) == False:
     env_color = "#FF2222"
     env_text_color = "#FFFFFF"
 
+print(os.environ.get('IS_DEVELOPMENT'), flush=True)
+print(env_color, flush=True)
+
+
 ENVIRONMENT_NAME = os.environ.get("ENVIRONMENT_NAME") 
 ENVIRONMENT_COLOR = env_color 
 ENVIRONMENT_FLOAT = True
