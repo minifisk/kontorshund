@@ -6,7 +6,7 @@
 FROM python:3.9.6 as builder
 
 # set work directory
-WORKDIR /usr/src/kontorshund
+WORKDIR /usr/src/dockeruser
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -19,7 +19,7 @@ RUN apt-get update -y \
 # Requirements
 RUN pip install --upgrade pip
 COPY ./requirements.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/kontorshund/wheels -r requirements.txt
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/dockeruser/wheels -r requirements.txt
 
 
 #########
@@ -30,14 +30,14 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/kontorshund/wheels -
 FROM python:3.9.6
 
 # create directory for the app user
-RUN mkdir -p /home/kontorshund
+RUN mkdir -p /home/dockeruser
 
 # create the app user
-RUN adduser --system --group kontorshund 
+RUN adduser --system --group dockeruser 
 
 # create the appropriate directories
-ENV HOME=/home/kontorshund
-ENV APP_HOME=/home/kontorshund/web
+ENV HOME=/home/dockeruser
+ENV APP_HOME=/home/dockeruser/web
 RUN mkdir $APP_HOME
 RUN mkdir $APP_HOME/staticfiles
 RUN mkdir $APP_HOME/mediafiles
@@ -45,15 +45,15 @@ WORKDIR $APP_HOME
 
 # install dependencies
 RUN apt-get update -y && apt-get -y install libpq-dev
-COPY --from=builder /usr/src/kontorshund/wheels /wheels
-COPY --from=builder /usr/src/kontorshund/requirements.txt .
+COPY --from=builder /usr/src/dockeruser/wheels /wheels
+COPY --from=builder /usr/src/dockeruser/requirements.txt .
 RUN pip install --no-cache /wheels/*
 
 # copy project
 COPY . $APP_HOME
 
 # chown all the files to the app user
-RUN chown -R kontorshund:kontorshund $APP_HOME
+RUN chown -R dockeruser:dockeruser $APP_HOME
 
 # change to the app user
-USER kontorshund
+USER dockeruser
