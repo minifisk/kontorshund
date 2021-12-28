@@ -258,5 +258,20 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# Email settings
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'mailcluster.loopia.se'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'info@kontorshund.se'
+EMAIL_HOST_PASSWORD = 'W3;qU]8;-:Pk4`}q`G8&<m=-X2&/E'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Use console-email if only using development server
+if (os.environ.get('IS_DEVELOPMENT')) == "True":
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+
