@@ -8,7 +8,7 @@ from . import views
 urlpatterns = [
     path('', views.testindex, name='home'),
 
-    path('testindex', views.index, name='home'), 
+    path('testindex', views.index, name='home-test'), 
 
     # See take and get-ads
     path('ads/take-my-dog', views.AdListTakeMyDog.as_view(), name='view_ads_take_my_dog'),
