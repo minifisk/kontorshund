@@ -266,7 +266,7 @@ EMAIL_HOST = 'mailcluster.loopia.se'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'info@kontorshund.se'
 EMAIL_HOST_PASSWORD = 'W3;qU]8;-:Pk4`}q`G8&<m=-X2&/E'
-
+DEFAULT_FROM_EMAIL = 'Kontorshund.se <info@kontorshund.se>'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Use console-email if only using development server
