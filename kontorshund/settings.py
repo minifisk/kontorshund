@@ -42,6 +42,13 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 INSTALLED_APPS = [
 
+    # All-auth
+    'allauth', 
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+
     # Django autocomplete light
     'dal',
     'dal_select2',
@@ -56,14 +63,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Django-added
-    'django.contrib.sites',
 
+    'django.contrib.sites',
     # Third-party
-    'allauth', 
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
     'crispy_forms',
     'django_extensions',
 
@@ -203,45 +205,45 @@ AUTHENTICATION_BACKENDS = (
 SOCIALACCOUNT_PROVIDERS = {
 
     # Facebook
-    'facebook': {
-        'METHOD': 'oauth2',
-        'SCOPE': ['email','public_profile', 'user_friends'],
-        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-        'FIELDS': [
-            'id',
-            'email',
-            'name',
-            'first_name',
-            'last_name',
-            'verified',
-            'locale',
-            'timezone',
-            'link',
-            'gender',
-            'updated_time'],
-        'EXCHANGE_TOKEN': True,
-        'LOCALE_FUNC': lambda request: 'kr_KR',
-        'VERIFIED_EMAIL': False,
-        'VERSION': 'v2.4'
-    },
+    # 'facebook': {
+    #     'METHOD': 'oauth2',
+    #     'SCOPE': ['email','public_profile', 'user_friends'],
+    #     'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+    #     'FIELDS': [
+    #         'id',
+    #         'email',
+    #         'name',
+    #         'first_name',
+    #         'last_name',
+    #         'verified',
+    #         'locale',
+    #         'timezone',
+    #         'link',
+    #         'gender',
+    #         'updated_time'],
+    #     'EXCHANGE_TOKEN': True,
+    #     'LOCALE_FUNC': lambda request: 'kr_KR',
+    #     'VERIFIED_EMAIL': False,
+    #     'VERSION': 'v2.4'
+    # },
 
     # Google
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        }
-    }
+    # 'google': {
+    #     'SCOPE': [
+    #         'profile',
+    #         'email',
+    #     ],
+    #     'AUTH_PARAMS': {
+    #         'access_type': 'online',
+    #     }
+    # }
 }
 
 # Facebook
 SOCIAL_AUTH_FACEBOOK_KEY = '596768574908566'  # App KEY
 SOCIAL_AUTH_FACEBOOK_SECRET ='693a7cd09ba4ddadf46bdeadd3777f5f' #app secret
 
-SITE_ID = 1
+SITE_ID = 4
 
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
