@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.sites.models import Site
 
 from core.models import Payment, Province, Municipality, Advertisement, Area, DogSizeChoices, DogBreeds
 from core.forms import NewAdTakeMyDogForm
@@ -44,3 +45,12 @@ class PaymentAdmin(admin.ModelAdmin):
     model = Payment
 
 admin.site.register(Payment, PaymentAdmin)
+
+
+class SiteAdmin(admin.ModelAdmin):
+    list_display = ('id', 'domain', 'name')
+    search_fields = ('id', 'domain', 'name')
+
+
+admin.site.unregister(Site)
+admin.site.register(Site, SiteAdmin)
