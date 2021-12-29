@@ -10,6 +10,8 @@ urlpatterns = [
 
     path('testindex', views.index, name='home-test'), 
 
+    path('profile', views.profile, name='profile'), 
+
     # Ads
     path('ads/list', views.ListAds, name='list_ads'),
     path('ads/choose', views.ChooseAd, name='choose_ad_type'),

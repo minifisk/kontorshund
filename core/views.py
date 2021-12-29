@@ -37,6 +37,10 @@ def testindex(request):
     return JsonResponse("Kontorshund.se kommer i februari 2022 - Annonsplatsen d'a'r du kan erbjuda eller s'o'ka en kontorshund!", status=404, safe=False)
 
 
+def profile(request):
+    return render(request, 'core/profile.html')
+
+
 def ChooseAd(request):
     return render(request, 'core/choose_ad_type.html')
 
