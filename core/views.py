@@ -204,15 +204,11 @@ def PayForAdSwishTemplate(request, pk):
 
 def GenerateSwishPaymentRequestToken(request, pk):
 
-    # Generate callback url if development
-    if bool(os.environ.get('IS_DEVELOPMENT')) == True:
-        SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
+    # SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
 
-    # Generate callback url if production
-    if bool(os.environ.get('IS_DEVELOPMENT')) == False:
-        url = request.build_absolute_uri('/')
-        callback_path = f'swish/callback'
-        SWISH_CALLBACKURL= f'{url}{callback_path}'
+    url = request.build_absolute_uri('/')
+    callback_path = f'swish/callback'
+    SWISH_CALLBACKURL= f'{url}{callback_path}'
 
     print(SWISH_CALLBACKURL, flush=True)
 
