@@ -67,8 +67,8 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
 
 
     # Dog details
-    name = models.CharField(max_length=50, verbose_name='Namn', default='')
-    age = models.IntegerField(verbose_name='Ålder', default=0)
+    name = models.CharField(max_length=50, verbose_name='Hundens namn', default='')
+    age = models.IntegerField(verbose_name='Hundens ålder', default=0)
 
     # Payment status
     is_published = models.BooleanField(default=False, null=True)

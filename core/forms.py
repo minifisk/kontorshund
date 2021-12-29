@@ -26,7 +26,7 @@ class NewAdTakeMyDogForm(forms.ModelForm):
 
     class Meta:
         model = Advertisement
-        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'size_offered', 'breed', 'image1', 'image2', 'image3', 'payment_type')
+        fields = ('province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'breed', 'image1', 'image2', 'image3', 'payment_type')
 
     def __init__(self, *args, **kwargs):
         super(NewAdTakeMyDogForm, self).__init__(*args, **kwargs)
