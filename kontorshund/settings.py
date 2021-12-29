@@ -10,8 +10,8 @@ PRICE_BANKGIRO = '1 kr'
 # Swish constants
 NGROK_URL = "https://ca31-92-33-202-136.ngrok.io" # Fill out with new value when testing 
 SWISH_PAYEEALIAS = os.environ.get('MERCHANT_SWISH_NUMBER') # This would be your merchant swish number in production. In test it doesnt matter
-SWISH_ROOTCA = "/home/kontorshund/web/Certificates_prod/Swish_TLS_RootCA.pem"
-SWISH_CERT = ("/home/kontorshund/web/Certificates_prod/swish_certificate_202112151645.pem", "/home/kontorshund/web/Certificates_prod/private.key")
+SWISH_ROOTCA = "/home/dockeruser/web/Certificates_prod/Swish_TLS_RootCA.pem"
+SWISH_CERT = ("/home/dockeruser/web/Certificates_prod/swish_certificate_202112151645.pem", "/home/dockeruser/web/Certificates_prod/private.key")
 #SWISH_URL = "https://mss.cpc.getswish.net/swish-cpcapi/api/" # DEVELOPMENT
 SWISH_URL = "https://cpc.getswish.net/swish-cpcapi/api/" # PRODUCTION
 
