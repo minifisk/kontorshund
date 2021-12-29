@@ -1,0 +1,2 @@
+{% load i18n %}
+{% blocktrans %}Detta sociala konto är redan kopplat till ett annat konto. {% endblocktrans %}

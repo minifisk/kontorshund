@@ -1,0 +1,15 @@
+{% extends '_base.html' %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Inloggning avbruten" %}{% endblock %}
+
+{% block content %}
+
+<h1>{% trans "Inloggning avbruten" %}</h1>
+
+{% url 'account_login' as login_url %}
+
+<p>{% blocktrans %}Du har avbrutit inloggningen till vår websida när du använt ett av dina existerande konton.  Om detta var ett misstag, var god gå vidar till <a href="{{login_url}}">logga in</a>.{% endblocktrans %}</p>
+
+{% endblock %}

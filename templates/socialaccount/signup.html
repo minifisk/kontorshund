@@ -1,0 +1,22 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block title %}{% trans "Registrera" %}{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Registrera" %}</h1>
+
+<p>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}Du kommer att använda ditt {{provider_name}} konto för att logga in till
+{{site_name}}. Som ett sista steg, vänligen fyll i följande formulär:{% endblocktrans %}</p>
+
+<form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
+  {% csrf_token %}
+  {{ form.as_p }}
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <button type="submit">{% trans "Registrera" %} &raquo;</button>
+</form>
+
+{% endblock %}
