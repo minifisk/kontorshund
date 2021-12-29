@@ -76,7 +76,7 @@ INSTALLED_APPS = [
     'core',
 ]
 
-LOCKDOWN_PASSWORDS = ['hejsan123']
+LOCKDOWN_PASSWORDS = ['sP4%tF_"QPHn4Z@k']
 
 CISPY_TEMPLATE_PACK = 'bootstrap4'
 
