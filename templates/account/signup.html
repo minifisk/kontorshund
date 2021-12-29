@@ -1,7 +1,7 @@
 {% extends '_base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %}Sign Up{% endblock title %}
+{% block title %}Registrera nytt konto{% endblock title %}
 
 {% block content %}
 
@@ -11,16 +11,16 @@
 <a href="{% provider_login_url "facebook" method="js_sdk" %}" class="btn btn-block btn-social btn-facebook" style="background-color:#3b5998;text-align:center">
   <span class="fa fa-facebook">        
   </span>
-  <p class="text-light">Sign in with Facebook</p>
+  <p class="text-light">Logga in direkt med Facebook</p>
 </a>
 <br>
- <a href="{% provider_login_url 'google' %}">Sign in with Google</a>
+ <a href="{% provider_login_url 'google' %}">Logga in direkt med Google</a>
 
 
-  <h2>Sign Up</h2>
+  <h2>Registrera med E-postadress</h2>
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
-    <button class="btn btn-success" type="submit">Sign Up</button>
+    <button class="btn btn-success" type="submit">Registrera nytt konto</button>
   </form>
 {% endblock content %}

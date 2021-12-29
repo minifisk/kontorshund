@@ -1,0 +1,11 @@
+{% extends '_base.html' %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Verifiera din e-postadress" %}{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Verifiera din epost-adress" %}</h1>
+
+    <p>{% blocktrans %}Vi har skickat ett e-postmeddelande till dig för verifiering av ditt konto. Följ länken i mailet för att färdigställa registeringen. Var god kontakta oss om du inte får ett e-postmeddelande inom några minuter. <a href = "mailto: info@kontorshund.se">info@kontorshund.se</a>{% endblocktrans %}</p>
+
+{% endblock %}
