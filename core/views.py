@@ -37,6 +37,13 @@ def testindex(request):
     return JsonResponse("Kontorshund.se kommer i februari 2022 - Annonsplatsen d'a'r du kan erbjuda eller s'o'ka en kontorshund!", status=404, safe=False)
 
 
+def ChooseAd(request):
+    return render(request, 'core/choose_ad_type.html')
+
+def ListAds(request):
+    return render(request, 'core/list_ads.html')
+
+
 def check_payment_status(request, pk):
     try:
         ad = Advertisement.objects.get(pk=pk)

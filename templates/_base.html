@@ -19,17 +19,15 @@
       <a href="{% url 'home' %}" class="navbar-brand my-0 mr-md-auto
       font-weight-normal">Kontorshund</a>
       <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark" href="{% url 'view_ads_take_my_dog' %}">Lista Annonser - Hund erbjudes</a>
-        <a class="p-2 text-dark" href="{% url 'view_ads_get_me_a_dog' %}">Lista Annonser - Hund sökes</a>
+        <a class="p-2 text-dark" href="{% url 'list_ads' %}">Se aktiva annonser</a>
 
-        <a class="p-2 text-dark" href="{% url 'new_ad_take_my_dog' %}">Ny Annons - Hund erbjudes</a>
-        <a class="p-2 text-dark" href="{% url 'new_ad_get_me_a_dog' %}">Ny Annons - Hund sökes</a>
+        <a class="p-2 text-dark" href="{% url 'choose_ad_type' %}">Skapa annons</a>
 
         {% if user.is_authenticated %}
-          <a class="p-2 text-dark" href="{% url 'account_logout' %}">Log Out</a>
+          <a class="p-2 text-dark" href="{% url 'account_logout' %}">Logga ut</a>
         {% else %}
-          <a class="p-2 text-dark" href="{% url 'account_login' %}">Log In</a>
-          <a class="btn btn-outline-primary" href="{% url 'account_signup' %}">Sign Up</a>
+          <a class="p-2 text-dark" href="{% url 'account_login' %}">Logga in</a>
+          <a class="btn btn-outline-primary" href="{% url 'account_signup' %}">Registrera</a>
   {% endif %}
 </nav>
     </div>

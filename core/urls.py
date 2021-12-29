@@ -10,7 +10,10 @@ urlpatterns = [
 
     path('testindex', views.index, name='home-test'), 
 
-    # See take and get-ads
+    # Ads
+    path('ads/list', views.ListAds, name='list_ads'),
+    path('ads/choose', views.ChooseAd, name='choose_ad_type'),
+    
     path('ads/take-my-dog', views.AdListTakeMyDog.as_view(), name='view_ads_take_my_dog'),
     path('ads/get-me-a-dog', views.AdListGetMeADog.as_view(), name='view_ads_get_me_a_dog'),
 
