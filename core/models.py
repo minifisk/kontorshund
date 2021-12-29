@@ -68,7 +68,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
 
     # Dog details
     name = models.CharField(max_length=50, verbose_name='Hundens namn', default='')
-    age = models.IntegerField(verbose_name='Hundens ålder', default=0)
+    age = models.IntegerField(verbose_name='Hundens ålder (år)', default=0)
 
     # Payment status
     is_published = models.BooleanField(default=False, null=True)
@@ -79,19 +79,19 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     is_offering_own_dog = models.BooleanField()
 
     # String data
-    title = models.CharField(max_length=150, verbose_name='Titel')
-    description = models.CharField(max_length=500, verbose_name='Beskrivning')
+    title = models.CharField(max_length=150, verbose_name='Annons-Titel')
+    description = models.CharField(max_length=500, verbose_name='Annons-beskrivning')
     
     # Choices
     days_per_week = models.CharField(max_length=3, choices=DAYS_PER_WEEK_CHOICES, default=1, verbose_name='Omfattning')
-    breed = models.ForeignKey(DogBreeds, on_delete=models.CASCADE, null=True, verbose_name='Hundras')
+    hundras = models.ForeignKey(DogBreeds, on_delete=models.CASCADE, null=True, verbose_name=u'Hundras')
     size_offered = models.ForeignKey(DogSizeChoices, verbose_name='Min hunds storlek', on_delete=models.CASCADE, related_name='size_offered', null=True)
     size_requested = models.ManyToManyField(DogSizeChoices, verbose_name='Möjliga hundstorlekar', related_name='size_requested')
 
     # Images
-    image1 = models.ImageField(null=True, blank=True)
-    image2 = models.ImageField(null=True, blank=True)
-    image3 = models.ImageField(null=True, blank=True)
+    image1 = models.ImageField(null=True, blank=True, verbose_name="Bild 1")
+    image2 = models.ImageField(null=True, blank=True, verbose_name="Bild 2")
+    image3 = models.ImageField(null=True, blank=True, verbose_name="Bild 3")
 
 
     def __str__(self):

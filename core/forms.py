@@ -19,14 +19,14 @@ class NewAdTakeMyDogForm(forms.ModelForm):
     CHOICES = [('S',f'Swish - {PRICE_SWISH}'),('B',f'Bankgiro - {PRICE_BANKGIRO}')]
     payment_type = forms.CharField(label='Betalsätt', widget=forms.RadioSelect(choices=CHOICES))
 
-    breed = forms.ModelChoiceField(
+    hundras = forms.ModelChoiceField(
         queryset=DogBreeds.objects.all(),
         widget=autocomplete.ModelSelect2(url='breed-autocomplete')
     )
 
     class Meta:
         model = Advertisement
-        fields = ('province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'breed', 'image1', 'image2', 'image3', 'payment_type')
+        fields = ('province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'hundras', 'image1', 'image2', 'image3', 'payment_type')
 
     def __init__(self, *args, **kwargs):
         super(NewAdTakeMyDogForm, self).__init__(*args, **kwargs)
