@@ -66,6 +66,10 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     )
 
 
+    # Dog details
+    name = models.CharField(max_length=50, verbose_name='Namn', null=True)
+    age = models.IntegerField(verbose_name='Ålder', Null=True)
+
     # Payment status
     is_published = models.BooleanField(default=False, null=True)
     payment_type = models.CharField(max_length=1, choices=PAYMENT_CHOICES, default=1, verbose_name='Betalningsmetod', null=True)
