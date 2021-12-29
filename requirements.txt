@@ -8,7 +8,7 @@ defusedxml==0.7.1
 Django==3.2.9
 django-admin-env-notice==0.4
 django-allauth==0.46.0
-django-autocomplete-light==3.8.2
+django-autocomplete-light==3.9.0rc5
 django-crispy-forms==1.13.0
 django-extensions==3.1.5
 gunicorn==20.1.0
