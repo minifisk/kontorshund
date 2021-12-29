@@ -43,8 +43,8 @@
 {% else %}
 <p>{% trans 'Du har för närvarande inga externa tjänster kopplade till det här konto. ' %}</p>
 {% endif %}
-
-<h2>{% trans 'Lägg till en extern tjänst till ditt konto' %}</h2>
+<br>
+<h2>{% trans 'Lägg en extern tjänst att logga in via till ditt konto' %}</h2>
 
 <ul class="socialaccount_providers">
 {% include "socialaccount/snippets/provider_list.html" with process="connect" %}
