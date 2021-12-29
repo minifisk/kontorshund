@@ -65,14 +65,18 @@ INSTALLED_APPS = [
     # Django-added
 
     'django.contrib.sites',
-    # Third-party
+
+    # Other third-party
     'crispy_forms',
     'django_extensions',
+    'lockdown',
 
     # Local
     'accounts',
     'core',
 ]
+
+LOCKDOWN_PASSWORDS = ['hejsan123']
 
 CISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -87,6 +91,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'lockdown.middleware.LockdownMiddleware',
+
 ]
 
 ROOT_URLCONF = 'kontorshund.urls'
