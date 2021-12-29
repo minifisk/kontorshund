@@ -1,4 +1,4 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}Verifiera din E-post adress{% endblocktrans %}
+{% blocktrans %}Verifiera din E-post adress på Kontorshund.se{% endblocktrans %}
 {% endautoescape %}
