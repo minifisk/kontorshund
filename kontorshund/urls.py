@@ -11,6 +11,9 @@ urlpatterns = [
     # User management
     path('accounts/', include('allauth.urls')),
 
+    # Smart Selects
+    path('chaining', include('smart_selects.urls')),
+
     # Local apps
     path('', include('accounts.urls')),
     path('', include('core.urls')),

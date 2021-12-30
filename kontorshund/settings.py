@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_extensions',
     'lockdown',
+    'smart_selects',
 
     # Local
     'accounts',
@@ -89,6 +90,8 @@ LOCKDOWN_PASSWORDS = ['sP4%tF_"QPHn4Z@k']
 #     r'^/breed-autocomplete$',   # unlock /about
 # )
 
+
+JQUERY_URL = True
 
 CISPY_TEMPLATE_PACK = 'bootstrap4'
 
