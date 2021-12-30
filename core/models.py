@@ -46,7 +46,7 @@ class DogBreeds(models.Model):
 class Advertisement(SoftDeleteModel, TimeStampedModel):
 
     # Foreign keys
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap')
     municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun')
     area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, verbose_name='Område')
@@ -77,7 +77,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
 
 
     # Type of Ad (Offering own dog or requesting a dog)
-    is_offering_own_dog = models.BooleanField()
+    is_offering_own_dog = models.BooleanField(null=True)
 
     # String data
     title = models.CharField(max_length=150, verbose_name='Annons-Titel')

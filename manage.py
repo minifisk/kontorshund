@@ -15,7 +15,7 @@ def main():
             import debugpy
             debugpy.listen(("0.0.0.0", 3000))
             #debugpy.wait_for_client()
-            print('Debugger Attached!')
+            #print('Debugger Attached!')
     # end new section
 
     try:

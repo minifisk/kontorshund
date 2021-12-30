@@ -177,9 +177,11 @@ class NewAdTakeMyDog(CreateView):
     success_url = reverse_lazy('view_ads_take_my_dog')
 
     def __init__(self):
+        print('init')
         self.pk = None
 
     def form_valid(self, form):
+        print('Form valid')
         form.instance.author = self.request.user
         form.instance.is_offering_own_dog = True
         form.instance.is_published = False
@@ -188,6 +190,7 @@ class NewAdTakeMyDog(CreateView):
 
 
     def get_success_url(self):
+        print('Get success url')
         if self.object.payment_type == 'S':
             return reverse('swish_payment_template', kwargs={'pk': self.object.pk})
         if self.object.payment_type == 'B':
