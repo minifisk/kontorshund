@@ -79,7 +79,7 @@ INSTALLED_APPS = [
 LOCKDOWN_PASSWORDS = ['sP4%tF_"QPHn4Z@k']
 
 LOCKDOWN_URL_EXCEPTIONS = (
-    r'^/generate-swish-qr-code$/',   # unlock /about
+    r'^/generate-swish-qr-code/$',   # unlock /about
     r'^/generate-swish-request-token/$',   # unlock /about
     r'^/generate-swish-qr-code/$',   # unlock /about
     r'^/check-payment-status/$',   # unlock /about
