@@ -92,6 +92,7 @@ LOCKDOWN_PASSWORDS = ['sP4%tF_"QPHn4Z@k']
 
 
 JQUERY_URL = True
+USE_DJANGO_JQUERY = False
 
 CISPY_TEMPLATE_PACK = 'bootstrap4'
 

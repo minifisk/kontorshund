@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls import url
 
 urlpatterns = [
     # Django admin
@@ -12,7 +13,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 
     # Smart Selects
-    path('chaining', include('smart_selects.urls')),
+    url(r'^chaining/', include('smart_selects.urls')),
 
     # Local apps
     path('', include('accounts.urls')),

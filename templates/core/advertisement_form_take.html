@@ -1,6 +1,13 @@
 {% extends '_base.html' %}
 
-{% load static %}
+
+<head>
+  {% load static %}
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="{% static 'smart-selects/admin/js/chainedfk.js' %}"></script>
+<script src="{% static 'smart-selects/admin/js/chainedm2m.js' %}"></script>
+</head>
 
 {% block content %}    
 
@@ -10,17 +17,10 @@
 
   
   
-  <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
+  <form method="post" >
     {% csrf_token %}  
-
-  
-    <table>  
-      {{ form.as_p }}
-    </table>
-
-    
+    {{ form.as_p }}
     <button type="submit">Publicera annons</button>
-
   </form>
 
 </body>
@@ -28,7 +28,9 @@
 
 {% block footer %}
 
-  {% comment %} Imports for managing Django Autocomplete Light in form {% endcomment %}
+
+
+  <!-- Imports for managing Django Autocomplete Light in form  -->
   <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
   <link rel="stylesheet" type="text/css" href="{% static 'autocomplete_light/select2.css' %}" />
   <script type="text/javascript" src="{% static 'autocomplete_light/select2.js' %}"></script>
@@ -37,11 +39,6 @@
   <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
   {{ form.media }}
 
-
-
-  <script>
-     
-  </script>
 
 {% endblock footer %}
 
