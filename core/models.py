@@ -2,6 +2,9 @@ from io import open_code
 from django.db import models
 from django.contrib.auth import get_user_model
 
+from smart_selects.db_fields import ChainedForeignKey
+
+
 from common.abstracts import SoftDeleteModel, TimeStampedModel
 
 User = get_user_model()
@@ -22,7 +25,14 @@ class Municipality(models.Model):
         return self.name
 
 class Area(models.Model):
-    municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE)
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
+    municipality = ChainedForeignKey(
+        Municipality,
+        chained_field="province",
+        chained_model_field="province",
+        show_all=False,
+        auto_choose=True,
+        sort=True)
     name= models.CharField(max_length=100)
 
     def __str__(self):
