@@ -3,7 +3,6 @@
 {% load static %}
 
 {% block content %}
-  <body onload="hide_area_field()">
     
 
   {% block form_title %}
@@ -48,62 +47,53 @@
         area_selector.style.display = 'none';
       }
 
-      /* Get URL for requesting list of municipalities & Areas */
-      const baseURI = window.location.origin
-      const municipality_url = document.getElementById('adForm')['attributes']['data-municipalities-url']['value']
-      const area_url = document.getElementById('adForm')['attributes']['data-areas-url']['value']
-
-
-      /* Get relevant objects from DOM */
-      const province_selector = document.getElementById('id_province');
-      const municipality_selector = document.getElementById('id_municipality');
-      const area_selector = document.getElementById('id_area');
-
-      /* Update municipalities when Province have been chosen */
-      province_selector.addEventListener('change', (event) => {
-        
-        var xhr = new XMLHttpRequest();
-
-        xhr.onload = function () {
-          if (xhr.readyState === xhr.DONE) {
-              if (xhr.status === 200) {
-                  municipality_selector.innerHTML = xhr.response
-              }
-          }
-        };
-
-        xhr.open('GET',  baseURI + municipality_url, true);
-        xhr.setRequestHeader('province', province_selector.value)
-        xhr.send();
-
-      });
-
-
-      /* Update Areas when Municipiality have been chosen */
-      municipality_selector.addEventListener('change', (event) => {
-      
-      var xhr = new XMLHttpRequest();
-
-      xhr.onload = function () {
-        if (xhr.readyState === xhr.DONE) {
-            if (xhr.status === 200) {
-                if (xhr.response.length > 58) {
-                  area_selector.style.display = ''
-                  area_selector.innerHTML = xhr.response
-                } else {
-                  area_selector.style.display = 'none'
-                }
-            }
-        }
-      };
-
-      xhr.open('GET',  baseURI + area_url, true);
-      xhr.setRequestHeader('municipality', municipality_selector.value)
-      xhr.send();
-
-    });
   </script>
 
+
+<script type="text/javascript" charset="utf-8"> 
+
+    /* Function for handling the province -> municipality dropdown dependencies */
+
+    $(function(){ 
+        // inspect html to check id of category select dropdown.
+        $(document).on('change', "select#id_province", function(){ 
+            $.getJSON("/ajax/load-municipalities/",{province: $(this).val()}, function(j){ 
+                 var options = '<option value="">---------</option>'; 
+                 for (var i = 0; i < j.length; i++) { 
+                     options += '<option value="' + j[i].id + '">' + j[i].name + '</option>'; 
+                 } 
+                 // inspect html to check id of subcategory select dropdown.
+                 $("select#id_municipality").html(options); 
+
+                // Reset areas field 
+                 var empty_options = '<option value="">---------</option>';
+                 $("select#id_area").html(empty_options);  
+
+             }); 
+         }); 
+     }); 
+
+
+
+        /* Function for handling the municipality -> areas dropdown dependencies */
+        
+        $(function(){ 
+            // inspect html to check id of category select dropdown.
+            $(document).on('change', "select#id_municipality", function(){ 
+                $.getJSON("/ajax/load-areas/",{municipality: $(this).val()}, function(j){ 
+                     var options = '<option value="">---------</option>'; 
+                     for (var i = 0; i < j.length; i++) { 
+                         options += '<option value="' + j[i].id + '">' + j[i].name + '</option>'; 
+                     } 
+                     // inspect html to check id of subcategory select dropdown.
+                     $("select#id_area").html(options); 
+                 }); 
+             }); 
+         }); 
+
+
+     </script>
+     
 {% endblock footer %}
 
 
