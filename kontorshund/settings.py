@@ -78,6 +78,7 @@ INSTALLED_APPS = [
 
 LOCKDOWN_PASSWORDS = ['sP4%tF_"QPHn4Z@k']
 
+
 CISPY_TEMPLATE_PACK = 'bootstrap4'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -91,7 +92,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'lockdown.middleware.LockdownMiddleware',
+    'lockdown.middleware.LockdownMiddleware',
 
 ]
 
@@ -254,8 +255,8 @@ SITE_ID = 1
 ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
-LOGIN_REDIRECT_URL = 'home'
-ACCOUNT_LOGOUT_REDIRECT = 'home'
+LOGIN_REDIRECT_URL = 'index'
+ACCOUNT_LOGOUT_REDIRECT = 'index'
 
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True  # False by default
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True  # True by default
