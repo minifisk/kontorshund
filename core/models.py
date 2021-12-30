@@ -22,6 +22,7 @@ class Municipality(models.Model):
         return self.name
 
 class Area(models.Model):
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
     municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE)
     name= models.CharField(max_length=100)
 
