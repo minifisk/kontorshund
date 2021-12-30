@@ -297,12 +297,14 @@ class AdDetailView(generic.DetailView):
 
 # View to be used for getting Municipalities connected to a Province
 def load_municipalities(request):
-    province_id = request.headers['province']
-    municipalities = Municipality.objects.filter(province_id=province_id).order_by('name')
-    return render(request, 'municipality_dropdown_list_options.html', {'municipalities': municipalities})
+   # province_id = request.headers['province']
+    province_id = request.GET.get('province','') 
+    municipalities = list(Municipality.objects.filter(province_id=province_id).values('id', 'name').order_by('name'))
+    return HttpResponse(json.dumps(municipalities), content_type="application/json") 
 
 # View to be used for getting Areas connected to a Municipality
 def load_areas(request):
-    municipality_id = request.headers['municipality']
-    areas = Area.objects.filter(municipality_id=municipality_id).order_by('name')
-    return render(request, 'area_dropdown_list_options.html', {'areas': areas})
+    #municipality_id = request.headers['municipality']
+    municipality_id = request.GET.get('municipality','') 
+    areas = list(Area.objects.filter(municipality_id=municipality_id).values('id', 'name').order_by('name'))
+    return HttpResponse(json.dumps(areas), content_type="application/json") 
