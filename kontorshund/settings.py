@@ -78,18 +78,16 @@ INSTALLED_APPS = [
 
 LOCKDOWN_PASSWORDS = ['sP4%tF_"QPHn4Z@k']
 
-LOCKDOWN_URL_EXCEPTIONS = (
-    r'^/generate-swish-qr-code/$',   # unlock /about
-    r'^/generate-swish-request-token/$',   # unlock /about
-    r'^/generate-swish-qr-code/$',   # unlock /about
-    r'^/check-payment-status/[0-9]*$',   # unlock /about
-    r'^/swish-successfull-android$',   # unlock /about
-    r'^/ajax/load-municipalities/$',   # unlock /about
-    r'^/ajax/load-areas/$',   # unlock /about
-    r'^/breed-autocomplete$',   # unlock /about
-
-
-)
+# LOCKDOWN_URL_EXCEPTIONS = (
+#     r'^/generate-swish-qr-code/$',   # unlock /about
+#     r'^/generate-swish-request-token/$',   # unlock /about
+#     r'^/generate-swish-qr-code/$',   # unlock /about
+#     r'^/check-payment-status/[0-9]*$',   # unlock /about
+#     r'^/swish-successfull-android$',   # unlock /about
+#     r'^/ajax/load-municipalities/$',   # unlock /about
+#     r'^/ajax/load-areas/$',   # unlock /about
+#     r'^/breed-autocomplete$',   # unlock /about
+# )
 
 
 CISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -105,7 +103,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'lockdown.middleware.LockdownMiddleware',
+    # 'lockdown.middleware.LockdownMiddleware',
 
 ]
 
