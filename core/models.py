@@ -49,7 +49,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap')
     municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun')
-    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, verbose_name='Område')
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Område')
 
     # Choices declaration
     DAYS_PER_WEEK_CHOICES = (

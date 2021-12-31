@@ -61,9 +61,15 @@ class NewAdTakeMyDogFormAdmin(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(NewAdTakeMyDogFormAdmin, self).__init__(*args, **kwargs)
-        self.fields['municipality'].queryset = Municipality.objects.none()
-        self.fields['area'].queryset = Area.objects.none()
-        self.fields['area'].required = False
+        print(self.instance)
+
+        if (self.instance):
+            if (not self.instance.area):
+                self.fields['area'].queryset = Area.objects.none()
+        else:
+            self.fields['municipality'].queryset = Municipality.objects.none()
+            self.fields['area'].queryset = Area.objects.none()
+            self.fields['area'].required = False
 
         if 'province' in self.data:
             try:
