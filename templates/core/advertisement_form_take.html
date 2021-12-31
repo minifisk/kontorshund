@@ -14,7 +14,11 @@
   <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
     {% csrf_token %}  
 
-    {% crispy form %}
+    {{ form.as_p }}
+
+
+
+
 
     <button type="submit">Publicera annons</button>
 
