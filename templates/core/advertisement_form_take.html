@@ -14,9 +14,10 @@
   <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
     {% csrf_token %}  
 
-    {{ form.as_p }}
+    <!-- {{ form.as_p }} -->
 
 
+    {{form|crispy}}
 
 
 
