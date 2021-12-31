@@ -35,16 +35,29 @@ class DogBreedsAdmin(admin.ModelAdmin):
 admin.site.register(DogBreeds, DogBreedsAdmin)
 
 
-class AdvertisementAdmin(admin.ModelAdmin):
-    form = NewAdTakeMyDogFormAdmin
-    readonly_fields = ('id',)
 
-admin.site.register(Advertisement, AdvertisementAdmin)
+
 
 class PaymentAdmin(admin.ModelAdmin):
     model = Payment
 
 admin.site.register(Payment, PaymentAdmin)
+
+class PaymentInline(admin.TabularInline):
+    model = Payment
+    extra = 0
+
+class AdvertisementAdmin(admin.ModelAdmin):
+    form = NewAdTakeMyDogFormAdmin
+    readonly_fields = ('id',)
+    inlines = [
+        PaymentInline,
+    ]
+
+admin.site.register(Advertisement, AdvertisementAdmin)
+
+
+
 
 
 class SiteAdmin(admin.ModelAdmin):
