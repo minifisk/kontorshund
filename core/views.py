@@ -180,6 +180,7 @@ class NewAdTakeMyDog(CreateView):
         print('init')
         self.pk = None
 
+
     def form_valid(self, form):
         print('Form valid')
         form.instance.author = self.request.user
@@ -187,7 +188,6 @@ class NewAdTakeMyDog(CreateView):
         form.instance.is_published = False
         response = super().form_valid(form)
         return response
-
 
     def get_success_url(self):
         print('Get success url')

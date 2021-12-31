@@ -16,9 +16,6 @@ from dal import autocomplete
 
 class NewAdTakeMyDogForm(forms.ModelForm):
     
-    CHOICES = [('S',f'Swish - {PRICE_SWISH}'),('B',f'Bankgiro - {PRICE_BANKGIRO}')]
-    payment_type = forms.CharField(label='Betalsätt', widget=forms.RadioSelect(choices=CHOICES))
-
     hundras = forms.ModelChoiceField(
         queryset=DogBreeds.objects.all(),
         widget=autocomplete.ModelSelect2(url='breed-autocomplete')
@@ -26,7 +23,7 @@ class NewAdTakeMyDogForm(forms.ModelForm):
 
     class Meta:
         model = Advertisement
-        fields = ('author', 'province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'hundras', 'image1', 'image2', 'image3', 'payment_type')
+        fields = ('province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'hundras', 'image1', 'image2', 'image3', 'payment_type')
 
 
     def __init__(self, *args, **kwargs):
@@ -45,7 +42,39 @@ class NewAdTakeMyDogForm(forms.ModelForm):
                 municipality_id = int(self.data.get('municipality'))
                 self.fields['area'].queryset = Area.objects.filter(municipality_id=municipality_id).order_by('name')
                 
+            except (ValueError, TypeError) as e:
+                pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
+            
 
+
+class NewAdTakeMyDogFormAdmin(forms.ModelForm):
+    
+    hundras = forms.ModelChoiceField(
+        queryset=DogBreeds.objects.all(),
+        widget=autocomplete.ModelSelect2(url='breed-autocomplete')
+    )
+
+    class Meta:
+        model = Advertisement
+        fields = ('author', 'province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'hundras', 'image1', 'image2', 'image3', 'payment_type')
+
+
+    def __init__(self, *args, **kwargs):
+        super(NewAdTakeMyDogFormAdmin, self).__init__(*args, **kwargs)
+        self.fields['municipality'].queryset = Municipality.objects.none()
+        self.fields['area'].queryset = Area.objects.none()
+        self.fields['area'].required = False
+
+        if 'province' in self.data:
+            try:
+                # Set municipality queryset
+                province_id = int(self.data.get('province'))
+                self.fields['municipality'].queryset = Municipality.objects.filter(province_id=province_id).order_by('name')
+            
+                # Set area queryset
+                municipality_id = int(self.data.get('municipality'))
+                self.fields['area'].queryset = Area.objects.filter(municipality_id=municipality_id).order_by('name')
+                
             except (ValueError, TypeError) as e:
                 pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
             

@@ -1,9 +1,9 @@
 {% extends '_base.html' %}
-
+{% load crispy_forms_tags %}
 {% load static %}
 
 {% block content %}
-    
+
 
   {% block form_title %}
   <h2>Ny annons - Kontorshund erbjudes</h2>
@@ -14,95 +14,7 @@
   <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
     {% csrf_token %}  
 
-    <!-- {{ form.as_p }} -->
-
-    {{ form.non_field_errors }}
-
-    <div class="fieldWrapper">
-      {{ form.province.errors }}
-      {{ form.province.label_tag }}
-      {{ form.province }}
-    </div>
-
-    <div class="fieldWrapper">
-      {{ form.municipality.errors }}
-      {{ form.municipality.label_tag }}
-      {{ form.municipality }}
-    </div>
-
-    <div class="fieldWrapper">
-      {{ form.area.errors }}
-      {{ form.area.label_tag }}
-      {{ form.area }}
-    </div>
-
-    <div class="fieldWrapper">
-      {{ form.name.errors }}
-      {{ form.name.label_tag }}
-      {{ form.name }}
-    </div>
-
-    <div class="fieldWrapper">
-      {{ form.age.errors }}
-      {{ form.age.label_tag }}
-      {{ form.age }}
-    </div>
-
-    <div class="fieldWrapper">
-      {{ form.title.errors }}
-      {{ form.title.label_tag }}
-      {{ form.title }}
-    </div>
-
-    <div class="fieldWrapper">
-      {{ form.description.errors }}
-      {{ form.description.label_tag }}
-      {{ form.description }}
-    </div>
-
-    <div class="fieldWrapper">
-      {{ form.days_per_week.errors }}
-      {{ form.days_per_week.label_tag }}
-      {{ form.days_per_week }}
-    </div>
-
-    <div class="fieldWrapper">
-      {{ form.hundras.errors }}
-      {{ form.hundras.label_tag }}
-      {{ form.hundras }}
-    </div>
-
-    <div class="fieldWrapper">
-      {{ form.size_offered.errors }}
-      {{ form.size_offered.label_tag }}
-      {{ form.size_offered }}
-    </div>
-
-    <div class="fieldWrapper">
-      {{ form.image1.errors }}
-      {{ form.image1.label_tag }}
-      {{ form.image1 }}
-    </div>
-
-    <div class="fieldWrapper">
-      {{ form.image2.errors }}
-      {{ form.image2.label_tag }}
-      {{ form.image2 }}
-    </div>
-
-    <div class="fieldWrapper">
-      {{ form.image3.errors }}
-      {{ form.image3.label_tag }}
-      {{ form.image3 }}
-    </div>
-
-    <div class="fieldWrapper">
-      {{ form.payment_type.errors }}
-      {{ form.payment_type.label_tag }}
-      {{ form.payment_type }}
-    </div>
-
-
+    {% crispy form %}
 
     <button type="submit">Publicera annons</button>
 
