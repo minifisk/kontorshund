@@ -81,7 +81,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
 
     # String data
     title = models.CharField(max_length=150, verbose_name='Annons-Titel')
-    description = models.CharField(max_length=500, verbose_name='Annons-beskrivning')
+    description = models.TextField(max_length=1500, verbose_name='Annons-beskrivning')
     
     # Choices
     days_per_week = models.CharField(max_length=3, choices=DAYS_PER_WEEK_CHOICES, default=1, verbose_name='Omfattning')
