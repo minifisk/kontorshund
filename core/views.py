@@ -1,4 +1,12 @@
-from django.core.checks import messages
+import datetime
+import io
+import qrcode 
+import json
+import requests
+import json
+from urllib.parse import urljoin
+from pprint import pprint 
+
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.views import generic
 from django.views.generic import ListView, CreateView, UpdateView
@@ -6,53 +14,100 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import generic
-from django.core.files.storage import FileSystemStorage
 from django.urls import reverse
-
-from kontorshund.settings import PRICE_BANKGIRO, PRICE_SWISH, PRICE_SWISH_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
-
-import datetime
-import io
-import qrcode 
-import json
-import os
-from dal import autocomplete
-import requests
-import json
-from urllib.parse import urljoin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_exempt
-from pprint import pprint 
 
+from dal import autocomplete
 from lockdown.decorators import lockdown
 
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm, PhoneNumberForm
 from core.models import Advertisement, Municipality, Area, DogBreeds, Payment
+from kontorshund.settings import PRICE_BANKGIRO, PRICE_SWISH, PRICE_SWISH_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
 
-# Create your views here.
+
+#############
+# INDEX VIEW
+#############
 
 @lockdown()
 def index(request):
     return render(request, 'core/index.html')
 
-def profile(request):
-    return render(request, 'core/profile.html')
+#####################
+# USER SPECIFIC VIEWS
+#####################
 
-def ChooseAd(request):
-    return render(request, 'core/choose_ad_type.html')
+def profile(request):
+    if request.user.is_authenticated:
+        return render(request, 'core/profile.html')
+    else:
+        return redirect('account_login')
+
+
+########################
+# VIEWS FOR AUTOCOMPLETE
+########################
+
+class BreedAutocomplete(autocomplete.Select2QuerySetView):
+
+    def get_queryset(self):
+
+        #if not self.request.user.is_authenticated:
+        #    return DogBreeds.objects.none()
+
+        qs = DogBreeds.objects.all()
+
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+
+        return qs
+
+#######################
+# VIEWS FOR LISTING ADS 
+#######################
 
 def ListAds(request):
     return render(request, 'core/list_ads.html')
 
-def check_payment_status(request, pk):
-    try:
-        ad = Advertisement.objects.get(pk=pk)
-    except Advertisement.DoesNotExist:
-        return JsonResponse("Ad does not exist", status=404, safe=False)
+class AdListTakeMyDog(generic.ListView):
+    
+    model = Advertisement
+    context_object_name = 'ads'
+    template_name = 'core/advertisement_list_take.html'
 
-    if ad.has_initial_payment():
-        return JsonResponse("Payment is complete!", status=200, safe=False)
+    def get_queryset(self):
+        queryset = Advertisement.objects.filter(is_offering_own_dog=True)
+        return queryset
+
+
+class AdListGetMeADog(generic.ListView):
+    model = Advertisement
+    context_object_name = 'ads'
+    template_name = 'core/advertisement_list_get.html'
+
+    def get_queryset(self):
+        queryset = Advertisement.objects.filter(is_offering_own_dog=False)
+        return queryset
+
+#############################
+# VIEWS FOR HANDLING PAYMENTS 
+#############################
+
+
+def check_payment_status(request, pk):
+    if request.user.is_authenticated:
+        try:
+            ad = Advertisement.objects.get(pk=pk)
+        except Advertisement.DoesNotExist:
+            return JsonResponse("Ad does not exist", status=404, safe=False)
+
+        if ad.has_initial_payment():
+            return JsonResponse("Payment is complete!", status=200, safe=False)
+        else:
+            return JsonResponse("Payment is NOT complete", status=404, safe=False)
     else:
-        return JsonResponse("Payment is NOT complete", status=404, safe=False)
+        return redirect('account_login')
 
 
 def android_success_page(request):
@@ -107,79 +162,142 @@ def swish_callback(request):
 
 
 
-def get_qr_code(token):
+def get_qr_code(request, token):
+    if request.user.is_authenticated:
+        qr = qrcode.QRCode(
+            version = 1,
+            error_correction = qrcode.constants.ERROR_CORRECT_L,
+            box_size = 5,
+            border = 0,
+        )
 
-    qr = qrcode.QRCode(
-        version = 1,
-        error_correction = qrcode.constants.ERROR_CORRECT_L,
-        box_size = 5,
-        border = 0,
-    )
+        qr.add_data("D" + token)
+        qr.make(fit=True)
+        qr_img = qr.make_image()
 
-    qr.add_data("D" + token)
-    qr.make(fit=True)
-    qr_img = qr.make_image()
+        #img = qr.make_image(fill='black', back_color='white')
+        #img.save('qrcode001.png')
 
-    #img = qr.make_image(fill='black', back_color='white')
-    #img.save('qrcode001.png')
+        bytesio_object = io.BytesIO()
+        qr_img.save(bytesio_object)
 
-    bytesio_object = io.BytesIO()
-    qr_img.save(bytesio_object)
+        file_data = bytesio_object.getvalue()
+        response = HttpResponse(content_type=f'image/png')
+        response['Content-Disposition'] = f'inline; filename="qr-code-image"'
+        response.write(file_data)
 
-    file_data = bytesio_object.getvalue()
-    response = HttpResponse(content_type=f'image/png')
-    response['Content-Disposition'] = f'inline; filename="qr-code-image"'
-    response.write(file_data)
-
-    return response 
-
-
-
-class BreedAutocomplete(autocomplete.Select2QuerySetView):
-
-    def get_queryset(self):
-
-        #if not self.request.user.is_authenticated:
-        #    return DogBreeds.objects.none()
-
-        qs = DogBreeds.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__icontains=self.q)
-
-        return qs
+        return response 
+    else:
+        return redirect('account_login')
 
 
-class AdListTakeMyDog(generic.ListView):
-    model = Advertisement
-    context_object_name = 'ads'
-    template_name = 'core/advertisement_list_take.html'
-
-    def get_queryset(self):
-        queryset = Advertisement.objects.filter(is_offering_own_dog=True)
-        return queryset
-
-
-class AdListGetMeADog(generic.ListView):
-    model = Advertisement
-    context_object_name = 'ads'
-    template_name = 'core/advertisement_list_get.html'
-
-    def get_queryset(self):
-        queryset = Advertisement.objects.filter(is_offering_own_dog=False)
-        return queryset
+def PayForAdSwishTemplate(request, pk):
+    if request.user.is_authenticated:
+        ad_title = Advertisement.objects.get(pk=pk).title
+        form = PhoneNumberForm()
+        return render(request, 'swish_phone_number.html', {'pk': pk, 'form': form, 'title': ad_title, 'price': PRICE_SWISH})
+    else:
+        return redirect('account_login')
 
 
-class NewAdTakeMyDog(CreateView):
+def GenerateSwishPaymentRequestToken(request, pk):
+
+    if request.user.is_authenticated:
+        # SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
+
+        url = request.build_absolute_uri('/')
+        callback_path = f'swish/callback'
+        SWISH_CALLBACKURL= f'{url}{callback_path}'
+
+        print(SWISH_CALLBACKURL, flush=True)
+
+        # Set-up variables for payment request
+        payload = {
+            "payeePaymentReference": pk,
+            "callbackUrl": SWISH_CALLBACKURL,
+            "payeeAlias": SWISH_PAYEEALIAS,
+            #"payerAlias": phone_number_with_46,    # Payers phone number
+            "currency": "SEK",
+            "amount": PRICE_SWISH_IN_SEK,
+            "message": f"Betalning för annons med ID {pk}"
+        }
+
+        resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
+        print(resp.status_code, resp.text, resp.headers)
+        PaymentRequestToken = resp.headers['PaymentRequestToken']
+
+        return JsonResponse({'token': PaymentRequestToken, 'callback_url': SWISH_CALLBACKURL}, status=201, safe=False)
+    else:
+        return redirect('account_login')
+
+
+
+
+def GenerateSwishPaymentQrCode(request, pk):
+
+    if request.user.is_authenticated:
+        #SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
+
+        url = request.build_absolute_uri('/')
+        callback_path = f'swish/callback'
+        SWISH_CALLBACKURL= f'{url}{callback_path}'
+
+        # Set-up variables for payment request
+        payload = {
+            "payeePaymentReference": pk,
+            "callbackUrl": SWISH_CALLBACKURL,
+            "payeeAlias": SWISH_PAYEEALIAS,
+            #"payerAlias": phone_number_with_46,    # Payers phone number
+            "currency": "SEK",
+            "amount": PRICE_SWISH_IN_SEK,
+            "message": f"Betalning för annons med ID {pk}"
+        }
+
+        resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
+        print(resp.status_code, resp.text, resp.headers)
+        PaymentRequestToken = resp.headers['PaymentRequestToken']
+
+        qr_image_response = get_qr_code(PaymentRequestToken)
+
+
+        return qr_image_response
+    else:
+        return redirect('account_login')
+
+
+def PayForAdBG(request, pk):
+    if request.user.is_authenticated:
+        url = request.build_absolute_uri('/')
+        ad_path = f'ads/{pk}'
+        full_path = f'{url}{ad_path}'
+
+        if request.method == "GET":
+            # Generate template to fill in your phone number
+            return render(request, 'bg_instructions.html', {'pk': pk, 'price': PRICE_BANKGIRO, 'ad_path': full_path})
+    else:
+        return redirect('account_login')
+
+########################
+# VIEWS FOR CREATING ADS 
+########################
+
+def ChooseAd(request):
+    if request.user.is_authenticated:
+        return render(request, 'core/choose_ad_type.html')
+    else:
+        return redirect('account_login')
+
+
+class NewAdTakeMyDog(LoginRequiredMixin, CreateView):
     model = Advertisement
     form_class = NewAdTakeMyDogForm
     template_name = 'core/advertisement_form_take.html'
     success_url = reverse_lazy('view_ads_take_my_dog')
+    login_url = '/accounts/login'
 
     def __init__(self):
         print('init')
         self.pk = None
-
 
     def form_valid(self, form):
         print('Form valid')
@@ -195,85 +313,6 @@ class NewAdTakeMyDog(CreateView):
             return reverse('swish_payment_template', kwargs={'pk': self.object.pk})
         if self.object.payment_type == 'B':
             return reverse('bg_payment', kwargs={'pk': self.object.pk})
-
-
-def PayForAdSwishTemplate(request, pk):
-    ad_title = Advertisement.objects.get(pk=pk).title
-    form = PhoneNumberForm()
-
-    return render(request, 'swish_phone_number.html', {'pk': pk, 'form': form, 'title': ad_title, 'price': PRICE_SWISH})
-
-
-def GenerateSwishPaymentRequestToken(request, pk):
-
-    # SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
-
-    url = request.build_absolute_uri('/')
-    callback_path = f'swish/callback'
-    SWISH_CALLBACKURL= f'{url}{callback_path}'
-
-    print(SWISH_CALLBACKURL, flush=True)
-
-    # Set-up variables for payment request
-    payload = {
-        "payeePaymentReference": pk,
-        "callbackUrl": SWISH_CALLBACKURL,
-        "payeeAlias": SWISH_PAYEEALIAS,
-        #"payerAlias": phone_number_with_46,    # Payers phone number
-        "currency": "SEK",
-        "amount": PRICE_SWISH_IN_SEK,
-        "message": f"Betalning för annons med ID {pk}"
-    }
-
-    resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
-    print(resp.status_code, resp.text, resp.headers)
-    PaymentRequestToken = resp.headers['PaymentRequestToken']
-
-    return JsonResponse({'token': PaymentRequestToken, 'callback_url': SWISH_CALLBACKURL}, status=201, safe=False)
-
-
-
-
-
-def GenerateSwishPaymentQrCode(request, pk):
-
-    #SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
-
-    url = request.build_absolute_uri('/')
-    callback_path = f'swish/callback'
-    SWISH_CALLBACKURL= f'{url}{callback_path}'
-
-    # Set-up variables for payment request
-    payload = {
-        "payeePaymentReference": pk,
-        "callbackUrl": SWISH_CALLBACKURL,
-        "payeeAlias": SWISH_PAYEEALIAS,
-        #"payerAlias": phone_number_with_46,    # Payers phone number
-        "currency": "SEK",
-        "amount": PRICE_SWISH_IN_SEK,
-        "message": f"Betalning för annons med ID {pk}"
-    }
-
-    resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
-    print(resp.status_code, resp.text, resp.headers)
-    PaymentRequestToken = resp.headers['PaymentRequestToken']
-
-    qr_image_response = get_qr_code(PaymentRequestToken)
-
-
-    return qr_image_response
-
-
-
-def PayForAdBG(request, pk):
-    url = request.build_absolute_uri('/')
-    ad_path = f'ads/{pk}'
-    full_path = f'{url}{ad_path}'
-
-    if request.method == "GET":
-        # Generate template to fill in your phone number
-        return render(request, 'bg_instructions.html', {'pk': pk, 'price': PRICE_BANKGIRO, 'ad_path': full_path})
-
 
 
 class NewAdGetMeADog(CreateView):
