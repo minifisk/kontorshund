@@ -1,6 +1,89 @@
-{% extends 'core/advertisement_create.html' %}
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
 
 
-  {% block form_title %}
-    <h2>Ny annons - Kontorshund sökes</h2>
-  {% endblock form_title %}
+{% block content %}
+
+{% block form_title %}
+<h2>Ny annons - Kontorshund sökes</h2>
+{% endblock form_title %}
+
+  
+  
+  <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
+    {% csrf_token %}  
+
+    {{form|crispy}}
+
+    <button type="submit">Publicera annons</button>
+
+  </form>
+
+</body>
+{% endblock content %}
+
+{% block footer %}
+
+<!-- Area selectors -->
+  <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+  <script>
+      function hide_area_field() {
+        const area_selector = document.getElementById('id_area');
+        area_selector.style.display = 'none';
+      }
+
+  </script>
+
+
+<script type="text/javascript" charset="utf-8"> 
+
+    /* Function for handling the province -> municipality dropdown dependencies */
+
+    $(function(){ 
+        // inspect html to check id of category select dropdown.
+        $(document).on('change', "select#id_province", function(){ 
+            $.getJSON("/ajax/load-municipalities/",{province: $(this).val()}, function(j){ 
+                 var options = '<option value="">---------</option>'; 
+                 for (var i = 0; i < j.length; i++) { 
+                     options += '<option value="' + j[i].id + '">' + j[i].name + '</option>'; 
+                 } 
+                 // inspect html to check id of subcategory select dropdown.
+                 $("select#id_municipality").html(options); 
+
+                // Reset areas field 
+                 var empty_options = '<option value="">---------</option>';
+                 $("select#id_area").html(empty_options);  
+
+             }); 
+         }); 
+     }); 
+
+
+    /* Function for handling the municipality -> areas dropdown dependencies */
+    
+    $(function(){ 
+        // inspect html to check id of category select dropdown.
+        $(document).on('change', "select#id_municipality", function(){ 
+            $.getJSON("/ajax/load-areas/",{municipality: $(this).val()}, function(j){ 
+                  var options = '<option value="">---------</option>'; 
+                  for (var i = 0; i < j.length; i++) { 
+                      options += '<option value="' + j[i].id + '">' + j[i].name + '</option>'; 
+                  } 
+                  // inspect html to check id of subcategory select dropdown.
+                  $("select#id_area").html(options); 
+              }); 
+          }); 
+      }); 
+
+
+  </script>
+     
+{% endblock footer %}
+
+
+
+
+
+
+

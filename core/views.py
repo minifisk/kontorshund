@@ -53,8 +53,8 @@ class BreedAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_queryset(self):
 
-        #if not self.request.user.is_authenticated:
-        #    return DogBreeds.objects.none()
+        if not self.request.user.is_authenticated:
+            return DogBreeds.objects.none()
 
         qs = DogBreeds.objects.all()
 
@@ -139,6 +139,7 @@ def swish_callback(request):
         except Advertisement.DoesNotExist:
             return JsonResponse("Ad does not exist", status=404, safe=False)
 
+        # Create payment model
         payment_obj = ad_object.create_payment(
             payment_type=1, 
             amount=amount, 
@@ -146,6 +147,9 @@ def swish_callback(request):
             date_time_paid = date_paid_obj,
             payer_alias = payer_alias
             )
+
+        # Set ad as published
+        ad_object.is_published = True
 
         print(f'Payment created, payment id {payment_obj.pk}')
 
@@ -296,11 +300,9 @@ class NewAdTakeMyDog(LoginRequiredMixin, CreateView):
     login_url = '/accounts/login'
 
     def __init__(self):
-        print('init')
         self.pk = None
 
     def form_valid(self, form):
-        print('Form valid')
         form.instance.author = self.request.user
         form.instance.is_offering_own_dog = True
         form.instance.is_published = False
@@ -308,7 +310,6 @@ class NewAdTakeMyDog(LoginRequiredMixin, CreateView):
         return response
 
     def get_success_url(self):
-        print('Get success url')
         if self.object.payment_type == 'S':
             return reverse('swish_payment_template', kwargs={'pk': self.object.pk})
         if self.object.payment_type == 'B':
@@ -324,7 +325,15 @@ class NewAdGetMeADog(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.is_offering_own_dog = False
-        return super().form_valid(form)
+        form.instance.is_published = False
+        response = super().form_valid(form)
+        return response
+
+    def get_success_url(self):
+        if self.object.payment_type == 'S':
+            return reverse('swish_payment_template', kwargs={'pk': self.object.pk})
+        if self.object.payment_type == 'B':
+            return reverse('bg_payment', kwargs={'pk': self.object.pk})
 
 
 class AdUpdateView(UpdateView):

@@ -88,7 +88,7 @@ class NewAdTakeMyDogFormAdmin(forms.ModelForm):
 class NewAdGetMeADogForm(forms.ModelForm):
     class Meta:
         model = Advertisement
-        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'size_requested', 'image1', 'image2', 'image3')
+        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'size_requested', 'image1', 'image2', 'image3', 'payment_type')
         help_texts = {
             'size_requested': 'Håll in cmd (mac) eller ctrl (windows) för att markera flera',
         }
