@@ -21,16 +21,27 @@ class NewAdTakeMyDogForm(forms.ModelForm):
         widget=autocomplete.ModelSelect2(url='breed-autocomplete')
     )
 
+    image1 = forms.ImageField(label='')
+    image2 = forms.ImageField(label='')
+    image3 = forms.ImageField(label='')
+
+
     class Meta:
         model = Advertisement
         fields = ('province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'hundras', 'image1', 'image2', 'image3', 'payment_type')
+        help_texts = {
+            'title': 'Skriv en titel som sammanfattar annonsen - T.ex. "Frans, Border Collie, Söker kompis för 3 dagar per vecka"',
+            'description': 'Skriv lite om hunden och er som har hunden, vad har hunden för typ av personlighet? Finns det saker den gillar mer eller mindre? Inom vilket område kan ni tänka er att länmna/hämta hunden?',
+            'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp direkt.',
 
+        }
 
     def __init__(self, *args, **kwargs):
         super(NewAdTakeMyDogForm, self).__init__(*args, **kwargs)
         self.fields['municipality'].queryset = Municipality.objects.none()
         self.fields['area'].queryset = Area.objects.none()
         self.fields['area'].required = False
+
 
         if 'province' in self.data:
             try:
@@ -61,7 +72,6 @@ class NewAdTakeMyDogFormAdmin(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(NewAdTakeMyDogFormAdmin, self).__init__(*args, **kwargs)
-        print(self.instance)
 
         if (self.instance):
             if (not self.instance.area):

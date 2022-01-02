@@ -200,7 +200,10 @@ def PayForAdSwishTemplate(request, pk):
     if request.user.is_authenticated:
         ad_title = Advertisement.objects.get(pk=pk).title
         form = PhoneNumberForm()
-        return render(request, 'swish_phone_number.html', {'pk': pk, 'form': form, 'title': ad_title, 'price': PRICE_SWISH})
+        url = request.build_absolute_uri('/')
+        path = f'ads/{pk}'
+        ad_path = f'{url}{path}'
+        return render(request, 'swish_phone_number.html', {'pk': pk, 'form': form, 'title': ad_title, 'price': PRICE_SWISH, 'ad_path': ad_path})
     else:
         return redirect('account_login')
 
@@ -273,12 +276,12 @@ def GenerateSwishPaymentQrCode(request, pk):
 def PayForAdBG(request, pk):
     if request.user.is_authenticated:
         url = request.build_absolute_uri('/')
-        ad_path = f'ads/{pk}'
-        full_path = f'{url}{ad_path}'
+        path = f'ads/{pk}'
+        ad_path = f'{url}{path}'
 
         if request.method == "GET":
             # Generate template to fill in your phone number
-            return render(request, 'bg_instructions.html', {'pk': pk, 'price': PRICE_BANKGIRO, 'ad_path': full_path})
+            return render(request, 'bg_instructions.html', {'pk': pk, 'price': PRICE_BANKGIRO, 'ad_path': ad_path})
     else:
         return redirect('account_login')
 

@@ -1,3 +1,9 @@
+{% extends '_base.html' %}
+
+
+{% block content %}
+
+
 <body onload="hide_completed_payment_button()">
 
 
@@ -17,10 +23,18 @@
 <br>
 <button id="completed-payment">Jag har betalt </button>
 <p id="payment-status"></p>
-<a href="{% url 'ad-detail' pk %}" id="go-to-ad">Gå till din annons </a>
+<a href="{% url 'ad-detail' pk %}" id="go-to-ad">Till din annons </a>
 
 
+<button type="button">
+  <a href="{{ ad_path }}">Till din annons</a>
+</button>
 
+
+{% endblock content %}
+
+
+{% block footer %}
   <script>
 
       ///////////////////////////
@@ -164,3 +178,5 @@
 
 
   </script>
+
+{% endblock footer %}
