@@ -49,7 +49,8 @@ class PaymentInline(admin.TabularInline):
 
 class AdvertisementAdmin(admin.ModelAdmin):
     form = NewAdTakeMyDogFormAdmin
-    list_display = ['is_offering_own_dog', 'author', 'name', 'is_published']
+    list_display = ['title', 'is_offering_own_dog', 'author', 'name', 'is_published']
+    list_display_links = ['title']
     readonly_fields = ('id',)
     inlines = [
         PaymentInline,
