@@ -150,6 +150,7 @@ def swish_callback(request):
 
         # Set ad as published
         ad_object.is_published = True
+        ad_object.save()
 
         print(f'Payment created, payment id {payment_obj.pk}')
 
