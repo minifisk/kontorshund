@@ -40,8 +40,8 @@ admin.site.register(DogBreeds, DogBreedsAdmin)
 
 class PaymentAdmin(admin.ModelAdmin):
     model = Payment
-    list_display = ['payment_type', 'advertisement', 'amount', 'date_time_paid', 'payer_alias']
-    list_display_links = ['payment_type']
+    list_display = ['id', 'payment_type', 'advertisement', 'amount', 'date_time_paid', 'payer_alias']
+    list_display_links = ['id']
 
 admin.site.register(Payment, PaymentAdmin)
 
@@ -51,7 +51,7 @@ class PaymentInline(admin.TabularInline):
 
 class AdvertisementAdmin(admin.ModelAdmin):
     form = NewAdTakeMyDogFormAdmin
-    list_display = ['title', 'is_offering_own_dog', 'author', 'name', 'is_published']
+    list_display = ['id', 'title', 'is_offering_own_dog', 'author', 'name', 'is_published']
     list_display_links = ['title']
     readonly_fields = ('id',)
     inlines = [

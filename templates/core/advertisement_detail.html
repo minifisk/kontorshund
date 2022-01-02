@@ -3,28 +3,115 @@
 
 {% block content %}
 
-{{ ad.province }}
-{{ ad.municipality }}
-{{ ad.area }}
-{{ ad.is_offering_own_dog }}
-{{ ad.title }}
-{{ ad.description }}
-{{ ad.days_per_week }}
-{{ ad.breed }}
-{{ ad.size_offered }}
-{{ ad.size_requested }}
-{{ ad.image1 }}
-{{ ad.image2 }}
-{{ ad.image3 }}
+{% if not ad.is_published %}
+    {% if ad.author == request.user %}
+
+        
+        {% if ad.has_initial_payment == False %}
+            <p>Denna annons tillhör dig och har betalstatus: <b> Obetald </b>-  Endast du kan se annonsen tills den är betald!
+                
+            <div id="unpublished">
+                <div id="ad_type">
+                    <p>Typ av annons: </p>
+                    {% if ad.is_offering_own_dog %}
+                    <p>Hund erbjudes</p>
+                    {% else %}
+                    <p>Hund sökes</p>
+                    {% endif %}
+                    </div>
+                
+                
+                    <div id="ad_location">
+                        <p>Län</p>
+                        <p>{{ ad.province }}</p>
+                        <p>Kommun</p>
+                        <p>{{ ad.municipality }}</p>
+                        <p>Område</p>
+                        <p>{{ ad.area }}</p>
+                    </div>
+                
+                    <div id="ad_info">
+                    <p>{{ ad.title }}</p>
+                    <p>{{ ad.description }}</p>
+                    <p>{{ ad.days_per_week }}</p>
+                    </div>
+                
+                    <div id="dog_info">
+                    {% if ad.is_offering_own_dog %}
+                        <p>{{ ad.name }}</p>
+                        <p>{{ ad.age }}</p>
+                        <p>{{ ad.hundras }}</p>
+                        <p>{{ ad.size_offered }}</p>
+                    {% else %}
+                        <p>{{ ad.size_requested }}</p>
+                    {% endif %}
+                    </div>
+                
+                    <div id="images">
+                    <img src="/media/{{ ad.image1 }}" alt="">
+                    <img src="/media/{{ ad.image2 }}" alt="">
+                    <img src="/media/{{ ad.image3 }}" alt="">
+                    </div>
+            </div>
+                
 
 
 
+        {% else %} 
+            <p>Denna annons tillhör dig och har betalstatus: <b> Betald </b>  
+        {% endif%}
+
+    {% else %}
+    <p>Denna annons väntar på att bli betald</p>
+    {% endif %}
+
+{% else %}
+
+    <div id=ad_type>
+    <p>Typ av annons: </p>
+    {% if ad.is_offering_own_dog %}
+    <p>Hund erbjudes</p>
+    {% else %}
+    <p>Hund sökes</p>
+    {% endif %}
+    </div>
 
 
+    <div id="ad_location">
+        <p>Län</p>
+        <p>{{ ad.province }}</p>
+        <p>Kommun</p>
+        <p>{{ ad.municipality }}</p>
+        <p>Område</p>
+        <p>{{ ad.area }}</p>
+    </div>
+
+    <div id="ad_info">
+    <p>{{ ad.title }}</p>
+    <p>{{ ad.description }}</p>
+    <p>{{ ad.days_per_week }}</p>
+    </div>
+
+    <div id="dog_info">
+    {% if ad.is_offering_own_dog %}
+        <p>{{ ad.name }}</p>
+        <p>{{ ad.age }}</p>
+        <p>{{ ad.hundras }}</p>
+        <p>{{ ad.size_offered }}</p>
+    {% else %}
+        <p>{{ ad.size_requested }}</p>
+    {% endif %}
+    </div>
+
+    <div id="images">
+    <img src="/media/{{ ad.image1 }}" alt="">
+    <img src="/media/{{ ad.image2 }}" alt="">
+    <img src="/media/{{ ad.image3 }}" alt="">
+    </div>
 
 
-<button>Ändra annons</button>
+    <button>Ändra annons</button>
 
-Betalstatus: Obetald
+{% endif %}
 
 {% endblock content %}

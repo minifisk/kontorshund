@@ -112,6 +112,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
 
         return new_payment
 
+    @property
     def has_initial_payment(self):
         if Payment.objects.filter(advertisement=self, payment_type=1).exists():
             return True
