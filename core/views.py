@@ -261,7 +261,7 @@ def GenerateSwishPaymentQrCode(request, pk):
         print(resp.status_code, resp.text, resp.headers)
         PaymentRequestToken = resp.headers['PaymentRequestToken']
 
-        qr_image_response = get_qr_code(PaymentRequestToken)
+        qr_image_response = get_qr_code(request, PaymentRequestToken)
 
 
         return qr_image_response
