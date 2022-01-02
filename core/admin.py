@@ -40,6 +40,8 @@ admin.site.register(DogBreeds, DogBreedsAdmin)
 
 class PaymentAdmin(admin.ModelAdmin):
     model = Payment
+    list_display = ['payment_type', 'advertisement', 'amount', 'date_time_paid', 'payer_alias']
+    list_display_links = ['payment_type']
 
 admin.site.register(Payment, PaymentAdmin)
 

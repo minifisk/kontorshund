@@ -136,6 +136,6 @@ class Payment(models.Model):
 
 
     def __str__(self):
-        return f'#{self.payment_type} Payment of {self.amount} made by {self.payer_alias} on ad {self.advertisement}'
+        return self.payer_alias
 
 
