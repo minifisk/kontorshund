@@ -52,7 +52,7 @@
 
      <!-- Let user know if it's their own ad if it's published -->   
     {% if ad.author == request.user %}
-        <p>Denna annons tillhör dig och är <b>Publicerad</b> </p>
+        <p>Denna annons tillhör dig och är <b>Publicerad</b> (Endast du ser detta)</p>
     {% endif %}
         
     {% include 'core/ad_template.html' %}
@@ -60,8 +60,9 @@
     <h5>Kontakta annonsören</h5>
     <i>Detta steg är till för att förhindra spam-mail till annonsörernas email adresser, vilket automatiskt görs med hjälp av Googles tjänst reCAPCHA (se ikonen i nedre högra hörnet). När du tryckt på knappen och din enhet blir godkänd, dyker en knapp upp för att maila annonsören. </i>
     <br>
-    <a class="btn btn-primary btn-sm" id="email_user_button" role="button" href="">Maila annonsören</a>
-    <br>
+    <div id="button_max_width">
+        <a class="btn btn-primary btn-sm" id="email_user_button" role="button" href="">Maila annonsören</a>
+    </div>
     <button class="btn btn-secondary btn-sm" id="get_user_email">Hämta annonsörens email</button>
 
 {% endif %}
@@ -112,6 +113,8 @@ crossorigin="anonymous"></script>
                     mail_adress = xhr.response.replace(/['"]+/g, '')
                     email_user_button.href = `mailto: ${mail_adress}`
                     email_user_button.style.display = 'block';
+                    get_email_button.style.display = 'none';
+
                   }
               }
             };
