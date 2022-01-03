@@ -67,7 +67,7 @@ class NewAdTakeMyDogFormAdmin(forms.ModelForm):
 
     class Meta:
         model = Advertisement
-        fields = ('author', 'province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'hundras', 'image1', 'image2', 'image3', 'payment_type')
+        fields = ('author', 'province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'size_requested', 'hundras', 'image1', 'image2', 'image3', 'payment_type')
 
 
     def __init__(self, *args, **kwargs):
@@ -100,8 +100,14 @@ class NewAdGetMeADogForm(forms.ModelForm):
         model = Advertisement
         fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'size_requested', 'image1', 'image2', 'image3', 'payment_type')
         help_texts = {
+            'title': 'Skriv en titel som sammanfattar annonsen - T.ex. "Kontor med 10 anställda söker en kontorshund 2 dagar per vecka" eller "Pensionär söker hund 1 dagar per vecka"',
+            'description': 'Skriv om dig/er som vill ta hand om en hund, har någon hundvana, vad gör ni om dagarna? osv.',
             'size_requested': 'Håll in cmd (mac) eller ctrl (windows) för att markera flera',
+            'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp direkt.',
+
         }
+
+
 
     def __init__(self, *args, **kwargs):
         super(NewAdGetMeADogForm, self).__init__(*args, **kwargs)
