@@ -147,45 +147,78 @@ display: block;
 
 
 
-@media (min-width:320px)  { /* smartphones, iPhone, portrait 480x320 phones */ }
-.carousel-item img {
-    object-fit: contain;
-    height: 200px;;
-    width:100%;
-  }
+@media (min-width:320px)  { /* smartphones, iPhone, portrait 480x320 phones */ 
 
-#choose_options {
-    margin-bottom: 100px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
+    .carousel-item img {
+        object-fit: contain;
+        height: 200px;;
+        width:100%;
+      }
+    
+    #choose_options {
+        margin-bottom: 100px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+    
+    }
+    
+    #choose_options img {
+        margin-top: 30px;
+        width: 350px;
+    }
+
 
 }
 
-#choose_options img {
-    margin-top: 30px;
-    width: 500px;
+@media (min-width:641px)  { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ 
+
+
+
+
+    .carousel-item img {
+        object-fit: contain;
+        height: 400px;;
+        width:100%;
+      }
+    
+      #choose_options img {
+        margin-top: 30px;
+        width: 500px;
+    }
+    
+    .footer-menu ul{
+        display: flex;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
 }
 
-@media (min-width:641px)  { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ }
-.carousel-item img {
-    object-fit: contain;
-    height: 400px;;
-    width:100%;
-  }
+@media (min-width:961px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ 
 
-.footer-menu ul{
-    display: flex;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    .carousel-item img {
+        object-fit: contain;
+        height: 400px;;
+        width:100%;
+      }
+    
+      #choose_options img {
+        margin-top: 30px;
+        width: 700px;
+    }
+
+
 }
 
-@media (min-width:961px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
-.carousel-item img {
-    object-fit: contain;
-    height: 400px;;
-    width:100%;
-  }
-@media (min-width:1281px) { /* hi-res laptops and desktops */ }
+@media (min-width:1281px) { /* hi-res laptops and desktops */ 
+
+    #choose_options img {
+        margin-top: 30px;
+        width: 500px;
+        padding: 10px;
+    }
+
+
+}
