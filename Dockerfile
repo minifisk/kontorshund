@@ -22,6 +22,7 @@ RUN mkdir $APP_HOME/staticfiles
 RUN mkdir $APP_HOME/mediafiles
 WORKDIR $APP_HOME
 
+COPY ./kontorshund/mediafiles $APP_HOME/mediafiles
 COPY . $APP_HOME
 
 

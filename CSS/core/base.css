@@ -15,6 +15,10 @@
     width: 150px;
 }
 
+#choose_options {
+    margin-bottom: 500px;
+}
+
 *{
     margin: 0;
     padding: 0;
