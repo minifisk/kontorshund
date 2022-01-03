@@ -17,6 +17,8 @@ from django.views import generic
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+
 
 from dal import autocomplete
 from lockdown.decorators import lockdown
@@ -33,6 +35,38 @@ from kontorshund.settings import PRICE_BANKGIRO, PRICE_SWISH, PRICE_SWISH_IN_SEK
 @lockdown()
 def index(request):
     return render(request, 'core/index.html')
+
+
+###############
+# reCAPCHA view
+###############
+
+def recapcha(request, pk):
+
+
+    payload=request.body
+    data_dict = json.loads(payload.decode("utf-8"))
+    recaptcha_response = data_dict['token']
+    import os
+
+    data = {
+      'secret': os.environ.get('reCAPTCHA_SECRET_KEY'),
+      'response': recaptcha_response
+      }
+
+
+    print(data)
+      
+    
+    response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+    result = json.loads(response.text)
+
+    if result['success']:
+        email = Advertisement.objects.get(pk=pk).author.email
+        return JsonResponse(email, status=200, safe=False)
+    
+    else:
+        return JsonResponse('Not validated', status=403, safe=False)
 
 #####################
 # USER SPECIFIC VIEWS
@@ -349,6 +383,11 @@ class AdUpdateView(UpdateView):
 class AdDetailView(generic.DetailView):
     model = Advertisement
     context_object_name = 'ad'
+
+    def get_context_data(self, **kwargs):
+        context = super(AdDetailView, self).get_context_data(**kwargs)
+        context['site_key'] = settings.RECAPTCHA_SITE_KEY
+        return context
 
 # View to be used for getting Municipalities connected to a Province
 def load_municipalities(request):

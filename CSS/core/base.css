@@ -1,5 +1,14 @@
 #unpublished {
-    background-color: gray;
+    background-color: lightgray;
+    padding: 30px;
+    margin: 50px;
+}
+
+#unpublished_h2 {
+    text-align: center;
+    text-decoration: underline;
+    font-weight: bold;
+    color: red;
 }
 
 

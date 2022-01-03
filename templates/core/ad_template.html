@@ -1,3 +1,7 @@
+{% if not ad.is_published %}
+<h2 id="unpublished_h2">OPUBLICERAD</h2>
+{% endif %}
+
 <h2>{{ ad.title }}</h2>
 <p>{{ ad.created_at }}</p>
 
@@ -65,5 +69,3 @@
     {% endif %}
     <p>{{ ad.description }}</p>
     </div>
-
-    <button>Maila annonsören</button>

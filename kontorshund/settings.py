@@ -7,6 +7,10 @@ PRICE_SWISH = '1 kr'
 PRICE_SWISH_IN_SEK = 1
 PRICE_BANKGIRO = '1 kr'
 
+# reCAPTCHA
+RECAPTCHA_SITE_KEY = os.environ.get('reCAPTCHA_SITE_KEY') 
+RECAPTCHA_SECRET_KEY = os.environ.get('reCAPCHA_SECRET_KEY') 
+
 # Swish constants
 NGROK_URL = "https://ca31-92-33-202-136.ngrok.io" # Fill out with new value when testing 
 SWISH_PAYEEALIAS = os.environ.get('MERCHANT_SWISH_NUMBER') # This would be your merchant swish number in production. In test it doesnt matter

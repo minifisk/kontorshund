@@ -20,6 +20,8 @@ urlpatterns = [
 
     # View of a specific ad
     path('ads/<int:pk>', views.AdDetailView.as_view(), name='ad-detail'),
+    path('recapcha/<int:pk>', views.recapcha, name='recapcha'),
+
 
     # Pay for an ad
     path('swish-pay/<int:pk>', views.PayForAdSwishTemplate, name='swish_payment_template'),
