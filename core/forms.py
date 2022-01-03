@@ -67,7 +67,7 @@ class NewAdTakeMyDogFormAdmin(forms.ModelForm):
 
     class Meta:
         model = Advertisement
-        fields = ('author', 'province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'size_requested', 'hundras', 'image1', 'image2', 'image3', 'payment_type')
+        fields = ('author', 'province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'size_requested', 'hundras', 'image1', 'image2', 'image3', 'payment_type', 'is_published')
 
 
     def __init__(self, *args, **kwargs):

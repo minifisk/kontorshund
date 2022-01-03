@@ -1,9 +1,13 @@
 {% extends '_base.html' %}
 
 
-{% block content %}
-
+{% block header %}
 <body onload="hide_email_button()">
+
+{% endblock header %}
+
+
+{% block content %}
 
 
 <!-- Check if NOT published -->
@@ -13,7 +17,7 @@
     {% if ad.author == request.user %}
 
 
-            <p>Denna annons tillhör dig och är ännu <b>Opublicerad</b> </p>
+            <p>Denna annons tillhör dig och är ännu <b>Opublicerad</b>  (Endast du ser detta)</p>
             
             <!-- Check if ad has initial payment -->
             {% if ad.has_initial_payment == False %}
@@ -53,10 +57,12 @@
         
     {% include 'core/ad_template.html' %}
 
+    <h5>Kontakta annonsören</h5>
+    <i>Detta steg är till för att förhindra spam-mail till annonsörernas email adresser, vilket automatiskt görs med hjälp av Googles tjänst reCAPCHA (se ikonen i nedre högra hörnet). När du tryckt på knappen och din enhet blir godkänd, dyker en knapp upp för att maila annonsören. </i>
+    <br>
+    <a class="btn btn-primary btn-sm" id="email_user_button" role="button" href="">Maila annonsören</a>
+    <br>
     <button class="btn btn-secondary btn-sm" id="get_user_email">Hämta annonsörens email</button>
-    <p>Detta steg är till för att förhindra spam-mail till annonsörernas email adresser</p>
-    <button class="btn btn-primary btn-sm" id="email_user_button"><a id="email_user_href" href="">Maila annonsören</a> </button>
-
 
 {% endif %}
 
@@ -64,6 +70,7 @@
 {% endblock content %}
 
 {% block footer %}
+
 
 
 
@@ -83,7 +90,7 @@ crossorigin="anonymous"></script>
 <script>
   grecaptcha.ready(function() {
       const get_email_button = document.getElementById('get_user_email');
-      const email_user_href = document.getElementById('email_user_href');
+      const email_user_button = document.getElementById('email_user_button');
 
       get_email_button.addEventListener('click', (event) => {
         grecaptcha.execute('{{ site_key }}', {action: 'validate_email_request'}).then(function(token) {
@@ -103,9 +110,8 @@ crossorigin="anonymous"></script>
               if (xhr.readyState === xhr.DONE) {
                   if (xhr.status === 200) {
                     mail_adress = xhr.response.replace(/['"]+/g, '')
-                    email_user_href.href = `mailto: ${mail_adress}`
-                    const email_button = document.getElementById('email_user_button');
-                    email_button.style.display = 'block';
+                    email_user_button.href = `mailto: ${mail_adress}`
+                    email_user_button.style.display = 'block';
                   }
               }
             };
@@ -116,14 +122,6 @@ crossorigin="anonymous"></script>
             //xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
             xhr.send(JSON.stringify(params));
 
-
-
-
-
-            //{% url 'bg_payment' ad.id %}
-            //$('#recaptcha').val(token)
-            // 7
-            //form.submit()
         });
       })
 
