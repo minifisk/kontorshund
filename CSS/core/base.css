@@ -15,7 +15,23 @@
     width: 150px;
 }
 
+#h1_new_ad {
+    text-align: center;
+}
 
+h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+}
+
+p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px;
+}
+
+a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 25px;
+}
 
 *{
     margin: 0;
