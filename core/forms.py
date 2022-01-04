@@ -41,6 +41,9 @@ class NewAdTakeMyDogForm(forms.ModelForm):
         self.fields['municipality'].queryset = Municipality.objects.none()
         self.fields['area'].queryset = Area.objects.none()
         self.fields['area'].required = False
+        for field in self.fields.values():
+            field.error_messages = {'required':'Fältet {fieldname} är obligatoriskt'.format(
+                fieldname=field.label)}
 
 
         if 'province' in self.data:
@@ -93,7 +96,10 @@ class NewAdTakeMyDogFormAdmin(forms.ModelForm):
                 
             except (ValueError, TypeError) as e:
                 pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
-            
+        
+        for field in self.fields.values():
+            field.error_messages = {'required':'Fältet {fieldname} är obligatoriskt'.format(
+                fieldname=field.label)}
 
 class NewAdGetMeADogForm(forms.ModelForm):
     class Meta:
@@ -129,6 +135,10 @@ class NewAdGetMeADogForm(forms.ModelForm):
             except (ValueError, TypeError):
                 pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
             
+            for field in self.fields.values():
+                field.error_messages = {'required':'Fältet {fieldname} är obligatoriskt'.format(
+                fieldname=field.label)}
+
 phone_number_validator = RegexValidator(r"^(07[0236])\s*(\d{4})\s*(\d{3})$", "Telefonnummer skall anges i formatet 0723456789 (utan mellanslag)")
 
 class PhoneNumberForm(forms.Form):
