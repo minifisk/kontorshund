@@ -18,10 +18,15 @@ from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from django.utils.safestring import mark_safe
 
 
 from dal import autocomplete
 from lockdown.decorators import lockdown
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Field, Row, Column, HTML
+from crispy_forms.bootstrap import (
+    PrependedText, PrependedAppendedText, FormActions, InlineRadios)
 
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm, PhoneNumberForm
 from core.models import Advertisement, Municipality, Area, DogBreeds, Payment
@@ -329,6 +334,7 @@ def ChooseAd(request):
     else:
         return redirect('account_login')
 
+from crispy_forms.layout import Submit, Layout, Div
 
 class NewAdTakeMyDog(LoginRequiredMixin, CreateView):
     model = Advertisement
@@ -339,6 +345,50 @@ class NewAdTakeMyDog(LoginRequiredMixin, CreateView):
 
     def __init__(self):
         self.pk = None
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.helper = FormHelper()
+        form.helper.add_input(Submit('submit', 'Gå till betalning', css_class='btn-primary'))
+      
+        form.helper.layout = Layout(
+            Field(HTML(mark_safe('<b>Plats</b>'))),  
+            Div(
+                Field('province', css_class=""),
+                Field('municipality', css_class=""),
+                Field('area', css_class=""),
+                css_class='mt-3 mb-5'
+            ),
+            Field(HTML(mark_safe('<b>Om hunden</b>'))),  
+            Div(
+                Field('name', css_class=""),
+                Field('age', css_class=""),
+                Field('hundras', css_class=""),
+                Field('size_offered', css_class=""),
+                css_class='mt-3 mb-5'
+            ),
+            Field(HTML(mark_safe('<b>Annonsen</b>'))),  
+            Div(
+                Field('days_per_week', css_class=""),
+                Field('title', css_class=""),
+                Field('description', css_class=""),
+                css_class='mt-3 mb-5'
+            ),
+            Field(HTML(mark_safe('<b>Bilder</b>'))),  
+            Div(
+                Field('image1', css_class="btn btn-sm"),
+                Field('image2', css_class="btn btn-sm"),
+                Field('image3', css_class="btn btn-sm"),
+                css_class='mt-3 mb-5'
+            ),
+
+            Field(HTML(mark_safe('<b>Betalning</b>'))),  
+            Div(
+                Field('payment_type', css_class="btn btn-sm"),
+                css_class='mt-3 mb-5'
+            ),
+        )
+        return form
 
     def form_valid(self, form):
         form.instance.author = self.request.user

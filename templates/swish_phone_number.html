@@ -13,21 +13,18 @@
 <p>Öppna Swish-appen i din telefon, välj QR-kod och rikta kameran mot QR-koden och utför betalningen.</p>
 <p>När du godkänt betalningen i din telefon, skickas du automatiskt till den publicerade annonsen.</p>
 <p>OBS. Varje QR kod kan endast användas en gång, slutar den att fungera är det bara trycka på knappen igen.</p>
-<button id="generate-qr">Generera Swish-QR-kod </button>
+<button id="generate-qr" class="btn btn-primary">Generera Swish-QR-kod </button>
 <br>
-<button id="open-swish">Öppna Swish app på denna enhet</button>
-
-<br>
-<br>
+<button id="open-swish" class="btn btn-primary mt-2">Öppna Swish app på denna enhet</button>
 <img id="captchaImg" />
 <br>
-<button id="completed-payment">Jag har betalt </button>
+<button id="completed-payment" class="btn btn-warning">Jag har betalt </button>
 <p id="payment-status"></p>
+<br>
+<br>
+<p>Har du betalt och kontrollerat att betalningen gått fram?</p>
+<a class="btn btn-success" href="{{ ad_path }}" role="button"> Till din annons</a>
 
-
-<button type="button">
-  <a href="{{ ad_path }}">Till din annons</a>
-</button>
 
 
 {% endblock content %}

@@ -6,7 +6,7 @@
 {% block content %}
 
 {% block form_title %}
-<h2>Ny annons - Kontorshund erbjudes</h2>
+<h1>Skapa en ny annons - Kontorshund erbjudes</h1>
 {% endblock form_title %}
 
   
@@ -16,12 +16,7 @@
 
     <!-- {{ form.as_p }} -->
 
-
-    {{form|crispy}}
-
-
-
-    <button type="submit">Publicera annons</button>
+    {% crispy form %}
 
   </form>
 

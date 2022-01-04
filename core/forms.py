@@ -31,7 +31,7 @@ class NewAdTakeMyDogForm(forms.ModelForm):
         fields = ('province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'hundras', 'image1', 'image2', 'image3', 'payment_type')
         help_texts = {
             'title': 'Skriv en titel som sammanfattar annonsen - T.ex. "Frans, Border Collie, Söker kompis för 3 dagar per vecka"',
-            'description': 'Skriv lite om hunden och er som har hunden, vad har hunden för typ av personlighet? Finns det saker den gillar mer eller mindre? Inom vilket område kan ni tänka er att länmna/hämta hunden?',
+            'description': 'Skriv kort om hunden och er som har hunden, vad har hunden för typ av personlighet? Finns det saker den gillar mer eller mindre? Inom vilket område kan ni tänka er att länmna/hämta hunden?',
             'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp direkt.',
 
         }
@@ -41,9 +41,12 @@ class NewAdTakeMyDogForm(forms.ModelForm):
         self.fields['municipality'].queryset = Municipality.objects.none()
         self.fields['area'].queryset = Area.objects.none()
         self.fields['area'].required = False
-        for field in self.fields.values():
-            field.error_messages = {'required':'Fältet {fieldname} är obligatoriskt'.format(
-                fieldname=field.label)}
+        self.fields['image2'].required = False
+        self.fields['image3'].required = False
+        
+        # for field in self.fields.values():
+        #     field.error_messages = {'required':'Fältet {fieldname} är obligatoriskt'.format(
+        #         fieldname=field.label)}
 
 
         if 'province' in self.data:

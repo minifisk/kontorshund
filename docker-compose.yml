@@ -8,7 +8,8 @@ services:
     volumes:
       - .:/home/kontorshund/web
       - static_volume:/home/kontorshund/web/staticfiles
-      - media_volume:/home/kontorshund/web/mediafiles
+      - ./mediafiles:/home/kontorshund/web/mediafiles
+      #- media_volume:/home/kontorshund/web/mediafiles
     ports:
       - 8000:8000
     env_file:

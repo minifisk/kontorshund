@@ -48,7 +48,6 @@ footer{
     background: #111;
     height: auto;
     width: 100vw;
-
     padding-top: 40px;
     margin-top: 40px;
     color: #fff;
@@ -92,7 +91,6 @@ footer{
 .socials a{
     text-decoration: none;
     color: #fff;
-    border: 1.1px solid white;
     padding: 5px;
 
     border-radius: 50%;
