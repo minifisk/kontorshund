@@ -26,7 +26,7 @@ from lockdown.decorators import lockdown
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Field, Row, Column, HTML
 from crispy_forms.bootstrap import (
-    PrependedText, PrependedAppendedText, FormActions, InlineRadios)
+    PrependedText, PrependedAppendedText, FormActions, InlineRadios, InlineCheckboxes)
 
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm, PhoneNumberForm
 from core.models import Advertisement, Municipality, Area, DogBreeds, Payment
@@ -354,37 +354,37 @@ class NewAdTakeMyDog(LoginRequiredMixin, CreateView):
         form.helper.layout = Layout(
             Field(HTML(mark_safe('<b>Plats</b>'))),  
             Div(
-                Field('province', css_class=""),
-                Field('municipality', css_class=""),
+                Field('province', css_class="mb-3"),
+                Field('municipality', css_class="mb-3"),
                 Field('area', css_class=""),
                 css_class='mt-3 mb-5'
             ),
             Field(HTML(mark_safe('<b>Om hunden</b>'))),  
             Div(
-                Field('name', css_class=""),
-                Field('age', css_class=""),
-                Field('hundras', css_class=""),
-                Field('size_offered', css_class=""),
+                Field('name', css_class="mb-4"),
+                Field('age', css_class="mb-4"),
+                Field('hundras', css_class="mb-4"),
+                InlineRadios('size_offered', css_class="ml-3 mr-2"),
                 css_class='mt-3 mb-5'
             ),
             Field(HTML(mark_safe('<b>Annonsen</b>'))),  
             Div(
-                Field('days_per_week', css_class=""),
-                Field('title', css_class=""),
+                InlineRadios('days_per_week', css_class="ml-3 mr-2"),
+                Field('title', css_class="mb-4"),
                 Field('description', css_class=""),
                 css_class='mt-3 mb-5'
             ),
             Field(HTML(mark_safe('<b>Bilder</b>'))),  
             Div(
-                Field('image1', css_class="btn btn-sm"),
-                Field('image2', css_class="btn btn-sm"),
+                Field('image1', css_class="btn btn-sm mb-4"),
+                Field('image2', css_class="btn btn-sm mb-4"),
                 Field('image3', css_class="btn btn-sm"),
                 css_class='mt-3 mb-5'
             ),
 
             Field(HTML(mark_safe('<b>Betalning</b>'))),  
             Div(
-                Field('payment_type', css_class="btn btn-sm"),
+                InlineRadios('payment_type', css_class="ml-3 mr-2"),
                 css_class='mt-3 mb-5'
             ),
         )
@@ -409,6 +409,46 @@ class NewAdGetMeADog(CreateView):
     form_class = NewAdGetMeADogForm
     success_url = reverse_lazy('ad_changelist')
     template_name = 'core/advertisement_form_get.html'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.helper = FormHelper()
+        form.fields['image1'].label = False
+        form.fields['image2'].label = False
+        form.fields['image3'].label = False
+        form.helper.add_input(Submit('submit', 'Gå till betalning', css_class='btn-primary'))
+      
+        form.helper.layout = Layout(
+            Field(HTML(mark_safe('<b>Plats</b>'))),  
+            Div(
+                Field('province', css_class="mb-3"),
+                Field('municipality', css_class="mb-3"),
+                Field('area', css_class=""),
+                css_class='mt-3 mb-5'
+            ),
+            Field(HTML(mark_safe('<b>Annonsen</b>'))),  
+            Div(
+                InlineCheckboxes('size_requested', css_class="mb-4 ml-3 mr-2"),
+                InlineRadios('days_per_week', css_class="ml-3 mr-2"),
+                Field('title', css_class="mb-1"),
+                Field('description', css_class="mt-2"),
+                css_class='mb-5 mt-3'
+            ),
+            Field(HTML(mark_safe('<b>Bilder</b>'))),  
+            Div(
+                Field('image1', css_class="btn btn-sm mb-4"),
+                Field('image2', css_class="btn btn-sm mb-4"),
+                Field('image3', css_class="btn btn-sm"),
+                css_class='mt-3 mb-5'
+            ),
+
+            Field(HTML(mark_safe('<b>Betalning</b>'))),  
+            Div(
+                InlineRadios('payment_type', css_class="ml-3 mr-2"),
+                css_class='mt-3 mb-5'
+            ),
+        )
+        return form
 
     def form_valid(self, form):
         form.instance.author = self.request.user

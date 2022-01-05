@@ -1,16 +1,16 @@
 from django import forms
 from django.conf import settings
 from django.core.validators import RegexValidator
+from django.db.models import query
 
 
 from kontorshund.settings import PRICE_BANKGIRO
 from kontorshund.settings import PRICE_SWISH
 
 
-from .models import Advertisement, Municipality, Area, DogBreeds
+from .models import Advertisement, DogSizeChoices, Municipality, Area, DogBreeds
 
 from dal import autocomplete
-
 
 
 
@@ -43,6 +43,7 @@ class NewAdTakeMyDogForm(forms.ModelForm):
         self.fields['area'].required = False
         self.fields['image2'].required = False
         self.fields['image3'].required = False
+        self.fields['size_offered'].empty_label = None
         
         # for field in self.fields.values():
         #     field.error_messages = {'required':'Fältet {fieldname} är obligatoriskt'.format(
@@ -111,7 +112,6 @@ class NewAdGetMeADogForm(forms.ModelForm):
         help_texts = {
             'title': 'Skriv en titel som sammanfattar annonsen - T.ex. "Kontor med 10 anställda söker en kontorshund 2 dagar per vecka" eller "Pensionär söker hund 1 dagar per vecka"',
             'description': 'Skriv om dig/er som vill ta hand om en hund, har någon hundvana, vad gör ni om dagarna? osv.',
-            'size_requested': 'Håll in cmd (mac) eller ctrl (windows) för att markera flera',
             'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp direkt.',
 
         }

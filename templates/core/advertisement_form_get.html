@@ -6,7 +6,7 @@
 {% block content %}
 
 {% block form_title %}
-<h1>Skapa en ny annons - Kontorshund sökes</h1>
+<h1 id="h1_new_ad" class="mb-3">Skapa en ny annons - Kontorshund <u>sökes</u></h1>
 {% endblock form_title %}
 
   
@@ -14,9 +14,7 @@
   <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
     {% csrf_token %}  
 
-    {{form|crispy}}
-
-    <button type="submit">Publicera annons</button>
+    {% crispy form %}
 
   </form>
 
