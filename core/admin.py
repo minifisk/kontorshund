@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.sites.models import Site
 
 from core.models import Payment, Province, Municipality, Advertisement, Area, DogSizeChoices, DogBreeds
-from core.forms import NewAdTakeMyDogForm, NewAdTakeMyDogFormAdmin
+from core.forms import NewAdTakeMyDogForm, NewAdFormAdmin
 
 # Register your models here.
 
@@ -50,7 +50,7 @@ class PaymentInline(admin.TabularInline):
     extra = 0
 
 class AdvertisementAdmin(admin.ModelAdmin):
-    form = NewAdTakeMyDogFormAdmin
+    form = NewAdFormAdmin
     list_display = ['id', 'title', 'is_offering_own_dog', 'author', 'name', 'is_published']
     list_display_links = ['title']
     readonly_fields = ('id',)

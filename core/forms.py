@@ -65,7 +65,7 @@ class NewAdTakeMyDogForm(forms.ModelForm):
             
 
 
-class NewAdTakeMyDogFormAdmin(forms.ModelForm):
+class NewAdFormAdmin(forms.ModelForm):
     
     hundras = forms.ModelChoiceField(
         queryset=DogBreeds.objects.all(),
@@ -74,11 +74,15 @@ class NewAdTakeMyDogFormAdmin(forms.ModelForm):
 
     class Meta:
         model = Advertisement
-        fields = ('author', 'province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'size_requested', 'hundras', 'image1', 'image2', 'image3', 'payment_type', 'is_published')
+        fields = ('is_offering_own_dog', 'author', 'province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'size_requested', 'hundras', 'image1', 'image2', 'image3', 'payment_type', 'is_published')
 
 
     def __init__(self, *args, **kwargs):
-        super(NewAdTakeMyDogFormAdmin, self).__init__(*args, **kwargs)
+        super(NewAdFormAdmin, self).__init__(*args, **kwargs)
+        self.fields['name'].required = False
+        self.fields['size_requested'].required = False
+        self.fields['size_offered'].required = False
+        self.fields['hundras'].required = False
 
         if (self.instance):
             if (not self.instance.area):
@@ -87,6 +91,9 @@ class NewAdTakeMyDogFormAdmin(forms.ModelForm):
             self.fields['municipality'].queryset = Municipality.objects.none()
             self.fields['area'].queryset = Area.objects.none()
             self.fields['area'].required = False
+
+
+
 
         if 'province' in self.data:
             try:

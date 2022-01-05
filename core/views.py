@@ -78,8 +78,24 @@ def recapcha(request, pk):
 #####################
 
 def profile(request):
+
+    url = request.build_absolute_uri('/')
+    media_url = f'{url}media/'
+    ad_url = f'{url}ads/'
+
     if request.user.is_authenticated:
-        return render(request, 'core/profile.html')
+        published_ads = Advertisement.objects.filter(author=request.user, is_published=True)
+        unpublished_ads = Advertisement.objects.filter(author=request.user, is_published=False)
+        return render(
+            request, 
+            'core/profile.html', 
+                {
+                    'published_ads': published_ads, 
+                    'unpublished_ads': unpublished_ads, 
+                    'media_url': media_url,
+                    'ad_url': ad_url,
+            }
+        )
     else:
         return redirect('account_login')
 

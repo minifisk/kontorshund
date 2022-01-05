@@ -29,13 +29,17 @@ h1 {
 p {
     font-family: 'Barlow Condensed', sans-serif;
     font-size: 20px;
+    margin: 0;
 }
 
-a {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 25px;
-}
+#ad_description_snippet {
 
+    height: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    width: 200px;
+}
 *{
     margin: 0;
     padding: 0;

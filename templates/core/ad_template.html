@@ -2,8 +2,8 @@
 <h2 id="unpublished_h2">OPUBLICERAD</h2>
 {% endif %}
 
-<h2>{{ ad.title }}</h2>
-<p>{{ ad.created_at }}</p>
+<h2 class="mt-5">{{ ad.title }}</h2>
+<p>Skapad: {{ ad.created_at }}</p>
 
 <div id="ad_type">
     {% if ad.is_offering_own_dog %}
@@ -13,13 +13,13 @@
     {% endif %}
     </div>
 <div id="location">
-    <p>{{ ad.municipality }} / {{ ad.province }}</p>
+    <p>Plats: {{ ad.municipality }} / {{ ad.province }}</p>
     {% if ad.area %}
-        <p>{{ ad.area }} / {{ ad.municipality }} / {{ ad.province }}</p>
+        <p>Plats: {{ ad.area }} / {{ ad.municipality }} / {{ ad.province }}</p>
     {% endif %}
 </div>
 
-<div id="images">
+<div id="images" class="mb-5 mt-5">
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -67,5 +67,5 @@
             {% endif %}
             </b> per vecka </p>
     {% endif %}
-    <p>{{ ad.description }}</p>
+    <p class="mt-3">{{ ad.description }}</p>
     </div>

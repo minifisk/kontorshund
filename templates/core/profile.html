@@ -4,7 +4,41 @@
 
 {% block content %}
 
-<p>Din profil</p>
+<h1 id="h1_new_ad" class="mb-5 ">Din profil</h1>
+
+<h3 class="mb-5">Dina annonser</h3>
+
+<h5 class="mb-5"><u>Publicerade</u> annonser</h5>
+
+{% for ad in published_ads %}
+
+  <div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="{{ media_url }}{{ ad.image1 }}" alt="published ad">
+    <div class="card-body">
+      <h5 class="card-title">{{ ad.title }}</h5>
+      <p class="card-text">{{ ad.description }}</p>
+      <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary">Gå till annons</a>
+    </div>
+  </div>
+
+{% endfor %}
+
+<h5 class="mb-5 mt-5"><u>Opublicerade</u> annonser</h5>
+
+{% for ad in unpublished_ads %}
+
+<div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="{{ media_url }}{{ ad.image1 }}" alt="published ad">
+  <div class="card-body">
+    <h5 class="card-title">{{ ad.title }}</h5>
+    <p id="ad_description_snippet" class="card-text">{{ ad.description }}</p>
+    <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-secondary">Gå till annons</a>
+  </div>
+</div>
+
+{% endfor %}
+
+
 
   {% endblock content %}
 
