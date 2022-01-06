@@ -386,6 +386,9 @@ class NewAdTakeMyDog(LoginRequiredMixin, CreateView):
             Div(
                 Field('title', css_class="mb-4"),
                 Field('description', css_class=""),
+                css_class='mt-3 mb-5'
+            ),
+            Div(
                 InlineRadios('days_per_week', css_class="ml-3 mr-2"),
                 css_class='mt-3 mb-5'
             ),
@@ -443,12 +446,15 @@ class NewAdGetMeADog(CreateView):
             ),
             Field(HTML(mark_safe('<b>Annonsen</b>'))),  
             Div(
-                InlineCheckboxes('size_requested', css_class="mb-4 ml-3 mr-2"),
                 Field('title', css_class="mb-1"),
                 Field('description', css_class="mt-2"),
-                InlineRadios('days_per_week', css_class="ml-3 mr-2"),
                 css_class='mb-5 mt-3'
             ),
+            Div(
+                InlineCheckboxes('size_requested', css_class="mb-4 ml-3 mr-2"),
+                InlineRadios('days_per_week', css_class="ml-3 mr-2"),
+                css_class='mb-5 mt-3'
+            ),  
             Field(HTML(mark_safe('<b>Bilder</b>'))),  
             Div(
                 Field('image1', css_class="btn btn-sm mb-4"),

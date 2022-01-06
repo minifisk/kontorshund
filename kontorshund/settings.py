@@ -202,11 +202,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+USE_S3 = os.environ.get("USE_S3", "false").lower() == "true"
 
-USE_S3 = bool(os.getenv('USE_S3')) == True
+
 
 
 if USE_S3:
+
+    print("Using S3")
 
     # Linode bucket credentials
     LINODE_BUCKET_NAME=os.environ.get('LINODE_BUCKET_NAME')
@@ -235,8 +238,11 @@ if USE_S3:
 
 
 else:
+
+    print("Not using S3")
+
     STATIC_URL = '/static/'
-    STATIC_ROOT = BASE_DIR / 'staticfiles'
+    STATIC_ROOT = '/home/kontorshund/web/staticfiles'
 
     MEDIA_URL = '/media/'
     MEDIA_ROOT = BASE_DIR / "mediafiles"
