@@ -243,7 +243,7 @@ else:
 
 
 # Where to collect static files from locally
-STATICFILES_DIRS = [BASE_DIR / 'CSS']
+STATICFILES_DIRS = [BASE_DIR / 'local_static']
 
 
 
