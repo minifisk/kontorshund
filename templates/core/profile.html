@@ -8,7 +8,7 @@
 
 <h3 class="mb-5">Dina annonser</h3>
 
-<h5 class="mb-5"><u>Publicerade</u> annonser</h5>
+<h5 class="mb-5"><u>Publicerade</u> annonser ({{ published_ads.count }} st)</h5>
 
 {% for ad in published_ads %}
 
@@ -23,12 +23,12 @@
 
 {% endfor %}
 
-<h5 class="mb-5 mt-5"><u>Opublicerade</u> annonser</h5>
+<h5 class="mb-5 mt-5"><u>Opublicerade</u> annonser ({{ unpublished_ads.count }} st) </h5>
 
 {% for ad in unpublished_ads %}
 
 
-<div class="card" style="width: 18rem;">
+<div class="card mb-5" style="width: 18rem;">
   <img class="card-img-top" src=" {{ ad.image1.thumbnail.url }}" alt="published ad">
   <div class="card-body">
     <h5 class="card-title">{{ ad.title }}</h5>

@@ -20,8 +20,6 @@
 }
 
 
-
-
 h1 {
     font-family: 'Barlow Condensed', sans-serif;
 }
@@ -237,7 +235,7 @@ display: block;
 
     #choose_options img {
         margin-top: 30px;
-        width: 500px;
+        width: 400px;
         padding: 10px;
     }
 
