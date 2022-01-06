@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_extensions',
     'lockdown',
+    'storages',
 
     # Local
     'accounts',
@@ -200,13 +201,53 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+USE_S3 = bool(os.getenv('USE_S3')) == True
+
+
+if USE_S3:
+
+    # Linode bucket credentials
+    LINODE_BUCKET_NAME=os.environ.get('LINODE_BUCKET_NAME')
+    LINODE_BUCKET_REGION=os.environ.get('LINODE_BUCKET_REGION')
+    LINODE_BUCKET_ACCESS_KEY=os.environ.get('LINODE_BUCKET_ACCESS_KEY') 
+    LINODE_BUCKET_SECRET_KEY=os.environ.get('LINODE_BUCKET_SECRET_KEY') 
+
+    # Static settings
+    STATIC_LOCATION = 'static'
+    STATIC_URL = f'https://{LINODE_BUCKET_NAME}.{LINODE_BUCKET_REGION}.linodeobjects.com/{STATIC_LOCATION}/'
+    STATICFILES_STORAGE = 'kontorshund.storage_backends.StaticStorage' # Add files to bucket when running collectstatic
+    
+    # Media settings
+    MEDIA_LOCATION = 'media'
+    STATIC_URL = f'https://{LINODE_BUCKET_NAME}.{LINODE_BUCKET_REGION}.linodeobjects.com/{MEDIA_LOCATION}/'
+    DEFAULT_FILE_STORAGE = 'kontorshund.storage_backends.PublicMediaStorage'
+
+    # Using AWS template settings for Boto3 with Linode crentials
+    AWS_S3_ENDPOINT_URL=f'https://{LINODE_BUCKET_REGION}.linodeobjects.com'
+    AWS_ACCESS_KEY_ID=LINODE_BUCKET_ACCESS_KEY
+    AWS_SECRET_ACCESS_KEY=LINODE_BUCKET_SECRET_KEY
+    AWS_S3_REGION_NAME=LINODE_BUCKET_REGION
+    AWS_S3_USE_SSL=True
+    AWS_STORAGE_BUCKET_NAME=LINODE_BUCKET_NAME
+    AWS_DEFAULT_ACL= None
+
+
+else:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / "mediafiles"
+
+
+# Where to collect static files from locally
 STATICFILES_DIRS = [BASE_DIR / 'CSS']
 
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / "mediafiles"
+
+
+
 
 
 # Default primary key field type

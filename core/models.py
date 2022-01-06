@@ -42,6 +42,8 @@ class DogBreeds(models.Model):
     def __str__(self):
         return self.name
 
+def content_file_name(instance, filename):
+    return '/'.join(['ads', instance.author.username, filename])
 
 class Advertisement(SoftDeleteModel, TimeStampedModel):
 
@@ -90,9 +92,9 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     size_requested = models.ManyToManyField(DogSizeChoices, verbose_name='Önskade hundstorlekar (flerval)', related_name='size_requested')
 
     # Images
-    image1 = models.ImageField(null=True, blank=True, verbose_name="Bild 1")
-    image2 = models.ImageField(null=True, blank=True, verbose_name="Bild 2")
-    image3 = models.ImageField(null=True, blank=True, verbose_name="Bild 3")
+    image1 = models.ImageField(null=True, blank=True, verbose_name="Bild 1", upload_to=content_file_name)
+    image2 = models.ImageField(null=True, blank=True, verbose_name="Bild 2", upload_to=content_file_name)
+    image3 = models.ImageField(null=True, blank=True, verbose_name="Bild 3", upload_to=content_file_name)
 
 
     def __str__(self):
