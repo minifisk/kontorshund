@@ -62,7 +62,6 @@ class NewAdTakeMyDogForm(forms.ModelForm):
                 
             except (ValueError, TypeError) as e:
                 pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
-            
 
 
 class NewAdFormAdmin(forms.ModelForm):

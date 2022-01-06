@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'lockdown',
     'storages',
+    'stdimage',
 
     # Local
     'accounts',

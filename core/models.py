@@ -2,6 +2,8 @@ from io import open_code
 from django.db import models
 from django.contrib.auth import get_user_model
 
+from stdimage import StdImageField
+
 from common.abstracts import SoftDeleteModel, TimeStampedModel
 
 User = get_user_model()
@@ -92,9 +94,10 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     size_requested = models.ManyToManyField(DogSizeChoices, verbose_name='Önskade hundstorlekar (flerval)', related_name='size_requested')
 
     # Images
-    image1 = models.ImageField(null=True, blank=True, verbose_name="Bild 1", upload_to=content_file_name)
-    image2 = models.ImageField(null=True, blank=True, verbose_name="Bild 2", upload_to=content_file_name)
-    image3 = models.ImageField(null=True, blank=True, verbose_name="Bild 3", upload_to=content_file_name)
+    image1 = StdImageField(null=True, blank=True, verbose_name="Bild 1", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}})
+    image2 = StdImageField(null=True, blank=True, verbose_name="Bild 2", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}})
+    image3 = StdImageField(null=True, blank=True, verbose_name="Bild 3", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}})
+   
 
 
     def __str__(self):
