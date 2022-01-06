@@ -85,6 +85,7 @@ def profile(request):
 
     if request.user.is_authenticated:
         published_ads = Advertisement.objects.filter(author=request.user, is_published=True)
+        
         unpublished_ads = Advertisement.objects.filter(author=request.user, is_published=False)
         return render(
             request, 

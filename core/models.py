@@ -43,7 +43,7 @@ class DogBreeds(models.Model):
         return self.name
 
 def content_file_name(instance, filename):
-    return '/'.join(['ads', instance.author.username, filename])
+    return '/'.join(['content', instance.author.username, filename])
 
 class Advertisement(SoftDeleteModel, TimeStampedModel):
 

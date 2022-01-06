@@ -13,7 +13,7 @@
 {% for ad in published_ads %}
 
   <div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="{{ media_url }}{{ ad.image1 }}" alt="published ad">
+    <img class="card-img-top" src="{{ ad.image1.url }}" alt="published ad">
     <div class="card-body">
       <h5 class="card-title">{{ ad.title }}</h5>
       <p class="card-text">{{ ad.description }}</p>
@@ -27,8 +27,9 @@
 
 {% for ad in unpublished_ads %}
 
+
 <div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="{{ media_url }}{{ ad.image1 }}" alt="published ad">
+  <img class="card-img-top" src=" {{ ad.image1.url }}" alt="published ad">
   <div class="card-body">
     <h5 class="card-title">{{ ad.title }}</h5>
     <p id="ad_description_snippet" class="card-text">{{ ad.description }}</p>
