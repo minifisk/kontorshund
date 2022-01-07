@@ -38,17 +38,19 @@ class NewAdTakeMyDogForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(NewAdTakeMyDogForm, self).__init__(*args, **kwargs)
-        self.fields['municipality'].queryset = Municipality.objects.none()
-        self.fields['area'].queryset = Area.objects.none()
-        self.fields['area'].required = False
         self.fields['image2'].required = False
         self.fields['image3'].required = False
         self.fields['size_offered'].empty_label = None
         
-        # for field in self.fields.values():
-        #     field.error_messages = {'required':'Fältet {fieldname} är obligatoriskt'.format(
-        #         fieldname=field.label)}
 
+        if (self.instance):
+            if (not self.instance.area):
+                self.fields['area'].queryset = Area.objects.none()
+        else:
+            self.fields['municipality'].queryset = Municipality.objects.none()
+            self.fields['area'].queryset = Area.objects.none()
+            self.fields['area'].required = False
+        
 
         if 'province' in self.data:
             try:
@@ -91,9 +93,6 @@ class NewAdFormAdmin(forms.ModelForm):
             self.fields['area'].queryset = Area.objects.none()
             self.fields['area'].required = False
 
-
-
-
         if 'province' in self.data:
             try:
                 # Set municipality queryset
@@ -111,6 +110,8 @@ class NewAdFormAdmin(forms.ModelForm):
             field.error_messages = {'required':'Fältet {fieldname} är obligatoriskt'.format(
                 fieldname=field.label)}
 
+
+
 class NewAdGetMeADogForm(forms.ModelForm):
     class Meta:
         model = Advertisement
@@ -126,9 +127,14 @@ class NewAdGetMeADogForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(NewAdGetMeADogForm, self).__init__(*args, **kwargs)
-        self.fields['municipality'].queryset = Municipality.objects.none()
-        self.fields['area'].queryset = Area.objects.none()
-        self.fields['area'].required = False
+
+        if (self.instance):
+            if (not self.instance.area):
+                self.fields['area'].queryset = Area.objects.none()
+        else:
+            self.fields['municipality'].queryset = Municipality.objects.none()
+            self.fields['area'].queryset = Area.objects.none()
+            self.fields['area'].required = False
 
         if 'province' in self.data:
             try:

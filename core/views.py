@@ -490,11 +490,126 @@ class NewAdGetMeADog(CreateView):
 ########################
 
 
-class AdUpdateView(UpdateView):
+class AdUpdateTakeMyDogView(UpdateView):
     model = Advertisement
     form_class = NewAdTakeMyDogForm
-    success_url = reverse_lazy('ad_changelist')
+    template_name = 'core/advertisement_form_update_take.html'
 
+    def get_success_url(self):
+        return reverse_lazy('ad_detail', {'pk': self.object.pk})
+
+    # def get(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     if self.object.is_offering_own_dog == False:
+    #         return reverse_lazy('ad_update_get', kwargs={'pk': self.object.pk})
+    #     return super().get(request, *args, **kwargs)
+
+
+    def get_form(self, form_class=None):
+        
+        form = super().get_form(form_class)
+        form.helper = FormHelper()
+        form.helper.add_input(Submit('submit', 'Gå tillbaka till annonsen', css_class='btn-primary'))
+      
+        form.helper.layout = Layout(
+            Field(HTML(mark_safe('<b>Plats</b>'))),  
+            Div(
+                Field('province', css_class="mb-3"),
+                Field('municipality', css_class="mb-3"),
+                Field('area', css_class=""),
+                css_class='mt-3 mb-5'
+            ),
+            Field(HTML(mark_safe('<b>Om hunden</b>'))),  
+            Div(
+                Field('name', css_class="mb-4"),
+                Field('age', css_class="mb-4"),
+                Field('hundras', css_class="mb-4"),
+                InlineRadios('size_offered', css_class="ml-3 mr-2"),
+                css_class='mt-3 mb-5'
+            ),
+            Field(HTML(mark_safe('<b>Annonsen</b>'))),  
+            Div(
+                Field('title', css_class="mb-4"),
+                Field('description', css_class=""),
+                css_class='mt-3 mb-5'
+            ),
+            Div(
+                InlineRadios('days_per_week', css_class="ml-3 mr-2"),
+                css_class='mt-3 mb-5'
+            ),
+            Field(HTML(mark_safe('<b>Bilder</b>'))),  
+            Div(
+                Field('image1', css_class="btn btn-sm mb-4"),
+                Field('image2', css_class="btn btn-sm mb-4"),
+                Field('image3', css_class="btn btn-sm"),
+                css_class='mt-3 mb-5'
+            ),
+
+            Field(HTML(mark_safe('<b>Betalning</b>'))),  
+            Div(
+                InlineRadios('payment_type', css_class="ml-3 mr-2"),
+                css_class='mt-3 mb-5'
+            ),
+        )
+        return form
+
+
+class AdUpdateGetMeADogView(UpdateView):
+    model = Advertisement
+    form_class = NewAdGetMeADogForm
+    template_name = 'core/advertisement_form_update_get.html'
+
+    def get_success_url(self):
+        return reverse("ad_detail", kwargs={'pk': self.object.pk})
+        #return reverse_lazy('ad_detail', {'pk': self.object.pk})
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.helper = FormHelper()
+        form.fields['image1'].label = False
+        form.fields['image2'].label = False
+        form.fields['image3'].label = False
+        form.helper.add_input(Submit('submit', 'Gå tillbaka till annonsen', css_class='btn-primary'))
+      
+        form.helper.layout = Layout(
+            Field(HTML(mark_safe('<b>Plats</b>'))),  
+            Div(
+                Field('province', css_class="mb-3"),
+                Field('municipality', css_class="mb-3"),
+                Field('area', css_class=""),
+                css_class='mt-3 mb-5'
+            ),
+            Field(HTML(mark_safe('<b>Annonsen</b>'))),  
+            Div(
+                Field('title', css_class="mb-1"),
+                Field('description', css_class="mt-2"),
+                css_class='mb-5 mt-3'
+            ),
+            Div(
+                InlineCheckboxes('size_requested', css_class="mb-4 ml-3 mr-2"),
+                InlineRadios('days_per_week', css_class="ml-3 mr-2"),
+                css_class='mb-5 mt-3'
+            ),  
+            Field(HTML(mark_safe('<b>Bilder</b>'))),  
+            Div(
+                Field('image1', css_class="btn btn-sm mb-4"),
+                Field('image2', css_class="btn btn-sm mb-4"),
+                Field('image3', css_class="btn btn-sm"),
+                css_class='mt-3 mb-5'
+            ),
+
+            Field(HTML(mark_safe('<b>Betalning</b>'))),  
+            Div(
+                InlineRadios('payment_type', css_class="ml-3 mr-2"),
+                css_class='mt-3 mb-5'
+            ),
+        )
+        return form
+
+
+########################
+# VIEWS FOR VIEWING ADS
+########################
 
 class AdDetailView(generic.DetailView):
     model = Advertisement

@@ -10,6 +10,13 @@
 {% block content %}
 
 
+{% if ad.is_offering_own_dog %}
+    <h1>Hund erbjudes</h1>
+{% else %}
+    <h1>Hund sökes</h1>
+{% endif %}
+
+
 <!-- Check if NOT published -->
 {% if not ad.is_published %}
 
@@ -25,6 +32,13 @@
                 <br>
                     <a href="{% url 'swish_payment_template' ad.id %}"><button class="btn btn-primary" >Betala med Swish</button></a>
                     <a href="{% url 'bg_payment' ad.id %}"><button class="btn btn-secondary">Betala med Bankgiro</button></a>
+                    
+                    {% if ad.is_offering_own_dog == True%}
+                        <a href="{% url 'update_ad_take' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
+                    {% else %}
+                        <a href="{% url 'update_ad_get' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
+                    {% endif %}
+
                     <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger">Ta bort annons</button></a>
                     <br>
                 
@@ -55,6 +69,11 @@
     {% if ad.author == request.user %}
         <p>Denna annons tillhör dig och är <b>Publicerad</b> (Endast du ser detta)</p>
         <br>
+        {% if ad.is_offering_own_dog == True%}
+        <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
+        {% else %}
+        <a href="{% url 'ad_update_get' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
+        {% endif %}
         <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger">Ta bort annons</button></a>
     {% endif %}
         

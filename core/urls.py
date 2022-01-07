@@ -12,7 +12,7 @@ urlpatterns = [
     path('profile', views.profile, name='profile'), 
 
     path('ads/list', views.ListAds, name='list_ads'),
-    path('ads/choose', views.ChooseAd, name='choose_ad_type'),
+    
     
     path('ads/take-my-dog', views.AdListTakeMyDog.as_view(), name='view_ads_take_my_dog'),
     path('ads/get-me-a-dog', views.AdListGetMeADog.as_view(), name='view_ads_get_me_a_dog'),
@@ -30,13 +30,15 @@ urlpatterns = [
     path('swish-successfull-android', views.android_success_page, name='android_success_page'),
     path('bg-pay/<int:pk>', views.PayForAdBG, name='bg_payment'),
 
+    path('ads/choose', views.ChooseAd, name='choose_ad_type'),
     
     # Create take and get-ads
-    path('add/take-my-dog', views.NewAdTakeMyDog.as_view(), name='new_ad_take_my_dog'),
-    path('add/get-me-a-dog', views.NewAdGetMeADog.as_view(), name='new_ad_get_me_a_dog'),
+    path('ads/create/take-my-dog', views.NewAdTakeMyDog.as_view(), name='new_ad_take_my_dog'),
+    path('ads/create/get-me-a-dog', views.NewAdGetMeADog.as_view(), name='new_ad_get_me_a_dog'),
 
     # Update for take and get-ads
-    path('<int:pk>/', views.AdUpdateView.as_view(), name='ad_change'),
+    path('ads/update/take-my-dog/<int:pk>', views.AdUpdateTakeMyDogView.as_view(), name='ad_update_take'),
+    path('ads/update/get-me-a-dog/<int:pk>', views.AdUpdateGetMeADogView.as_view(), name='ad_update_get'),
 
 
     # Path's for area generation
