@@ -30,7 +30,7 @@ from crispy_forms.bootstrap import (
     PrependedText, PrependedAppendedText, FormActions, InlineRadios, InlineCheckboxes)
 
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm, PhoneNumberForm
-from core.models import Advertisement, Municipality, Area, DogBreeds, Payment
+from core.models import Advertisement, Municipality, Area, DogBreed, Payment
 from kontorshund.settings import PRICE_BANKGIRO, PRICE_SWISH, PRICE_SWISH_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
 
 
@@ -109,9 +109,9 @@ class BreedAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
 
         if not self.request.user.is_authenticated:
-            return DogBreeds.objects.none()
+            return DogBreed.objects.none()
 
-        qs = DogBreeds.objects.all()
+        qs = DogBreed.objects.all()
 
         if self.q:
             qs = qs.filter(name__icontains=self.q)

@@ -8,7 +8,7 @@ from kontorshund.settings import PRICE_BANKGIRO
 from kontorshund.settings import PRICE_SWISH
 
 
-from .models import Advertisement, DogSizeChoices, Municipality, Area, DogBreeds
+from .models import Advertisement, DogSizeChoice, Municipality, Area, DogBreed, NewsEmail
 
 from dal import autocomplete
 
@@ -17,7 +17,7 @@ from dal import autocomplete
 class NewAdTakeMyDogForm(forms.ModelForm):
     
     hundras = forms.ModelChoiceField(
-        queryset=DogBreeds.objects.all(),
+        queryset=DogBreed.objects.all(),
         widget=autocomplete.ModelSelect2(url='breed-autocomplete')
     )
 
@@ -69,7 +69,7 @@ class NewAdTakeMyDogForm(forms.ModelForm):
 class NewAdFormAdmin(forms.ModelForm):
     
     hundras = forms.ModelChoiceField(
-        queryset=DogBreeds.objects.all(),
+        queryset=DogBreed.objects.all(),
         widget=autocomplete.ModelSelect2(url='breed-autocomplete')
     )
 
@@ -155,6 +155,14 @@ class NewAdGetMeADogForm(forms.ModelForm):
                 fieldname=field.label)}
 
 phone_number_validator = RegexValidator(r"^(07[0236])\s*(\d{4})\s*(\d{3})$", "Telefonnummer skall anges i formatet 0723456789 (utan mellanslag)")
+
+
+
+class NewsEmailForm(forms.ModelForm):
+
+    class Meta:
+        model = NewsEmail 
+
 
 class PhoneNumberForm(forms.Form):
     phone_number = forms.CharField(
