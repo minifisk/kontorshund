@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.contrib.sites.models import Site
 
 from core.models import Payment, Province, Municipality, Advertisement, Area, DogSizeChoice, DogBreed
-from core.forms import NewAdTakeMyDogForm, NewAdFormAdmin
+from core.forms import NewAdTakeMyDogForm, NewAdFormAdmin, NewsEmailFormAdmin
+from core.models import NewsEmail
 
 # Register your models here.
 
@@ -36,8 +37,6 @@ admin.site.register(DogBreed, DogBreedAdmin)
 
 
 
-
-
 class PaymentAdmin(admin.ModelAdmin):
     model = Payment
     list_display = ['id', 'payment_type', 'advertisement', 'amount', 'date_time_paid', 'payer_alias']
@@ -61,6 +60,12 @@ class AdvertisementAdmin(admin.ModelAdmin):
 admin.site.register(Advertisement, AdvertisementAdmin)
 
 
+class NewsEmailAdmin(admin.ModelAdmin):
+    form = NewsEmailFormAdmin
+    list_display = ['user', 'province', 'municipality', 'interval']
+    readonly_fields = ('id',)
+
+admin.site.register(NewsEmail, NewsEmailAdmin)
 
 
 

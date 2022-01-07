@@ -30,7 +30,8 @@ from crispy_forms.bootstrap import (
     PrependedText, PrependedAppendedText, FormActions, InlineRadios, InlineCheckboxes)
 
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm, PhoneNumberForm
-from core.models import Advertisement, Municipality, Area, DogBreed, Payment
+from core.models import Advertisement, Municipality, Area, DogBreed, Payment, NewsEmail
+from core.forms import NewsEmailForm
 from kontorshund.settings import PRICE_BANKGIRO, PRICE_SWISH, PRICE_SWISH_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
 
 
@@ -83,19 +84,32 @@ def profile(request):
     ad_url = f'{url}ads/'
 
     if request.user.is_authenticated:
-        published_ads = Advertisement.objects.filter(author=request.user, is_published=True)
         
-        unpublished_ads = Advertisement.objects.filter(author=request.user, is_published=False)
-        return render(
-            request, 
-            'core/profile.html', 
-                {
-                    'published_ads': published_ads, 
-                    'unpublished_ads': unpublished_ads, 
-                    'media_url': media_url,
-                    'ad_url': ad_url,
-            }
-        )
+        if request.method == 'GET':
+
+            published_ads = Advertisement.objects.filter(author=request.user, is_published=True)
+            unpublished_ads = Advertisement.objects.filter(author=request.user, is_published=False)
+
+            NewsEmail_obj = NewsEmail.objects.get(user=request.user)
+
+            form = NewsEmailForm(instance=NewsEmail_obj)
+
+            return render(
+                request, 
+                'core/profile.html', 
+                    {
+                        'published_ads': published_ads, 
+                        'unpublished_ads': unpublished_ads, 
+                        'media_url': media_url,
+                        'ad_url': ad_url,
+                        'form': form
+                }
+            )
+        if request.method == 'POST':
+            form = NewsEmailForm(request.POST)
+
+            if form.is_valid():
+                return redirect('profile', {'message': 'Bevakningar uppdaterade!'})
     else:
         return redirect('account_login')
 

@@ -162,6 +162,40 @@ class NewsEmailForm(forms.ModelForm):
 
     class Meta:
         model = NewsEmail 
+        fields = ('province', 'municipality', 'areas', 'interval')
+
+    def __init__(self, *args, **kwargs):
+        super(NewsEmailForm, self).__init__(*args, **kwargs)
+        self.fields['province'].required = True
+        self.fields['municipality'].required = True
+
+        if (self.instance):
+            if (str(self.instance.areas) == 'core.Area.None'):
+                self.fields['areas'].queryset = Area.objects.none()
+        else:
+            self.fields['municipality'].queryset = Municipality.objects.none()
+            self.fields['areas'].queryset = Area.objects.none()
+            self.fields['areas'].required = False
+
+        if 'province' in self.data:
+            try:
+                # Set municipality queryset
+                province_id = int(self.data.get('province'))
+                self.fields['municipality'].queryset = Municipality.objects.filter(province_id=province_id).order_by('name')
+            
+                # Set area queryset
+                municipality_id = int(self.data.get('municipality'))
+                self.fields['areas'].queryset = Area.objects.filter(municipality_id=municipality_id).order_by('name')
+                
+            except (ValueError, TypeError) as e:
+                pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
+
+
+class NewsEmailFormAdmin(forms.ModelForm):
+
+    class Meta:
+        model = NewsEmail 
+        fields = ('user', 'province', 'municipality', 'areas', 'interval')
 
 
 class PhoneNumberForm(forms.Form):

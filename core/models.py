@@ -1,7 +1,7 @@
 from io import open_code
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.db.models.fields import BooleanField
+from django.db.models.fields import BooleanField, CharField, IntegerField
 from django.db.models.fields.related import ForeignKey, ManyToManyField
 
 from stdimage import StdImageField
@@ -35,12 +35,19 @@ class Area(models.Model):
 
 
 class NewsEmail(models.Model):
-    user = ForeignKey(User, on_delete=models.CASCADE, null=True)
-    province = ForeignKey(Province, on_delete=models.CASCADE)
-    municipality = ForeignKey(Municipality, on_delete=models.CASCADE)
-    areas = ManyToManyField(Area)
-    weekly = BooleanField(default=False)
-    daily = BooleanField(default=False)
+
+
+    INTERVAL_CHOICES = (
+        (1, "Veckovis"),
+        (2, "Dagligen"),
+
+    )
+
+    user = ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    province = ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap', null=True, blank=True)
+    municipality = ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun', null=True, blank=True)
+    areas = ManyToManyField(Area, verbose_name='Område', blank=True)
+    interval = IntegerField(choices=INTERVAL_CHOICES, null=True, blank=True)
 
 
 class DogSizeChoice(models.Model):
