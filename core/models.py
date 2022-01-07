@@ -1,6 +1,8 @@
 from io import open_code
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models.fields import BooleanField
+from django.db.models.fields.related import ForeignKey, ManyToManyField
 
 from stdimage import StdImageField
 
@@ -30,6 +32,16 @@ class Area(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class NewsMails(models.Model):
+    user = ForeignKey(User, on_delete=models.CASCADE, null=True)
+    province = ForeignKey(Province, on_delete=models.CASCADE)
+    municipality = ForeignKey(Municipality, on_delete=models.CASCADE)
+    areas = ManyToManyField(Area)
+    weekly = BooleanField(default=False)
+    daily = BooleanField(default=False)
+
 
 class DogSizeChoices(models.Model):
     size = models.CharField(max_length=20) 
