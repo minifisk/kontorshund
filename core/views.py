@@ -498,11 +498,11 @@ class AdUpdateTakeMyDogView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('ad_detail', {'pk': self.object.pk})
 
-    # def get(self, request, *args, **kwargs):
-    #     self.object = self.get_object()
-    #     if self.object.is_offering_own_dog == False:
-    #         return reverse_lazy('ad_update_get', kwargs={'pk': self.object.pk})
-    #     return super().get(request, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.is_offering_own_dog == False:
+            return HttpResponseRedirect(reverse_lazy('ad_update_get', kwargs={'pk': self.object.pk}))
+        return super().get(request, *args, **kwargs)
 
 
     def get_form(self, form_class=None):
@@ -558,6 +558,13 @@ class AdUpdateGetMeADogView(UpdateView):
     model = Advertisement
     form_class = NewAdGetMeADogForm
     template_name = 'core/advertisement_form_update_get.html'
+
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.is_offering_own_dog == True:
+            return HttpResponseRedirect(reverse_lazy('ad_update_take', kwargs={'pk': self.object.pk}))
+        return super().get(request, *args, **kwargs)
 
     def get_success_url(self):
         return reverse("ad_detail", kwargs={'pk': self.object.pk})
