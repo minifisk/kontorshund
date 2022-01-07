@@ -34,7 +34,7 @@ class Area(models.Model):
         return self.name
 
 
-class NewsMails(models.Model):
+class NewsEmail(models.Model):
     user = ForeignKey(User, on_delete=models.CASCADE, null=True)
     province = ForeignKey(Province, on_delete=models.CASCADE)
     municipality = ForeignKey(Municipality, on_delete=models.CASCADE)
@@ -43,14 +43,14 @@ class NewsMails(models.Model):
     daily = BooleanField(default=False)
 
 
-class DogSizeChoices(models.Model):
+class DogSizeChoice(models.Model):
     size = models.CharField(max_length=20) 
 
     def __str__(self):
         return self.size
 
 
-class DogBreeds(models.Model):
+class DogBreed(models.Model):
     name = models.CharField(max_length=150)
 
     def __str__(self):
@@ -101,9 +101,9 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     
     # Choices
     days_per_week = models.CharField(max_length=3, choices=DAYS_PER_WEEK_CHOICES, default=1, verbose_name='Önskad omfattning')
-    hundras = models.ForeignKey(DogBreeds, on_delete=models.CASCADE, null=True, verbose_name=u'Hundras')
-    size_offered = models.ForeignKey(DogSizeChoices, verbose_name='Hundens storlek', on_delete=models.CASCADE, related_name='size_offered', null=True)
-    size_requested = models.ManyToManyField(DogSizeChoices, verbose_name='Önskade hundstorlekar (flerval)', related_name='size_requested')
+    hundras = models.ForeignKey(DogBreed, on_delete=models.CASCADE, null=True, verbose_name=u'Hundras')
+    size_offered = models.ForeignKey(DogSizeChoice, verbose_name='Hundens storlek', on_delete=models.CASCADE, related_name='size_offered', null=True)
+    size_requested = models.ManyToManyField(DogSizeChoice, verbose_name='Önskade hundstorlekar (flerval)', related_name='size_requested')
 
     # Images
     image1 = StdImageField(null=True, blank=True, verbose_name="Bild 1", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}})
