@@ -1,5 +1,6 @@
 import datetime
 import io
+from re import template
 import qrcode 
 import json
 import requests
@@ -484,6 +485,10 @@ class NewAdGetMeADog(CreateView):
         if self.object.payment_type == 'B':
             return reverse('bg_payment', kwargs={'pk': self.object.pk})
 
+########################
+# VIEWS FOR UPDATING ADS 
+########################
+
 
 class AdUpdateView(UpdateView):
     model = Advertisement
@@ -499,6 +504,22 @@ class AdDetailView(generic.DetailView):
         context = super(AdDetailView, self).get_context_data(**kwargs)
         context['site_key'] = settings.RECAPTCHA_SITE_KEY
         return context
+
+
+########################
+# VIEWS FOR DELETING ADS 
+########################
+
+class DeleteAd(generic.DeleteView):
+    model = Advertisement
+    template_name = 'core/ad_confirm_delete.html'
+    success_url = reverse_lazy('profile')
+
+
+###################
+# GEOGRAPHIES VIEWS
+###################
+
 
 # View to be used for getting Municipalities connected to a Province
 def load_municipalities(request):

@@ -22,13 +22,14 @@
             <!-- Check if ad has initial payment -->
             {% if ad.has_initial_payment == False %}
                 <p>Din annons har betalstatus <b> Obetald </b>-  Endast du kan se annonsen tills den är betald! </p>
+                <br>
                     <a href="{% url 'swish_payment_template' ad.id %}"><button class="btn btn-primary" >Betala med Swish</button></a>
                     <a href="{% url 'bg_payment' ad.id %}"><button class="btn btn-secondary">Betala med Bankgiro</button></a>
-                    <br>
+                    <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger">Ta bort annons</button></a>
                     <br>
                 
             {% else %}
-                <p>Din annons har betalstatus <b> Betald </b> Något har gått snett då din annons är betald men ännu ej publicerad. Vänta i 10 minuter och uppdatera sidan. Är din annons ännu opublicerad kontakta oss på <a href = "mailto: info@kontorshund.se">info@kontorshund.se</a> </p>
+                <p class="mb-3">Din annons har betalstatus <b> Betald </b> Något har gått snett då din annons är betald men ännu ej publicerad. Vänta i 10 minuter och uppdatera sidan. Är din annons ännu opublicerad kontakta oss på <a href = "mailto: info@kontorshund.se">info@kontorshund.se</a> </p>
             {% endif %}
 
             <div id="unpublished">
@@ -53,6 +54,8 @@
      <!-- Let user know if it's their own ad if it's published -->   
     {% if ad.author == request.user %}
         <p>Denna annons tillhör dig och är <b>Publicerad</b> (Endast du ser detta)</p>
+        <br>
+        <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger">Ta bort annons</button></a>
     {% endif %}
         
     {% include 'core/ad_template.html' %}

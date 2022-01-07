@@ -11,19 +11,18 @@ urlpatterns = [
 
     path('profile', views.profile, name='profile'), 
 
-    # Ads
     path('ads/list', views.ListAds, name='list_ads'),
     path('ads/choose', views.ChooseAd, name='choose_ad_type'),
     
     path('ads/take-my-dog', views.AdListTakeMyDog.as_view(), name='view_ads_take_my_dog'),
     path('ads/get-me-a-dog', views.AdListGetMeADog.as_view(), name='view_ads_get_me_a_dog'),
 
-    # View of a specific ad
-    path('ads/<int:pk>', views.AdDetailView.as_view(), name='ad-detail'),
+    path('ads/<int:pk>', views.AdDetailView.as_view(), name='ad_detail'),
     path('recapcha/<int:pk>', views.recapcha, name='recapcha'),
 
+    path('delete-ad/<int:pk>', views.DeleteAd.as_view(), name='delete_ad'),
 
-    # Pay for an ad
+
     path('swish-pay/<int:pk>', views.PayForAdSwishTemplate, name='swish_payment_template'),
     path('generate-swish-qr-code/<int:pk>', views.GenerateSwishPaymentQrCode, name='swish_payment_qr_code'),
     path('generate-swish-request-token/<int:pk>', views.GenerateSwishPaymentRequestToken, name='swish_request_token'),

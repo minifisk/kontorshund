@@ -51,7 +51,7 @@ class PaymentInline(admin.TabularInline):
 
 class AdvertisementAdmin(admin.ModelAdmin):
     form = NewAdFormAdmin
-    list_display = ['id', 'title', 'is_offering_own_dog', 'author', 'name', 'is_published']
+    list_display = ['is_published', 'id', 'title', 'is_offering_own_dog', 'author', 'name']
     list_display_links = ['title']
     readonly_fields = ('id',)
     inlines = [
