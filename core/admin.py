@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.sites.models import Site
 
-from core.models import Payment, Province, Municipality, Advertisement, Area, DogSizeChoices, DogBreeds
+from core.models import Payment, Province, Municipality, Advertisement, Area, DogSizeChoice, DogBreed
 from core.forms import NewAdTakeMyDogForm, NewAdFormAdmin
 
 # Register your models here.
@@ -24,15 +24,15 @@ admin.site.register(Area, AreaAdmin)
 
 
 class DogSizeAdmin(admin.ModelAdmin):
-    model = DogSizeChoices
+    model = DogSizeChoice
 
-admin.site.register(DogSizeChoices, DogSizeAdmin)
+admin.site.register(DogSizeChoice, DogSizeAdmin)
 
 
-class DogBreedsAdmin(admin.ModelAdmin):
-    model = DogBreeds
+class DogBreedAdmin(admin.ModelAdmin):
+    model = DogBreed
 
-admin.site.register(DogBreeds, DogBreedsAdmin)
+admin.site.register(DogBreed, DogBreedAdmin)
 
 
 
