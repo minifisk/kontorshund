@@ -41,11 +41,18 @@ class NewsEmail(models.Model):
         (2, "Dagligen"),
     )
 
+    AD_TYPES_CHOICES = (
+        (1, "Hund erbjudes"),
+        (2, "Hund sökes"),
+    )
+
     user = ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     province = ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap', null=True, blank=True)
     municipality = ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun', null=True, blank=True)
     areas = ManyToManyField(Area, verbose_name='Område', blank=True)
-    interval = IntegerField(choices=INTERVAL_CHOICES, null=True, blank=True)
+    interval = IntegerField(choices=INTERVAL_CHOICES, null=True, blank=True, verbose_name='Intervall')
+    ad_type = IntegerField(choices=AD_TYPES_CHOICES, null=True, blank=True, verbose_name='Annonstyp')
+
 
 
 class DogSizeChoice(models.Model):

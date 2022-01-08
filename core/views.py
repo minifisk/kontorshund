@@ -100,7 +100,8 @@ def profile(request):
                         'unpublished_ads': unpublished_ads, 
                         'media_url': media_url,
                         'ad_url': ad_url,
-                        'form': form
+                        'form': form,
+                        'news_email_obj': NewsEmail_obj,
                 }
             )
         if request.method == 'POST':

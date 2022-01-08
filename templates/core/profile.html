@@ -10,7 +10,18 @@
 
   <h1 id="h1_new_ad" class="mb-5 ">Din profil</h1>
 
-  <h3 class="mb-5">Dina bevakningar</h3>
+  <h3 class="">Dina bevakningar
+
+    {% if news_email_obj.municipality %}
+      (Aktiv)
+    {% else %}
+      (Ej pågående)
+    {% endif %}
+
+  </h3>
+
+  <p class="mb-4">Här kan du skapa bevakningar av nya annonser och få ett mail antingen veckovis eller dagligen när det kommit upp nya annonser som matchar dina kriterier. Du kan närsomhelst gå in här och avbryta dina bevakningar.</p>
+
 
     
   <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
@@ -23,7 +34,7 @@
 
 
 
-  <h3 class="mb-5">Dina annonser</h3>
+  <h3 class="mb-5 mt-5">Dina annonser</h3>
 
 
   <h5 class="mb-5"><u>Publicerade</u> annonser ({{ published_ads.count }} st)</h5>
