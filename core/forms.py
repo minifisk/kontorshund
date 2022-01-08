@@ -11,6 +11,10 @@ from kontorshund.settings import PRICE_SWISH
 from .models import Advertisement, DogSizeChoice, Municipality, Area, DogBreed, NewsEmail
 
 from dal import autocomplete
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Field, Row, Column, HTML, Div
+from crispy_forms.bootstrap import (
+    PrependedText, PrependedAppendedText, FormActions, InlineRadios, InlineCheckboxes)
 
 
 
@@ -168,14 +172,30 @@ class NewsEmailForm(forms.ModelForm):
         super(NewsEmailForm, self).__init__(*args, **kwargs)
         self.fields['province'].required = True
         self.fields['municipality'].required = True
+        self.fields['interval'].empty_label = 'VAFAN'
+        self.helper = FormHelper()
+        self.helper.add_input(Submit('submit', 'Spara bevakning', css_class='btn-primary'))
 
-        if (self.instance):
-            if (str(self.instance.areas) == 'core.Area.None'):
-                self.fields['areas'].queryset = Area.objects.none()
-        else:
-            self.fields['municipality'].queryset = Municipality.objects.none()
-            self.fields['areas'].queryset = Area.objects.none()
-            self.fields['areas'].required = False
+        self.helper.layout = Layout(
+            Div(
+                Field('province', css_class="mb-3"),
+                Field('municipality', css_class="mb-3"),
+                Field('areas', css_class=""),
+                InlineRadios('interval', css_class="ml-3 mr-2"),
+                css_class='mt-3 mb-5'
+            ),
+
+        )
+
+        print(self.instance.pk)
+        # if self.instance:
+        #     # if (str(self.instance.areas) == 'core.Area.None'):
+        #     #     self.fields['areas'].queryset = Area.objects.none()
+
+        #else:
+        self.fields['municipality'].queryset = Municipality.objects.none()
+        self.fields['areas'].queryset = Area.objects.none()
+        self.fields['areas'].required = False
 
         if 'province' in self.data:
             try:

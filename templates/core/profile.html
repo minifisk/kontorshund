@@ -1,5 +1,7 @@
 {% extends '_base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
+
 
 
 {% block title %}Din profil{% endblock title %}
@@ -63,6 +65,7 @@
 {% block footer %}
 
 <!-- Area selectors -->
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
   <script>
       function hide_area_field() {
         const area_selector = document.getElementById('id_area');
@@ -86,10 +89,7 @@
                  } 
                  // inspect html to check id of subcategory select dropdown.
                  $("select#id_municipality").html(options); 
-
-                // Reset areas field 
-                 var empty_options = '<option value="">---------</option>';
-                 $("select#id_area").html(empty_options);  
+ 
 
              }); 
          }); 
@@ -102,12 +102,12 @@
         // inspect html to check id of category select dropdown.
         $(document).on('change', "select#id_municipality", function(){ 
             $.getJSON("/ajax/load-areas/",{municipality: $(this).val()}, function(j){ 
-                  var options = '<option value="">---------</option>'; 
+                  var options = ''; 
                   for (var i = 0; i < j.length; i++) { 
                       options += '<option value="' + j[i].id + '">' + j[i].name + '</option>'; 
                   } 
                   // inspect html to check id of subcategory select dropdown.
-                  $("select#id_area").html(options); 
+                  $("select#id_areas").html(options); 
               }); 
           }); 
       }); 

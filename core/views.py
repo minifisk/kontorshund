@@ -21,11 +21,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.utils.safestring import mark_safe
 
-
 from dal import autocomplete
 from lockdown.decorators import lockdown
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Field, Row, Column, HTML
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Field, Row, Column, HTML, Div
 from crispy_forms.bootstrap import (
     PrependedText, PrependedAppendedText, FormActions, InlineRadios, InlineCheckboxes)
 
@@ -77,21 +76,20 @@ def recapcha(request, pk):
 # USER SPECIFIC VIEWS
 #####################
 
+
 def profile(request):
 
-    url = request.build_absolute_uri('/')
-    media_url = f'{url}media/'
-    ad_url = f'{url}ads/'
-
     if request.user.is_authenticated:
+
+        url = request.build_absolute_uri('/')
+        media_url = f'{url}media/'
+        ad_url = f'{url}ads/'
         
         if request.method == 'GET':
 
             published_ads = Advertisement.objects.filter(author=request.user, is_published=True)
             unpublished_ads = Advertisement.objects.filter(author=request.user, is_published=False)
-
             NewsEmail_obj = NewsEmail.objects.get(user=request.user)
-
             form = NewsEmailForm(instance=NewsEmail_obj)
 
             return render(
@@ -109,7 +107,8 @@ def profile(request):
             form = NewsEmailForm(request.POST)
 
             if form.is_valid():
-                return redirect('profile', {'message': 'Bevakningar uppdaterade!'})
+                return redirect('profile')
+                #return redirect('profile', {'message': 'Bevakningar uppdaterade!'})
     else:
         return redirect('account_login')
 
@@ -364,7 +363,6 @@ def ChooseAd(request):
     else:
         return redirect('account_login')
 
-from crispy_forms.layout import Submit, Layout, Div
 
 class NewAdTakeMyDog(LoginRequiredMixin, CreateView):
     model = Advertisement
