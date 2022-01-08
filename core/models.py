@@ -36,11 +36,9 @@ class Area(models.Model):
 
 class NewsEmail(models.Model):
 
-
     INTERVAL_CHOICES = (
         (1, "Veckovis"),
         (2, "Dagligen"),
-
     )
 
     user = ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)

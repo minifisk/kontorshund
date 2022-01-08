@@ -2,6 +2,7 @@ from django import forms
 from django.conf import settings
 from django.core.validators import RegexValidator
 from django.db.models import query
+from django.forms.models import ModelChoiceField
 
 
 from kontorshund.settings import PRICE_BANKGIRO
@@ -167,27 +168,49 @@ class NewsEmailForm(forms.ModelForm):
     class Meta:
         model = NewsEmail 
         fields = ('province', 'municipality', 'areas', 'interval')
+        help_texts = {
+            'areas': 'Håll in cmd (mac) eller ctrl (windows) för att markera flera',
+            'interval': 'Hur ofta du vill få ett mail med nya annonser i valt område.',
+
+        }
 
     def __init__(self, *args, **kwargs):
         super(NewsEmailForm, self).__init__(*args, **kwargs)
         self.fields['province'].required = True
         self.fields['municipality'].required = True
-        self.fields['interval'].empty_label = 'VAFAN'
+        self.fields["interval"].choices = list(self.fields["interval"].choices)[1:] 
         self.helper = FormHelper()
-        self.helper.add_input(Submit('submit', 'Spara bevakning', css_class='btn-primary'))
-
+        #self.helper.field_class = 'col-lg-2'
+        #self.helper.label_class = 'col-lg-2'
         self.helper.layout = Layout(
-            Div(
-                Field('province', css_class="mb-3"),
-                Field('municipality', css_class="mb-3"),
-                Field('areas', css_class=""),
-                InlineRadios('interval', css_class="ml-3 mr-2"),
-                css_class='mt-3 mb-5'
+            Row(
+                Column('province', css_class='form-group col-2 mb-0'),
+                Column('municipality', css_class='form-group col-2 mb-0 ml-4'),
+                Column('areas', css_class='form-group col-3 mb-0 ml-4'),
+                Column(
+                    InlineRadios('interval'), 
+                    css_class='form-group col-1 mb-0 ml-4'
+                ),
+                Column(
+                    FormActions(
+                        Submit('submit', 'Spara bevakning', css_class='btn btn-sm btn-primary'),
+                    ), 
+                    css_class='form-group col-2 mt-4 mb-0 ml-4'
+                ),
+                
+                # Field('province', css_class=""),
+                # Field('municipality', css_class=""),
+                # Field('areas', css_class=""),
+                # InlineRadios('interval', css_class=""),
+                # FormActions(
+                #     Submit('submit', 'Spara bevakning', css_class='btn btn-primary'),
+                #     css_class=""
+                # )
             ),
-
         )
 
-        print(self.instance.pk)
+
+    #CRISPY_TEMPLATE_PACK = 'bootstrap4'
         # if self.instance:
         #     # if (str(self.instance.areas) == 'core.Area.None'):
         #     #     self.fields['areas'].queryset = Area.objects.none()

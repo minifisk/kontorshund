@@ -82,6 +82,9 @@ INSTALLED_APPS = [
     'core',
 ]
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
 LOCKDOWN_PASSWORDS = ['sP4%tF_"QPHn4Z@k']
 
 # LOCKDOWN_URL_EXCEPTIONS = (
