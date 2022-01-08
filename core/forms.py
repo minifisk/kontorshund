@@ -171,6 +171,7 @@ class NewsEmailForm(forms.ModelForm):
         help_texts = {
             'areas': 'Håll in cmd (mac) eller ctrl (windows) för att markera flera',
             'interval': 'Hur ofta du vill få ett mail med nya annonser i valt område.',
+            'ad_type': 'Vilken typ av annons - "Hund sökes" eller "Hund erbjudes".',
 
         }
 
@@ -191,7 +192,7 @@ class NewsEmailForm(forms.ModelForm):
                     css_class='form-group col-1 mb-0 ml-4'
                 ),
                 Column(
-                    InlineRadios('ad_type'), 
+                    InlineRadios('ad_type', css_class='p-7'), 
                     css_class='form-group col-1 mb-0 ml-4'
                 ),
                 Column(
@@ -205,7 +206,6 @@ class NewsEmailForm(forms.ModelForm):
         )
 
 
-    #CRISPY_TEMPLATE_PACK = 'bootstrap4'
         # if self.instance:
         #     # if (str(self.instance.areas) == 'core.Area.None'):
         #     #     self.fields['areas'].queryset = Area.objects.none()

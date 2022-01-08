@@ -42,8 +42,8 @@ class NewsEmail(models.Model):
     )
 
     AD_TYPES_CHOICES = (
-        (1, "Hund erbjudes"),
-        (2, "Hund sökes"),
+        (1, "Erbjudes"),
+        (2, "Sökes"),
     )
 
     user = ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
