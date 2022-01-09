@@ -78,8 +78,8 @@ INSTALLED_APPS = [
     'stdimage',
 
     # Local
-    'accounts',
     'core',
+    'accounts',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
