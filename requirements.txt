@@ -13,7 +13,7 @@ Django==3.2.9
 django-admin-env-notice==0.4
 django-allauth==0.46.0
 django-autocomplete-light==3.9.0rc1
-django-crispy-forms==1.13.0
+django-crispy-forms==1.11.0
 django-debug-toolbar==3.2.4
 django-extensions==3.1.5
 django-lockdown==4.0.0
