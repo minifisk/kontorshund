@@ -184,6 +184,13 @@ class NewsEmailForm(forms.ModelForm):
         self.fields["interval"].choices = list(self.fields["interval"].choices)[1:] 
         self.fields["ad_type"].choices = list(self.fields["ad_type"].choices)[1:] 
         self.helper = FormHelper()
+        if self.instance.is_active:
+            button_text = 'Inaktivera'
+            button_type = 'danger'
+        else:
+            button_text = 'Aktivera'
+            button_type = 'success'
+
         self.helper.layout = Layout(
             Row(
                 Column('province', css_class='form-group col-2 mb-0'),
@@ -200,7 +207,7 @@ class NewsEmailForm(forms.ModelForm):
                 Column(
                     FormActions(
                         Submit('submit', 'Spara bevakning', css_class='btn btn-sm btn-primary'),                            
-                        HTML('<button id="cancel-subscription-button" class="btn btn-danger" >Cancel</button>')
+                        HTML(f'<button id="cancel-subscription-button" class="mt-2 btn btn-sm btn-{button_type}">{button_text}</button>')
                     ), 
                     css_class='form-group col-1 mt-4 mb-0 ml-4'
                 ),

@@ -13,14 +13,18 @@
   <h3 class="">Dina bevakningar
 
     {% if news_email_obj.is_active %}
-      (Aktiv)
-    {% else %}
-      (Ej pågående)
+        <span id="heading_subscription_status">
+        (Aktiv)
+        </span>
+        {% else %}
+        <span id="heading_subscription_status">
+          (Inaktiv)
+        </span>
     {% endif %}
 
   </h3>
 
-  <p class="mb-4">Här kan du skapa bevakningar av nya annonser och få ett mail antingen veckovis eller dagligen när det kommit upp nya annonser som matchar dina kriterier. Du kan närsomhelst gå in här och avbryta dina bevakningar.</p>
+  <p class="mb-4">Här kan du skapa bevakningar av nya annonser och få ett mail antingen veckovis eller dagligen när det kommit upp nya annonser som matchar dina kriterier. Du kan närsomhelst gå in här och aktivera/inaktivera dina bevakningar.</p>
 
 
     
@@ -110,25 +114,41 @@
 
   cancel_subscription_button.addEventListener("click", function(e) {
       e.preventDefault();
+      console.log("test")
+
 
       var xhr_cancel_subscription = new XMLHttpRequest();
 
       const csrftoken = getCookie('csrftoken');
-      console.log(csrftoken)
           
       xhr_cancel_subscription.onload = function () {
+
         if (xhr_cancel_subscription.readyState === xhr_cancel_subscription.DONE) {
             if (xhr_cancel_subscription.status === 200) {
-             
-              console.log(xhr_cancel_subscription.response)
-
-             
+                
+                if (xhr_cancel_subscription.response.includes("Activated")) {
+                  const cancel_subscription_button = document.getElementById('cancel-subscription-button');
+                  const heading_subscription_status = document.getElementById('heading_subscription_status');
+                  cancel_subscription_button.innerHTML = "Inaktivera"
+                  cancel_subscription_button.classList.remove('btn-success')
+                  cancel_subscription_button.classList.add('btn-danger')
+                  heading_subscription_status.innerHTML = "(Aktiv)"
+                }
+                if (xhr_cancel_subscription.response.includes("Deactivated")) {
+                  const cancel_subscription_button = document.getElementById('cancel-subscription-button');
+                  const heading_subscription_status = document.getElementById('heading_subscription_status');
+                  cancel_subscription_button.innerHTML = "Aktivera"
+                  cancel_subscription_button.classList.remove('btn-danger')
+                  cancel_subscription_button.classList.add('btn-success')
+                  heading_subscription_status.innerHTML = "(Inaktiv)"
+                  
+                }
             } 
-
         }
       };
       xhr_cancel_subscription.open('POST',  "{% url 'handle_email_subscription_status' news_email_obj.pk %}", true);
       xhr_cancel_subscription.setRequestHeader("X-CSRFToken", csrftoken); 
+      xhr_cancel_subscription.setRequestHeader("mode", 'same-origin'); 
       xhr_cancel_subscription.send();
 
     });
