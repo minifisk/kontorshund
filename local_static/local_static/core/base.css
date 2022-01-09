@@ -44,6 +44,12 @@ p {
     box-sizing: border-box;
 }
 
+#button-container {
+    display: flex;
+    justify-content: center;
+    background-color: red !important;
+}
+
 body{
     background: #fcfcfc;
     font-family: sans-serif;

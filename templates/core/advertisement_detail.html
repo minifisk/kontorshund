@@ -34,9 +34,9 @@
                     <a href="{% url 'bg_payment' ad.id %}"><button class="btn btn-secondary">Betala med Bankgiro</button></a>
                     
                     {% if ad.is_offering_own_dog == True%}
-                        <a href="{% url 'update_ad_take' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
+                        <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
                     {% else %}
-                        <a href="{% url 'update_ad_get' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
+                        <a href="{% url 'ad_update_get' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
                     {% endif %}
 
                     <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger">Ta bort annons</button></a>

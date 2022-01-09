@@ -549,7 +549,7 @@ class AdUpdateTakeMyDogView(UpdateView):
         
         form = super().get_form(form_class)
         form.helper = FormHelper()
-        form.helper.add_input(Submit('submit', 'Gå tillbaka till annonsen', css_class='btn-primary'))
+        form.helper.add_input(Submit('submit', 'Spara och gå tillbaka till annonsen', css_class='btn-primary'))
       
         form.helper.layout = Layout(
             Field(HTML(mark_safe('<b>Plats</b>'))),  
@@ -616,7 +616,7 @@ class AdUpdateGetMeADogView(UpdateView):
         form.fields['image1'].label = False
         form.fields['image2'].label = False
         form.fields['image3'].label = False
-        form.helper.add_input(Submit('submit', 'Gå tillbaka till annonsen', css_class='btn-primary'))
+        form.helper.add_input(Submit('submit', 'Spara och gå tillbaka till annonsen', css_class='btn-primary'))
       
         form.helper.layout = Layout(
             Field(HTML(mark_safe('<b>Plats</b>'))),  

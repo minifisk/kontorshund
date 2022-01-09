@@ -50,7 +50,13 @@
       <div class="card-body">
         <h5 class="card-title">{{ ad.title }}</h5>
         <p id="ad_description_snippet" class="card-text">{{ ad.description }}</p>
-        <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary">Gå till annons</a>
+        <div id="button-container">
+          <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary mb-3">Gå till annons</a>
+          <br>
+          <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary  mb-3">Ändra annons</button></a>
+          <br>
+          <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger ">Ta bort annons</button></a>
+        </div>
       </div>
     </div>
 
