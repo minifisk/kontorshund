@@ -179,6 +179,8 @@ class NewsEmailForm(forms.ModelForm):
         super(NewsEmailForm, self).__init__(*args, **kwargs)
         self.fields['province'].required = True
         self.fields['municipality'].required = True
+        self.fields['interval'].required = True
+        self.fields['ad_type'].required = True
         self.fields["interval"].choices = list(self.fields["interval"].choices)[1:] 
         self.fields["ad_type"].choices = list(self.fields["ad_type"].choices)[1:] 
         self.helper = FormHelper()
@@ -197,7 +199,8 @@ class NewsEmailForm(forms.ModelForm):
                 ),
                 Column(
                     FormActions(
-                        Submit('submit', 'Spara bevakning', css_class='btn btn-sm btn-primary'),
+                        Submit('submit', 'Spara bevakning', css_class='btn btn-sm btn-primary'),                            
+                        HTML('<button id="cancel-subscription-button" class="btn btn-danger" >Cancel</button>')
                     ), 
                     css_class='form-group col-1 mt-4 mb-0 ml-4'
                 ),
@@ -211,7 +214,9 @@ class NewsEmailForm(forms.ModelForm):
         #     #     self.fields['areas'].queryset = Area.objects.none()
 
         #else:
-        self.fields['municipality'].queryset = Municipality.objects.none()
+
+        if not self.instance.province:
+            self.fields['municipality'].queryset = Municipality.objects.none()
         self.fields['areas'].queryset = Area.objects.none()
         self.fields['areas'].required = False
 

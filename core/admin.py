@@ -62,7 +62,7 @@ admin.site.register(Advertisement, AdvertisementAdmin)
 
 class NewsEmailAdmin(admin.ModelAdmin):
     form = NewsEmailFormAdmin
-    list_display = ['user', 'province', 'municipality', 'interval']
+    list_display = ['user', 'province', 'municipality', 'interval', 'ad_type']
     readonly_fields = ('id',)
 
 admin.site.register(NewsEmail, NewsEmailAdmin)

@@ -52,7 +52,7 @@ class NewsEmail(models.Model):
     areas = ManyToManyField(Area, verbose_name='Område', blank=True)
     interval = IntegerField(choices=INTERVAL_CHOICES, null=True, blank=True, verbose_name='Intervall')
     ad_type = IntegerField(choices=AD_TYPES_CHOICES, null=True, blank=True, verbose_name='Annonstyp')
-
+    is_active = BooleanField(default=False)
 
 
 class DogSizeChoice(models.Model):
