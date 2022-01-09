@@ -216,12 +216,6 @@ class NewsEmailForm(forms.ModelForm):
         )
 
 
-        # if self.instance:
-        #     # if (str(self.instance.areas) == 'core.Area.None'):
-        #     #     self.fields['areas'].queryset = Area.objects.none()
-
-        #else:
-
         if not self.instance.province:
             self.fields['municipality'].queryset = Municipality.objects.none()
         self.fields['areas'].queryset = Area.objects.none()
@@ -246,6 +240,28 @@ class NewsEmailFormAdmin(forms.ModelForm):
     class Meta:
         model = NewsEmail 
         fields = ('user', 'province', 'municipality', 'areas', 'interval')
+
+    def __init__(self, *args, **kwargs):
+        super(NewsEmailFormAdmin, self).__init__(*args, **kwargs)
+        
+        if not self.instance.province:
+            self.fields['municipality'].queryset = Municipality.objects.none()
+        self.fields['areas'].queryset = Area.objects.none()
+        self.fields['areas'].required = False
+
+        if 'province' in self.data:
+            try:
+                # Set municipality queryset
+                province_id = int(self.data.get('province'))
+                self.fields['municipality'].queryset = Municipality.objects.filter(province_id=province_id).order_by('name')
+            
+                # Set area queryset
+                municipality_id = int(self.data.get('municipality'))
+                self.fields['areas'].queryset = Area.objects.filter(municipality_id=municipality_id).order_by('name')
+                
+            except (ValueError, TypeError) as e:
+                pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
+
 
 
 class PhoneNumberForm(forms.Form):

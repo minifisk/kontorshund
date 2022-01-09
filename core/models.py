@@ -48,7 +48,7 @@ class NewsEmail(models.Model):
         (2, "Sökes"),
     )
 
-    user = ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     province = ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap', null=True, blank=True)
     municipality = ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun', null=True, blank=True)
     areas = ManyToManyField(Area, verbose_name='Område', blank=True)
