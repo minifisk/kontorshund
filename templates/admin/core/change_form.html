@@ -23,6 +23,7 @@
                     // Reset areas field 
                      var empty_options = '<option value="">---------</option>';
                      $("select#id_area").html(empty_options);  
+                     $("select#id_areas").html(empty_options);  
 
                  }); 
              }); 
@@ -41,6 +42,8 @@
                      } 
                      // inspect html to check id of subcategory select dropdown.
                      $("select#id_area").html(options); 
+                     $("select#id_areas").html(options); 
+
                  }); 
              }); 
          }); 
