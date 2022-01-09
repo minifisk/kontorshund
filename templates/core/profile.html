@@ -146,7 +146,7 @@
             } 
         }
       };
-      xhr_cancel_subscription.open('POST',  "{% url 'handle_email_subscription_status' news_email_obj.pk %}", true);
+      xhr_cancel_subscription.open('POST',  "{% url 'handle_email_subscription_status' news_email_obj.uuid %}", true);
       xhr_cancel_subscription.setRequestHeader("X-CSRFToken", csrftoken); 
       xhr_cancel_subscription.setRequestHeader("mode", 'same-origin'); 
       xhr_cancel_subscription.send();

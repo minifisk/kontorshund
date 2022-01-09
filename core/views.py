@@ -125,8 +125,8 @@ def profile(request):
         return redirect('account_login')
 
 
-def handle_email_subscription_status(self, pk):
-    NewsEmail_obj = NewsEmail.objects.get(pk=pk)
+def handle_email_subscription_status(self, uuid):
+    NewsEmail_obj = NewsEmail.objects.get(uuid=uuid)
 
 
 

@@ -1,8 +1,10 @@
 from io import open_code
+import uuid
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models.fields import BooleanField, CharField, IntegerField
 from django.db.models.fields.related import ForeignKey, ManyToManyField
+from django.forms.fields import UUIDField
 
 from stdimage import StdImageField
 
@@ -53,6 +55,7 @@ class NewsEmail(models.Model):
     interval = IntegerField(choices=INTERVAL_CHOICES, null=True, blank=True, verbose_name='Intervall')
     ad_type = IntegerField(choices=AD_TYPES_CHOICES, null=True, blank=True, verbose_name='Annonstyp')
     is_active = BooleanField(default=False)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 
 
 class DogSizeChoice(models.Model):

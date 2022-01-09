@@ -10,7 +10,7 @@ urlpatterns = [
     path('', views.index, name='index'), 
 
     path('profile', views.profile, name='profile'), 
-    path('handle-email-subscription/<int:pk>', views.handle_email_subscription_status, name='handle_email_subscription_status'), 
+    path('handle-email-subscription/<str:uuid>', views.handle_email_subscription_status, name='handle_email_subscription_status'), 
 
     path('ads/list', views.ListAds, name='list_ads'),
     
