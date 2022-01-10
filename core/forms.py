@@ -38,7 +38,9 @@ class NewAdTakeMyDogForm(forms.ModelForm):
             'title': 'Skriv en titel som sammanfattar annonsen - T.ex. "Frans, Border Collie, Söker kompis för 3 dagar per vecka"',
             'description': 'Skriv kort om hunden och er som har hunden, vad har hunden för typ av personlighet? Finns det saker den gillar mer eller mindre? Inom vilket område kan ni tänka er att länmna/hämta hunden?',
             'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp direkt.',
-
+            'image1': 'Max-storlek 20 MB.',
+            'image2': 'Max-storlek 20 MB.',
+            'image3': 'Max-storlek 20 MB.',
         }
 
     def __init__(self, *args, **kwargs):
@@ -125,7 +127,9 @@ class NewAdGetMeADogForm(forms.ModelForm):
             'title': 'Skriv en titel som sammanfattar annonsen - T.ex. "Kontor med 10 anställda söker en kontorshund 2 dagar per vecka" eller "Pensionär söker hund 1 dagar per vecka"',
             'description': 'Skriv om dig/er som vill ta hand om en hund, har någon hundvana, vad gör ni om dagarna? osv.',
             'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp direkt.',
-
+            'image1': 'Max-storlek 20 MB.',
+            'image2': 'Max-storlek 20 MB.',
+            'image3': 'Max-storlek 20 MB.',
         }
 
 
