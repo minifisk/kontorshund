@@ -46,7 +46,14 @@
   {% for ad in published_ads %}
 
     <div class="card mb-5" style="width: 18rem;">
-      <a href="{% url 'ad_update_take' ad.id %}">
+      <h6 class="card-header text-center">
+        {% if ad.is_offering_own_dog %}
+        Hund erbjudes
+        {% else %}
+        Hund sökes
+        {% endif %}
+      </h6>
+      <a href="{{ ad_url }}{{ ad.id }}">
         <img class="card-img-top" src=" {{ ad.image1.thumbnail.url }}" alt="published ad">
       </a>
         <div class="card-body">
@@ -70,7 +77,14 @@
 
 
   <div class="card mb-5" style="width: 18rem;">
-    <a href="{% url 'ad_update_take' ad.id %}">
+    <h6 class="card-header text-center">
+      {% if ad.is_offering_own_dog %}
+      Hund erbjudes
+      {% else %}
+      Hund sökes
+      {% endif %}
+    </h6>
+    <a href="{{ ad_url }}{{ ad.id }}">
       <img class="card-img-top" src=" {{ ad.image1.thumbnail.url }}" alt="published ad">
     </a>
     <div class="card-body">

@@ -20,6 +20,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.utils.safestring import mark_safe
+from django.forms import HiddenInput
 
 from dal import autocomplete
 from lockdown.decorators import lockdown
@@ -536,7 +537,7 @@ class AdUpdateTakeMyDogView(UpdateView):
     template_name = 'core/advertisement_form_update_take.html'
 
     def get_success_url(self):
-        return reverse_lazy('ad_detail', {'pk': self.object.pk})
+        return reverse_lazy('ad_detail', kwargs={'pk': self.object.pk})
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -550,7 +551,12 @@ class AdUpdateTakeMyDogView(UpdateView):
         form = super().get_form(form_class)
         form.helper = FormHelper()
         form.helper.add_input(Submit('submit', 'Spara och gå tillbaka till annonsen', css_class='btn-primary'))
-      
+        payment_header = ''
+        if form.instance.is_published:
+            form.fields['payment_type'].widget = HiddenInput()
+            payment_header = ''
+        else:
+            payment_header = '<b>Betalning</b>'
         form.helper.layout = Layout(
             Field(HTML(mark_safe('<b>Plats</b>'))),  
             Div(
@@ -585,7 +591,7 @@ class AdUpdateTakeMyDogView(UpdateView):
                 css_class='mt-3 mb-5'
             ),
 
-            Field(HTML(mark_safe('<b>Betalning</b>'))),  
+            Field(HTML(mark_safe(payment_header))),  
             Div(
                 InlineRadios('payment_type', css_class="ml-3 mr-2"),
                 css_class='mt-3 mb-5'
@@ -616,6 +622,12 @@ class AdUpdateGetMeADogView(UpdateView):
         form.fields['image1'].label = False
         form.fields['image2'].label = False
         form.fields['image3'].label = False
+        payment_header = ''
+        if form.instance.is_published:
+            form.fields['payment_type'].widget = HiddenInput()
+            payment_header = ''
+        else:
+            payment_header = '<b>Betalning</b>'
         form.helper.add_input(Submit('submit', 'Spara och gå tillbaka till annonsen', css_class='btn-primary'))
       
         form.helper.layout = Layout(
@@ -645,7 +657,7 @@ class AdUpdateGetMeADogView(UpdateView):
                 css_class='mt-3 mb-5'
             ),
 
-            Field(HTML(mark_safe('<b>Betalning</b>'))),  
+            Field(HTML(mark_safe(payment_header))),  
             Div(
                 InlineRadios('payment_type', css_class="ml-3 mr-2"),
                 css_class='mt-3 mb-5'
