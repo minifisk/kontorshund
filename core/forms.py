@@ -175,7 +175,7 @@ class NewsEmailForm(forms.ModelForm):
         help_texts = {
             'areas': 'Håll in cmd (mac) eller ctrl (windows) för att markera flera',
             'interval': 'Hur ofta du vill få ett mail med nya annonser i valt område.',
-            'ad_type': 'Vilken typ av annons - "Hund sökes" eller "Hund erbjudes".',
+            'ad_type': 'Vilka typer av annonser du vill bevaka.',
 
         }
 
