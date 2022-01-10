@@ -65,6 +65,8 @@
 <!-- If ad IS published -->
 {% else %}
 
+    <p>Antal visningar: {{ ad.ad_views }}</p>
+
      <!-- Let user know if it's their own ad if it's published -->   
     {% if ad.author == request.user %}
         <p>Denna annons tillhör dig och är <b>Publicerad</b> (Endast du ser detta)</p>

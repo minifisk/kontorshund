@@ -125,7 +125,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     image2 = StdImageField(null=True, blank=True, verbose_name="Bild 2", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}})
     image3 = StdImageField(null=True, blank=True, verbose_name="Bild 3", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}})
    
-
+    ad_views = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title

@@ -674,6 +674,12 @@ class AdDetailView(generic.DetailView):
     model = Advertisement
     context_object_name = 'ad'
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.ad_views = self.object.ad_views + 1
+        self.object.save()
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(AdDetailView, self).get_context_data(**kwargs)
         context['site_key'] = settings.RECAPTCHA_SITE_KEY
