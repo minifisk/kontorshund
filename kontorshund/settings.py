@@ -3,9 +3,11 @@ from pathlib import Path
 from urllib.parse import urljoin
 
 # Price constants
-PRICE_SWISH = '1 kr'
-PRICE_SWISH_IN_SEK = 1
-PRICE_BANKGIRO = '1 kr'
+PRICE_SWISH_INITIAL = '1 kr'
+PRICE_SWISH_INITIAL_IN_SEK = 1
+PRICE_SWISH_EXTEND = '2 kr'
+PRICE_SWISH_EXTEND_IN_SEK = 2
+PRICE_BANKGIRO_INITIAL = '1 kr'
 
 # reCAPTCHA
 RECAPTCHA_SITE_KEY = os.environ.get('reCAPTCHA_SITE_KEY') 

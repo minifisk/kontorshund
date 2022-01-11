@@ -24,7 +24,8 @@ urlpatterns = [
     path('delete-ad/<int:pk>', views.DeleteAd.as_view(), name='delete_ad'),
 
 
-    path('swish-pay/<int:pk>', views.PayForAdSwishTemplate, name='swish_payment_template'),
+    path('swish-pay/initial/<int:pk>', views.PayForAdSwishTemplate, name='swish_payment_initial_template'),
+    path('swish-pay/extend/<int:pk>', views.PayForAdSwishTemplate, name='swish_payment_extended_template'),
     path('generate-swish-qr-code/<int:pk>', views.GenerateSwishPaymentQrCode, name='swish_payment_qr_code'),
     path('generate-swish-request-token/<int:pk>', views.GenerateSwishPaymentRequestToken, name='swish_request_token'),
     path('check-payment-status/<int:pk>', views.check_payment_status, name='swish_payment_status'),

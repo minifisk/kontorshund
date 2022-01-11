@@ -7,8 +7,9 @@ import requests
 import json
 from urllib.parse import urljoin
 from pprint import pprint 
+import locale
 
-from django.http.response import HttpResponseRedirect, JsonResponse
+from django.http.response import HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from django.views import generic
 from django.views.generic import ListView, CreateView, UpdateView
 from django.urls import reverse_lazy
@@ -32,7 +33,10 @@ from crispy_forms.bootstrap import (
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm, PhoneNumberForm
 from core.models import Advertisement, Municipality, Area, DogBreed, Payment, NewsEmail
 from core.forms import NewsEmailForm
-from kontorshund.settings import PRICE_BANKGIRO, PRICE_SWISH, PRICE_SWISH_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
+from kontorshund.settings import PRICE_SWISH_EXTEND, PRICE_BANKGIRO_INITIAL, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
+
+
+locale.setlocale(locale.LC_ALL,'sv_SE.UTF-8')
 
 
 #############
@@ -295,14 +299,81 @@ def get_qr_code(request, token):
 
 def PayForAdSwishTemplate(request, pk):
     if request.user.is_authenticated:
-        ad_title = Advertisement.objects.get(pk=pk).title
-        form = PhoneNumberForm()
-        url = request.build_absolute_uri('/')
-        path = f'ads/{pk}'
-        ad_path = f'{url}{path}'
-        return render(request, 'swish_phone_number.html', {'pk': pk, 'form': form, 'title': ad_title, 'price': PRICE_SWISH, 'ad_path': ad_path})
+
+        # If initial payment
+        url = request.build_absolute_uri()
+
+        if 'swish-pay/initial' in url:
+        
+            try: 
+                ad_obj = Advertisement.objects.get(pk=pk)
+            except Advertisement.DoesNotExist():
+                return HttpResponseNotFound("Annonsen kunde inte hittas")     
+
+            if ad_obj.is_published:
+                return HttpResponseRedirect(reverse_lazy('ad_detail', kwargs={'pk': pk}))
+
+
+            ad_title = ad_obj.title
+            form = PhoneNumberForm()
+            url = request.build_absolute_uri('/')
+            path = f'ads/{pk}'
+            ad_path = f'{url}{path}'
+            return render(
+                request, 
+                'core/swish_payment_template.html', 
+                {
+                    'pk': pk, 
+                    'form': form, 
+                    'title': ad_title, 
+                    'price': PRICE_SWISH_INITIAL, 
+                    'ad_path': ad_path
+                }
+            )
+    
+
+        if 'swish-pay/extend' in url:
+
+            try: 
+                ad_obj = Advertisement.objects.get(pk=pk)
+            except Advertisement.DoesNotExist():
+                return HttpResponseNotFound("Annonsen kunde inte hittas")  
+
+            if not ad_obj.has_initial_payment:
+                return HttpResponseRedirect(reverse_lazy('ad_detail', kwargs={'pk': pk}))
+
+
+            ad_title = ad_obj.title
+            form = PhoneNumberForm()
+            url = request.build_absolute_uri('/')
+            path = f'ads/{pk}'
+            ad_path = f'{url}{path}'
+
+            current_end_date = ad_obj.deletion_date
+            new_end_date = current_end_date + datetime.timedelta(days=30)
+
+            current_end_date_sv = current_end_date.strftime("%a, %d %b %Y")
+            new_end_date_sv = new_end_date.strftime("%a, %d %b %Y")
+
+
+            return render(
+                request, 
+                'core/swish_payment_template.html', 
+                {
+                    'pk': pk, 
+                    'form': form,
+                    'title': ad_title, 
+                    'price': PRICE_SWISH_EXTEND, 
+                    'ad_path': ad_path,
+                    'current_end_date': current_end_date_sv,
+                    'new_end_date': new_end_date_sv,
+                }
+            )
+   
     else:
         return redirect('account_login')
+
+
 
 
 def GenerateSwishPaymentRequestToken(request, pk):
@@ -323,7 +394,7 @@ def GenerateSwishPaymentRequestToken(request, pk):
             "payeeAlias": SWISH_PAYEEALIAS,
             #"payerAlias": phone_number_with_46,    # Payers phone number
             "currency": "SEK",
-            "amount": PRICE_SWISH_IN_SEK,
+            "amount": PRICE_SWISH_INITIAL_IN_SEK,
             "message": f"Betalning för annons med ID {pk}"
         }
 
@@ -354,7 +425,7 @@ def GenerateSwishPaymentQrCode(request, pk):
             "payeeAlias": SWISH_PAYEEALIAS,
             #"payerAlias": phone_number_with_46,    # Payers phone number
             "currency": "SEK",
-            "amount": PRICE_SWISH_IN_SEK,
+            "amount": PRICE_SWISH_INITIAL_IN_SEK,
             "message": f"Betalning för annons med ID {pk}"
         }
 
@@ -378,7 +449,7 @@ def PayForAdBG(request, pk):
 
         if request.method == "GET":
             # Generate template to fill in your phone number
-            return render(request, 'bg_instructions.html', {'pk': pk, 'price': PRICE_BANKGIRO, 'ad_path': ad_path})
+            return render(request, 'bg_instructions.html', {'pk': pk, 'price': PRICE_BANKGIRO_INITIAL, 'ad_path': ad_path})
     else:
         return redirect('account_login')
 
@@ -459,7 +530,7 @@ class NewAdTakeMyDog(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         if self.object.payment_type == 'S':
-            return reverse('swish_payment_template', kwargs={'pk': self.object.pk})
+            return reverse('swish_payment_initial_template', kwargs={'pk': self.object.pk})
         if self.object.payment_type == 'B':
             return reverse('bg_payment', kwargs={'pk': self.object.pk})
 
@@ -522,7 +593,7 @@ class NewAdGetMeADog(CreateView):
 
     def get_success_url(self):
         if self.object.payment_type == 'S':
-            return reverse('swish_payment_template', kwargs={'pk': self.object.pk})
+            return reverse('swish_payment_initial_template', kwargs={'pk': self.object.pk})
         if self.object.payment_type == 'B':
             return reverse('bg_payment', kwargs={'pk': self.object.pk})
 

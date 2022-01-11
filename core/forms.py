@@ -5,8 +5,8 @@ from django.db.models import query
 from django.forms.models import ModelChoiceField
 
 
-from kontorshund.settings import PRICE_BANKGIRO
-from kontorshund.settings import PRICE_SWISH
+from kontorshund.settings import PRICE_BANKGIRO_INITIAL
+from kontorshund.settings import PRICE_SWISH_INITIAL
 
 
 from .models import Advertisement, DogSizeChoice, Municipality, Area, DogBreed, NewsEmail
