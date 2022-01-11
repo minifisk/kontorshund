@@ -1,4 +1,6 @@
 from io import open_code
+import datetime
+from datetime import timedelta, datetime
 import uuid
 from django.db import models
 from django.contrib.auth import get_user_model
@@ -10,7 +12,14 @@ from stdimage import StdImageField
 
 from common.abstracts import SoftDeleteModel, TimeStampedModel
 
+
+# Supportive functions
+
 User = get_user_model()
+
+def get_30_days_ahead():
+    return datetime.today() + timedelta(days=30)
+
 
 # Create your models here.
 
@@ -97,6 +106,9 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
         ("B", "Bankgiro"),
     )
 
+
+    # Ad life-time
+    deletion_date = models.DateField(default=get_30_days_ahead)
 
     # Dog details
     name = models.CharField(max_length=50, verbose_name='Hundens namn', default='')
