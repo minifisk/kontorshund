@@ -203,7 +203,7 @@ def check_initial_payment_status(request, pk):
         except Advertisement.DoesNotExist:
             return JsonResponse("Ad does not exist", status=404, safe=False)
 
-        if ad.has_initial_payment():
+        if ad.has_initial_payment:
             return JsonResponse("Payment is complete!", status=200, safe=False)
         else:
             return JsonResponse("Payment is NOT complete", status=404, safe=False)
@@ -217,7 +217,7 @@ def check_extended_payment_status(request, pk):
         except Advertisement.DoesNotExist:
             return JsonResponse("Ad does not exist", status=404, safe=False)
 
-        if ad.has_extended_payment():
+        if ad.has_extended_payment:
             return JsonResponse("Payment is complete!", status=200, safe=False)
         else:
             return JsonResponse("Payment is NOT complete", status=404, safe=False)
