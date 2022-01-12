@@ -217,9 +217,12 @@ def check_extended_payment_status(request, pk):
         except Advertisement.DoesNotExist:
             return JsonResponse("Ad does not exist", status=404, safe=False)
 
+        print(ad.pk)
         if ad.has_extended_payment:
+            print('Views - Payment has extended payment')
             return JsonResponse("Payment is complete!", status=200, safe=False)
         else:
+            print('Views - Payment has no extended payment')
             return JsonResponse("Payment is NOT complete", status=404, safe=False)
     else:
         return redirect('account_login')
