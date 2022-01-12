@@ -342,7 +342,7 @@ def PayForAdSwishTemplate(request, pk):
             except Advertisement.DoesNotExist():
                 return HttpResponseNotFound("Annonsen kunde inte hittas")     
 
-            if ad_obj.is_published:
+            if ad_obj.has_initial_payment:
                 return HttpResponseRedirect(reverse_lazy('ad_detail', kwargs={'pk': pk}))
 
 
