@@ -20,6 +20,10 @@ User = get_user_model()
 def get_30_days_ahead():
     return datetime.today() + timedelta(days=30)
 
+def get_30_days_ahead_from_date_obj(date_obj):
+    return date_obj + timedelta(days=30)
+
+
 
 # Create your models here.
 
@@ -159,6 +163,13 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     @property
     def has_initial_payment(self):
         if Payment.objects.filter(advertisement=self, payment_type=1).exists():
+            return True
+        else:
+            return False
+
+    @property
+    def has_extended_payment(self):
+        if Payment.objects.filter(advertisement=self, payment_type=2).exists():
             return True
         else:
             return False

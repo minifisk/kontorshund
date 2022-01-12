@@ -82,7 +82,12 @@
                 }
             }
           };
-          xhr_complete.open('POST',  "{% url 'swish_payment_status' pk %}", true);
+
+          {% if current_end_date %}
+            xhr_complete.open('POST',  "{% url 'check_extended_payment_status' pk %}", true);
+          {% else %}
+            xhr_complete.open('POST',  "{% url 'check_initial_payment_status' pk %}", true);
+          {% endif %}
           xhr_complete.setRequestHeader("X-CSRFToken", csrftoken); 
           xhr_complete.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
           xhr_complete.send();

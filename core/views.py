@@ -31,9 +31,9 @@ from crispy_forms.bootstrap import (
     PrependedText, PrependedAppendedText, FormActions, InlineRadios, InlineCheckboxes)
 
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm, PhoneNumberForm
-from core.models import Advertisement, Municipality, Area, DogBreed, Payment, NewsEmail
+from core.models import Advertisement, Municipality, Area, DogBreed, Payment, NewsEmail, get_30_days_ahead_from_date_obj
 from core.forms import NewsEmailForm
-from kontorshund.settings import PRICE_SWISH_EXTEND, PRICE_BANKGIRO_INITIAL, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
+from kontorshund.settings import PRICE_SWISH_EXTEND_IN_SEK, PRICE_SWISH_EXTEND, PRICE_BANKGIRO_INITIAL, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
 
 
 locale.setlocale(locale.LC_ALL,'sv_SE.UTF-8')
@@ -196,7 +196,7 @@ class AdListGetMeADog(generic.ListView):
 #############################
 
 
-def check_payment_status(request, pk):
+def check_initial_payment_status(request, pk):
     if request.user.is_authenticated:
         try:
             ad = Advertisement.objects.get(pk=pk)
@@ -204,6 +204,20 @@ def check_payment_status(request, pk):
             return JsonResponse("Ad does not exist", status=404, safe=False)
 
         if ad.has_initial_payment():
+            return JsonResponse("Payment is complete!", status=200, safe=False)
+        else:
+            return JsonResponse("Payment is NOT complete", status=404, safe=False)
+    else:
+        return redirect('account_login')
+
+def check_extended_payment_status(request, pk):
+    if request.user.is_authenticated:
+        try:
+            ad = Advertisement.objects.get(pk=pk)
+        except Advertisement.DoesNotExist:
+            return JsonResponse("Ad does not exist", status=404, safe=False)
+
+        if ad.has_extended_payment():
             return JsonResponse("Payment is complete!", status=200, safe=False)
         else:
             return JsonResponse("Payment is NOT complete", status=404, safe=False)
@@ -236,32 +250,51 @@ def swish_callback(request):
         payer_alias = data_dict['payerAlias']
 
         try:
-            ad_object = Advertisement.objects.get(pk=ad_id)
+            ad_obj = Advertisement.objects.get(pk=ad_id)
         except Advertisement.DoesNotExist:
-            return JsonResponse("Ad does not exist", status=404, safe=False)
+            return JsonResponse("Annonsen hittades ej", status=404, safe=False)
 
-        # Create payment model
-        payment_obj = ad_object.create_payment(
-            payment_type=1, 
-            amount=amount, 
-            payment_reference=payment_reference,
-            date_time_paid = date_paid_obj,
-            payer_alias = payer_alias
-            )
 
-        # Set ad as published
-        ad_object.is_published = True
-        ad_object.save()
+        # If payment is extended
+        if ad_obj.has_initial_payment:
 
-        print(f'Payment created, payment id {payment_obj.pk}')
+            payment_obj = ad_obj.create_payment(
+                payment_type=2, 
+                amount=amount, 
+                payment_reference=payment_reference,
+                date_time_paid = date_paid_obj,
+                payer_alias = payer_alias
+                )
 
-        return JsonResponse(f"Payment was created, id: {payment_obj.pk}", status=201, safe=False)
+            ad_obj.is_published = True
+            ad_obj.deletion_date = get_30_days_ahead_from_date_obj(ad_obj.deletion_date)
+            ad_obj.save()
+
+            print(f'Payment created, payment id {payment_obj.pk}')
+            return JsonResponse(f"Payment was created, id: {payment_obj.pk}", status=201, safe=False)
+
+        # If payment is initial
+        else:
+
+            payment_obj = ad_obj.create_payment(
+                payment_type=1, 
+                amount=amount, 
+                payment_reference=payment_reference,
+                date_time_paid = date_paid_obj,
+                payer_alias = payer_alias
+                )
+
+            ad_obj.is_published = True
+            ad_obj.save()
+
+            print(f'Payment created, payment id {payment_obj.pk}')
+
+            return JsonResponse(f"Payment was created, id: {payment_obj.pk}", status=201, safe=False)
 
     else:
 
         error_code = data_dict['errorCode']
         error_message = data_dict['errorCode']
-
 
         print(f'Problem creating payment: {error_code} {error_message}')
         return JsonResponse(f"Payment couldn't be created: {error_code} {error_message}", status=401, safe=False)
@@ -300,7 +333,6 @@ def get_qr_code(request, token):
 def PayForAdSwishTemplate(request, pk):
     if request.user.is_authenticated:
 
-        # If initial payment
         url = request.build_absolute_uri()
 
         if 'swish-pay/initial' in url:
@@ -378,7 +410,24 @@ def PayForAdSwishTemplate(request, pk):
 
 def GenerateSwishPaymentRequestToken(request, pk):
 
+
     if request.user.is_authenticated:
+
+
+        # Handle price depending on if it's an initial/extened payment
+        PRICE_TO_PAY = PRICE_SWISH_INITIAL_IN_SEK
+
+        try: 
+            ad_obj = Advertisement.objects.get(pk=pk)
+        except Advertisement.DoesNotExist():
+            return HttpResponseNotFound("Annonsen kunde inte hittas")  
+
+        if ad_obj.has_initial_payment:
+            PRICE_TO_PAY = PRICE_SWISH_EXTEND_IN_SEK
+        else:
+            PRICE_TO_PAY = PRICE_SWISH_INITIAL_IN_SEK
+                
+        # Enable for local testing
         # SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
 
         url = request.build_absolute_uri('/')
@@ -394,7 +443,7 @@ def GenerateSwishPaymentRequestToken(request, pk):
             "payeeAlias": SWISH_PAYEEALIAS,
             #"payerAlias": phone_number_with_46,    # Payers phone number
             "currency": "SEK",
-            "amount": PRICE_SWISH_INITIAL_IN_SEK,
+            "amount": PRICE_TO_PAY,
             "message": f"Betalning för annons med ID {pk}"
         }
 
@@ -412,6 +461,22 @@ def GenerateSwishPaymentRequestToken(request, pk):
 def GenerateSwishPaymentQrCode(request, pk):
 
     if request.user.is_authenticated:
+
+        # Handle price depending on if it's an initial/extened payment
+        PRICE_TO_PAY = PRICE_SWISH_INITIAL_IN_SEK
+
+        try: 
+            ad_obj = Advertisement.objects.get(pk=pk)
+        except Advertisement.DoesNotExist():
+            return HttpResponseNotFound("Annonsen kunde inte hittas")  
+
+        if ad_obj.has_initial_payment:
+            PRICE_TO_PAY = PRICE_SWISH_EXTEND_IN_SEK
+        else:
+            PRICE_TO_PAY = PRICE_SWISH_INITIAL_IN_SEK
+
+
+        # Enable for local testing
         #SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
 
         url = request.build_absolute_uri('/')
@@ -425,7 +490,7 @@ def GenerateSwishPaymentQrCode(request, pk):
             "payeeAlias": SWISH_PAYEEALIAS,
             #"payerAlias": phone_number_with_46,    # Payers phone number
             "currency": "SEK",
-            "amount": PRICE_SWISH_INITIAL_IN_SEK,
+            "amount": PRICE_TO_PAY,
             "message": f"Betalning för annons med ID {pk}"
         }
 
@@ -443,13 +508,28 @@ def GenerateSwishPaymentQrCode(request, pk):
 
 def PayForAdBG(request, pk):
     if request.user.is_authenticated:
+
+        # Handle price depending on if it's an initial/extened payment
+        PRICE_TO_PAY = PRICE_SWISH_INITIAL_IN_SEK
+
+        try: 
+            ad_obj = Advertisement.objects.get(pk=pk)
+        except Advertisement.DoesNotExist():
+            return HttpResponseNotFound("Annonsen kunde inte hittas")  
+
+        if ad_obj.has_initial_payment:
+            PRICE_TO_PAY = PRICE_SWISH_EXTEND_IN_SEK
+        else:
+            PRICE_TO_PAY = PRICE_SWISH_INITIAL_IN_SEK
+
+
         url = request.build_absolute_uri('/')
         path = f'ads/{pk}'
         ad_path = f'{url}{path}'
 
         if request.method == "GET":
             # Generate template to fill in your phone number
-            return render(request, 'bg_instructions.html', {'pk': pk, 'price': PRICE_BANKGIRO_INITIAL, 'ad_path': ad_path})
+            return render(request, 'bg_instructions.html', {'pk': pk, 'price': PRICE_TO_PAY, 'ad_path': ad_path})
     else:
         return redirect('account_login')
 
