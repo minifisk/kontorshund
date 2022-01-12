@@ -49,15 +49,12 @@
 
       function show_completed_payment_button() {
         const completed_payment = document.getElementById('completed-payment');
-        const go_to_ad_button = document.getElementById('go-to-ad')
-        go_to_ad_button.style.display = 'none';
         completed_payment.style.display = 'block';
       }
       
         // Creating the request
         const completed_payment_button = document.getElementById('completed-payment');
         const status_field = document.getElementById('payment-status')
-        const go_to_ad_button = document.getElementById('go-to-ad')
 
 
         completed_payment_button.addEventListener('click', (event) => {
