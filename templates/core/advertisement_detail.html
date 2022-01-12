@@ -70,7 +70,10 @@
      <!-- Let user know if it's their own ad if it's published -->   
     {% if ad.author == request.user %}
         <p>Denna annons tillhör dig och är <b>Publicerad</b> (Endast du ser detta)</p>
+        <p>Annonsen tas automatiskt bort <b>{{ ad.deletion_date }}</b> </p>
         <br>
+        <h4>Hantera annons</h4>
+        <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success">Förläng annons 30 dagar</button></a>
         {% if ad.is_offering_own_dog == True%}
         <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
         {% else %}

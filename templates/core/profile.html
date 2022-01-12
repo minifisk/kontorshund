@@ -58,13 +58,14 @@
       </a>
         <div class="card-body">
         <h5 class="card-title">{{ ad.title }}</h5>
+        <hp class="card-text">Giltig till {{ ad.deletion_date }}</hp>
         <p id="ad_description_snippet" class="card-text">{{ ad.description }}</p>
         <div id="button-container">
           <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary mb-3">Gå till annons</a>
           <br>
-          <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary  mb-3">Ändra annons</button></a>
-          <br>
-          <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger ">Ta bort annons</button></a>
+          <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success mb-3">Förläng</button></a>
+          <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
+          <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger mb-3">Ta bort</button></a>
         </div>
       </div>
     </div>
@@ -89,13 +90,14 @@
     </a>
     <div class="card-body">
       <h5 class="card-title">{{ ad.title }}</h5>
+      <hp class="card-text">Giltig till {{ ad.deletion_date }}</hp>
       <p id="ad_description_snippet" class="card-text">{{ ad.description }}</p>
       <div id="button-container">
           <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary mb-3">Gå till annons</a>
           <br>
-          <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary  mb-3">Ändra annons</button></a>
-          <br>
-          <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger ">Ta bort annons</button></a>
+          <a href="{% url 'swish_payment_initial_template' ad.id %}"><button class="btn btn-success mb-3">Betala</button></a>
+          <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
+          <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger mb-3 ">Ta bort</button></a>
       </div>
     </div>
   </div>
