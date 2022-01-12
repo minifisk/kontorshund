@@ -170,10 +170,8 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     @property
     def has_extended_payment(self):
         if Payment.objects.filter(advertisement=self, payment_type=2).exists():
-            print('Models - Payment has extended payment')
             return True
         else:
-            print('Models - Payment has no extended payment')
             return False
 
 

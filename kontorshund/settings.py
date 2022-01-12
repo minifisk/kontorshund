@@ -14,7 +14,7 @@ RECAPTCHA_SITE_KEY = os.environ.get('reCAPTCHA_SITE_KEY')
 RECAPTCHA_SECRET_KEY = os.environ.get('reCAPCHA_SECRET_KEY') 
 
 # Swish constants
-NGROK_URL = "https://ca31-92-33-202-136.ngrok.io" # Fill out with new value when testing 
+NGROK_URL = "https://6054-92-33-202-136.ngrok.io" # Fill out with new value when testing 
 SWISH_PAYEEALIAS = os.environ.get('MERCHANT_SWISH_NUMBER') # This would be your merchant swish number in production. In test it doesnt matter
 SWISH_ROOTCA = "/home/dockeruser/web/Certificates_prod/Swish_TLS_RootCA.pem"
 SWISH_CERT = ("/home/dockeruser/web/Certificates_prod/swish_certificate_202112151645.pem", "/home/dockeruser/web/Certificates_prod/private.key")

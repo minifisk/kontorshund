@@ -29,7 +29,7 @@ urlpatterns = [
     path('generate-swish-qr-code/<int:pk>', views.GenerateSwishPaymentQrCode, name='swish_payment_qr_code'),
     path('generate-swish-request-token/<int:pk>', views.GenerateSwishPaymentRequestToken, name='swish_request_token'),
     path('check-initial-payment-status/<int:pk>', views.check_initial_payment_status, name='check_initial_payment_status'),
-    path('check-extended-payment-status/<int:pk>', views.check_initial_payment_status, name='check_extended_payment_status'),
+    path('check-extended-payment-status/<int:pk>', views.check_extended_payment_status, name='check_extended_payment_status'),
     path('swish-successfull-android', views.android_success_page, name='android_success_page'),
     path('bg-pay/<int:pk>', views.PayForAdBG, name='bg_payment'),
 

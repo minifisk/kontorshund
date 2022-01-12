@@ -217,12 +217,9 @@ def check_extended_payment_status(request, pk):
         except Advertisement.DoesNotExist:
             return JsonResponse("Ad does not exist", status=404, safe=False)
 
-        print(ad.pk)
         if ad.has_extended_payment:
-            print('Views - Payment has extended payment')
             return JsonResponse("Payment is complete!", status=200, safe=False)
         else:
-            print('Views - Payment has no extended payment')
             return JsonResponse("Payment is NOT complete", status=404, safe=False)
     else:
         return redirect('account_login')
@@ -431,10 +428,11 @@ def GenerateSwishPaymentRequestToken(request, pk):
             PRICE_TO_PAY = PRICE_SWISH_INITIAL_IN_SEK
                 
         # Enable for local testing
-        # SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
+        #SWISH_CALLBACKURL = urljoin(NGROK_URL, "/swish/callback")
 
         url = request.build_absolute_uri('/')
         callback_path = f'swish/callback'
+        # Enable for prod
         SWISH_CALLBACKURL= f'{url}{callback_path}'
 
         print(SWISH_CALLBACKURL, flush=True)
@@ -484,6 +482,7 @@ def GenerateSwishPaymentQrCode(request, pk):
 
         url = request.build_absolute_uri('/')
         callback_path = f'swish/callback'
+        # Enable for prod
         SWISH_CALLBACKURL= f'{url}{callback_path}'
 
         # Set-up variables for payment request
