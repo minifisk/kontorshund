@@ -68,7 +68,7 @@ class NewsEmail(models.Model):
     interval = IntegerField(choices=INTERVAL_CHOICES, null=True, blank=True, verbose_name='Intervall')
     ad_type = IntegerField(choices=AD_TYPES_CHOICES, null=True, blank=True, verbose_name='Annonstyp')
     is_active = BooleanField(default=False)
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
 
 class DogSizeChoice(models.Model):

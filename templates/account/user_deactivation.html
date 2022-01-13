@@ -1,0 +1,18 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Ta bort din profil{% endblock %}
+
+{% block content %}
+  <h1>Ta bort din profil {{ object_name }}</h1>
+  <p>Är du säker på att du vill ta bort din profil? Detta raderar även alla dina annonser. Detta kan inte ångras.</p>
+  <form method="post">
+    {% csrf_token %}
+    <br>
+    {{ form }}
+    <div class="mt-3">
+        <button class="btn btn-danger" type="submit">Ta bort profil</button>
+        <button class="btn btn-secondary" type="button" onclick="window.history.go(-1);">Avbryt</button>
+    </div>  
+</form>
+{% endblock content %}

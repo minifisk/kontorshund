@@ -136,6 +136,11 @@
   {% endfor %}
 
 
+<h4>Ta bort din profil</h4>
+<a href="{% url 'delete_profile' user.pk %}"><button class="btn btn-danger mb-3">Ta bort din profil</button></a>
+
+
+
 
 {% endblock content %}
 

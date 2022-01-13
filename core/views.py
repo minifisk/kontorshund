@@ -22,6 +22,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.utils.safestring import mark_safe
 from django.forms import HiddenInput
+from django.contrib.auth import get_user, get_user_model
 
 from dal import autocomplete
 from lockdown.decorators import lockdown
@@ -30,11 +31,12 @@ from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Field, R
 from crispy_forms.bootstrap import (
     PrependedText, PrependedAppendedText, FormActions, InlineRadios, InlineCheckboxes)
 
-from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm, PhoneNumberForm
+from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm
 from core.models import Advertisement, Municipality, Area, DogBreed, Payment, NewsEmail, get_30_days_ahead_from_date_obj, get_30_days_ahead
 from core.forms import NewsEmailForm
 from kontorshund.settings import PRICE_SWISH_EXTEND_IN_SEK, PRICE_SWISH_EXTEND, PRICE_BANKGIRO_INITIAL, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
 
+User = get_user_model()
 
 locale.setlocale(locale.LC_ALL,'sv_SE.UTF-8')
 
@@ -76,6 +78,7 @@ def recapcha(request, pk):
     
     else:
         return JsonResponse('Not validated', status=403, safe=False)
+
 
 #####################
 # USER SPECIFIC VIEWS
@@ -131,6 +134,7 @@ def profile(request):
                 return render(request, 'core/profile.html', {'form': form})
     else:
         return redirect('account_login')
+
 
 
 def handle_email_subscription_status(self, uuid):
@@ -360,7 +364,6 @@ def PayForAdSwishTemplate(request, pk):
 
 
             ad_title = ad_obj.title
-            form = PhoneNumberForm()
             url = request.build_absolute_uri('/')
             path = f'ads/{pk}'
             ad_path = f'{url}{path}'
@@ -369,7 +372,6 @@ def PayForAdSwishTemplate(request, pk):
                 'core/swish_payment_template.html', 
                 {
                     'pk': pk, 
-                    'form': form, 
                     'title': ad_title, 
                     'price': PRICE_SWISH_INITIAL, 
                     'ad_path': ad_path
@@ -389,7 +391,6 @@ def PayForAdSwishTemplate(request, pk):
 
 
             ad_title = ad_obj.title
-            form = PhoneNumberForm()
             url = request.build_absolute_uri('/')
             path = f'ads/{pk}'
             ad_path = f'{url}{path}'
@@ -406,7 +407,6 @@ def PayForAdSwishTemplate(request, pk):
                 'core/swish_payment_template.html', 
                 {
                     'pk': pk, 
-                    'form': form,
                     'title': ad_title, 
                     'price': PRICE_SWISH_EXTEND, 
                     'ad_path': ad_path,
