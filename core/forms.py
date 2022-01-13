@@ -163,8 +163,6 @@ class NewAdGetMeADogForm(forms.ModelForm):
             #     field.error_messages = {'required':'Fältet {fieldname} är obligatoriskt'.format(
             #     fieldname=field.label)}
 
-phone_number_validator = RegexValidator(r"^(07[0236])\s*(\d{4})\s*(\d{3})$", "Telefonnummer skall anges i formatet 0723456789 (utan mellanslag)")
-
 
 
 class NewsEmailForm(forms.ModelForm):
@@ -268,12 +266,6 @@ class NewsEmailFormAdmin(forms.ModelForm):
 
 
 
-class PhoneNumberForm(forms.Form):
-    phone_number = forms.CharField(
-        required=True,
-        label='Ditt telefonnummer', 
-        validators=[phone_number_validator], 
-        widget=forms.TextInput(attrs={'placeholder': '0701234567'})
-    )
+
 
 
