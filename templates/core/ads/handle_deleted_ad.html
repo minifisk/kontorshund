@@ -1,0 +1,13 @@
+<p>Din annons är för närvarande <b> borttagen </b> -  Men du kan aktivera den genom att förnya betalningen nedan. </p>
+<p>Genom att förnya din annons blir den giltig i 30 dagar, vilket kostar <b>{{ price_swish_extend }}</b> via Swish.</p>
+<br>
+<h4>Hantera annons</h4>
+<a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-primary" >Betala med Swish</button></a>    
+{% if ad.is_offering_own_dog == True%}
+    <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
+{% else %}
+    <a href="{% url 'ad_update_get' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
+{% endif %}
+
+<a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger">Ta bort annons</button></a>
+<br>

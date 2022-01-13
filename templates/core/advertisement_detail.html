@@ -9,7 +9,6 @@
 
 {% block content %}
 
-
     {% if ad.is_offering_own_dog %}
         <h1>Hund erbjudes</h1>
     {% else %}
@@ -19,18 +18,31 @@
     {% if not ad.is_published %}
 
         {% if ad.author == request.user %}
-        
-                {% if ad.has_initial_payment == False %}
-                    <p>Denna annons tillhör dig och är ännu <b>Opublicerad</b>  (Endast du ser detta)</p>
-                    {% include 'core/ads/ad_not_paid.html' %}
-                {% else %}
-                    <p class="mb-3">Din annons har betalstatus <b> Betald </b> Något har gått snett då din annons är betald men ännu ej publicerad. Vänta i 10 minuter och uppdatera sidan. Är din annons ännu opublicerad kontakta oss på <a href = "mailto: info@kontorshund.se">info@kontorshund.se</a> </p>
-                {% endif %}
 
-                <div id="unpublished">
-                    {% include 'core/ad_template.html' %}
+
+                {% if ad.is_deleted %}
+
+                 {% include 'core/ads/handle_deleted_ad.html' %}
+                 <div id="unpublished">
+                    {% include 'core/ads/ad_content_template.html' %}
                     {% include 'core/ads/ad_contact_author.html' %}
-                </div>       
+                </div>    
+                
+
+                {% else %}
+        
+                    {% if ad.has_initial_payment == False %}
+                        <p>Denna annons tillhör dig och är ännu <b>Opublicerad</b></p>
+                        {% include 'core/ads/handle_unpaid_ad.html' %}
+                    {% else %}
+                        <p class="mb-3">Din annons har betalstatus <b> Betald </b> Något har gått snett då din annons är betald men ännu ej publicerad. Vänta i 10 minuter och uppdatera sidan. Är din annons ännu opublicerad kontakta oss på <a href = "mailto: info@kontorshund.se">info@kontorshund.se</a> </p>
+                    {% endif %}
+
+                    <div id="unpublished">
+                        {% include 'core/ads/ad_content_template.html' %}
+                        {% include 'core/ads/ad_contact_author.html' %}
+                    </div>    
+                {% endif %}
 
         {% else %}
             <p>Denna annons väntar på att bli betald</p>
@@ -41,13 +53,11 @@
         <p>Antal visningar: {{ ad.ad_views }}</p>
 
         {% if ad.author == request.user %}
-            {% include 'core/ads/ad_handle_published_ad.html' %}
+            {% include 'core/ads/handle_published_ad.html' %}
         {% endif %}
-            
-        {% include 'core/ad_template.html' %}
-
+        
+        {% include 'core/ads/ad_content_template.html' %}
         {% include 'core/ads/ad_contact_author.html' %}
-
 
     {% endif %}
 
@@ -56,62 +66,59 @@
 {% block footer %}
 
 
+    <script>
+        function hide_email_button() {
+        const email_button = document.getElementById('email_user_button');
+        email_button.style.display = 'none';
+    }
+    </script>
 
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+    
+    <script src="https://www.google.com/recaptcha/api.js?render={{ site_key }}"></script>
+    
+    <script>
+        grecaptcha.ready(function() {
+            const get_email_button = document.getElementById('get_user_email');
+            const email_user_button = document.getElementById('email_user_button');
 
-{% comment %} ReCAPCHA {% endcomment %}
+            get_email_button.addEventListener('click', (event) => {
+                grecaptcha.execute('{{ site_key }}', {action: 'validate_email_request'}).then(function(token) {
 
-<script>
-    function hide_email_button() {
-    const email_button = document.getElementById('email_user_button');
-    email_button.style.display = 'none';
-  }
+                    var xhr = new XMLHttpRequest();
 
-</script>
+                    // CSRF Set-up
+                    let cookie = document.cookie
+                    let csrftoken = cookie.substring(cookie.indexOf('=') + 1)
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-crossorigin="anonymous"></script>
-<script src="https://www.google.com/recaptcha/api.js?render={{ site_key }}"></script>
-<script>
-  grecaptcha.ready(function() {
-      const get_email_button = document.getElementById('get_user_email');
-      const email_user_button = document.getElementById('email_user_button');
+                    params = {
+                        'token': token
+                    }
 
-      get_email_button.addEventListener('click', (event) => {
-        grecaptcha.execute('{{ site_key }}', {action: 'validate_email_request'}).then(function(token) {
+                    // Runs when token have been retrieved
+                    xhr.onload = function () {
+                    if (xhr.readyState === xhr.DONE) {
+                        if (xhr.status === 200) {
+                            mail_adress = xhr.response.replace(/['"]+/g, '')
+                            email_user_button.href = `mailto: ${mail_adress}`
+                            email_user_button.style.display = 'block';
+                            get_email_button.style.display = 'none';
 
-            var xhr = new XMLHttpRequest();
+                        }
+                    }
+                    };
 
-            // CSRF Set-up
-            let cookie = document.cookie
-            let csrftoken = cookie.substring(cookie.indexOf('=') + 1)
+                    // Retrieve token
+                    xhr.open('POST',  "{% url 'recapcha' ad.pk %}", true);
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken); 
+                    //xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
+                    xhr.send(JSON.stringify(params));
 
-            params = {
-                'token': token
-            }
+                });
+            })
 
-            // Runs when token have been retrieved
-            xhr.onload = function () {
-              if (xhr.readyState === xhr.DONE) {
-                  if (xhr.status === 200) {
-                    mail_adress = xhr.response.replace(/['"]+/g, '')
-                    email_user_button.href = `mailto: ${mail_adress}`
-                    email_user_button.style.display = 'block';
-                    get_email_button.style.display = 'none';
-
-                  }
-              }
-            };
-
-            // Retrieve token
-            xhr.open('POST',  "{% url 'recapcha' ad.pk %}", true);
-            xhr.setRequestHeader("X-CSRFToken", csrftoken); 
-            //xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
-            xhr.send(JSON.stringify(params));
-
-        });
-      })
-
-    });
- </script>
+            });
+    </script>
 
  {% endblock footer %}

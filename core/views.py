@@ -31,7 +31,7 @@ from crispy_forms.bootstrap import (
     PrependedText, PrependedAppendedText, FormActions, InlineRadios, InlineCheckboxes)
 
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm, PhoneNumberForm
-from core.models import Advertisement, Municipality, Area, DogBreed, Payment, NewsEmail, get_30_days_ahead_from_date_obj
+from core.models import Advertisement, Municipality, Area, DogBreed, Payment, NewsEmail, get_30_days_ahead_from_date_obj, get_30_days_ahead
 from core.forms import NewsEmailForm
 from kontorshund.settings import PRICE_SWISH_EXTEND_IN_SEK, PRICE_SWISH_EXTEND, PRICE_BANKGIRO_INITIAL, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
 
@@ -97,6 +97,7 @@ def profile(request):
             deleted_ads = Advertisement.objects.filter(author=request.user, is_deleted=True)
             NewsEmail_obj = NewsEmail.objects.get(user=request.user)
             form = NewsEmailForm(instance=NewsEmail_obj)
+
 
             return render(
                 request, 
@@ -269,7 +270,17 @@ def swish_callback(request):
                 )
 
             ad_obj.is_published = True
-            ad_obj.deletion_date = get_30_days_ahead_from_date_obj(ad_obj.deletion_date)
+            ad_obj.is_deleted = False
+
+
+            # Base case - add 30 day ahead from today (if ad already has passed deletion date)
+            new_deletion_date = get_30_days_ahead()
+
+            # If deletion date is later than today, add 30 days ontop of that
+            if get_30_days_ahead_from_date_obj(ad_obj.deletion_date) > new_deletion_date:
+                new_deletion_date = get_30_days_ahead_from_date_obj(ad_obj.deletion_date)
+
+            ad_obj.deletion_date = new_deletion_date
             ad_obj.save()
 
             print(f'Payment created, payment id {payment_obj.pk}')
@@ -838,6 +849,7 @@ class AdDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(AdDetailView, self).get_context_data(**kwargs)
         context['site_key'] = settings.RECAPTCHA_SITE_KEY
+        context['price_swish_extend'] = PRICE_SWISH_EXTEND
         return context
 
 
