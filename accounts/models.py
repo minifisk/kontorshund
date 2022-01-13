@@ -8,8 +8,7 @@ from core import models as core_models
 # Create your models here.
 
 class CustomUser(AbstractUser):
-    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-
+    pass
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
