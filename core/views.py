@@ -94,6 +94,7 @@ def profile(request):
 
             published_ads = Advertisement.objects.filter(author=request.user, is_published=True)
             unpublished_ads = Advertisement.objects.filter(author=request.user, is_published=False)
+            deleted_ads = Advertisement.objects.filter(author=request.user, is_deleted=True)
             NewsEmail_obj = NewsEmail.objects.get(user=request.user)
             form = NewsEmailForm(instance=NewsEmail_obj)
 
@@ -103,6 +104,7 @@ def profile(request):
                     {
                         'published_ads': published_ads, 
                         'unpublished_ads': unpublished_ads, 
+                        'deleted_ads': deleted_ads,
                         'media_url': media_url,
                         'ad_url': ad_url,
                         'form': form,

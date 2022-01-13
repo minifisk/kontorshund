@@ -10,89 +10,46 @@
 {% block content %}
 
 
-{% if ad.is_offering_own_dog %}
-    <h1>Hund erbjudes</h1>
-{% else %}
-    <h1>Hund sökes</h1>
-{% endif %}
-
-
-<!-- Check if NOT published -->
-{% if not ad.is_published %}
-
-    <!-- Check if ad belongs to user -->
-    {% if ad.author == request.user %}
-
-            
-            <p>Denna annons tillhör dig och är ännu <b>Opublicerad</b>  (Endast du ser detta)</p>
-            
-            <!-- Check if ad has initial payment -->
-            {% if ad.has_initial_payment == False %}
-                <p>Din annons har betalstatus <b> Obetald </b>-  Endast du kan se annonsen tills den är betald! </p>
-                <br>
-                    <a href="{% url 'swish_payment_initial_template' ad.id %}"><button class="btn btn-primary" >Betala med Swish</button></a>
-                    <a href="{% url 'bg_payment' ad.id %}"><button class="btn btn-secondary">Betala med Bankgiro</button></a>
-                    
-                    {% if ad.is_offering_own_dog == True%}
-                        <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
-                    {% else %}
-                        <a href="{% url 'ad_update_get' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
-                    {% endif %}
-
-                    <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger">Ta bort annons</button></a>
-                    <br>
-                
-            {% else %}
-                <p class="mb-3">Din annons har betalstatus <b> Betald </b> Något har gått snett då din annons är betald men ännu ej publicerad. Vänta i 10 minuter och uppdatera sidan. Är din annons ännu opublicerad kontakta oss på <a href = "mailto: info@kontorshund.se">info@kontorshund.se</a> </p>
-            {% endif %}
-
-            <div id="unpublished">
-                {% include 'core/ad_template.html' %}
-
-                <button class="btn btn-primary btn-sm disabled" id="get_user_email" disabled>Hämta annonsörens email</button>
-                <p>Detta steg är till för att förhindra spam-mail till annonsörernas email adresser</p>
-                <button class="btn btn-primary btn-sm disabled" id="email_user_button" disabled><a id="email_user_href" href="">Maila annonsören</a> </button>
-
-            </div>
-                
-
-
-    <!-- If ad don't belong to user -->
+    {% if ad.is_offering_own_dog %}
+        <h1>Hund erbjudes</h1>
     {% else %}
-        <p>Denna annons väntar på att bli betald</p>
+        <h1>Hund sökes</h1>
     {% endif %}
 
-<!-- If ad IS published -->
-{% else %}
+    {% if not ad.is_published %}
 
-    <p>Antal visningar: {{ ad.ad_views }}</p>
-
-     <!-- Let user know if it's their own ad if it's published -->   
-    {% if ad.author == request.user %}
-        <p>Denna annons tillhör dig och är <b>Publicerad</b> (Endast du ser detta)</p>
-        <p>Annonsen tas automatiskt bort <b>{{ ad.deletion_date }}</b> </p>
-        <br>
-        <h4>Hantera annons</h4>
-        <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success">Förläng annons 30 dagar</button></a>
-        {% if ad.is_offering_own_dog == True%}
-        <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
-        {% else %}
-        <a href="{% url 'ad_update_get' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
-        {% endif %}
-        <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger">Ta bort annons</button></a>
-    {% endif %}
+        {% if ad.author == request.user %}
         
-    {% include 'core/ad_template.html' %}
+                {% if ad.has_initial_payment == False %}
+                    <p>Denna annons tillhör dig och är ännu <b>Opublicerad</b>  (Endast du ser detta)</p>
+                    {% include 'core/ads/ad_not_paid.html' %}
+                {% else %}
+                    <p class="mb-3">Din annons har betalstatus <b> Betald </b> Något har gått snett då din annons är betald men ännu ej publicerad. Vänta i 10 minuter och uppdatera sidan. Är din annons ännu opublicerad kontakta oss på <a href = "mailto: info@kontorshund.se">info@kontorshund.se</a> </p>
+                {% endif %}
 
-    <h5 class="mt-5">Kontakta annonsören</h5>
-    <i>Detta steg är till för att förhindra spam-mail till annonsörernas email adresser, vilket automatiskt görs med hjälp av Googles tjänst reCAPCHA (se ikonen i nedre högra hörnet). När du tryckt på knappen och din enhet blir godkänd, dyker en knapp upp för att maila annonsören. </i>
-    <div class="mt-3" id="button_max_width">
-        <a class="btn btn-primary btn-sm" id="email_user_button" role="button" href="">Maila annonsören</a>
-    </div>
-    <button class="btn btn-secondary btn-sm" id="get_user_email">Hämta annonsörens email</button>
+                <div id="unpublished">
+                    {% include 'core/ad_template.html' %}
+                    {% include 'core/ads/ad_contact_author.html' %}
+                </div>       
 
-{% endif %}
+        {% else %}
+            <p>Denna annons väntar på att bli betald</p>
+        {% endif %}
 
+    {% else %}
+
+        <p>Antal visningar: {{ ad.ad_views }}</p>
+
+        {% if ad.author == request.user %}
+            {% include 'core/ads/ad_handle_published_ad.html' %}
+        {% endif %}
+            
+        {% include 'core/ad_template.html' %}
+
+        {% include 'core/ads/ad_contact_author.html' %}
+
+
+    {% endif %}
 
 {% endblock content %}
 

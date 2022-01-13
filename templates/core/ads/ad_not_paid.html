@@ -1,0 +1,13 @@
+<p>Din annons har betalstatus <b> Obetald </b>-  Endast du kan se annonsen tills den är betald! </p>
+<br>
+    <a href="{% url 'swish_payment_initial_template' ad.id %}"><button class="btn btn-primary" >Betala med Swish</button></a>
+    <a href="{% url 'bg_payment' ad.id %}"><button class="btn btn-secondary">Betala med Bankgiro</button></a>
+    
+    {% if ad.is_offering_own_dog == True%}
+        <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
+    {% else %}
+        <a href="{% url 'ad_update_get' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
+    {% endif %}
+
+    <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger">Ta bort annons</button></a>
+    <br>

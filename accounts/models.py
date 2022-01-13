@@ -15,7 +15,6 @@ class CustomUser(AbstractUser):
 
         if not news_email_obj.exists():
             new_news_email_obj = models.NewsEmail.objects.create(user=self)
- 
 
 
     def __str__(self):

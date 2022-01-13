@@ -105,6 +105,37 @@
   {% endfor %}
 
 
+  <h5 class="mb-5 mt-5"><u>Borttagna</u> annonser ({{ deleted_ads.count }} st) </h5>
+
+  {% for ad in deleted_ads %}
+
+
+  <div class="card mb-5" style="width: 18rem;">
+    <h6 class="card-header text-center">
+      {% if ad.is_offering_own_dog %}
+      Hund erbjudes
+      {% else %}
+      Hund sökes
+      {% endif %}
+    </h6>
+    <a href="{{ ad_url }}{{ ad.id }}">
+      <img class="card-img-top" src=" {{ ad.image1.thumbnail.url }}" alt="deleted ad">
+    </a>
+    <div class="card-body">
+      <h5 class="card-title">{{ ad.title }}</h5>
+      <p id="ad_description_snippet" class="card-text">{{ ad.description }}</p>
+      <div id="button-container">
+          <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary mb-3">Gå till annons</a>
+          <br>
+          <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success mb-3">Förläng</button></a>
+          <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+
+
 
 {% endblock content %}
 

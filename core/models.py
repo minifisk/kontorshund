@@ -118,8 +118,11 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     name = models.CharField(max_length=50, verbose_name='Hundens namn', default='')
     age = models.IntegerField(verbose_name='Hundens ålder (år)', default=0)
 
-    # Payment status
+    # Status
     is_published = models.BooleanField(default=False, null=True)
+    is_deleted = models.BooleanField(default=False, null=True)
+
+    # Payment status
     payment_type = models.CharField(max_length=1, choices=PAYMENT_CHOICES, default=1, verbose_name='Betalningsmetod', null=True)
 
 
