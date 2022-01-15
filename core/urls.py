@@ -15,7 +15,7 @@ urlpatterns = [
     path('ads/list', views.ListAds, name='list_ads'),
     
     
-    path('ads/take-my-dog', views.AdListTakeMyDog.as_view(), name='view_ads_take_my_dog'),
+    path('ads/take-my-dog', views.AdOfferingDogListView.as_view(), name='view_ads_take_my_dog'),
     path('ads/get-me-a-dog', views.AdListGetMeADog.as_view(), name='view_ads_get_me_a_dog'),
 
     path('ads/<int:pk>', views.AdDetailView.as_view(), name='ad_detail'),

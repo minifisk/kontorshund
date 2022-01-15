@@ -72,7 +72,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Django-added
-
     'django.contrib.sites',
 
     # Other third-party
@@ -81,6 +80,9 @@ INSTALLED_APPS = [
     'lockdown',
     'storages',
     'stdimage',
+    'django_filters',
+    'bootstrapform',
+    'widget_tweaks',
 
     # Local
     'core',

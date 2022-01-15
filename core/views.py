@@ -35,6 +35,7 @@ from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm
 from core.models import Advertisement, Municipality, Area, DogBreed, Payment, NewsEmail, get_30_days_ahead_from_date_obj, get_30_days_ahead
 from core.forms import NewsEmailForm
 from kontorshund.settings import PRICE_SWISH_EXTEND_IN_SEK, PRICE_SWISH_EXTEND, PRICE_BANKGIRO_INITIAL, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
+from core.filters import AdOfferingDogFilter
 
 User = get_user_model()
 
@@ -178,14 +179,19 @@ class BreedAutocomplete(autocomplete.Select2QuerySetView):
 def ListAds(request):
     return render(request, 'core/list_ads.html')
 
-class AdListTakeMyDog(generic.ListView):
+class AdOfferingDogListView(generic.ListView):
     
     model = Advertisement
     context_object_name = 'ads'
-    template_name = 'core/advertisement_list_take.html'
+    template_name = 'core/advertisement_list_offering_dog.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = AdOfferingDogFilter(self.request.GET, queryset=self.get_queryset())
+        return context
 
     def get_queryset(self):
-        queryset = Advertisement.objects.filter(is_offering_own_dog=True)
+        queryset = Advertisement.objects.filter(is_offering_own_dog=True, is_published=True, is_deleted=False)
         return queryset
 
 
@@ -235,6 +241,8 @@ def check_extended_payment_status(request, pk):
 def android_success_page(request):
     return render(request, 'android_swish_success.html')
 
+from django.db import transaction
+
 
 @csrf_exempt
 def swish_callback(request):
@@ -256,8 +264,9 @@ def swish_callback(request):
         payment_reference = data_dict['paymentReference']
         payer_alias = data_dict['payerAlias']
 
+
         try:
-            ad_obj = Advertisement.objects.get(pk=ad_id)
+            ad_obj = Advertisement.objects.select_for_update().get(pk=ad_id) # Make sure that the count when adding an ad is correct and not prone to race conditions
         except Advertisement.DoesNotExist:
             return JsonResponse("Annonsen hittades ej", status=404, safe=False)
 
@@ -302,7 +311,14 @@ def swish_callback(request):
                 )
 
             ad_obj.is_published = True
-            ad_obj.save()
+            with transaction.atomic(): # Avoiding race condition
+                ad_obj.province.count = ad_obj.province.count + 1
+                ad_obj.municipality.count = ad_obj.municipality.count + 1
+
+                if ad_obj.area:
+                    ad_obj.area.count = ad_obj.area.count +1        
+                
+                ad_obj.save()
 
             print(f'Payment created, payment id {payment_obj.pk}')
 
