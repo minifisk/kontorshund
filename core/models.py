@@ -95,7 +95,7 @@ def content_file_name(instance, filename):
 
 DAYS_PER_WEEK_CHOICES = (
     ("1", "1 dag per vecka"),
-    ("1-5", "1-2 dagar per vecka"),
+    ("1-2", "1-2 dagar per vecka"),
     ("1-3", "1-3 dagar per vecka"),
     ("1-4", "1-4 dagar per vecka"),
     ("1-5", "1-5 dagar per vecka"),

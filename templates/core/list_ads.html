@@ -47,8 +47,6 @@
 
     <script>
 
-
-
         // Handling CSRF Cookies
         // The following function are copying from 
         // https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
@@ -67,6 +65,127 @@
             }
             return cookieValue;
         }
+
+
+
+        
+        
+        // UPDATE SEARCH RESULTS WHEN USER CHANGE ANY FORM ELEMENT
+        // id_province id_municipality id_area id_days_per_week id_size_offered id_hundras id_size_requested
+
+
+            // Handling size_offered
+            $(document).on('change',
+             'select[id="id_province"], select[id="id_municipality"], select[id="id_area"], select[id="id_days_per_week"], select[id="id_hundras"]', 
+             function(){
+
+                // COLLECT VALUES FROM SELECT FIELDS
+                 console.log('changed 2.0')
+
+
+                 // COLLECT VALUES FROM CHECKBOX FIELDS 
+
+                    // Collect all values from all fields into one object
+                    var checked_days_per_week = document.querySelectorAll('input[name="days_per_week"]:checked')
+                    days_per_week_values = Array.prototype.slice.call(checked_days_per_week, 0)
+                        .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
+                            return checkbox.value;  // returning the value of the checked checkbox:
+                        });
+
+                    if (checked_days_per_week.length) {
+                        console.log(days_per_week_values);
+                    } else {
+                        console.log(checked_days_per_week)
+                    }
+
+                    // Handling size_offered
+                    $(document).on('click', 'input[name="size_offered"]', function(){
+                        var checked_size_offered = document.querySelectorAll('input[name="size_offered"]:checked')
+                        size_offered_values = Array.prototype.slice.call(checked_size_offered, 0)
+                            .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
+                                return checkbox.value;  // returning the value of the checked checkbox:
+                            });
+
+                        if (checked_size_offered.length) {
+                            console.log(size_offered_values);
+                        } else {
+                            console.log(checked_size_offered)
+                        }
+                    });
+
+                    // Handling size_requested
+                    $(document).on('click', 'input[name="size_requested"]', function(){
+                        var checked_size_requested = document.querySelectorAll('input[name="size_requested"]:checked')
+                        size_requested_values = Array.prototype.slice.call(checked, 0)
+                            .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
+                                return checkbox.value;  // returning the value of the checked checkbox:
+                            });
+
+                        if (checked_size_requested.length) {
+                            console.log(size_requested_values);
+                        } else {
+                            console.log(checked_size_requested)
+                        }
+                    });
+
+                // Make POST request 
+
+                // Retrieve data with relevant ads
+
+                // Put ads into container
+
+
+
+            });
+
+
+            
+            // Handling days_per_week_checkboxes
+            $(document).on('click', 'input[name="days_per_week"]', function(){
+                var checked = document.querySelectorAll('input[name="days_per_week"]:checked')
+                values = Array.prototype.slice.call(checked, 0)
+                    .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
+                        return checkbox.value;  // returning the value of the checked checkbox:
+                    });
+
+                if (checked.length) {
+                    console.log(values);
+                } else {
+                    console.log(checked)
+                }
+            });
+
+            // Handling size_offered
+            $(document).on('click', 'input[name="size_offered"]', function(){
+                var checked = document.querySelectorAll('input[name="size_offered"]:checked')
+                values = Array.prototype.slice.call(checked, 0)
+                    .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
+                        return checkbox.value;  // returning the value of the checked checkbox:
+                    });
+
+                if (checked.length) {
+                    console.log(values);
+                } else {
+                    console.log(checked)
+                }
+            });
+
+            // Handling size_requested
+            $(document).on('click', 'input[name="size_requested"]', function(){
+                var checked = document.querySelectorAll('input[name="size_requested"]:checked')
+                values = Array.prototype.slice.call(checked, 0)
+                    .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
+                        return checkbox.value;  // returning the value of the checked checkbox:
+                    });
+
+                if (checked.length) {
+                    console.log(values);
+                } else {
+                    console.log(checked)
+                }
+            });
+
+
 
 
         // Changing Form displyed based on users choice in Radio buttons

@@ -92,7 +92,9 @@ class SearchOfferingDogAdsForm(forms.ModelForm):
 
 class SearchRequestingDogAdsForm(forms.ModelForm):
     days_per_week = forms.MultipleChoiceField(choices=DAYS_PER_WEEK_CHOICES, widget=forms.CheckboxSelectMultiple(), label='Dagar per vecka (flerval)')
-    
+    size_requested = forms.ModelMultipleChoiceField(queryset=DogSizeChoice.objects.all(), widget=forms.CheckboxSelectMultiple(), label='Hundstorlek')
+
+
     class Meta:
         model = Advertisement
         fields = ('province', 'municipality', 'area', 'days_per_week', 'size_requested')
