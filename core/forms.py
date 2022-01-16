@@ -56,6 +56,7 @@ class SearchAllAdsForm(forms.ModelForm):
 
 class SearchOfferingDogAdsForm(forms.ModelForm):
     days_per_week = forms.MultipleChoiceField(choices=DAYS_PER_WEEK_CHOICES, widget=forms.CheckboxSelectMultiple(), label='Dagar per vecka')
+    size_offered = forms.ModelMultipleChoiceField(queryset=DogSizeChoice.objects.all(), widget=forms.CheckboxSelectMultiple(), label='Hundstorlek')
 
     class Meta:
         model = Advertisement
@@ -148,6 +149,7 @@ class NewAdTakeMyDogForm(forms.ModelForm):
             'title': 'Skriv en titel som sammanfattar annonsen - T.ex. "Frans, Border Collie, Söker kompis för 3 dagar per vecka"',
             'description': 'Skriv kort om hunden och er som har hunden, vad har hunden för typ av personlighet? Finns det saker den gillar mer eller mindre? Inom vilket område kan ni tänka er att länmna/hämta hunden?',
             'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp direkt.',
+            'hundras': 'Fritextsök - börja skriv och resultat dyker upp',
             'image1': 'Max-storlek 20 MB.',
             'image2': 'Max-storlek 20 MB.',
             'image3': 'Max-storlek 20 MB.',
