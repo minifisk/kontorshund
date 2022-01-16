@@ -76,12 +76,15 @@
 
             // Handling size_offered
             $(document).on('change',
-             'select[id="id_province"], select[id="id_municipality"], select[id="id_area"], select[id="id_days_per_week"], select[id="id_hundras"]', 
+             'select[id="id_province"], select[id="id_municipality"], select[id="id_area"], select[id="id_hundras"]', 
              function(){
 
                 // COLLECT VALUES FROM SELECT FIELDS
-                 console.log('changed 2.0')
 
+                 var province = $('#id_province').find(":selected").text();
+                 var municipality = $('#id_municipality').find(":selected").text();
+                 var area = $('#id_area').find(":selected").text();
+                 var hundras = $('#id_hundras').find(":selected").text();
 
                  // COLLECT VALUES FROM CHECKBOX FIELDS 
 
@@ -93,41 +96,51 @@
                         });
 
                     if (checked_days_per_week.length) {
-                        console.log(days_per_week_values);
+                        days_per_week = days_per_week_values;
                     } else {
-                        console.log(checked_days_per_week)
+                        days_per_week = checked_days_per_week;
                     }
 
                     // Handling size_offered
-                    $(document).on('click', 'input[name="size_offered"]', function(){
-                        var checked_size_offered = document.querySelectorAll('input[name="size_offered"]:checked')
-                        size_offered_values = Array.prototype.slice.call(checked_size_offered, 0)
-                            .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
-                                return checkbox.value;  // returning the value of the checked checkbox:
-                            });
+                    var checked_size_offered = document.querySelectorAll('input[name="size_offered"]:checked')
+                    size_offered_values = Array.prototype.slice.call(checked_size_offered, 0)
+                        .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
+                            return checkbox.value;  // returning the value of the checked checkbox:
+                        });
 
-                        if (checked_size_offered.length) {
-                            console.log(size_offered_values);
-                        } else {
-                            console.log(checked_size_offered)
-                        }
-                    });
+                    if (checked_size_offered.length) {
+                        size_offered = size_offered_values;
+                    } else {
+                        size_offered = checked_size_offered;
+                    }
 
                     // Handling size_requested
-                    $(document).on('click', 'input[name="size_requested"]', function(){
-                        var checked_size_requested = document.querySelectorAll('input[name="size_requested"]:checked')
-                        size_requested_values = Array.prototype.slice.call(checked, 0)
-                            .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
-                                return checkbox.value;  // returning the value of the checked checkbox:
-                            });
+                    var checked_size_requested = document.querySelectorAll('input[name="size_requested"]:checked')
+                    size_requested_values = Array.prototype.slice.call(checked_size_requested, 0)
+                        .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
+                            return checkbox.value;  // returning the value of the checked checkbox:
+                        });
 
-                        if (checked_size_requested.length) {
-                            console.log(size_requested_values);
-                        } else {
-                            console.log(checked_size_requested)
-                        }
-                    });
+                    if (checked_size_requested.length) {
+                        size_requested = size_requested_values;
+                    } else {
+                        size_requested = checked_size_requested;
+                    }
 
+
+                    data = {
+                        'province': province,
+                        'municipality': municipality,
+                        'area': area,
+                        'hundras': hundras,
+                        'days_per_week': days_per_week,
+                        'size_offered': size_offered,
+                        'size_requested': size_requested,
+                    }
+
+                    console.log(data)
+
+                    
                 // Make POST request 
 
                 // Retrieve data with relevant ads
