@@ -69,6 +69,7 @@ class SearchOfferingDogAdsForm(forms.ModelForm):
         self.fields['province'].required = False
         self.fields['municipality'].required = False
         self.fields['area'].required = False
+        self.fields['hundras'].required = False
 
         self.fields['municipality'].queryset = Municipality.objects.none()
         self.fields['area'].queryset = Area.objects.none()
