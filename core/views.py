@@ -23,6 +23,8 @@ from django.conf import settings
 from django.utils.safestring import mark_safe
 from django.forms import HiddenInput
 from django.contrib.auth import get_user, get_user_model
+from django.db.models import F
+
 
 from dal import autocomplete
 from lockdown.decorators import lockdown
@@ -33,7 +35,7 @@ from crispy_forms.bootstrap import (
 
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm
 from core.models import Advertisement, Municipality, Area, DogBreed, Payment, NewsEmail, get_30_days_ahead_from_date_obj, get_30_days_ahead
-from core.forms import NewsEmailForm
+from core.forms import NewsEmailForm, SearchAllAdsForm
 from kontorshund.settings import PRICE_SWISH_EXTEND_IN_SEK, PRICE_SWISH_EXTEND, PRICE_BANKGIRO_INITIAL, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
 from core.filters import AdOfferingDogFilter
 
@@ -176,8 +178,20 @@ class BreedAutocomplete(autocomplete.Select2QuerySetView):
 # VIEWS FOR LISTING ADS 
 #######################
 
-def ListAds(request):
-    return render(request, 'core/list_ads.html')
+
+def ListAndSearchAdsView(request):
+
+    if request.method == 'GET':
+        form = SearchAllAdsForm
+
+        context = {
+            'form': form
+        }
+
+        return render(request, 'core/list_ads.html', context=context)
+
+        
+
 
 class AdOfferingDogListView(generic.ListView):
     
@@ -266,7 +280,7 @@ def swish_callback(request):
 
 
         try:
-            ad_obj = Advertisement.objects.select_for_update().get(pk=ad_id) # Make sure that the count when adding an ad is correct and not prone to race conditions
+            ad_obj = Advertisement.objects.get(pk=ad_id) # Make sure that the count when adding an ad is correct and not prone to race conditions
         except Advertisement.DoesNotExist:
             return JsonResponse("Annonsen hittades ej", status=404, safe=False)
 
@@ -311,14 +325,11 @@ def swish_callback(request):
                 )
 
             ad_obj.is_published = True
-            with transaction.atomic(): # Avoiding race condition
-                ad_obj.province.count = ad_obj.province.count + 1
-                ad_obj.municipality.count = ad_obj.municipality.count + 1
 
-                if ad_obj.area:
-                    ad_obj.area.count = ad_obj.area.count +1        
-                
-                ad_obj.save()
+            if ad_obj.area:
+                ad_obj.area.count = F('count') + 1        
+            
+            ad_obj.save()
 
             print(f'Payment created, payment id {payment_obj.pk}')
 

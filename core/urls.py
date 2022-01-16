@@ -12,7 +12,7 @@ urlpatterns = [
     path('profile', views.profile, name='profile'), 
     path('handle-email-subscription/<str:uuid>', views.handle_email_subscription_status, name='handle_email_subscription_status'), 
 
-    path('ads/list', views.ListAds, name='list_ads'),
+    path('ads/list', views.ListAndSearchAdsView, name='list_ads'),
     
     
     path('ads/take-my-dog', views.AdOfferingDogListView.as_view(), name='view_ads_take_my_dog'),

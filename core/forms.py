@@ -9,7 +9,7 @@ from kontorshund.settings import PRICE_BANKGIRO_INITIAL
 from kontorshund.settings import PRICE_SWISH_INITIAL
 
 
-from .models import Advertisement, DogSizeChoice, Municipality, Area, DogBreed, NewsEmail
+from .models import DAYS_PER_WEEK_CHOICES, Advertisement, DogSizeChoice, Municipality, Area, DogBreed, NewsEmail
 
 from dal import autocomplete
 from crispy_forms.helper import FormHelper
@@ -17,6 +17,44 @@ from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Field, R
 from crispy_forms.bootstrap import (
     PrependedText, PrependedAppendedText, FormActions, InlineRadios, InlineCheckboxes)
 
+
+######################
+# SEARCH FOR AD FORMS
+#####################
+
+class SearchAllAdsForm(forms.ModelForm):
+    days_per_week = forms.MultipleChoiceField(choices=DAYS_PER_WEEK_CHOICES, widget=forms.CheckboxSelectMultiple(), label='Dagar per vecka')
+
+    
+    class Meta:
+        model = Advertisement
+        fields = ('province', 'municipality', 'area', 'days_per_week')
+
+    def __init__(self, *args, **kwargs):
+        super(SearchAllAdsForm, self).__init__(*args, **kwargs)
+        self.fields['municipality'].queryset = Municipality.objects.none()
+        self.fields['area'].queryset = Area.objects.none()
+        self.fields['area'].required = False
+        self.fields['days_per_week'].required = False
+    
+
+        if 'province' in self.data:
+            try:
+                # Set municipality queryset
+                province_id = int(self.data.get('province'))
+                self.fields['municipality'].queryset = Municipality.objects.filter(province_id=province_id).order_by('name')
+            
+                # Set area queryset
+                municipality_id = int(self.data.get('municipality'))
+                self.fields['area'].queryset = Area.objects.filter(municipality_id=municipality_id).order_by('name')
+                
+            except (ValueError, TypeError) as e:
+                pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
+
+
+#################
+# CREATE AD FORMS
+#################
 
 
 class NewAdTakeMyDogForm(forms.ModelForm):
@@ -73,6 +111,52 @@ class NewAdTakeMyDogForm(forms.ModelForm):
                 pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
 
 
+class NewAdGetMeADogForm(forms.ModelForm):
+    class Meta:
+        model = Advertisement
+        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'size_requested', 'image1', 'image2', 'image3', 'payment_type')
+        help_texts = {
+            'title': 'Skriv en titel som sammanfattar annonsen - T.ex. "Kontor med 10 anställda söker en kontorshund 2 dagar per vecka" eller "Pensionär söker hund 1 dagar per vecka"',
+            'description': 'Skriv om dig/er som vill ta hand om en hund, har någon hundvana, vad gör ni om dagarna? osv.',
+            'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp direkt.',
+            'image1': 'Max-storlek 20 MB.',
+            'image2': 'Max-storlek 20 MB.',
+            'image3': 'Max-storlek 20 MB.',
+        }
+
+
+
+    def __init__(self, *args, **kwargs):
+        super(NewAdGetMeADogForm, self).__init__(*args, **kwargs)
+
+        if (self.instance):
+            if (not self.instance.area):
+                self.fields['area'].queryset = Area.objects.none()
+        else:
+            self.fields['municipality'].queryset = Municipality.objects.none()
+            self.fields['area'].queryset = Area.objects.none()
+            self.fields['area'].required = False
+
+        if 'province' in self.data:
+            try:
+                # Set municipality queryset
+                province_id = int(self.data.get('province'))
+                self.fields['municipality'].queryset = Municipality.objects.filter(province_id=province_id).order_by('name')
+            
+                # Set area queryset
+                municipality_id = int(self.data.get('municipality'))
+                self.fields['area'].queryset = Area.objects.filter(municipality_id=municipality_id).order_by('name')
+                
+
+            except (ValueError, TypeError):
+                pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
+            
+
+##########################
+# CREATE AD FORMS - ADMIN
+##########################
+
+
 class NewAdFormAdmin(forms.ModelForm):
     
     hundras = forms.ModelChoiceField(
@@ -119,51 +203,13 @@ class NewAdFormAdmin(forms.ModelForm):
 
 
 
-class NewAdGetMeADogForm(forms.ModelForm):
-    class Meta:
-        model = Advertisement
-        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'size_requested', 'image1', 'image2', 'image3', 'payment_type')
-        help_texts = {
-            'title': 'Skriv en titel som sammanfattar annonsen - T.ex. "Kontor med 10 anställda söker en kontorshund 2 dagar per vecka" eller "Pensionär söker hund 1 dagar per vecka"',
-            'description': 'Skriv om dig/er som vill ta hand om en hund, har någon hundvana, vad gör ni om dagarna? osv.',
-            'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp direkt.',
-            'image1': 'Max-storlek 20 MB.',
-            'image2': 'Max-storlek 20 MB.',
-            'image3': 'Max-storlek 20 MB.',
-        }
 
 
 
-    def __init__(self, *args, **kwargs):
-        super(NewAdGetMeADogForm, self).__init__(*args, **kwargs)
 
-        if (self.instance):
-            if (not self.instance.area):
-                self.fields['area'].queryset = Area.objects.none()
-        else:
-            self.fields['municipality'].queryset = Municipality.objects.none()
-            self.fields['area'].queryset = Area.objects.none()
-            self.fields['area'].required = False
-
-        if 'province' in self.data:
-            try:
-                # Set municipality queryset
-                province_id = int(self.data.get('province'))
-                self.fields['municipality'].queryset = Municipality.objects.filter(province_id=province_id).order_by('name')
-            
-                # Set area queryset
-                municipality_id = int(self.data.get('municipality'))
-                self.fields['area'].queryset = Area.objects.filter(municipality_id=municipality_id).order_by('name')
-                
-
-            except (ValueError, TypeError):
-                pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
-            
-            # for field in self.fields.values():
-            #     field.error_messages = {'required':'Fältet {fieldname} är obligatoriskt'.format(
-            #     fieldname=field.label)}
-
-
+##################
+# NEWS EMAIL FORM
+##################
 
 class NewsEmailForm(forms.ModelForm):
 
@@ -236,6 +282,9 @@ class NewsEmailForm(forms.ModelForm):
             except (ValueError, TypeError) as e:
                 pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
 
+##########################
+# NEWS EMAIL FORM - ADMIN
+##########################
 
 class NewsEmailFormAdmin(forms.ModelForm):
 

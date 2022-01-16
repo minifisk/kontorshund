@@ -1,12 +1,49 @@
 {% extends '_base.html' %}
-
+{% load crispy_forms_tags %}
 
 {% block content %}
 
 
-<p>List all ads</p>
+<h1>Sök bland annonser</h1>
+
+<h5 class="mt-4">Välj vilken annonstyp du vill söka inom</h5>
+
+<div id"ad-search-type">
+    <form name="ad-type-form">
+        <input type="radio" id="ad-search-all"
+        name="adtype" value="all" checked>
+        <label for="ad-search-all" >Alla annonser</label>
+
+        <input type="radio" class="ml-3" id="ad-search-offering"
+        name="adtype" value="offering">
+        <label for="ad-search-offering">Hund erbjudes</label>
+
+        <input type="radio" class="ml-3" id="ad-search-searching"
+        name="adtype" value="searching">
+        <label for="ad-search-searching">Hund sökes</label>
+    </form>
+</div>
+
+
+<div class="mt-4" id="form-container">
+    {% crispy form %}
+</div>
   
 {% endblock content %}
+
+{% block footer %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    $('input[name="adtype"]').change(function() {
+         alert("Hello " + $(this).val());
+
+        
+
+
+      });
+</script>
+
+{% endblock footer%}
 
 
 
