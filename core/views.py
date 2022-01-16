@@ -24,6 +24,8 @@ from django.utils.safestring import mark_safe
 from django.forms import HiddenInput
 from django.contrib.auth import get_user, get_user_model
 from django.db.models import F
+from django.template.loader import render_to_string
+
 
 
 from dal import autocomplete
@@ -35,7 +37,7 @@ from crispy_forms.bootstrap import (
 
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm
 from core.models import Advertisement, Municipality, Area, DogBreed, Payment, NewsEmail, get_30_days_ahead_from_date_obj, get_30_days_ahead
-from core.forms import NewsEmailForm, SearchAllAdsForm
+from core.forms import NewsEmailForm, SearchAllAdsForm, SearchOfferingDogAdsForm, SearchRequestingDogAdsForm
 from kontorshund.settings import PRICE_SWISH_EXTEND_IN_SEK, PRICE_SWISH_EXTEND, PRICE_BANKGIRO_INITIAL, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
 from core.filters import AdOfferingDogFilter
 
@@ -190,7 +192,26 @@ def ListAndSearchAdsView(request):
 
         return render(request, 'core/list_ads.html', context=context)
 
-        
+    if request.method == 'POST':
+        pass
+
+def GetSearchForm(request):
+
+    form_type_requested = json.loads(request.body)['requested_form']
+    
+    form = SearchAllAdsForm()
+    if form_type_requested == 'all':
+        form = SearchAllAdsForm()
+    elif form_type_requested == 'requesting':
+        form = SearchRequestingDogAdsForm()
+    elif form_type_requested == 'offering':
+        form = SearchOfferingDogAdsForm()
+
+    context = {
+        "form": form,
+    }
+    template = render_to_string('forms/form.html', context=context)
+    return JsonResponse({"form": template})
 
 
 class AdOfferingDogListView(generic.ListView):

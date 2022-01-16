@@ -1,5 +1,7 @@
 {% extends '_base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
+
 
 {% block content %}
 
@@ -19,7 +21,7 @@
         <label for="ad-search-offering">Hund erbjudes</label>
 
         <input type="radio" class="ml-3" id="ad-search-searching"
-        name="adtype" value="searching">
+        name="adtype" value="requesting">
         <label for="ad-search-searching">Hund sökes</label>
     </form>
 </div>
@@ -32,16 +34,104 @@
 {% endblock content %}
 
 {% block footer %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script>
-    $('input[name="adtype"]').change(function() {
-         alert("Hello " + $(this).val());
+    {{ form.media }}
 
-        
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'autocomplete_light/select2.css' %}" />
+    <script type="text/javascript" src="{% static 'autocomplete_light/select2.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'autocomplete_light/vendor/select2/dist/css/select2.css' %}" />
+    <script type="text/javascript" src="{% static 'autocomplete_light/vendor/select2/dist/js/select2.full.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
 
 
-      });
-</script>
+    <script>
+
+
+
+        // Handling CSRF Cookies
+        // The following function are copying from 
+        // https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+
+        // Changing Form displyed based on users choice in Radio buttons
+        $('input[name="adtype"]').change(function() {
+            const url = "get-search-form";
+            const data = {
+                requested_form: $(this).val()
+            };
+            let csrftoken = getCookie('csrftoken');
+
+            let response =  fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "X-CSRFToken": csrftoken,
+                },
+                body: JSON.stringify(data),
+            })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                const formContainer = document.getElementById("form-container");
+                formContainer.innerHTML = data.form;
+            });
+        });
+
+
+        // Handling the province -> municipality dropdown dependencies
+        $(function(){ 
+            // inspect html to check id of category select dropdown.
+            $(document).on('change', "select#id_province", function(){ 
+                $.getJSON("/ajax/load-municipalities/",{province: $(this).val()}, function(j){ 
+                    var options = '<option value="">---------</option>'; 
+                    for (var i = 0; i < j.length; i++) { 
+                        options += '<option value="' + j[i].id + '">' + j[i].name + '</option>'; 
+                    } 
+                    // inspect html to check id of subcategory select dropdown.
+                    $("select#id_municipality").html(options); 
+
+                    // Reset areas field 
+                    var empty_options = '<option value="">---------</option>';
+                    $("select#id_area").html(empty_options);  
+
+                }); 
+            }); 
+        }); 
+
+        // Handling the municipality -> areas dropdown dependencies 
+        $(function(){ 
+            // inspect html to check id of category select dropdown.
+            $(document).on('change', "select#id_municipality", function(){ 
+                $.getJSON("/ajax/load-areas/",{municipality: $(this).val()}, function(j){ 
+                     var options = '<option value="">---------</option>'; 
+                     for (var i = 0; i < j.length; i++) { 
+                         options += '<option value="' + j[i].id + '">' + j[i].name + '</option>'; 
+                     } 
+                     // inspect html to check id of subcategory select dropdown.
+                     $("select#id_area").html(options); 
+                 }); 
+             }); 
+         }); 
+
+
+    </script>
 
 {% endblock footer%}
 
