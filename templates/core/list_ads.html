@@ -6,30 +6,38 @@
 {% block content %}
 
 
-<h1>Sök bland annonser</h1>
+    <h1>Sök bland annonser</h1>
 
-<h5 class="mt-4">Välj vilken annonstyp du vill söka inom</h5>
+    <h5 class="mt-4">Välj vilken annonstyp du vill söka inom</h5>
 
-<div id"ad-search-type">
-    <form name="ad-type-form">
-        <input type="radio" id="ad-search-all"
-        name="adtype" value="all" checked>
-        <label for="ad-search-all" >Alla annonser</label>
+    <div id"ad-search-type">
+        <form name="ad-type-form">
+            <input type="radio" id="ad-search-all"
+            name="adtype" value="all" checked>
+            <label for="ad-search-all" >Alla annonser</label>
 
-        <input type="radio" class="ml-3" id="ad-search-offering"
-        name="adtype" value="offering">
-        <label for="ad-search-offering">Hund erbjudes</label>
+            <input type="radio" class="ml-3" id="ad-search-offering"
+            name="adtype" value="offering">
+            <label for="ad-search-offering">Hund erbjudes</label>
 
-        <input type="radio" class="ml-3" id="ad-search-searching"
-        name="adtype" value="requesting">
-        <label for="ad-search-searching">Hund sökes</label>
-    </form>
-</div>
+            <input type="radio" class="ml-3" id="ad-search-searching"
+            name="adtype" value="requesting">
+            <label for="ad-search-searching">Hund sökes</label>
+        </form>
+    </div>
 
 
-<div class="mt-4" id="form-container">
-    {% crispy form %}
-</div>
+    <div class="mt-4" id="form-container">
+        {% crispy form %}
+    </div>
+
+
+    <h3>List of ads</h3>
+    <div id="ad_selection">
+        {% for ad in ads %}
+            {{ ad }}
+        {% endfor %}
+    </div>
   
 {% endblock content %}
 
@@ -144,6 +152,26 @@
  
                      
                  // Make POST request 
+
+                    const url = "list";
+                    let csrftoken = getCookie('csrftoken');
+
+                    let response =  fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            "X-CSRFToken": csrftoken,
+                        },
+                        body: JSON.stringify(data),
+                    })
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (data) {
+                        console.log(data)
+                        //const formContainer = document.getElementById("form-container");
+                        //formContainer.innerHTML = data.form;
+                    });
  
                  // Retrieve data with relevant ads
  

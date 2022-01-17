@@ -133,7 +133,6 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     # Payment status
     payment_type = models.CharField(max_length=1, choices=PAYMENT_CHOICES, default=1, verbose_name='Betalningsmetod', null=True)
 
-
     # Type of Ad (Offering own dog or requesting a dog)
     is_offering_own_dog = models.BooleanField(null=True)
 
@@ -170,6 +169,10 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
         )
 
         return new_payment
+
+    @staticmethod
+    def get_all_active_ads():
+        return Advertisement.objects.filter(is_published=True, is_deleted=False)
 
     @property
     def has_initial_payment(self):

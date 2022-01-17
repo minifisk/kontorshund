@@ -1,6 +1,8 @@
 import datetime
 import io
 from re import template
+from wsgiref import validate
+from xml.dom import ValidationErr
 import qrcode 
 import json
 import requests
@@ -145,8 +147,6 @@ def profile(request):
 def handle_email_subscription_status(self, uuid):
     NewsEmail_obj = NewsEmail.objects.get(uuid=uuid)
 
-
-
     if NewsEmail_obj.is_active == False:
         NewsEmail_obj.is_active = True
         NewsEmail_obj.save()
@@ -180,20 +180,109 @@ class BreedAutocomplete(autocomplete.Select2QuerySetView):
 # VIEWS FOR LISTING ADS 
 #######################
 
+def validate_search_object(self):
+    if self == {}:
+        return False
+    if self == '':
+        return False
+    if '---' in self:
+        return False
+    return True
 
 def ListAndSearchAdsView(request):
 
     if request.method == 'GET':
         form = SearchAllAdsForm
+        all_ads = Advertisement.get_all_active_ads()
 
         context = {
-            'form': form
+            'form': form,
+            'ads': all_ads,
         }
 
         return render(request, 'core/list_ads.html', context=context)
 
     if request.method == 'POST':
-        pass
+        body_json = json.loads(request.body)
+
+        province_str = body_json['province'][:-4]
+        municipality_str = body_json['municipality'][:-4]
+        area_str = body_json['area'][:-4]
+        type_of_ad_str= body_json['type_of_ad']
+        size_offered_list_str = body_json['size_offered']
+        size_requested_list_str = body_json['size_requested']
+        days_per_week_list_str = body_json['days_per_week']
+        hundras_str = body_json['hundras']
+
+        from .models import Province, Municipality, Area, DogSizeChoice, DogBreed
+        province = ''
+        municipality = ''
+        area = ''
+        hundras = ''
+        size_offered_obj_list = []
+        size_requested_obj_list = []
+        type_of_ad = ''
+
+        if validate_search_object(province_str):
+            try:
+                province = Province.objects.get(name=province_str)
+            except Province.DoesNotExist():
+                print('error')
+
+        if validate_search_object(municipality_str):
+            try:
+                municipality = Municipality.objects.get(name=municipality_str)
+            except Municipality.DoesNotExist():
+                raise ValidationErr
+
+        if validate_search_object(area_str):
+            try:
+                area = Area.objects.get(name=area_str)
+            except Area.DoesNotExist():
+                raise ValidationErr
+
+        if validate_search_object(hundras_str):
+            try:
+                hundras = DogBreed.objects.get(name=hundras_str)
+            except DogBreed.DoesNotExist():
+                raise ValidationErr
+
+        if validate_search_object(size_offered_list_str):
+            for size in size_offered_list_str:
+                try:
+                    size_offered_obj_list.append(DogSizeChoice.objects.get(size=size)) 
+                except DogSizeChoice.DoesNotExist():
+                    raise ValidationErr
+
+        if validate_search_object(size_requested_list_str):
+            for size in size_requested_list_str:
+                try:
+                    size_requested_obj_list.append(DogSizeChoice.objects.get(size=size)) 
+                except DogSizeChoice.DoesNotExist():
+                    raise ValidationErr
+
+        if validate_search_object(type_of_ad_str):
+            if type_of_ad_str == 'all':
+                type_of_ad = ''
+            if type_of_ad_str == 'offering':
+                type_of_ad = 'is_offering_own_dog=True'
+            if type_of_ad_str == 'requesting':
+                type_of_ad = 'is_offering_own_dog=False'
+
+
+        single_choice_model_fields = [province, municipality, area, hundras] 
+        choice_fields = [type_of_ad, days_per_week_list_str]
+
+        for field in single_choice_model_fields:
+            print(field)
+
+        for field in choice_fields:
+            print(field)
+
+
+        #pprint(body_json)
+
+        return JsonResponse(body_json, status=200)
 
 def GetSearchForm(request):
 
@@ -211,7 +300,7 @@ def GetSearchForm(request):
         "form": form,
     }
     template = render_to_string('forms/form.html', context=context)
-    return JsonResponse({"form": template})
+    return JsonResponse({"form": template}, status=200)
 
 
 class AdOfferingDogListView(generic.ListView):
