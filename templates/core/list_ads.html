@@ -83,7 +83,12 @@
                   var hundras = $('#id_hundras').find(":selected").text();
  
                   // COLLECT VALUES FROM CHECKBOX FIELDS 
- 
+
+
+                    var type_of_ad_selector = document.querySelectorAll('input[name="adtype"]:checked')
+                    var type_of_ad = type_of_ad_selector[0].value
+
+
                      // Collect all values from all fields into one object
                      var checked_days_per_week = document.querySelectorAll('input[name="days_per_week"]:checked')
                      days_per_week_values = Array.prototype.slice.call(checked_days_per_week, 0)
@@ -125,6 +130,7 @@
  
  
                      data = {
+                         'type_of_ad': type_of_ad,
                          'province': province,
                          'municipality': municipality,
                          'area': area,
@@ -147,7 +153,7 @@
 
             // Handling change done on select-items
             $(document).on('change',
-             'select[id="id_province"], select[id="id_municipality"], select[id="id_area"], select[id="id_hundras"]', 
+             'select[id="id_province"], select[id="id_municipality"], select[id="id_area"], select[id="id_hundras"], input[name="adtype"]', 
              function(){
                 CommonFunction()
             });
