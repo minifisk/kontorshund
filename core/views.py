@@ -27,7 +27,7 @@ from django.forms import HiddenInput
 from django.contrib.auth import get_user, get_user_model
 from django.db.models import F
 from django.template.loader import render_to_string
-
+from django.core import serializers
 
 
 from dal import autocomplete
@@ -38,7 +38,7 @@ from crispy_forms.bootstrap import (
     PrependedText, PrependedAppendedText, FormActions, InlineRadios, InlineCheckboxes)
 
 from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm
-from core.models import Advertisement, Municipality, Area, DogBreed, Payment, NewsEmail, get_30_days_ahead_from_date_obj, get_30_days_ahead
+from core.models import Advertisement, Province, Municipality, Area, DogBreed, DogSizeChoice, Payment, NewsEmail, get_30_days_ahead_from_date_obj, get_30_days_ahead
 from core.forms import NewsEmailForm, SearchAllAdsForm, SearchOfferingDogAdsForm, SearchRequestingDogAdsForm
 from kontorshund.settings import PRICE_SWISH_EXTEND_IN_SEK, PRICE_SWISH_EXTEND, PRICE_BANKGIRO_INITIAL, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
 from core.filters import AdOfferingDogFilter
@@ -214,7 +214,6 @@ def ListAndSearchAdsView(request):
         days_per_week_list_str = body_json['days_per_week']
         hundras_str = body_json['hundras']
 
-        from .models import Province, Municipality, Area, DogSizeChoice, DogBreed
         province = ''
         municipality = ''
         area = ''
@@ -264,45 +263,51 @@ def ListAndSearchAdsView(request):
 
         if validate_search_object(type_of_ad_str):
             if type_of_ad_str == 'all':
-                type_of_ad = ''
+                type_of_ad = 'all'
             if type_of_ad_str == 'offering':
                 type_of_ad = 'is_offering_own_dog=True'
             if type_of_ad_str == 'requesting':
                 type_of_ad = 'is_offering_own_dog=False'
 
 
-        single_choice_model_fields = [province, municipality, area, hundras] 
-        choice_fields = [type_of_ad, days_per_week_list_str]
-
         print('--------------------')
-
         print(f'province: {province}')
         print(f'municipality: {municipality}')
         print(f'area: {area}')
         print(f'hundras: {hundras}')
         print(f'type_of_ad: {type_of_ad}')
         print(f'days_per_week_list_str: {days_per_week_list_str}')
-        print(f'size_offered_list_str: {size_offered_list_str}')
-        print(f'size_requested_list_str: {size_requested_list_str}')
+        print(f'size_offered_obj_list: {size_offered_obj_list}')
+        print(f'size_requested_obj_list: {size_requested_obj_list}')
 
 
+        ads = ''
 
-        # for field in choice_fields:
-        #     print(f'{field=}')
+        if type_of_ad == 'all':
+            ads = Advertisement.objects.all()
+        else: # If searching for offering/requesting ads
+            ads = Advertisement.objects.filter(type_of_ad)
+        if province:
+            ads.filter(province=province)
+        if municipality:
+            ads.filter(municipality=municipality)
+        if area:
+            ads.filter(area=area)
+        if hundras:
+            ads.filter(hundras=hundras)
+        if days_per_week_list_str:
+            for day in days_per_week_list_str:
+                ads.filter(days_per_week=day)
+        if size_offered_obj_list:
+            for size in size_offered_obj_list:
+                ads.filter(size_offered=size)
+        if size_requested_obj_list:
+            for size in size_requested_obj_list:
+                ads.filter(size_requested=size)
 
+        ads_json = serializers.serialize('json', ads)
 
-        # Get all fields that hold data
-
-        # Find advertisements that match those field
-
-        # Fields that only contain one value
-
-        # Iterate over lists that hold multiple values
-
-
-        #pprint(body_json)
-
-        return JsonResponse(body_json, status=200)
+        return JsonResponse(ads_json, status=200, safe=False)
 
 def GetSearchForm(request):
 

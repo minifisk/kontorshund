@@ -114,7 +114,6 @@
                      var checked_size_offered = document.querySelectorAll('input[name="size_offered"]:checked')
                      size_offered_values = Array.prototype.slice.call(checked_size_offered, 0)
                          .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
-                            console.log() 
                             return checkbox.parentElement.textContent.trim();  // returning the value of the label (as the value of checkbox isn't helping):
                          });
  
@@ -148,9 +147,7 @@
                          'size_offered': size_offered,
                          'size_requested': size_requested,
                      }
- 
-                     console.log(data)
- 
+  
                      
                  // Make POST request 
 
