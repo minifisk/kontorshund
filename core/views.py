@@ -249,6 +249,7 @@ def ListAndSearchAdsView(request):
 
         if validate_search_object(size_offered_list_str):
             for size in size_offered_list_str:
+                print(size)
                 try:
                     size_offered_obj_list.append(DogSizeChoice.objects.get(size=size)) 
                 except DogSizeChoice.DoesNotExist():
@@ -273,11 +274,30 @@ def ListAndSearchAdsView(request):
         single_choice_model_fields = [province, municipality, area, hundras] 
         choice_fields = [type_of_ad, days_per_week_list_str]
 
-        for field in single_choice_model_fields:
-            print(field)
+        print('--------------------')
 
-        for field in choice_fields:
-            print(field)
+        print(f'province: {province}')
+        print(f'municipality: {municipality}')
+        print(f'area: {area}')
+        print(f'hundras: {hundras}')
+        print(f'type_of_ad: {type_of_ad}')
+        print(f'days_per_week_list_str: {days_per_week_list_str}')
+        print(f'size_offered_list_str: {size_offered_list_str}')
+        print(f'size_requested_list_str: {size_requested_list_str}')
+
+
+
+        # for field in choice_fields:
+        #     print(f'{field=}')
+
+
+        # Get all fields that hold data
+
+        # Find advertisements that match those field
+
+        # Fields that only contain one value
+
+        # Iterate over lists that hold multiple values
 
 
         #pprint(body_json)

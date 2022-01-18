@@ -114,7 +114,8 @@
                      var checked_size_offered = document.querySelectorAll('input[name="size_offered"]:checked')
                      size_offered_values = Array.prototype.slice.call(checked_size_offered, 0)
                          .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
-                             return checkbox.value;  // returning the value of the checked checkbox:
+                            console.log() 
+                            return checkbox.parentElement.textContent.trim();  // returning the value of the label (as the value of checkbox isn't helping):
                          });
  
                      if (checked_size_offered.length) {
@@ -127,7 +128,7 @@
                      var checked_size_requested = document.querySelectorAll('input[name="size_requested"]:checked')
                      size_requested_values = Array.prototype.slice.call(checked_size_requested, 0)
                          .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
-                             return checkbox.value;  // returning the value of the checked checkbox:
+                            return checkbox.parentElement.textContent.trim();  // returning the value of the label (as the value of checkbox isn't helping):
                          });
  
                      if (checked_size_requested.length) {
@@ -191,6 +192,10 @@
                 CommonFunction()
             });
 
+            // Handling change done on type of ad
+            $(document).on('change', 'input[name="adtype"]', function(){
+                CommonFunction()
+            });
 
 
 
