@@ -32,7 +32,7 @@
     </div>
 
 
-    <h3>List of ads</h3>
+    <h3>Sökresultat <span id="ad_count_title"></span></h3>
     <div id="ad_selection">
     </div>
   
@@ -82,7 +82,6 @@
 
             function CommonFunction() {
 
-                console.log(articleOffset)
 
                   // COLLECT VALUES FROM SELECT FIELDS
 
@@ -170,6 +169,7 @@
                     .then(function (data) {
                         data_obj = JSON.parse(data)
                         if (data_obj.length > 0) {
+                            document.getElementById('ad_count_title').innerHTML=`- ${data_obj[10].total_ads} antal annonser`
                             for (var i = 0, total = data_obj.length; i < total; i++) {
                                 var compile_data;
                                 compile_data = '<h1>' + data_obj[i].title + '</h1>' + '<img src="' + data_obj[i].image_url + '">';

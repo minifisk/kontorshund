@@ -295,25 +295,31 @@ def ListAndSearchAdsView(request):
         # GENERATE QUERYSET
 
         if type_of_ad_str == 'all':
-                ads = Advertisement.objects.filter(
+                qs = Advertisement.objects.filter(
                     **filter_options, 
                     is_published=True, 
                     is_deleted=False
-                ).order_by('pk')[OFFSET:END]
+                ).order_by('pk')
+                qs_length = qs.count()
+                ads = qs[OFFSET:END]
         if type_of_ad_str == 'offering':
-            ads = Advertisement.objects.filter(
+            qs = Advertisement.objects.filter(
                 **filter_options, 
                 is_published=True, 
                 is_deleted=False, 
                 is_offering_own_dog=True
-            ).order_by('pk')[OFFSET:END]
+            ).order_by('pk')
+            qs_length = qs.count()
+            ads = qs[OFFSET:END]
         if type_of_ad_str == 'requesting':
-            ads = Advertisement.objects.filter(
+            qs = Advertisement.objects.filter(
                 **filter_options, 
                 is_published=True, 
                 is_deleted=False, 
                 is_offering_own_dog=False
-            ).order_by('pk')[OFFSET:END]
+            ).order_by('pk')
+            qs_length = qs.count()
+            ads = qs[OFFSET:END]
 
 
         json_list = []
@@ -321,12 +327,15 @@ def ListAndSearchAdsView(request):
             json_list.append({
                 'pk': ad.pk,
                 'title': ad.title, 
-                'image_url': ad.image1.url
+                'image_url': ad.image1.url,
             })
+
+        json_list.append({
+            'total_ads': qs_length,
+        })
 
         data = json.dumps(json_list)
 
-        print(data)
 
         return JsonResponse(data, status=200, safe=False)
 
