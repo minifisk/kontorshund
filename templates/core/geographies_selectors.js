@@ -5,7 +5,7 @@ $(function(){
         $.getJSON("/ajax/load-municipalities/",{province: $(this).val()}, function(j){ 
             var options = '<option value="">---------</option>'; 
             for (var i = 0; i < j.length; i++) { 
-                options += '<option value="' + j[i].id + '">' + j[i].name + ' (' + j[i].count + ')' + '</option>'; 
+                options += '<option value="' + j[i].id + '">' + j[i].name + ' ('+ j[i].offering_count + ', '+ j[i].requesting_count + ')' + '</option>'; 
             } 
             // inspect html to check id of subcategory select dropdown.
             $("select#id_municipality").html(options); 
@@ -25,7 +25,7 @@ $(function(){
         $.getJSON("/ajax/load-areas/",{municipality: $(this).val()}, function(j){ 
              var options = '<option value="">---------</option>'; 
              for (var i = 0; i < j.length; i++) { 
-                 options += '<option value="' + j[i].id + '">' + j[i].name + ' (' + j[i].count + ')' + '</option>'; 
+                options += '<option value="' + j[i].id + '">' + j[i].name + ' ('+ j[i].offering_count + ', '+ j[i].requesting_count + ')' + '</option>'; 
              } 
              // inspect html to check id of subcategory select dropdown.
              $("select#id_area").html(options); 

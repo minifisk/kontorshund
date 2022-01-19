@@ -180,12 +180,12 @@ class BreedAutocomplete(autocomplete.Select2QuerySetView):
 # VIEWS FOR LISTING ADS 
 #######################
 
-def validate_search_object(self):
+def is_search_object_empty(self):
     if self == {}:
         return False
     if self == '':
         return False
-    if '---' in self:
+    if '--' in self:
         return False
     return True
 
@@ -205,9 +205,9 @@ def ListAndSearchAdsView(request):
     if request.method == 'POST':
         body_json = json.loads(request.body)
 
-        province_str = body_json['province'][:-4]
-        municipality_str = body_json['municipality'][:-4]
-        area_str = body_json['area'][:-4]
+        province_str = body_json['province'][:-7]
+        municipality_str = body_json['municipality'][:-7]
+        area_str = body_json['area'][:-7]
         type_of_ad_str= body_json['type_of_ad']
         size_offered_list_str = body_json['size_offered']
         size_requested_list_str = body_json['size_requested']
@@ -221,32 +221,36 @@ def ListAndSearchAdsView(request):
         size_offered_obj_list = []
         size_requested_obj_list = []
         type_of_ad = ''
+        days_per_week = ''
 
-        if validate_search_object(province_str):
+
+
+
+        if is_search_object_empty(province_str):
             try:
                 province = Province.objects.get(name=province_str)
             except Province.DoesNotExist():
                 print('error')
 
-        if validate_search_object(municipality_str):
+        if is_search_object_empty(municipality_str):
             try:
                 municipality = Municipality.objects.get(name=municipality_str)
             except Municipality.DoesNotExist():
                 raise ValidationErr
 
-        if validate_search_object(area_str):
+        if is_search_object_empty(area_str):
             try:
                 area = Area.objects.get(name=area_str)
             except Area.DoesNotExist():
                 raise ValidationErr
 
-        if validate_search_object(hundras_str):
+        if is_search_object_empty(hundras_str):
             try:
                 hundras = DogBreed.objects.get(name=hundras_str)
             except DogBreed.DoesNotExist():
                 raise ValidationErr
 
-        if validate_search_object(size_offered_list_str):
+        if is_search_object_empty(size_offered_list_str):
             for size in size_offered_list_str:
                 print(size)
                 try:
@@ -254,56 +258,96 @@ def ListAndSearchAdsView(request):
                 except DogSizeChoice.DoesNotExist():
                     raise ValidationErr
 
-        if validate_search_object(size_requested_list_str):
+        if is_search_object_empty(size_requested_list_str):
             for size in size_requested_list_str:
                 try:
                     size_requested_obj_list.append(DogSizeChoice.objects.get(size=size)) 
                 except DogSizeChoice.DoesNotExist():
                     raise ValidationErr
 
-        if validate_search_object(type_of_ad_str):
-            if type_of_ad_str == 'all':
-                type_of_ad = 'all'
-            if type_of_ad_str == 'offering':
-                type_of_ad = 'is_offering_own_dog=True'
-            if type_of_ad_str == 'requesting':
-                type_of_ad = 'is_offering_own_dog=False'
 
 
-        print('--------------------')
-        print(f'province: {province}')
-        print(f'municipality: {municipality}')
-        print(f'area: {area}')
-        print(f'hundras: {hundras}')
-        print(f'type_of_ad: {type_of_ad}')
-        print(f'days_per_week_list_str: {days_per_week_list_str}')
-        print(f'size_offered_obj_list: {size_offered_obj_list}')
-        print(f'size_requested_obj_list: {size_requested_obj_list}')
+        # print('--------------------')
+        # print(f'province: {province}')
+        # print(f'municipality: {municipality}')
+        # print(f'area: {area}')
+        # print(f'hundras: {hundras}')
+        # print(f'type_of_ad: {type_of_ad}')
+        # print(f'days_per_week_list_str: {days_per_week_list_str}')
+        # print(f'size_offered_obj_list: {size_offered_obj_list}')
+        # print(f'size_requested_obj_list: {size_requested_obj_list}')
 
 
         ads = ''
 
-        if type_of_ad == 'all':
-            ads = Advertisement.objects.all()
-        else: # If searching for offering/requesting ads
-            ads = Advertisement.objects.filter(type_of_ad)
-        if province:
-            ads.filter(province=province)
-        if municipality:
-            ads.filter(municipality=municipality)
-        if area:
-            ads.filter(area=area)
-        if hundras:
-            ads.filter(hundras=hundras)
-        if days_per_week_list_str:
-            for day in days_per_week_list_str:
-                ads.filter(days_per_week=day)
-        if size_offered_obj_list:
-            for size in size_offered_obj_list:
-                ads.filter(size_offered=size)
-        if size_requested_obj_list:
-            for size in size_requested_obj_list:
-                ads.filter(size_requested=size)
+
+
+        field_value_pairs = [
+            ('province', province), 
+            ('municipality', municipality),
+            ('area', area),
+            ('hundras', hundras),
+            ('days_per_week__in', days_per_week_list_str),
+            ('size_offered__in', size_offered_obj_list),
+            ('size_requested__in', size_requested_obj_list),
+        ]
+
+        filter_options = {k:v for k,v in field_value_pairs if v}
+
+
+        if type_of_ad_str == 'all':
+            qs = Advertisement.objects.filter(
+                **filter_options, 
+                is_published=True, 
+                is_deleted=False
+            )
+        if type_of_ad_str == 'offering':
+            qs = Advertisement.objects.filter(
+                **filter_options, 
+                is_published=True, 
+                is_deleted=False, 
+                is_offering_own_dog=True
+            )
+        if type_of_ad_str == 'requesting':
+            qs = Advertisement.objects.filter(
+                **filter_options, 
+                is_published=True, 
+                is_deleted=False, 
+                is_offering_own_dog=False
+            )
+        print(qs)
+
+        # print(days_per_week_list_str)
+
+        # Input like ['1', '1-2, '1-3']
+
+
+
+
+        # if province:
+        #     print('province supplied')
+        #     print(ads)
+        #     filtered_ads = ads.filter()
+        #     print(filtered_ads)
+            # ads.filter(municipality=municipality)
+            # print(ads)
+        # if municipality:
+        #     ads.filter(municipality=municipality)
+        # if area:
+        #     ads.filter(area=area)
+        # if hundras:
+        #     ads.filter(hundras=hundras)
+        # if days_per_week_list_str:
+        #     for day in days_per_week_list_str:
+        #         ads.filter(days_per_week=day)
+        # if size_offered_obj_list:
+        #     for size in size_offered_obj_list:
+        #         ads.filter(size_offered=size)
+        # if size_requested_obj_list:
+        #     for size in size_requested_obj_list:
+        #         ads.filter(size_requested=size)
+
+        #print(ads)
 
         ads_json = serializers.serialize('json', ads)
 
@@ -1034,12 +1078,12 @@ class DeleteAd(generic.DeleteView):
 def load_municipalities(request):
    # province_id = request.headers['province']
     province_id = request.GET.get('province','') 
-    municipalities = list(Municipality.objects.filter(province_id=province_id).values('id', 'name', 'count').order_by('name'))
+    municipalities = list(Municipality.objects.filter(province_id=province_id).values('id', 'name', 'offering_count', 'requesting_count').order_by('name'))
     return HttpResponse(json.dumps(municipalities), content_type="application/json") 
 
 # View to be used for getting Areas connected to a Municipality
 def load_areas(request):
     #municipality_id = request.headers['municipality']
     municipality_id = request.GET.get('municipality','') 
-    areas = list(Area.objects.filter(municipality_id=municipality_id).values('id', 'name', 'count').order_by('name'))
+    areas = list(Area.objects.filter(municipality_id=municipality_id).values('id', 'name', 'offering_count', 'requesting_count').order_by('name'))
     return HttpResponse(json.dumps(areas), content_type="application/json") 

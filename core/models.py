@@ -29,27 +29,30 @@ def get_30_days_ahead_from_date_obj(date_obj):
 
 class Province(models.Model):
     name = models.CharField(max_length=30)
-    count = models.IntegerField(default=0)
+    offering_count = models.IntegerField(default=0)
+    requesting_count = models.IntegerField(default=0)
 
     def __str__(self):
-        return f'{self.name} ({self.count})'
+        return f'{self.name} ({self.offering_count}, {self.requesting_count})'
 
 class Municipality(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
     name= models.CharField(max_length=100)
-    count = models.IntegerField(default=0)
+    offering_count = models.IntegerField(default=0)
+    requesting_count = models.IntegerField(default=0)
 
     def __str__(self):
-        return f'{self.name} ({self.count})'
+        return f'{self.name} ({self.offering_count}, {self.requesting_count})'
 
 class Area(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
     municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE)
     name= models.CharField(max_length=100)
-    count = models.IntegerField(default=0)
+    offering_count = models.IntegerField(default=0)
+    requesting_count = models.IntegerField(default=0)
 
     def __str__(self):
-        return f'{self.name} ({self.count})'
+        return f'{self.name} ({self.offering_count}, {self.requesting_count})'
 
 
 class NewsEmail(models.Model):
