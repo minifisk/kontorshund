@@ -213,6 +213,8 @@ def ListAndSearchAdsView(request):
         size_requested_list_str = body_json['size_requested']
         days_per_week_list_str = body_json['days_per_week']
         hundras_str = body_json['hundras']
+        OFFSET = body_json['offset']
+
 
         province = ''
         municipality = ''
@@ -222,8 +224,6 @@ def ListAndSearchAdsView(request):
         size_requested_obj_list = []
         type_of_ad = ''
         days_per_week = ''
-
-
 
 
         if is_search_object_empty(province_str):
@@ -266,21 +266,7 @@ def ListAndSearchAdsView(request):
                     raise ValidationErr
 
 
-
-        # print('--------------------')
-        # print(f'province: {province}')
-        # print(f'municipality: {municipality}')
-        # print(f'area: {area}')
-        # print(f'hundras: {hundras}')
-        # print(f'type_of_ad: {type_of_ad}')
-        # print(f'days_per_week_list_str: {days_per_week_list_str}')
-        # print(f'size_offered_obj_list: {size_offered_obj_list}')
-        # print(f'size_requested_obj_list: {size_requested_obj_list}')
-
-
         ads = ''
-
-
 
         field_value_pairs = [
             ('province', province), 
@@ -293,65 +279,57 @@ def ListAndSearchAdsView(request):
         ]
 
         filter_options = {k:v for k,v in field_value_pairs if v}
+        
 
+        # PAGINATED RESPONSE
+
+        TOTAL = 10 # Articles to load per request
+        #OFFSET = request.GET.get('offset', 0)
+        END = OFFSET + TOTAL
+        
+        # to understand OFFSET and END, consider this:
+        # mylist = [1,2,3,4,5,6,7,8,9]
+        # mylist[2:5] outputs => [3,4,5]
+        # Above 2 is OFFSET and 5 is END
+
+        # GENERATE QUERYSET
 
         if type_of_ad_str == 'all':
-            qs = Advertisement.objects.filter(
-                **filter_options, 
-                is_published=True, 
-                is_deleted=False
-            )
+                ads = Advertisement.objects.filter(
+                    **filter_options, 
+                    is_published=True, 
+                    is_deleted=False
+                ).order_by('pk')[OFFSET:END]
         if type_of_ad_str == 'offering':
-            qs = Advertisement.objects.filter(
+            ads = Advertisement.objects.filter(
                 **filter_options, 
                 is_published=True, 
                 is_deleted=False, 
                 is_offering_own_dog=True
-            )
+            ).order_by('pk')[OFFSET:END]
         if type_of_ad_str == 'requesting':
-            qs = Advertisement.objects.filter(
+            ads = Advertisement.objects.filter(
                 **filter_options, 
                 is_published=True, 
                 is_deleted=False, 
                 is_offering_own_dog=False
-            )
-        print(qs)
-
-        # print(days_per_week_list_str)
-
-        # Input like ['1', '1-2, '1-3']
+            ).order_by('pk')[OFFSET:END]
 
 
+        json_list = []
+        for ad in ads:
+            json_list.append({
+                'pk': ad.pk,
+                'title': ad.title, 
+                #'photo_url': ad.image1.url
+            })
 
+        data = json.dumps(json_list)
 
-        # if province:
-        #     print('province supplied')
-        #     print(ads)
-        #     filtered_ads = ads.filter()
-        #     print(filtered_ads)
-            # ads.filter(municipality=municipality)
-            # print(ads)
-        # if municipality:
-        #     ads.filter(municipality=municipality)
-        # if area:
-        #     ads.filter(area=area)
-        # if hundras:
-        #     ads.filter(hundras=hundras)
-        # if days_per_week_list_str:
-        #     for day in days_per_week_list_str:
-        #         ads.filter(days_per_week=day)
-        # if size_offered_obj_list:
-        #     for size in size_offered_obj_list:
-        #         ads.filter(size_offered=size)
-        # if size_requested_obj_list:
-        #     for size in size_requested_obj_list:
-        #         ads.filter(size_requested=size)
+        print(data)
+        
+        return JsonResponse(data, status=200, safe=False)
 
-        #print(ads)
-
-        ads_json = serializers.serialize('json', ads)
-
-        return JsonResponse(ads_json, status=200, safe=False)
 
 def GetSearchForm(request):
 

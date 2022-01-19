@@ -56,6 +56,7 @@ class AdvertisementAdmin(admin.ModelAdmin):
     inlines = [
         PaymentInline,
     ]
+    save_as = True
 
 admin.site.register(Advertisement, AdvertisementAdmin)
 

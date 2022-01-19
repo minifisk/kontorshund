@@ -28,15 +28,12 @@
 
 
     <div class="mt-4" id="form-container">
-        {% crispy form %}
+    {% crispy form %}
     </div>
 
 
     <h3>List of ads</h3>
     <div id="ad_selection">
-        {% for ad in ads %}
-            {{ ad }}
-        {% endfor %}
     </div>
   
 {% endblock content %}
@@ -81,8 +78,12 @@
         // UPDATE SEARCH RESULTS WHEN USER CHANGE ANY FORM ELEMENT
         // id_province id_municipality id_area id_days_per_week id_size_offered id_hundras id_size_requested
 
+            var articleOffset = 0;
 
             function CommonFunction() {
+
+                console.log(articleOffset)
+
                   // COLLECT VALUES FROM SELECT FIELDS
 
                   var province = $('#id_province').find(":selected").text();
@@ -146,6 +147,7 @@
                          'days_per_week': days_per_week,
                          'size_offered': size_offered,
                          'size_requested': size_requested,
+                         'offset': articleOffset,
                      }
   
                      
@@ -166,14 +168,26 @@
                         return response.json();
                     })
                     .then(function (data) {
-                        console.log(data)
-                        //const formContainer = document.getElementById("form-container");
-                        //formContainer.innerHTML = data.form;
+                        data_obj = JSON.parse(data)
+                        if (data_obj.length > 0) {
+                            for (var i = 0, total = data_obj.length; i < total; i++) {
+                                var compile_data;
+                                compile_data = '<h1>' + data_obj[i].title + ' - ' + data_obj[i].pk + '</h1>';
+                                $('#ad_selection').append(compile_data);
+                            }
+
+                            /* update the offset */
+                            articleOffset += 10
+                       
+                        } else {
+                            ads_div = document.getElementById('ad_selection')
+                            if (!ads_div.textContent.includes('Inga fler annonser hittades')) {
+                                $('#ad_selection').append('Inga fler annonser hittades');
+                            }
+                        }
+
                     });
- 
-                 // Retrieve data with relevant ads
- 
-                 // Put ads into container
+
             }
 
 
@@ -194,6 +208,20 @@
                 CommonFunction()
             });
 
+
+            /* Infinite scrolling for fetching articles */
+            var $window = $(window);
+            function prodScrollPosition() {
+                var distance = $window.scrollTop() + $window.height();
+                if ($('body').height() <= distance && $('#ad_selection')) {
+                    CommonFunction();
+                }
+            }
+
+            $window.scroll(prodScrollPosition).scroll();
+
+            /* Manually initiate the first ajax request */
+            CommonFunction();
 
 
         // Changing Form displyed based on users choice in Radio buttons
