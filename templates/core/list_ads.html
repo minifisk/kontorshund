@@ -172,7 +172,8 @@
                         if (data_obj.length > 0) {
                             for (var i = 0, total = data_obj.length; i < total; i++) {
                                 var compile_data;
-                                compile_data = '<h1>' + data_obj[i].title + ' - ' + data_obj[i].pk + '</h1>';
+                                compile_data = '<h1>' + data_obj[i].title + '</h1>' + '<img src="' + data_obj[i].image_url + '">';
+                          
                                 $('#ad_selection').append(compile_data);
                             }
 
@@ -182,7 +183,7 @@
                         } else {
                             ads_div = document.getElementById('ad_selection')
                             if (!ads_div.textContent.includes('Inga fler annonser hittades')) {
-                                $('#ad_selection').append('Inga fler annonser hittades');
+                                $('#ad_selection').append('</br> Inga fler annonser hittades');
                             }
                         }
 

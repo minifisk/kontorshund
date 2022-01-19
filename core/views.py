@@ -321,13 +321,13 @@ def ListAndSearchAdsView(request):
             json_list.append({
                 'pk': ad.pk,
                 'title': ad.title, 
-                #'photo_url': ad.image1.url
+                'image_url': ad.image1.url
             })
 
         data = json.dumps(json_list)
 
         print(data)
-        
+
         return JsonResponse(data, status=200, safe=False)
 
 
