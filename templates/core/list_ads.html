@@ -31,15 +31,37 @@
     {% crispy form %}
     </div>
 
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h3>Sökresultat <span id="ad_count_title"></span></h3>
+        </div>
+    </div>
+</div>
 
-    <h3>Sökresultat <span id="ad_count_title"></span></h3>
-
-    
+ 
     <div id="ad_selection"></div>
 
-    <button onclick="CommonFunction()" id="load_more_ads" class="btn btn-primary invisible">Ladda fler annonser</button>
-  
-    <p id="no_more_ads"></p>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <button onclick="CommonFunction()" id="load_more_ads" class="btn btn-primary invisible">Ladda fler annonser</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <p id="no_more_ads"></p>    
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center mt-3">
+                <div id="loading"></div>    
+            </div>
+        </div>
+    </div>
+
+    
+
 
 
 {% endblock content %}
@@ -78,8 +100,25 @@
         }
 
 
+        const loader = document.getElementById('loading');
 
-        
+        // showing loading
+        function displayLoading() {
+        loader.classList.add("display");
+        // to stop loading after some time
+        setTimeout(() => {
+            loader.classList.remove("display");
+        }, 5000);
+        }
+
+        // hiding loading 
+        function hideLoading() {
+            loader.classList.remove("display");
+        }
+
+
+
+
         
         // UPDATE SEARCH RESULTS WHEN USER CHANGE ANY FORM ELEMENT
         // id_province id_municipality id_area id_days_per_week id_size_offered id_hundras id_size_requested
@@ -87,6 +126,7 @@
             var articleOffset = 0;
 
             function CommonFunction() {
+                  displayLoading()
 
 
                   // COLLECT VALUES FROM SELECT FIELDS
@@ -196,8 +236,10 @@
 
                             /* update the offset */
                             articleOffset += 10
+                            hideLoading()
                        
                         } else {
+                            hideLoading()
                             ads_div = document.getElementById('ad_selection');
                             document.getElementById('load_more_ads').classList.add('invisible');
                             document.getElementById('no_more_ads').innerHTML = 'Inga fler annonser hittades';
