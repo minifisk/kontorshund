@@ -324,7 +324,7 @@ def ListAndSearchAdsView(request):
         json_dict = {}
         json_dict['ads'] = []
 
-        for idx, ad in enumerate(ads):
+        for ad in ads:
             json_dict['ads'].append(
                 {
                 'pk': ad.pk,
