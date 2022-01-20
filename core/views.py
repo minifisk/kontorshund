@@ -252,7 +252,6 @@ def ListAndSearchAdsView(request):
 
         if is_search_object_empty(size_offered_list_str):
             for size in size_offered_list_str:
-                print(size)
                 try:
                     size_offered_obj_list.append(DogSizeChoice.objects.get(size=size)) 
                 except DogSizeChoice.DoesNotExist():
@@ -323,12 +322,21 @@ def ListAndSearchAdsView(request):
 
 
         json_list = []
-        for ad in ads:
-            json_list.append({
+        for idx, ad in enumerate(ads):
+            json_list.append(
+                {
                 'pk': ad.pk,
                 'title': ad.title, 
                 'image_url': ad.image1.url,
-            })
+                'is_offering_own_dog': ad.is_offering_own_dog,
+                'province': ad.province.name,
+                'municipality': ad.municipality.name,
+                'days_per_week': ad.days_per_week,
+                }
+            )
+
+            if ad.area is not None:
+                json_list[idx]['area'] = ad.area.name
 
         json_list.append({
             'total_ads': qs_length,

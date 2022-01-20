@@ -30,6 +30,17 @@ p {
     margin: 0;
 }
 
+#ad_selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 2fr));
+    width: 100%;
+}
+
+#ad_selection div.card {
+    margin: 30px;
+}
+
+
 #ad_description_snippet {
 
     height: 100px;

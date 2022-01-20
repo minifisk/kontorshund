@@ -168,11 +168,20 @@
                     })
                     .then(function (data) {
                         data_obj = JSON.parse(data)
+                        console.log(data_obj)
                         if (data_obj.length > 0) {
                             document.getElementById('ad_count_title').innerHTML=`- ${data_obj[10].total_ads} antal annonser`
                             for (var i = 0, total = data_obj.length; i < total; i++) {
                                 var compile_data;
-                                compile_data = '<h1>' + data_obj[i].title + '</h1>' + '<img src="' + data_obj[i].image_url + '">';
+                                
+                                compile_data = `<div class="card" style="width: 20rem;"> 
+                                    <a href="#"> <img class="card-img-top" src="${data_obj[i].image_url}" alt="${data_obj[i].title}-bild"> </a>
+                                    <div class="card-body">
+                                      <h5 class="card-title"><b>${data_obj[i].is_offering_own_dog ? 'Hund erbjudes' : 'Hund sökes'}</b></h5>
+                                      <h6 class="card-title">${data_obj[i].title} ${data_obj[i].pk}</h6>
+                                      <h7 class="card-title">${data_obj[i].province}/${data_obj[i].municipality}${data_obj[i].area ? `/${data_obj[i].area}` : ''} </h7>
+                                    </div>
+                                  </div>`
                           
                                 $('#ad_selection').append(compile_data);
                             }
@@ -211,7 +220,7 @@
 
 
             /* Infinite scrolling for fetching articles */
-            var $window = $(window);
+            {% comment %} var $window = $(window);
             function prodScrollPosition() {
                 var distance = $window.scrollTop() + $window.height();
                 if ($('body').height() <= distance && $('#ad_selection')) {
@@ -219,7 +228,7 @@
                 }
             }
 
-            $window.scroll(prodScrollPosition).scroll();
+            $window.scroll(prodScrollPosition).scroll(); {% endcomment %}
 
             /* Manually initiate the first ajax request */
             CommonFunction();
