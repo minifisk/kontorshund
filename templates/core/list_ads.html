@@ -33,9 +33,15 @@
 
 
     <h3>Sökresultat <span id="ad_count_title"></span></h3>
-    <div id="ad_selection">
-    </div>
+
+    
+    <div id="ad_selection"></div>
+
+    <button onclick="CommonFunction()" id="load_more_ads" class="btn btn-primary invisible">Ladda fler annonser</button>
   
+    <p id="no_more_ads"></p>
+
+
 {% endblock content %}
 
 {% block footer %}
@@ -168,9 +174,8 @@
                     })
                     .then(function (data) {
                         data_obj = JSON.parse(data)
-                        console.log(data_obj.ads.length)
                         if (data_obj.ads.length > 0) {
-                            document.getElementById('ad_count_title').innerHTML=`- ${data_obj.total_ads[0]} antal annonser`
+                            document.getElementById('ad_count_title').innerHTML=`- ${data_obj.total_ads} antal annonser`
                             for (var i = 0, total = data_obj.ads.length; i < total; i++) {
                                 var compile_data;
                                 
@@ -182,22 +187,21 @@
                                       <h6 class="card-title">${data_obj.ads[i].title} ${data_obj.ads[i].pk}</h6>
                                       <h7 class="card-title">${data_obj.ads[i].province}/${data_obj.ads[i].municipality}${data_obj.ads[i].area ? `/${data_obj['ads'][i].area}` : ''} </h7>
                                     </div>
-                                  </div>`
-
-
-                          
+                                  </div>`                          
                           
                                 $('#ad_selection').append(compile_data);
+
+                                document.getElementById('load_more_ads').classList.remove('invisible')
                             }
 
                             /* update the offset */
                             articleOffset += 10
                        
                         } else {
-                            ads_div = document.getElementById('ad_selection')
-                            if (!ads_div.textContent.includes('Inga fler annonser hittades')) {
-                                $('#ad_selection').append('</br> Inga fler annonser hittades');
-                            }
+                            ads_div = document.getElementById('ad_selection');
+                            document.getElementById('load_more_ads').classList.add('invisible');
+                            document.getElementById('no_more_ads').innerHTML = 'Inga fler annonser hittades';
+
                         }
 
                     });
