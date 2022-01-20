@@ -321,9 +321,11 @@ def ListAndSearchAdsView(request):
             ads = qs[OFFSET:END]
 
 
-        json_list = []
+        json_dict = {}
+        json_dict['ads'] = []
+
         for idx, ad in enumerate(ads):
-            json_list.append(
+            json_dict['ads'].append(
                 {
                 'pk': ad.pk,
                 'title': ad.title, 
@@ -332,17 +334,13 @@ def ListAndSearchAdsView(request):
                 'province': ad.province.name,
                 'municipality': ad.municipality.name,
                 'days_per_week': ad.days_per_week,
+                **({'area': ad.area.name} if ad.area else {})
                 }
             )
 
-            if ad.area is not None:
-                json_list[idx]['area'] = ad.area.name
+        json_dict['total_ads'] = qs_length
 
-        json_list.append({
-            'total_ads': qs_length,
-        })
-
-        data = json.dumps(json_list)
+        data = json.dumps(json_dict)
 
 
         return JsonResponse(data, status=200, safe=False)
