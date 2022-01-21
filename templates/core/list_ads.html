@@ -26,10 +26,18 @@
         </form>
     </div>
 
+    <div class="container">
+        <div class="row">
+            <div class="col text-center mt-3">
+                <div id="loading-forms"></div>    
+            </div>
+        </div>
+    </div>
 
     <div class="mt-4" id="form-container">
     {% crispy form %}
     </div>
+
 
 <div class="container">
     <div class="row">
@@ -55,7 +63,7 @@
         </div>
         <div class="row">
             <div class="col text-center mt-3">
-                <div id="loading"></div>    
+                <div id="loading-ads"></div>    
             </div>
         </div>
     </div>
@@ -100,22 +108,37 @@
         }
 
 
-        const loader = document.getElementById('loading');
+        const loader_ads = document.getElementById('loading-ads');
+        const loader_forms = document.getElementById('loading-forms');
+
 
         // showing loading
-        function displayLoading() {
-        loader.classList.add("display");
+        function displayLoadingAds() {
+        loader_ads.classList.add("display");
         // to stop loading after some time
         setTimeout(() => {
-            loader.classList.remove("display");
+            loader_ads.classList.remove("display");
         }, 5000);
         }
 
         // hiding loading 
-        function hideLoading() {
-            loader.classList.remove("display");
+        function hideLoadingAds() {
+            loader_ads.classList.remove("display");
         }
 
+        // showing loading
+        function displayLoadingForms() {
+            loader_forms.classList.add("display");
+            // to stop loading after some time
+            setTimeout(() => {
+                loader_forms.classList.remove("display");
+            }, 5000);
+            }
+    
+            // hiding loading 
+            function hideLoadingForms() {
+                loader_forms.classList.remove("display");
+            }
 
 
 
@@ -126,7 +149,8 @@
             var articleOffset = 0;
 
             function CommonFunction() {
-                  displayLoading()
+                console.log('called')
+                  displayLoadingAds()
 
 
                   // COLLECT VALUES FROM SELECT FIELDS
@@ -236,10 +260,10 @@
 
                             /* update the offset */
                             articleOffset += 10
-                            hideLoading()
+                            hideLoadingAds()
                        
                         } else {
-                            hideLoading()
+                            hideLoadingAds()
                             ads_div = document.getElementById('ad_selection');
                             document.getElementById('load_more_ads').classList.add('invisible');
                             document.getElementById('no_more_ads').innerHTML = 'Inga fler annonser hittades';
@@ -269,23 +293,16 @@
             });
 
 
-            /* Infinite scrolling for fetching articles */
-            {% comment %} var $window = $(window);
-            function prodScrollPosition() {
-                var distance = $window.scrollTop() + $window.height();
-                if ($('body').height() <= distance && $('#ad_selection')) {
-                    CommonFunction();
-                }
-            }
-
-            $window.scroll(prodScrollPosition).scroll(); {% endcomment %}
-
             /* Manually initiate the first ajax request */
             CommonFunction();
 
 
         // Changing Form displyed based on users choice in Radio buttons
         $('input[name="adtype"]').change(function() {
+            const formContainer = document.getElementById("form-container");
+            formContainer.classList.add('invisible')
+            CommonFunction();
+            displayLoadingForms()
             const url = "get-search-form";
             const data = {
                 requested_form: $(this).val()
@@ -304,7 +321,8 @@
                 return response.json();
             })
             .then(function (data) {
-                const formContainer = document.getElementById("form-container");
+                formContainer.classList.remove('invisible');
+                hideLoadingForms();
                 formContainer.innerHTML = data.form;
             });
         });
