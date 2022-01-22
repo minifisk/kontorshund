@@ -92,7 +92,6 @@
 
 <script>
 
-
     ///////////////////////////
     // GLOBAL HELPER FUNCTIONS
     //////////////////////////
@@ -114,8 +113,6 @@
         return cookieValue;
     }
 
-
-
     //////////////////////////
     // VAR/CONST DECLARATIONS
     /////////////////////////
@@ -128,6 +125,7 @@
     const loader_ads = document.getElementById('loading-ads');
     const loader_forms = document.getElementById('loading-forms');
     const search_result_title_div = document.getElementById('search_result_title_div');
+    const formContainer = document.getElementById("form-container");
 
 
     //////////////////////////////////////////////
@@ -136,23 +134,25 @@
 
     // Run when user changes ad type for query
     $('input[name="adtype"]').change(function() {
-        search_result_title_div.classList.add('invisible')
-        loading_dots.classList.add('loading_dots')
+        
+        // Set-up
         count_title.innerHTML=''
         ad_selection_div.innerHTML = '';
+        search_result_title_div.classList.add('invisible')
         load_more_ads_button.classList.add('invisible');
         no_more_ads.classList.add("invisible")
-
-        articleOffset = 0;
-        const formContainer = document.getElementById("form-container");
         formContainer.classList.add('invisible')
+        articleOffset = 0;
         displayLoadingForms()
+
+        // Preparing request
         const url = "get-search-form";
         const data = {
             requested_form: $(this).val()
         };
         let csrftoken = getCookie('csrftoken');
 
+        // Making request
         let response =  fetch(url, {
             method: 'POST',
             headers: {
@@ -161,24 +161,27 @@
             },
             body: JSON.stringify(data),
         })
+
+        // Parsing JSON response
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
-            formContainer.classList.remove('invisible');
             hideLoadingForms();
+            formContainer.classList.remove('invisible');
+            
+            // Display the requested form to the user
             formContainer.innerHTML = data.form;
+
+            // Request ads matching the form (and inherently ad-type)
             RequestAds();
         });
     });
 
 
-    /////////////////////////////////////////////
-    // HELPER FUNCTIONS REQUEST ADS MATCHIN QUERY
-    /////////////////////////////////////////////
-
-    // 1. Spinning Loader
-
+    //////////////////////////////////////////////
+    // HELPER FUNCTIONS REQUEST ADS MATCHING QUERY
+    //////////////////////////////////////////////
 
     function displayLoadingAds() {
     loader_ads.classList.add("display");
@@ -207,18 +210,23 @@
     $(document).on('change',
         'select[id="id_province"], select[id="id_municipality"], select[id="id_area"], select[id="id_hundras"]', 
         function(){
-        document.getElementById('ad_selection').innerHTML = '';
-        document.getElementById('load_more_ads').classList.add('invisible');
-        articleOffset = 0;
-        RequestAds()
+            // Set-up
+            ad_selection_div.innerHTML = '';
+            load_more_ads_button.classList.add('invisible');
+            // Reset offest and request ads matching change
+            articleOffset = 0;
+            RequestAds()
     });
         
     // Handling change done on checkbox-items
-    $(document).on('click', 'input[name="days_per_week"], input[name="size_offered"], input[name="size_requested"]', function(){
-        console.log('checkbox changed')
-        document.getElementById('ad_selection').innerHTML = '';
-        articleOffset = 0;
-        RequestAds()
+    $(document).on('click', 
+        'input[name="days_per_week"], input[name="size_offered"], input[name="size_requested"]', 
+        function(){
+            // Set-up
+            ad_selection_div.innerHTML = '';
+            // Reset offest and request ads matching change
+            articleOffset = 0;
+            RequestAds()
     });
 
 
