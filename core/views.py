@@ -278,7 +278,8 @@ def ListAndSearchAdsView(request):
         ]
 
         filter_options = {k:v for k,v in field_value_pairs if v}
-        
+
+        print(*filter_options)        
 
         # PAGINATED RESPONSE
 
@@ -294,31 +295,46 @@ def ListAndSearchAdsView(request):
         # GENERATE QUERYSET
 
         if type_of_ad_str == 'all':
-                qs = Advertisement.objects.filter(
-                    **filter_options, 
-                    is_published=True, 
-                    is_deleted=False
-                ).order_by('pk')
-                qs_length = qs.count()
-                ads = qs[OFFSET:END]
+            print('getting all ads')
+            qs = Advertisement.objects.filter(
+                **filter_options, 
+                is_published=True, 
+                is_deleted=False
+            ).order_by('pk')
+            print('Full queryset: ', qs.count())
+            qs_length = qs.count()
+            ads = qs[OFFSET:END]
+            print('OFFSET', OFFSET)
+            print('END', END)
+            print('Filtered ads:', ads.count())
         if type_of_ad_str == 'offering':
+            print('getting offering ads')
             qs = Advertisement.objects.filter(
                 **filter_options, 
                 is_published=True, 
                 is_deleted=False, 
                 is_offering_own_dog=True
             ).order_by('pk')
+            print('Full queryset: ', qs.count())
             qs_length = qs.count()
             ads = qs[OFFSET:END]
+            print('OFFSET', OFFSET)
+            print('END', END)
+            print('Filtered ads:', ads.count())
         if type_of_ad_str == 'requesting':
+            print('getting requesting ads')
             qs = Advertisement.objects.filter(
                 **filter_options, 
                 is_published=True, 
                 is_deleted=False, 
                 is_offering_own_dog=False
             ).order_by('pk')
+            print('Full queryset: ', qs.count())
             qs_length = qs.count()
             ads = qs[OFFSET:END]
+            print('OFFSET', OFFSET)
+            print('END', END)
+            print('Filtered ads:', ads.count())
 
 
         json_dict = {}
@@ -341,6 +357,7 @@ def ListAndSearchAdsView(request):
         json_dict['total_ads'] = qs_length
 
         data = json.dumps(json_dict)
+
 
 
         return JsonResponse(data, status=200, safe=False)
