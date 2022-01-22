@@ -42,7 +42,11 @@
 <div class="container">
     <div class="row">
         <div class="col text-center">
-            <h3>Sökresultat <span class="mr-3" id="loading_count"></span> <span id="ad_count_title"></span></h3>
+            <h3>Sökresultat: 
+                <span class="mr-3" id="ad_count_loading_dots"></span> 
+                <span id="ad_count_title"></span>
+                <span id="ads_title_placeholder">annonser</span>
+            </h3>
         </div>
     </div>
 </div>
@@ -53,7 +57,7 @@
     <div class="container">
         <div class="row">
             <div class="col text-center">
-                <button onclick="CommonFunction()" id="load_more_ads" class="btn btn-primary invisible">Ladda fler annonser</button>
+                <button onclick="RequestAds()" id="load_more_ads" class="btn btn-primary invisible">Ladda fler annonser</button>
             </div>
         </div>
         <div class="row">
@@ -107,26 +111,25 @@
             return cookieValue;
         }
 
+        ///////////////////7
+        // HELPER FUNCTIONS
+        ///////////////////7
 
+        // 1. Spinning Loader
         const loader_ads = document.getElementById('loading-ads');
         const loader_forms = document.getElementById('loading-forms');
 
-
-        // showing loading
         function displayLoadingAds() {
         loader_ads.classList.add("display");
-        // to stop loading after some time
         setTimeout(() => {
             loader_ads.classList.remove("display");
         }, 5000);
         }
 
-        // hiding loading 
         function hideLoadingAds() {
             loader_ads.classList.remove("display");
         }
 
-        // showing loading
         function displayLoadingForms() {
             loader_forms.classList.add("display");
             // to stop loading after some time
@@ -135,163 +138,168 @@
             }, 5000);
             }
     
-            // hiding loading 
-            function hideLoadingForms() {
-                loader_forms.classList.remove("display");
-            }
+        function hideLoadingForms() {
+            loader_forms.classList.remove("display");
+        }
 
 
-        
-        // UPDATE SEARCH RESULTS WHEN USER CHANGE ANY FORM ELEMENT
-        // id_province id_municipality id_area id_days_per_week id_size_offered id_hundras id_size_requested
+        ////////////////////////////////////////////
+        // MAIN FUNCTION FOR GETTING SEARCH RESULTS
+        ////////////////////////////////////////////
 
-            var articleOffset = 0;
-
-            function CommonFunction() {
-                  displayLoadingAds()
-                  document.getElementById('loading_count').classList.add('loading_dots')
-                  document.getElementById('ad_count_title').innerHTML=`antal annonser`
-                  document.getElementById('load_more_ads').classList.add('invisible');
-
-
-                  // COLLECT VALUES FROM SELECT FIELDS
-
-                  var province = $('#id_province').find(":selected").text();
-                  var municipality = $('#id_municipality').find(":selected").text();
-                  var area = $('#id_area').find(":selected").text();
-                  var hundras = $('#id_hundras').find(":selected").text();
- 
-                  // COLLECT VALUES FROM CHECKBOX FIELDS 
+        var articleOffset = 0;
+        const loading_dots = document.getElementById('ad_count_loading_dots') 
+        const count_title = document.getElementById('ad_count_title')
+        const load_more_ads_button = document.getElementById('load_more_ads')
+        const ads_title_placeholder = document.getElementById('ads_title_placeholder')
+        const no_more_ads = document.getElementById('no_more_ads')
 
 
-                    var type_of_ad_selector = document.querySelectorAll('input[name="adtype"]:checked')
-                    var type_of_ad = type_of_ad_selector[0].value
+        function RequestAds() {
 
+                // Set-up
+                displayLoadingAds()
+                ads_title_placeholder.classList.remove('invisible')
+                loading_dots.classList.add('loading_dots')
+                count_title.innerHTML=''
+                load_more_ads_button.classList.add('invisible');
+                no_more_ads.classList.add('invisible')
 
-                     // Collect all values from all fields into one object
-                     var checked_days_per_week = document.querySelectorAll('input[name="days_per_week"]:checked')
-                     days_per_week_values = Array.prototype.slice.call(checked_days_per_week, 0)
-                         .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
-                             return checkbox.value;  // returning the value of the checked checkbox:
-                         });
- 
-                     if (checked_days_per_week.length) {
-                         days_per_week = days_per_week_values;
-                     } else {
-                         days_per_week = checked_days_per_week;
-                     }
- 
-                     // Handling size_offered
-                     var checked_size_offered = document.querySelectorAll('input[name="size_offered"]:checked')
-                     size_offered_values = Array.prototype.slice.call(checked_size_offered, 0)
-                         .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
-                            return checkbox.parentElement.textContent.trim();  // returning the value of the label (as the value of checkbox isn't helping):
-                         });
- 
-                     if (checked_size_offered.length) {
-                         size_offered = size_offered_values;
-                     } else {
-                         size_offered = checked_size_offered;
-                     }
- 
-                     // Handling size_requested
-                     var checked_size_requested = document.querySelectorAll('input[name="size_requested"]:checked')
-                     size_requested_values = Array.prototype.slice.call(checked_size_requested, 0)
-                         .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
-                            return checkbox.parentElement.textContent.trim();  // returning the value of the label (as the value of checkbox isn't helping):
-                         });
- 
-                     if (checked_size_requested.length) {
-                         size_requested = size_requested_values;
-                     } else {
-                         size_requested = checked_size_requested;
-                     }
- 
- 
-                     data = {
-                         'type_of_ad': type_of_ad,
-                         'province': province,
-                         'municipality': municipality,
-                         'area': area,
-                         'hundras': hundras,
-                         'days_per_week': days_per_week,
-                         'size_offered': size_offered,
-                         'size_requested': size_requested,
-                         'offset': articleOffset,
-                     }
+                
+                
+                // Retrieve values
+                var province = $('#id_province').find(":selected").text();
+                var municipality = $('#id_municipality').find(":selected").text();
+                var area = $('#id_area').find(":selected").text();
+                var hundras = $('#id_hundras').find(":selected").text();
+                var type_of_ad_radio = document.querySelectorAll('input[name="adtype"]:checked')
+                var type_of_ad = type_of_ad_radio[0].value
 
-                     
-  
-                     
-                 // Make POST request 
-
-                    const url = "list";
-                    let csrftoken = getCookie('csrftoken');
-
-                    let response =  fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            "X-CSRFToken": csrftoken,
-                        },
-                        body: JSON.stringify(data),
-                    })
-                    .then(function (response) {
-                        return response.json();
-                    })
-                    .then(function (data) {
-                        data_obj = JSON.parse(data)
-                        ad_selection = document.getElementById('ad_selection')
-                        
-         
-                        if ((data_obj.ads.length === 0) && (ad_selection.innerHTML === '')) {
-                            document.getElementById('loading_count').classList.remove('loading_dots')
-                            document.getElementById('ad_count_title').innerHTML=`Inga annonser hittade`
-                            document.getElementById('no_more_ads').classList.add("invisible")
-                        }
-                        if ((data_obj.ads.length === 0) && (ad_selection.innerHTML !== '')) {
-                            document.getElementById('ad_count_title').innerHTML=`${data_obj.total_ads} antal annonser`
-                        }
-
-                        if (data_obj.ads.length > 0) {
-                            document.getElementById('loading_count').classList.remove('loading_dots')
-                            document.getElementById('ad_count_title').innerHTML=`${data_obj.total_ads} antal annonser`
-                            document.getElementById('load_more_ads').classList.remove('invisible');
-                            for (var i = 0, total = data_obj.ads.length; i < total; i++) {
-                                var compile_data;
-                                
-                                      
-                                compile_data = `<div class="card" style="width: 20rem;"> 
-                                    <a href="#"> <img class="card-img-top" src="${data_obj.ads[i].image_url}" alt="${data_obj.ads[i].title}-bild"> </a>
-                                    <div class="card-body">
-                                      <h5 class="card-title"><b>${data_obj.ads[i].is_offering_own_dog ? 'Hund erbjudes' : 'Hund sökes'}</b></h5>
-                                      <h6 class="card-title">${data_obj.ads[i].title} ${data_obj.ads[i].pk}</h6>
-                                      <h7 class="card-title">${data_obj.ads[i].province}/${data_obj.ads[i].municipality}${data_obj.ads[i].area ? `/${data_obj['ads'][i].area}` : ''} </h7>
-                                    </div>
-                                  </div>`                          
-                          
-                                $('#ad_selection').append(compile_data);
-
-                                document.getElementById('load_more_ads').classList.remove('invisible')
-                            }
-
-                            /* update the offset */
-                            articleOffset += 10
-                            hideLoadingAds()
-
-                        } else {
-      
-                            hideLoadingAds()
-                            ads_div = document.getElementById('ad_selection');
-                            document.getElementById('loading_count').classList.remove('loading_dots')
-                            document.getElementById('load_more_ads').classList.add('invisible');
-                            document.getElementById('no_more_ads').classList.remove("invisible")
-
-                        }
-
+                // Collect all values from all fields into one object
+                var days_per_week_checkbox = document.querySelectorAll('input[name="days_per_week"]:checked')
+                var days_per_week_values = Array.prototype.slice.call(days_per_week_checkbox, 0)
+                    // map iterates over the Array returned by Array.prototype.slice():
+                    .map(function(checkbox) {  
+                        // returning the value of the checked checkbox:
+                        return checkbox.value;  
                     });
 
-            }
+                    days_per_week = days_per_week_values;
+
+               console.log(days_per_week)
+
+
+                // Handling size_offered
+                var checked_size_offered = document.querySelectorAll('input[name="size_offered"]:checked')
+                size_offered_values = Array.prototype.slice.call(checked_size_offered, 0)
+                    .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
+                    return checkbox.parentElement.textContent.trim();  // returning the value of the label (as the value of checkbox isn't helping):
+                    });
+
+                if (checked_size_offered.length) {
+                    size_offered = size_offered_values;
+                } else {
+                    size_offered = checked_size_offered;
+                }
+
+                // Handling size_requested
+                var checked_size_requested = document.querySelectorAll('input[name="size_requested"]:checked')
+                size_requested_values = Array.prototype.slice.call(checked_size_requested, 0)
+                    .map(function(checkbox) {  // map iterates over the Array returned by Array.prototype.slice():
+                    return checkbox.parentElement.textContent.trim();  // returning the value of the label (as the value of checkbox isn't helping):
+                    });
+
+                if (checked_size_requested.length) {
+                    size_requested = size_requested_values;
+                } else {
+                    size_requested = checked_size_requested;
+                }
+
+
+                data = {
+                    'type_of_ad': type_of_ad,
+                    'province': province,
+                    'municipality': municipality,
+                    'area': area,
+                    'hundras': hundras,
+                    'days_per_week': days_per_week,
+                    'size_offered': size_offered,
+                    'size_requested': size_requested,
+                    'offset': articleOffset,
+                }
+
+                    
+                    
+                // Make POST request 
+
+                const url = "list";
+                let csrftoken = getCookie('csrftoken');
+
+                let response =  fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "X-CSRFToken": csrftoken,
+                    },
+                    body: JSON.stringify(data),
+                })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    data_obj = JSON.parse(data)
+                    ad_selection = document.getElementById('ad_selection')
+                    
+        
+                    if ((data_obj.ads.length === 0) && (ad_selection.innerHTML === '')) {
+                        document.getElementById('ad_count_loading_dots').classList.remove('loading_dots')
+                        document.getElementById('ad_count_title').innerHTML=`Inga annonser hittade`
+                        ads_title_placeholder.classList.add('invisible')
+                        document.getElementById('no_more_ads').classList.add("invisible")
+                    }
+                    if ((data_obj.ads.length === 0) && (ad_selection.innerHTML !== '')) {
+                        document.getElementById('ad_count_title').innerHTML=`${data_obj.total_ads} antal annonser`
+                    }
+
+                    if (data_obj.ads.length > 0) {
+                        document.getElementById('ad_count_loading_dots').classList.remove('loading_dots')
+                        document.getElementById('ad_count_title').innerHTML=`${data_obj.total_ads} antal annonser`
+                        document.getElementById('load_more_ads').classList.remove('invisible');
+                        for (var i = 0, total = data_obj.ads.length; i < total; i++) {
+                            var compile_data;
+                            
+                                    
+                            compile_data = `<div class="card" style="width: 20rem;"> 
+                                <a href="#"> <img class="card-img-top" src="${data_obj.ads[i].image_url}" alt="${data_obj.ads[i].title}-bild"> </a>
+                                <div class="card-body">
+                                    <h5 class="card-title"><b>${data_obj.ads[i].is_offering_own_dog ? 'Hund erbjudes' : 'Hund sökes'}</b></h5>
+                                    <h6 class="card-title">${data_obj.ads[i].title} ${data_obj.ads[i].pk}</h6>
+                                    <h7 class="card-title">${data_obj.ads[i].province}/${data_obj.ads[i].municipality}${data_obj.ads[i].area ? `/${data_obj['ads'][i].area}` : ''} </h7>
+                                </div>
+                                </div>`                          
+                        
+                            $('#ad_selection').append(compile_data);
+
+                            document.getElementById('load_more_ads').classList.remove('invisible')
+                        }
+
+                        /* update the offset */
+                        articleOffset += 10
+                        hideLoadingAds()
+
+                    } else {
+    
+                        hideLoadingAds()
+                        ads_div = document.getElementById('ad_selection');
+                        document.getElementById('ad_count_loading_dots').classList.remove('loading_dots')
+                        document.getElementById('load_more_ads').classList.add('invisible');
+                        document.getElementById('no_more_ads').classList.remove("invisible")
+
+                    }
+
+                });
+
+        }
 
 
             // Handling change done on select-items
@@ -301,25 +309,26 @@
                 document.getElementById('ad_selection').innerHTML = '';
                 document.getElementById('load_more_ads').classList.add('invisible');
                 articleOffset = 0;
-                CommonFunction()
+                RequestAds()
             });
             
             // Handling change done on checkbox-items
             $(document).on('click', 'input[name="days_per_week"], input[name="size_offered"], input[name="size_requested"]', function(){
+                console.log('checkbox changed')
                 document.getElementById('ad_selection').innerHTML = '';
                 articleOffset = 0;
-                CommonFunction()
+                RequestAds()
             });
 
 
             /* Manually initiate the first ajax request */
-            CommonFunction();
+            RequestAds();
 
 
         // Changing Form displyed based on users choice in Radio buttons
         $('input[name="adtype"]').change(function() {
             console.log('ad type change, resetting articleoffset, clearing ad_selection')
-            document.getElementById('loading_count').classList.add('loading_dots')
+            document.getElementById('ad_count_loading_dots').classList.add('loading_dots')
             document.getElementById('ad_count_title').innerHTML=`antal annonser`
             document.getElementById('ad_selection').innerHTML = '';
             document.getElementById('load_more_ads').classList.add('invisible');
@@ -349,7 +358,7 @@
                 formContainer.classList.remove('invisible');
                 hideLoadingForms();
                 formContainer.innerHTML = data.form;
-                CommonFunction();
+                RequestAds();
             });
         });
 
