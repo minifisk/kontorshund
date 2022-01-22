@@ -279,7 +279,6 @@ def ListAndSearchAdsView(request):
 
         filter_options = {k:v for k,v in field_value_pairs if v}
 
-        print(*filter_options)        
 
         # PAGINATED RESPONSE
 

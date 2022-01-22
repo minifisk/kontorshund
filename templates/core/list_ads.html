@@ -148,14 +148,10 @@
             var articleOffset = 0;
 
             function CommonFunction() {
-                console.log('from inside commonfunction, line 152')
                   displayLoadingAds()
                   document.getElementById('loading_count').classList.add('loading_dots')
-                  document.getElementById('ad_count_title').innerHTML=`   antal annonser`
+                  document.getElementById('ad_count_title').innerHTML=`antal annonser`
                   document.getElementById('load_more_ads').classList.add('invisible');
-
-
-
 
 
                   // COLLECT VALUES FROM SELECT FIELDS
@@ -245,7 +241,6 @@
                     })
                     .then(function (data) {
                         data_obj = JSON.parse(data)
-                        console.log(data_obj)
                         ad_selection = document.getElementById('ad_selection')
                         
          
@@ -303,32 +298,31 @@
             $(document).on('change',
              'select[id="id_province"], select[id="id_municipality"], select[id="id_area"], select[id="id_hundras"]', 
              function(){
-                console.log('ad input changed, resetting articleoffset, clearing ad_selection')
                 document.getElementById('ad_selection').innerHTML = '';
+                document.getElementById('load_more_ads').classList.add('invisible');
                 articleOffset = 0;
-                 console.log('285')
                 CommonFunction()
             });
             
             // Handling change done on checkbox-items
             $(document).on('click', 'input[name="days_per_week"], input[name="size_offered"], input[name="size_requested"]', function(){
-                console.log('ad input changed, resetting articleoffset, clearing ad_selection')
                 document.getElementById('ad_selection').innerHTML = '';
                 articleOffset = 0;
-                console.log('291')
                 CommonFunction()
             });
 
 
             /* Manually initiate the first ajax request */
-            console.log('297')
             CommonFunction();
 
 
         // Changing Form displyed based on users choice in Radio buttons
         $('input[name="adtype"]').change(function() {
             console.log('ad type change, resetting articleoffset, clearing ad_selection')
+            document.getElementById('loading_count').classList.add('loading_dots')
+            document.getElementById('ad_count_title').innerHTML=`antal annonser`
             document.getElementById('ad_selection').innerHTML = '';
+            document.getElementById('load_more_ads').classList.add('invisible');
             articleOffset = 0;
             document.getElementById('no_more_ads').classList.add("invisible")
             const formContainer = document.getElementById("form-container");
@@ -355,7 +349,6 @@
                 formContainer.classList.remove('invisible');
                 hideLoadingForms();
                 formContainer.innerHTML = data.form;
-                console.log('330')
                 CommonFunction();
             });
         });
