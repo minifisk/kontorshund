@@ -245,14 +245,19 @@
                     })
                     .then(function (data) {
                         data_obj = JSON.parse(data)
-                        console.log(data_obj.ads.length)
+                        console.log(data_obj)
                         ad_selection = document.getElementById('ad_selection')
-
-                        if (data_obj.ads.length === 0) {
+                        
+         
+                        if ((data_obj.ads.length === 0) && (ad_selection.innerHTML === '')) {
                             document.getElementById('loading_count').classList.remove('loading_dots')
                             document.getElementById('ad_count_title').innerHTML=`Inga annonser hittade`
                             document.getElementById('no_more_ads').classList.add("invisible")
                         }
+                        if ((data_obj.ads.length === 0) && (ad_selection.innerHTML !== '')) {
+                            document.getElementById('ad_count_title').innerHTML=`${data_obj.total_ads} antal annonser`
+                        }
+
                         if (data_obj.ads.length > 0) {
                             document.getElementById('loading_count').classList.remove('loading_dots')
                             document.getElementById('ad_count_title').innerHTML=`${data_obj.total_ads} antal annonser`
