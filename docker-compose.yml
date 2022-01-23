@@ -22,6 +22,8 @@ services:
     command: "supercronic /crontab"
     volumes:
       - ./crontab:/crontab:ro
+    env_file:
+      - ./.env.dev
 
 volumes:
   static_volume:
