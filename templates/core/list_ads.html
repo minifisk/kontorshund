@@ -111,6 +111,7 @@
     
     
         <div class="row mt-4">
+
                 <div id="div_id_days_per_week" class="form-group col-3">
                     <label for="" class="">
                         Dagar per vecka
@@ -155,7 +156,7 @@
                 </div>
         
 
-            <div id="div_id_size_requested" class="form-group col-3"> 
+            <div id="div_id_size_requested" class="form-group col-3 d-none"> 
                 <label for="" class="">
                     Hundstorlek
                 </label> 
@@ -188,7 +189,7 @@
             </div>
         
 
-            <div id="div_id_size_offered" class="form-group col-3"> 
+            <div id="div_id_size_offered" class="form-group col-3 d-none"> 
                 <label for="" class="">
                     Hundstorlek
                 </label> 
@@ -222,7 +223,7 @@
             </div> 
             
 
-            <div id="div_id_hundras" class="form-group col-3"> 
+            <div id="div_id_hundras" class="form-group col-3 d-none"> 
                 <label for="id_hundras" class="">
                     Hundras
                 </label> 
@@ -238,7 +239,7 @@
      
 
 
-<div class="container">
+<div class="container mt-4">
     <div class="row">
         <div id="search_result_title_div" class="col text-center">
             <h3>Sökresultat: 
@@ -256,7 +257,7 @@
     <div class="container">
         <div class="row">
             <div class="col text-center">
-                <button onclick="RequestAds()" id="load_more_ads" class="btn btn-primary invisible">Ladda fler annonser</button>
+                <button onclick="RequestAds(false)" id="load_more_ads" class="btn btn-primary invisible">Ladda fler annonser</button>
             </div>
         </div>
         <div class="row">
@@ -325,58 +326,43 @@
     const loader_forms = document.getElementById('loading-forms');
     const search_result_title_div = document.getElementById('search_result_title_div');
     const formContainer = document.getElementById("form-container");
+    const div_size_requested = document.getElementById("div_id_size_requested");
+    const div_size_offered = document.getElementById("div_id_size_offered");
+    const div_hundras = document.getElementById("div_id_hundras");
 
 
     //////////////////////////////////////////////
-    // MAIN FUNCTION RETURNING TYPE OFSEARCH FORM
+    // MAIN FUNCTION RETURNING TYPE OF SEARCH FORM
     //////////////////////////////////////////////
 
     // Run when user changes ad type for query
     $('input[name="adtype"]').change(function() {
         
-        // Set-up
-        count_title.innerHTML=''
+
         ad_selection_div.innerHTML = '';
-        search_result_title_div.classList.add('invisible')
-        load_more_ads_button.classList.add('invisible');
-        no_more_ads.classList.add("invisible")
-        formContainer.classList.add('invisible')
         articleOffset = 0;
-        displayLoadingForms()
 
-        // Preparing request
-        const url = "get-search-form";
-        const data = {
-            requested_form: $(this).val()
-        };
-        let csrftoken = getCookie('csrftoken');
+        var selected_ad_type = $(this).val()
 
-        // Making request
-        let response =  fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                "X-CSRFToken": csrftoken,
-            },
-            body: JSON.stringify(data),
-        })
+        if (selected_ad_type === 'all') {
+            div_size_offered.classList.add('d-none')
+            div_size_requested.classList.add('d-none')
+            div_hundras.classList.add('d-none')
+        }
+        if (selected_ad_type === 'offering') {
+            div_size_offered.classList.remove('d-none')
+            div_size_requested.classList.add('d-none')
+            div_hundras.classList.remove('d-none')
+        }
+        if (selected_ad_type === 'requesting') {
+            div_size_offered.classList.add('d-none')
+            div_size_requested.classList.remove('d-none')
+            div_hundras.classList.add('d-none')
+        }
+       
+        // Request ads matching the ad-type
+        RequestAds(true);
 
-        // Parsing JSON response
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            hideLoadingForms();
-            formContainer.classList.remove('invisible');
-            
-            console.log(data.form)
-            // Display the requested form to the user
-            formContainer.innerHTML = data.form;
-
-
-            // Request ads matching the form (and inherently ad-type)
-            RequestAds();
-        });
     });
 
 
@@ -395,17 +381,6 @@
         loader_ads.classList.remove("display");
     }
 
-    function displayLoadingForms() {
-        loader_forms.classList.add("display");
-        // to stop loading after some time
-        setTimeout(() => {
-            loader_forms.classList.remove("display");
-        }, 5000);
-        }
-
-    function hideLoadingForms() {
-        loader_forms.classList.remove("display");
-    }
 
     // Handling change done on select-items
     $(document).on('change',
@@ -416,7 +391,7 @@
             load_more_ads_button.classList.add('invisible');
             // Reset offest and request ads matching change
             articleOffset = 0;
-            RequestAds()
+            RequestAds(true)
     });
         
     // Handling change done on checkbox-items
@@ -427,7 +402,7 @@
             ad_selection_div.innerHTML = '';
             // Reset offest and request ads matching change
             articleOffset = 0;
-            RequestAds()
+            RequestAds(true)
     });
 
 
@@ -438,16 +413,17 @@
     // Default offset when loading document
     var articleOffset = 0;
 
-    function RequestAds() {
+    function RequestAds(doing_initial_request) {
         // Set-up, preparing for new incoming data
         displayLoadingAds()
         search_result_title_div.classList.remove('invisible')
         ads_title_placeholder.classList.remove('invisible')
-        loading_dots.classList.add('loading_dots')
-        count_title.innerHTML=''
         load_more_ads_button.classList.add('invisible');
         no_more_ads.classList.add('invisible')
-        
+        if(doing_initial_request == true){
+            loading_dots.classList.add('loading_dots')
+            count_title.innerHTML=''
+        }        
         // Retrieve values select and radio fields
         var province = $('#id_province').find(":selected").text();
         var municipality = $('#id_municipality').find(":selected").text();
@@ -517,17 +493,21 @@
 
             // If no ads matching query were found
             if ((data_obj.ads.length === 0) && (ad_selection_div.innerHTML === '')) {
-                loading_dots.classList.remove('loading_dots')
-                count_title.innerHTML=`Inga annonser hittade`
-                ads_title_placeholder.classList.add('invisible')
-                ads_title_placeholder.classList.add('invisible')
-                no_more_ads.classList.add("invisible")
+                hideLoadingAds();
+                loading_dots.classList.remove('loading_dots');
+                count_title.innerHTML=`Inga annonser hittade`;
+                ads_title_placeholder.classList.add('invisible');
+                ads_title_placeholder.classList.add('invisible');
+                no_more_ads.classList.add("invisible");
             }
 
             // If no _additional_ ads matching query were found
             if ((data_obj.ads.length === 0) && (ad_selection_div.innerHTML !== '')) {
                 count_title.innerHTML=`${data_obj.total_ads}`
-                document.getElementById('no_more_ads').classList.remove("invisible")
+                no_more_ads.classList.remove("invisible")
+                hideLoadingAds();
+                loading_dots.classList.remove('loading_dots');
+
 
             }
 
@@ -563,7 +543,7 @@
     }
 
     // Get initial ads on page load
-    RequestAds();
+    RequestAds(true);
 
     // JS for handling geographies selectors
     {% include 'core/geographies_selectors.js' %}
