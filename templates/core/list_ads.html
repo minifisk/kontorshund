@@ -14,15 +14,15 @@
         <form name="ad-type-form">
             <input type="radio" id="ad-search-all"
             name="adtype" value="all" checked>
-            <label for="ad-search-all" >Alla annonser</label>
+            <label for="ad-search-all" >Alla annonser ({{ count_all_ads }})</label>
 
             <input type="radio" class="ml-3" id="ad-search-offering"
             name="adtype" value="offering">
-            <label for="ad-search-offering">Hund erbjudes</label>
+            <label for="ad-search-offering">Hund erbjudes ({{ count_all_offering_ads }})</label>
 
             <input type="radio" class="ml-3" id="ad-search-searching"
             name="adtype" value="requesting">
-            <label for="ad-search-searching">Hund sökes</label>
+            <label for="ad-search-searching">Hund sökes ({{ count_all_requesting_ads }})</label>
         </form>
     </div>
 

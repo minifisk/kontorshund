@@ -192,7 +192,17 @@ def is_search_object_empty(self):
 def ListAndSearchAdsView(request):
 
     if request.method == 'GET':
-        return render(request, 'core/list_ads.html')
+        count_all_ads = Advertisement.get_all_active_ads().count()
+        count_all_offering_ads = Advertisement.get_all_active_offering_ads().count()
+        count_all_requesting_ads = Advertisement.get_all_active_requesting_ads().count()
+
+        context = {
+            'count_all_ads': count_all_ads,
+            'count_all_offering_ads': count_all_offering_ads,
+            'count_all_requesting_ads': count_all_requesting_ads,
+        }
+
+        return render(request, 'core/list_ads.html', context=context)
 
     if request.method == 'POST':
         body_json = json.loads(request.body)

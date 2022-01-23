@@ -177,6 +177,14 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     def get_all_active_ads():
         return Advertisement.objects.filter(is_published=True, is_deleted=False)
 
+    @staticmethod
+    def get_all_active_offering_ads():
+        return Advertisement.objects.filter(is_published=True, is_deleted=False, is_offering_own_dog=True)
+
+    @staticmethod
+    def get_all_active_requesting_ads():
+        return Advertisement.objects.filter(is_published=True, is_deleted=False, is_offering_own_dog=False)
+
     @property
     def has_initial_payment(self):
         if Payment.objects.filter(advertisement=self, payment_type=1).exists():
