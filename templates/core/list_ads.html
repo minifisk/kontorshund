@@ -280,6 +280,32 @@
         return cookieValue;
     }
 
+
+    //////////////////////////////
+    // LOADING PROVINCES FUNCTION
+    //////////////////////////////
+
+    // Loading initial provinces
+    $(function(){ 
+        // inspect html to check id of category select dropdown.
+        $(document).ready( function(){ 
+            $.getJSON("/ajax/load-provinces/", function(j){ 
+                var options = '<option value="">---------</option>'; 
+                for (var i = 0; i < j.length; i++) { 
+                    options += '<option value="' + j[i].id + '">' + j[i].name + ' ('+ j[i].offering_count + ', '+ j[i].requesting_count + ')' + '</option>'; 
+                } 
+                // inspect html to check id of subcategory select dropdown.
+                $("select#id_province").html(options); 
+
+                // Reset areas field 
+                var empty_options = '<option value="">---------</option>';
+                $("select#id_area").html(empty_options);  
+
+            }); 
+        }); 
+    }); 
+
+
     //////////////////////////
     // VAR/CONST DECLARATIONS
     /////////////////////////

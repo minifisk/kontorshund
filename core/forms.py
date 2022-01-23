@@ -165,13 +165,21 @@ class NewAdTakeMyDogForm(forms.ModelForm):
         self.fields['size_offered'].empty_label = None
         
 
-        if (self.instance):
-            if (not self.instance.area):
-                self.fields['area'].queryset = Area.objects.none()
-        else:
+        # If user is creating new ad, not editing
+        if self.instance.id == None:
             self.fields['municipality'].queryset = Municipality.objects.none()
             self.fields['area'].queryset = Area.objects.none()
-            self.fields['area'].required = False
+
+        # If user is editing existing ad
+        else: 
+            # If province selected, update municipality queryset
+            if self.instance.province:
+                self.fields['municipality'].queryset = Municipality.objects.filter(province_id=self.instance.province.pk).order_by('name')
+            
+            # If municipality selected, update area queryset
+            if self.instance.municipality:
+                self.fields['area'].queryset = Area.objects.filter(municipality_id=self.instance.municipality.pk).order_by('name')
+
         
 
         if 'province' in self.data:
@@ -206,13 +214,20 @@ class NewAdGetMeADogForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(NewAdGetMeADogForm, self).__init__(*args, **kwargs)
 
-        if (self.instance):
-            if (not self.instance.area):
-                self.fields['area'].queryset = Area.objects.none()
-        else:
+        # If user is creating new ad, not editing
+        if self.instance.id == None:
             self.fields['municipality'].queryset = Municipality.objects.none()
             self.fields['area'].queryset = Area.objects.none()
-            self.fields['area'].required = False
+
+        # If user is editing existing ad
+        else: 
+            # If province selected, update municipality queryset
+            if self.instance.province:
+                self.fields['municipality'].queryset = Municipality.objects.filter(province_id=self.instance.province.pk).order_by('name')
+            
+            # If municipality selected, update area queryset
+            if self.instance.municipality:
+                self.fields['area'].queryset = Area.objects.filter(municipality_id=self.instance.municipality.pk).order_by('name')
 
         if 'province' in self.data:
             try:
