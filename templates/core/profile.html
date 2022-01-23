@@ -182,8 +182,6 @@
 
   cancel_subscription_button.addEventListener("click", function(e) {
       e.preventDefault();
-      console.log("test")
-
 
       var xhr_cancel_subscription = new XMLHttpRequest();
 
@@ -243,7 +241,6 @@
 
 
     /* Function for handling the municipality -> areas dropdown dependencies */
-    
     $(function(){ 
         // inspect html to check id of category select dropdown.
         $(document).on('change', "select#id_municipality", function(){ 
@@ -258,6 +255,25 @@
           }); 
       }); 
 
+      // Updating areas if municipality is selected
+      $(function(){ 
+        // inspect html to check id of category select dropdown.
+        $(document).ready( function(){ 
+            selected_municipality_pk = document.getElementById('id_municipality').value
+
+            $.getJSON("/ajax/load-areas/",{municipality: selected_municipality_pk}, function(j){ 
+              var options = ''; 
+              for (var i = 0; i < j.length; i++) { 
+                options += '<option value="' + j[i].id + '">' + j[i].name + ' ('+ j[i].offering_count + ', '+ j[i].requesting_count + ')' + '</option>'; 
+              } 
+              // inspect html to check id of subcategory select dropdown.
+              $("select#id_areas").html(options); 
+          }); 
+
+
+
+          }); 
+      }); 
 
   </script>
      

@@ -304,6 +304,7 @@ class NewsEmailForm(forms.ModelForm):
         super(NewsEmailForm, self).__init__(*args, **kwargs)
         self.fields['province'].required = True
         self.fields['municipality'].required = True
+        self.fields['areas'].required = False
         self.fields['interval'].required = True
         self.fields['ad_type'].required = True
         self.fields["interval"].choices = list(self.fields["interval"].choices)[1:] 
@@ -340,11 +341,19 @@ class NewsEmailForm(forms.ModelForm):
             ),
         )
 
-
+        # If no province selected, clear other fields
         if not self.instance.province:
             self.fields['municipality'].queryset = Municipality.objects.none()
             self.fields['areas'].queryset = Area.objects.none()
-        self.fields['areas'].required = False
+        
+        # If province selected, update municipality queryset
+        if self.instance.province:
+            self.fields['municipality'].queryset = Municipality.objects.filter(province_id=self.instance.province.pk).order_by('name')
+        
+        # If municipality selected, update area queryset
+        if self.instance.municipality:
+            self.fields['areas'].queryset = Area.objects.filter(municipality_id=self.instance.municipality.pk).order_by('name')
+
 
         if 'province' in self.data:
             try:
@@ -376,6 +385,20 @@ class NewsEmailFormAdmin(forms.ModelForm):
             self.fields['municipality'].queryset = Municipality.objects.none()
             self.fields['areas'].queryset = Area.objects.none()
         self.fields['areas'].required = False
+
+        # If no province selected, clear other fields
+        if not self.instance.province:
+            self.fields['municipality'].queryset = Municipality.objects.none()
+            self.fields['areas'].queryset = Area.objects.none()
+        
+        # If province selected, update municipality queryset
+        if self.instance.province:
+            self.fields['municipality'].queryset = Municipality.objects.filter(province_id=self.instance.province.pk).order_by('name')
+        
+        # If municipality selected, update area queryset
+        if self.instance.municipality:
+            self.fields['areas'].queryset = Area.objects.filter(municipality_id=self.instance.municipality.pk).order_by('name')
+
 
         if 'province' in self.data:
             try:

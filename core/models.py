@@ -37,7 +37,7 @@ class Province(models.Model):
 
 class Municipality(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
-    name= models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     offering_count = models.IntegerField(default=0)
     requesting_count = models.IntegerField(default=0)
 
