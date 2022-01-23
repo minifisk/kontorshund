@@ -204,14 +204,12 @@ def ListAndSearchAdsView(request):
         size_offered_list_str = body_json['size_offered']
         size_requested_list_str = body_json['size_requested']
         days_per_week_list_str = body_json['days_per_week']
-        hundras_str = body_json['hundras']
         OFFSET = body_json['offset']
 
 
         province = ''
         municipality = ''
         area = ''
-        hundras = ''
         size_offered_obj_list = []
         size_requested_obj_list = []
         type_of_ad = ''
@@ -236,12 +234,6 @@ def ListAndSearchAdsView(request):
             except Area.DoesNotExist():
                 raise ValidationErr
 
-        if is_search_object_empty(hundras_str):
-            try:
-                hundras = DogBreed.objects.get(name=hundras_str)
-            except DogBreed.DoesNotExist():
-                raise ValidationErr
-
         if is_search_object_empty(size_offered_list_str):
             for size in size_offered_list_str:
                 try:
@@ -263,7 +255,6 @@ def ListAndSearchAdsView(request):
             ('province', province), 
             ('municipality', municipality),
             ('area', area),
-            ('hundras', hundras),
             ('days_per_week__in', days_per_week_list_str),
             ('size_offered__in', size_offered_obj_list),
             ('size_requested__in', size_requested_obj_list),
@@ -286,47 +277,32 @@ def ListAndSearchAdsView(request):
         # GENERATE QUERYSET
 
         if type_of_ad_str == 'all':
-            print('getting all ads')
             qs = Advertisement.objects.filter(
                 **filter_options, 
                 is_published=True, 
                 is_deleted=False
             ).order_by('pk')
-            print('Full queryset: ', qs.count())
             qs_length = qs.count()
             ads = qs[OFFSET:END]
-            print('OFFSET', OFFSET)
-            print('END', END)
-            print('Filtered ads:', ads.count())
+
         if type_of_ad_str == 'offering':
-            print('getting offering ads')
             qs = Advertisement.objects.filter(
                 **filter_options, 
                 is_published=True, 
                 is_deleted=False, 
                 is_offering_own_dog=True
             ).order_by('pk')
-            print('Full queryset: ', qs.count())
             qs_length = qs.count()
             ads = qs[OFFSET:END]
-            print('OFFSET', OFFSET)
-            print('END', END)
-            print('Filtered ads:', ads.count())
         if type_of_ad_str == 'requesting':
-            print('getting requesting ads')
             qs = Advertisement.objects.filter(
                 **filter_options, 
                 is_published=True, 
                 is_deleted=False, 
                 is_offering_own_dog=False
             ).order_by('pk')
-            print('Full queryset: ', qs.count())
             qs_length = qs.count()
             ads = qs[OFFSET:END]
-            print('OFFSET', OFFSET)
-            print('END', END)
-            print('Filtered ads:', ads.count())
-
 
         json_dict = {}
         json_dict['ads'] = []
@@ -1058,6 +1034,12 @@ class DeleteAd(generic.DeleteView):
 
 
 # View to be used for getting Municipalities connected to a Province
+
+def load_provinces(request):
+   # province_id = request.headers['province']
+    provinces = list(Province.objects.all().values('id', 'name', 'offering_count', 'requesting_count').order_by('name'))
+    return HttpResponse(json.dumps(provinces), content_type="application/json") 
+
 def load_municipalities(request):
    # province_id = request.headers['province']
     province_id = request.GET.get('province','') 

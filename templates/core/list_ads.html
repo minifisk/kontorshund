@@ -51,28 +51,6 @@
                     <div class="">        
                         <select name="province" class="select form-control" id="id_province">
                             <option value="" selected>---------</option>
-                            <option value="1">Norrbotten (0, 0)</option>
-                            <option value="2">Västerbotten (0, 0)</option>
-                            <option value="3">Jämtland (0, 0)</option>
-                            <option value="4">Västernorrland (0, 0)</option>
-                            <option value="5">Gävleborg (0, 0)</option>
-                            <option value="6">Dalarna (0, 0)</option>
-                            <option value="7">Värmland (0, 0)</option>
-                            <option value="8">Örebro (0, 0)</option>
-                            <option value="9">Västmanland (0, 0)</option>
-                            <option value="10">Uppsala (0, 0)</option>
-                            <option value="11">Stockholm (0, 0)</option>
-                            <option value="12">Södermanland (0, 0)</option>
-                            <option value="13">Skaraborg (0, 0)</option>
-                            <option value="14">Östergötland (0, 0)</option>
-                            <option value="15">Göteborg (0, 0)</option>
-                            <option value="16">Älvsborg (0, 0)</option>
-                            <option value="17">Jönköping (0, 0)</option>
-                            <option value="18">Kalmar (0, 0)</option>
-                            <option value="19">Halland (0, 0)</option>
-                            <option value="20">Kronoberg (0, 0)</option>
-                            <option value="21">Blekinge (0, 0)</option>
-                            <option value="22">Skåne (0, 0)</option>
                         </select>
                     </div>
                 </div>
@@ -223,17 +201,6 @@
             </div> 
             
 
-            <div id="div_id_hundras" class="form-group col-3 d-none"> 
-                <label for="id_hundras" class="">
-                    Hundras
-                </label> 
-                <div class=""> 
-                    <select name="hundras" class="select form-control custom-select" id="id_hundras">
-                        <option value="" selected>---------</option> 
-                    </select> 
-                </div> 
-            </div> 
-
     </div>
 
      
@@ -328,7 +295,6 @@
     const formContainer = document.getElementById("form-container");
     const div_size_requested = document.getElementById("div_id_size_requested");
     const div_size_offered = document.getElementById("div_id_size_offered");
-    const div_hundras = document.getElementById("div_id_hundras");
 
 
     //////////////////////////////////////////////
@@ -347,17 +313,14 @@
         if (selected_ad_type === 'all') {
             div_size_offered.classList.add('d-none')
             div_size_requested.classList.add('d-none')
-            div_hundras.classList.add('d-none')
         }
         if (selected_ad_type === 'offering') {
             div_size_offered.classList.remove('d-none')
             div_size_requested.classList.add('d-none')
-            div_hundras.classList.remove('d-none')
         }
         if (selected_ad_type === 'requesting') {
             div_size_offered.classList.add('d-none')
             div_size_requested.classList.remove('d-none')
-            div_hundras.classList.add('d-none')
         }
        
         // Request ads matching the ad-type
@@ -384,7 +347,7 @@
 
     // Handling change done on select-items
     $(document).on('change',
-        'select[id="id_province"], select[id="id_municipality"], select[id="id_area"], select[id="id_hundras"]', 
+        'select[id="id_province"], select[id="id_municipality"], select[id="id_area"]', 
         function(){
             // Set-up
             ad_selection_div.innerHTML = '';
@@ -428,7 +391,6 @@
         var province = $('#id_province').find(":selected").text();
         var municipality = $('#id_municipality').find(":selected").text();
         var area = $('#id_area').find(":selected").text();
-        var hundras = $('#id_hundras').find(":selected").text();
         var type_of_ad_radio = document.querySelectorAll('input[name="adtype"]:checked')
         var type_of_ad = type_of_ad_radio[0].value
 
@@ -462,7 +424,6 @@
             'province': province,
             'municipality': municipality,
             'area': area,
-            'hundras': hundras,
             'days_per_week': days_per_week_values,
             'size_offered': size_offered_values,
             'size_requested': size_requested_values,

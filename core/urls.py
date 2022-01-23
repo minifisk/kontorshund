@@ -46,6 +46,7 @@ urlpatterns = [
 
 
     # Path's for area generation
+    path('ajax/load-provinces/', views.load_provinces, name='ajax_load_provinces'), 
     path('ajax/load-municipalities/', views.load_municipalities, name='ajax_load_municipalities'), 
     path('ajax/load-areas/', views.load_areas, name='ajax_load_areas'), 
 
