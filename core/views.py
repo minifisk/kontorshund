@@ -354,24 +354,6 @@ def ListAndSearchAdsView(request):
         return JsonResponse(data, status=200, safe=False)
 
 
-def GetSearchForm(request):
-
-    form_type_requested = json.loads(request.body)['requested_form']
-    
-    form = SearchAllAdsForm()
-    if form_type_requested == 'all':
-        form = SearchAllAdsForm()
-    elif form_type_requested == 'requesting':
-        form = SearchRequestingDogAdsForm()
-    elif form_type_requested == 'offering':
-        form = SearchOfferingDogAdsForm()
-
-    context = {
-        "form": form,
-    }
-    template = render_to_string('forms/form.html', context=context)
-    return JsonResponse({"form": template}, status=200)
-
 
 class AdOfferingDogListView(generic.ListView):
     
