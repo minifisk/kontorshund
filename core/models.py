@@ -76,6 +76,27 @@ class NewsEmail(models.Model):
     is_active = BooleanField(default=False)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
+    def __str__(self):
+        return f'{self.user} {self.interval}'
+
+    @staticmethod
+    def get_all_active_subscriptions():
+        return NewsEmail.objects.filter(is_active=True)
+
+    @staticmethod
+    def get_all_active_daily_subscriptions(ad_type: str):
+        if ad_type == 'offering':
+            return NewsEmail.objects.filter(is_active=True, ad_type=1, interval=2)
+        if ad_type == 'requesting':
+            return NewsEmail.objects.filter(is_active=True, ad_type=2, interval=2)
+
+    @staticmethod
+    def get_all_active_weekly_subscriptions(ad_type: str):
+        if ad_type == 'offering':
+            return NewsEmail.objects.filter(is_active=True, ad_type=1, interval=1)
+        if ad_type == 'requesting':
+            return NewsEmail.objects.filter(is_active=True, ad_type=2, interval=1)
+
 
 class DogSizeChoice(models.Model):
     size = models.CharField(max_length=20) 
