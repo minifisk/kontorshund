@@ -18,6 +18,17 @@ RUN pip install --upgrade pip
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
+ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.6/supercronic-linux-amd64 \
+    SUPERCRONIC=supercronic-linux-amd64 \
+    SUPERCRONIC_SHA1SUM=c3b78d342e5413ad39092fd3cfc083a85f5e2b75
+
+RUN curl -fsSLO "$SUPERCRONIC_URL" && \
+    echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - && \
+    chmod +x "$SUPERCRONIC" && \
+    mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" && \
+    ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
+
+
 # create the appropriate directories
 RUN mkdir -p /home/kontorshund
 ENV HOME=/home/kontorshund
@@ -30,4 +41,5 @@ WORKDIR $APP_HOME
 COPY ./kontorshund/mediafiles $APP_HOME/mediafiles
 COPY . $APP_HOME
 
+RUN ["chmod", "+x", "/home/kontorshund/web/hello.py"]
 

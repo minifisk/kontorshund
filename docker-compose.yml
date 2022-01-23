@@ -15,6 +15,14 @@ services:
     env_file:
       - ./.env.dev
 
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "supercronic /crontab"
+    volumes:
+      - ./crontab:/crontab:ro
+
 volumes:
   static_volume:
   media_volume:
