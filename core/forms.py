@@ -343,7 +343,7 @@ class NewsEmailForm(forms.ModelForm):
 
         if not self.instance.province:
             self.fields['municipality'].queryset = Municipality.objects.none()
-        self.fields['areas'].queryset = Area.objects.none()
+            self.fields['areas'].queryset = Area.objects.none()
         self.fields['areas'].required = False
 
         if 'province' in self.data:
@@ -374,7 +374,7 @@ class NewsEmailFormAdmin(forms.ModelForm):
         
         if not self.instance.province:
             self.fields['municipality'].queryset = Municipality.objects.none()
-        self.fields['areas'].queryset = Area.objects.none()
+            self.fields['areas'].queryset = Area.objects.none()
         self.fields['areas'].required = False
 
         if 'province' in self.data:

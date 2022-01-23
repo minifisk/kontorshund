@@ -123,20 +123,12 @@ def profile(request):
                 }
             )
         if request.method == 'POST':
-            form = NewsEmailForm(request.POST)
+            NewsEmail_obj = NewsEmail.objects.get(user=request.user)
+            form = NewsEmailForm(request.POST, instance=NewsEmail_obj)
 
             if form.is_valid():
-                NewsEmail_obj = NewsEmail.objects.get(user=request.user)
-                NewsEmail_obj.province = form.instance.province
-                NewsEmail_obj.municipality = form.instance.municipality
-                #NewsEmail_obj.areas = form.instance.areas
-                NewsEmail_obj.interval = form.instance.interval
-                NewsEmail_obj.ad_type = form.instance.ad_type
-                NewsEmail_obj.is_active = True
-                NewsEmail_obj.save()
+                form.save()
                 return redirect('profile')
-                #return redirect('profile', {'message': 'Bevakningar uppdaterade!'})
-
             else:
                 return render(request, 'core/profile.html', {'form': form})
     else:
