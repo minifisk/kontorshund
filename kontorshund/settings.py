@@ -225,8 +225,6 @@ USE_TZ = True
 USE_S3 = os.environ.get("USE_S3", "false").lower() == "true"
 
 
-
-
 if USE_S3:
 
     print("Using S3")
@@ -256,9 +254,7 @@ if USE_S3:
     AWS_STORAGE_BUCKET_NAME=LINODE_BUCKET_NAME
     AWS_DEFAULT_ACL= None
 
-
 else:
-
     print("Not using S3")
 
     STATIC_URL = '/static/'
@@ -270,11 +266,6 @@ else:
 
 # Where to collect static files from locally
 STATICFILES_DIRS = [BASE_DIR / 'local_static']
-
-
-
-
-
 
 
 # Default primary key field type
@@ -351,18 +342,26 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-# Email settings
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'mailcluster.loopia.se'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'info@kontorshund.se'
-EMAIL_HOST_PASSWORD = 'W3;qU]8;-:Pk4`}q`G8&<m=-X2&/E'
-DEFAULT_FROM_EMAIL = 'Kontorshund.se <info@kontorshund.se>'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# EMAIL SETTINGS
 
 # Use console-email if only using development server
 if (os.environ.get('IS_DEVELOPMENT')) == "True":
+    print('is development = True')
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+
+if (os.environ.get('IS_DEVELOPMENT')) == 'False':
+
+    print('Using live email settings')
+
+    # Email settings
+    EMAIL_USE_TLS = True
+    EMAIL_HOST = 'mailcluster.loopia.se'
+    EMAIL_PORT = 587
+    EMAIL_HOST_USER = 'info@kontorshund.se'
+    EMAIL_HOST_PASSWORD = 'W3;qU]8;-:Pk4`}q`G8&<m=-X2&/E'
+    DEFAULT_FROM_EMAIL = 'Kontorshund.se <info@kontorshund.se>'
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 

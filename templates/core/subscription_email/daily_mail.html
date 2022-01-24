@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="x-apple-disable-message-reformatting">
+  <title></title>
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
+  <style>
+    table, td, div, h1, p {font-family: Arial, sans-serif;}
+  </style>
+</head>
+<body style="margin:0;padding:0;">
+  <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;">
+    <tr>
+      <td align="center" style="padding:0;">
+        <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
+          <tr>
+            <td align="center" style="padding:40px 0 30px 0">
+              <img src="https://kontorshund.eu-central-1.linodeobjects.com/Office_Dog .jpg" alt="" width="600" style="height:auto;display:block;" />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:36px 30px 42px 30px;">
+              <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
+                <tr>
+                  <td style="padding:0 0 36px 0;color:#153643;">
+                    <h1 style="font-size:24px;margin:0 0 20px 0;font-family:Arial,sans-serif;">Dagligt mail - Nya annonser som matchar din sökning!</h1>
+                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Du har valt att prenumerera på när nya annonser kommer in för: <i>{{ province }}/{{ municipality }}{% if area %}/{{ area }} {% endif %}</i> för annonstypen <b>{{ ad_type }}</b> </p>
+                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Det har under senaste 24 timmarna kommit in {{ count_ads }} som matchar din sökning, du hittar dem nedan!  </p>
+                    <br>
+                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Vill du ej prenumerera på mailet längre?  <a href="http://www.example.com" style="color:#ee4c50;text-decoration:underline;">Klicka här!</a> </p>
+                    <br>
+                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Vill du ändra på dina prenumerationsinställningar? <a href="https://www.kontorshund.se/profile" style="color:#ee4c50;text-decoration:underline;">Klicka här!</a></p>
+
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:0;">
+                    <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
+                        {% for ad in ads %}
+                            <tr>
+                                <td style="width:260px; text-align:center; vertical-align:middle; padding:0;vertical-align:center;color:#153643;">
+                                    <a style="vertical-align:middle; display: inline-block; margin:0 0 0 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;" href="{{ ad_root_path}}{{ ad.pk }}"><img src="{{ ad.image1.url }}" alt="Image of ad" width="260" style="height:auto;display:block;" /></a>
+                                    <p style="margin:0 0 0 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><b>{{ ad.title }}</b></p>
+                                    <p style="margin:0 0 0 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><i>{{ ad.created_at }}</i></p>
+                                    <p style="margin:0 0 0 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><i>{% if ad.is_offering_own_dog %}Hund erbjudes{% else %}Hund sökes{% endif %}</i></p>
+                                    <p style="margin:0 0 20px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">{{ ad.description }}</p>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:30px;background:#90d1e9;">
+              <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
+                <tr>
+                  <td style="padding:0;width:50%;" align="left">
+                    <a href="http://www.kontorshund.se" style="color:#ffffff;text-decoration:underline; font-size:16px">Kontorshund.se</a> 
+                   <p style="color:#000000; font-size:12px">Guttae AB, 559266-9948</p> 
+                  </td>
+                  <td style="padding:0;width:50%;" align="right">
+                    <table role="presentation" style="border-collapse:collapse;border:0;border-spacing:0;">
+                      <tr>
+                        <td style="padding:0 0 0 10px;width:70px;">
+                          <a href="https://fb.me/kontorshund" style="color:#ffffff;"><img src="https://kontorshund.eu-central-1.linodeobjects.com/fblogo2.png" alt="Facebook" width="38" style="height:auto;display:block;border:0;" /></a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

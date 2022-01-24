@@ -8,6 +8,9 @@ from . import views
 urlpatterns = [
     
     path('', views.index, name='index'), 
+    path('deactivate-email-subscription/<str:uuid>', views.deactivate_news_email_subscription, name='deactivate_email_subscription'),
+    path('template-preview', views.template_preview, name='template_preview'), 
+
 
     path('profile', views.profile, name='profile'), 
     path('handle-email-subscription/<str:uuid>', views.handle_email_subscription_status, name='handle_email_subscription_status'), 

@@ -2,7 +2,6 @@ import datetime
 import io
 from re import template
 from wsgiref import validate
-from xml.dom import ValidationErr
 import qrcode 
 import json
 import requests
@@ -23,7 +22,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.utils.safestring import mark_safe
-from django.forms import HiddenInput
+from django.forms import HiddenInput, ValidationError
 from django.contrib.auth import get_user, get_user_model
 from django.db.models import F
 from django.template.loader import render_to_string
@@ -46,6 +45,50 @@ from core.filters import AdOfferingDogFilter
 User = get_user_model()
 
 locale.setlocale(locale.LC_ALL,'sv_SE.UTF-8')
+
+
+def template_preview(request):
+
+    url = request.build_absolute_uri('/')
+    ad_root_path = f'{url}ads/'
+
+    all_ads = Advertisement.objects.all()
+    news_email_uuid = '1198e1f8-e877-4ee3-8024-fbadd246d769'
+
+    context = {
+        'ads': all_ads,
+        'ad_root_path': ad_root_path,
+        'province': 'Stockholm',
+        'municipality': 'Stockholms stad',
+        'area': 'Sköndal',
+        'ad_type': 'Hund sökes',
+        'news_email_uuid': news_email_uuid,
+
+    }
+
+    return render(request, 'core/subscription_email/daily_mail.html', context=context)
+
+
+def deactivate_news_email_subscription(request, uuid):
+
+
+    if request.method == 'GET':
+
+        print(uuid)
+        return render(request, 'core/subscription_email/deactivate_subscription.html', kwargs={'uuid': uuid})
+
+
+    if request.method == 'POST':
+
+        try:
+            news_email_obj = NewsEmail.objects.get(uuid=uuid)
+            news_email_obj.is_active = False
+            news_email_obj.save()
+
+        except NewsEmail.DoesNotExist():
+            raise ValidationError
+
+
 
 
 #############
@@ -228,27 +271,27 @@ def ListAndSearchAdsView(request):
             try:
                 municipality = Municipality.objects.get(name=municipality_str)
             except Municipality.DoesNotExist():
-                raise ValidationErr
+                raise ValidationError
 
         if is_search_object_empty(area_str):
             try:
                 area = Area.objects.get(name=area_str)
             except Area.DoesNotExist():
-                raise ValidationErr
+                raise ValidationError
 
         if is_search_object_empty(size_offered_list_str):
             for size in size_offered_list_str:
                 try:
                     size_offered_obj_list.append(DogSizeChoice.objects.get(size=size)) 
                 except DogSizeChoice.DoesNotExist():
-                    raise ValidationErr
+                    raise ValidationError
 
         if is_search_object_empty(size_requested_list_str):
             for size in size_requested_list_str:
                 try:
                     size_requested_obj_list.append(DogSizeChoice.objects.get(size=size)) 
                 except DogSizeChoice.DoesNotExist():
-                    raise ValidationErr
+                    raise ValidationError
 
 
         ads = ''
