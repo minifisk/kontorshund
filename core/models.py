@@ -33,7 +33,7 @@ class Province(models.Model):
     requesting_count = models.IntegerField(default=0)
 
     def __str__(self):
-        return f'{self.name} ({self.offering_count}, {self.requesting_count})'
+        return self.name
 
 class Municipality(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
@@ -42,7 +42,7 @@ class Municipality(models.Model):
     requesting_count = models.IntegerField(default=0)
 
     def __str__(self):
-        return f'{self.name} ({self.offering_count}, {self.requesting_count})'
+        return self.name
 
 class Area(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
@@ -52,7 +52,7 @@ class Area(models.Model):
     requesting_count = models.IntegerField(default=0)
 
     def __str__(self):
-        return f'{self.name} ({self.offering_count}, {self.requesting_count})'
+        return self.name
 
 
 class NewsEmail(models.Model):

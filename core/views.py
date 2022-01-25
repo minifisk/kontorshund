@@ -65,6 +65,7 @@ def template_preview(request):
         'area': 'Sköndal',
         'ad_type': 'Hund sökes',
         'news_email_uuid': news_email_uuid,
+        'count_ads': all_ads.count()
 
     }
 

@@ -33,13 +33,34 @@
               <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                 <tr>
                   <td style="padding:0 0 36px 0;color:#153643;">
-                    <h1 style="font-size:24px;margin:0 0 20px 0;font-family:Arial,sans-serif;">Dagligt mail - Nya annonser som matchar din sökning!</h1>
-                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Du har valt att prenumerera på när nya annonser kommer in för: <i>{{ province }}/{{ municipality }}{% if area %}/{{ area }} {% endif %}</i> för annonstypen <b>{{ ad_type }}</b> </p>
-                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Det har under senaste 24 timmarna kommit in {{ count_ads }} som matchar din sökning, du hittar dem nedan!  </p>
+                   
+                    <h1 style="font-size:24px;margin:0 0 20px 0;font-family:Arial,sans-serif;">
+                      Dagligt mail - Nya annonser som matchar din sökning!
+                    </h1>
+                    
+                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
+                      Du har valt att prenumerera på när nya annonser kommer in för: 
+                      <i>{{ province }}/{{ municipality }}{% if area %}/{{ area }} {% endif %}</i> 
+                        för annonstypen <b>{{ ad_type }}</b> 
+                    </p>
+                    
+                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
+                      Det har under senaste 24 timmarna kommit in <b>{{ count_ads }} annonser</b> som matchar din sökning, du hittar dem nedan!  
+                    </p>
+
                     <br>
-                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Vill du ej prenumerera på mailet längre?  <a href="http://www.example.com" style="color:#ee4c50;text-decoration:underline;">Klicka här!</a> </p>
+
+                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
+                      Vill du ej prenumerera på mailet längre?  
+                      <a href="http://www.example.com" style="color:#ee4c50;text-decoration:underline;">Klicka här!</a> 
+                    </p>
+
                     <br>
-                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Vill du ändra på dina prenumerationsinställningar? <a href="https://www.kontorshund.se/profile" style="color:#ee4c50;text-decoration:underline;">Klicka här!</a></p>
+                    
+                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
+                      Vill du ändra på dina prenumerationsinställningar? 
+                      <a href="https://www.kontorshund.se/profile" style="color:#ee4c50;text-decoration:underline;">Klicka här!</a>
+                      </p>
 
                   </td>
                 </tr>
@@ -49,11 +70,27 @@
                         {% for ad in ads %}
                             <tr>
                                 <td style="width:260px; text-align:center; vertical-align:middle; padding:0;vertical-align:center;color:#153643;">
-                                    <a style="vertical-align:middle; display: inline-block; margin:0 0 0 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;" href="{{ ad_root_path}}{{ ad.pk }}"><img src="{{ ad.image1.url }}" alt="Image of ad" width="260" style="height:auto;display:block;" /></a>
-                                    <p style="margin:0 0 0 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><b>{{ ad.title }}</b></p>
-                                    <p style="margin:0 0 0 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><i>{{ ad.created_at }}</i></p>
-                                    <p style="margin:0 0 0 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><i>{% if ad.is_offering_own_dog %}Hund erbjudes{% else %}Hund sökes{% endif %}</i></p>
-                                    <p style="margin:0 0 20px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">{{ ad.description }}</p>
+
+                                    <a 
+                                      style="vertical-align:middle; display: inline-block; margin:0 0 0 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;" 
+                                      href="{{ ad_root_path}}{{ ad.pk }}"><img src="{{ ad.image1.url }}" alt="Image of ad" width="260" style="height:auto;display:block;" />
+                                    </a>
+                                    
+                                    <p style="margin:0 0 0 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
+                                      <b>{{ ad.title }}</b>
+                                    </p>
+
+                                    <p style="margin:0 0 0 0;font-size:16px;line-height:20px;font-family:Arial,sans-serif;">
+                                      {{ ad.province }}/{{ ad.municipality }}{% if ad.area %}/{{ ad.area }} {% endif %}
+                                    </p>
+
+                                    <p style="margin:0 0 0 0;font-size:16px;line-height:20px;font-family:Arial,sans-serif;">
+                                      <i>{% if ad.is_offering_own_dog %}Hund erbjudes{% else %}Hund sökes{% endif %}</i>
+                                    </p>
+
+                                    <p style="margin:0 0 20px 0;font-size:16px;line-height:20px;font-family:Arial,sans-serif;">
+                                      {{ ad.description }}
+                                    </p>
                                 </td>
                             </tr>
                         {% endfor %}

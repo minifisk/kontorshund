@@ -49,7 +49,7 @@ class Command(BaseCommand):
                     from_email = 'From <from@example.com>'
                     to = 'to@example.com'
 
-mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+                    mail.send_mail(subject, plain_message, from_email, [to], html_message=html_message)
 
 
                 # If area hasn't been provided
