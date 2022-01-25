@@ -8,9 +8,6 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     image: index.docker.io/oneandonly1337/kontorshund:latest
-    #build:
-    #  context: .
-    #  dockerfile: Dockerfile.prod
     command: gunicorn kontorshund.wsgi:application --bind 0.0.0.0:8000 
     volumes:
       - static_volume:/home/dockeruser/web/staticfiles
@@ -57,10 +54,23 @@ services:
     volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - /home/kontorshund/.docker/config.json:/config.json
-    #- /home/kontorshund/snap/docker/1125/.docker/config.json:/config.json
     env_file:
       - ./.env.prod
     command: --interval 120  --label-enable --warn-on-head-failure never
+
+  scheduler:
+    restart: always
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    image: index.docker.io/oneandonly1337/kontorshund:latest
+    command: "supercronic /crontab"
+    volumes:
+      - ./crontab:/crontab:ro
+      - static_volume:/home/dockeruser/web/staticfiles
+      - media_volume:/home/dockeruser/web/mediafiles
+      - /home/kontorshund/kontorshund/Certificates_prod:/home/dockeruser/web/Certificates_prod
+    env_file:
+      - ./.env.prod
 
 
 volumes:
