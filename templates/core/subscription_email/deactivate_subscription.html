@@ -6,7 +6,7 @@
 {% block content %}
   <h1>Inaktivera din prenumeration</h1>
   <p>Är du säker på att du vill deaktivera din prenumeration? Du kan alltid återaktivera den under din profil.</p>
-      <form action="{% url 'deactivate_email_subscription' %}">
+      <form method="POST" action="{% url 'deactivate_email_subscription' uuid  %}">
         {% csrf_token %}
         <div class="mt-3">
             <button class="btn btn-danger" type="submit">Inaktivera din prenumeration</button>

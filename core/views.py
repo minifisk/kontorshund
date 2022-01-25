@@ -27,6 +27,8 @@ from django.contrib.auth import get_user, get_user_model
 from django.db.models import F
 from django.template.loader import render_to_string
 from django.core import serializers
+from django.core.exceptions import ObjectDoesNotExist
+
 
 
 from dal import autocomplete
@@ -75,7 +77,10 @@ def deactivate_news_email_subscription(request, uuid):
     if request.method == 'GET':
 
         print(uuid)
-        return render(request, 'core/subscription_email/deactivate_subscription.html', kwargs={'uuid': uuid})
+        context = {
+            'uuid': uuid
+        }
+        return render(request, 'core/subscription_email/deactivate_subscription.html', context=context)
 
 
     if request.method == 'POST':
@@ -85,8 +90,10 @@ def deactivate_news_email_subscription(request, uuid):
             news_email_obj.is_active = False
             news_email_obj.save()
 
-        except NewsEmail.DoesNotExist():
-            raise ValidationError
+        except:
+            return render(request, 'core/subscription_email/subscription_deactivation_error.html')
+
+        return render(request, 'core/subscription_email/subscription_deactivated_confirmation.html')
 
 
 

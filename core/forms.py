@@ -390,6 +390,15 @@ class NewsEmailForm(forms.ModelForm):
 
 class NewsEmailFormAdmin(forms.ModelForm):
 
+    TRUE_FALSE_CHOICES = (
+    (True, 'True'),
+    (False, 'False')
+    )
+
+    is_active = forms.ChoiceField(choices = TRUE_FALSE_CHOICES, label="Is active", 
+                              initial='', widget=forms.Select(), required=True)
+
+
     class Meta:
         model = NewsEmail 
         fields = ('user', 'province', 'municipality', 'areas', 'interval')
