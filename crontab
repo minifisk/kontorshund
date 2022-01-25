@@ -1,10 +1,11 @@
-; *    *    *    *    *  command to be executed
-; ┬    ┬    ┬    ┬    ┬
-; │    │    │    │    └─  Weekday  (0=Sun .. 6=Sat)
-; │    │    │    └──────  Month    (1..12)
-; │    │    └───────────  Day      (1..31)
-; │    └────────────────  Hour     (0..23)
-; └─────────────────────  Minute   (0..59)
-#0 * * * * python3 /home/kontorshund/web/core/management/commands/update_count_geographies.py
-*/10 * * * * python3 /home/kontorshund/web/hello.py
+#*    *    *    *    *  command to be executed
+#┬    ┬    ┬    ┬    ┬
+#│    │    │    │    └─  Weekday  (0=Sun .. 6=Sat)
+#│    │    │    └──────  Month    (1..12)
+#│    │    └───────────  Day      (1..31)
+#│    └────────────────  Hour     (0..23)
+#└─────────────────────  Minute   (0..59)
+0 * * * * python3 /home/kontorshund/web/core/management/commands/update_count_geographies.py
+0 3 * * * python3 /home/kontorshund/web/core/management/commands/daily_subscribe_mails.py
+#* * * * * python3 /home/kontorshund/web/hello.py
 # DON'T REMOVE LAST LINE
