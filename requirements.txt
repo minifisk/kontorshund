@@ -6,6 +6,7 @@ botocore==1.23.29
 certifi==2021.10.8
 cffi==1.15.0
 charset-normalizer==2.0.7
+colorlog==6.6.0
 cryptography==36.0.0
 debugpy==1.5.1
 defusedxml==0.7.1

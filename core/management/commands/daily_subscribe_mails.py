@@ -17,8 +17,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        print("Starting daily mail..")
-
+        logger.info('Starting command for sending daily emails...')
 
         # Get all _active_ newsemail objects with a _daily_ subscription
         all_daily_offering_subscriptions = NewsEmail.get_all_active_daily_subscriptions('offering')
@@ -33,21 +32,15 @@ class Command(BaseCommand):
         # OFFERING
         all_active_offering_ads = Advertisement.get_all_active_offering_ads()
 
-        print('all offering ads', all_active_offering_ads.count())
-
         # Iterate over each newsemail object
         for news_email_subscription_object in all_daily_offering_subscriptions:
 
             # If area provided in subscription
             if news_email_subscription_object.areas:
 
-                print('Area have been requested')
-
                 area_list = []
                 for area in news_email_subscription_object.areas.all():
                     area_list.append(area)
-
-                print('Area list', area_list)
 
                 # Gather all ads matching Province/Municipality/Area & ad_type that's been created during last 24 hours
                 matching_ads = all_active_offering_ads.filter(
@@ -60,10 +53,6 @@ class Command(BaseCommand):
 
 
                 matching_ads_count = matching_ads.count()
-
-                print('Matching ads:')
-                print(matching_ads)
-                print(matching_ads_count)
 
                 # If any ads found, send email
                 if matching_ads:
@@ -124,4 +113,4 @@ class Command(BaseCommand):
 
 
         
-        logger.info(f'Sent {number_of_mails_sent} number of emails!')
+        logger.info(f'Finished command for sending daily mails, Sent a total of {number_of_mails_sent} emails to customers!')

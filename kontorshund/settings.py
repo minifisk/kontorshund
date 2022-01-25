@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 from urllib.parse import urljoin
+from django.utils.log import DEFAULT_LOGGING
+
 
 # Price constants
 PRICE_SWISH_INITIAL = '1 kr'
@@ -365,3 +367,59 @@ if (os.environ.get('IS_DEVELOPMENT')) == 'False':
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
+# LOGGING
+
+ADMINS = (
+    ('Alexander Lindgren', 'alexlindgren08@gmail.se'),
+)
+
+# Docker/Supervisord logging settings
+LOGGING = DEFAULT_LOGGING
+LOGGING['handlers']['console']['filters'] = ['require_debug_false']
+LOGGING['loggers']['django.server']['propagate'] = True
+
+# Logging settings
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'colored_verbose': {
+            '()': 'colorlog.ColoredFormatter',
+            'format': '%(asctime)s %(log_color)s%(levelname)s   %(red)s%(module)s   %(yellow)s%(message)s   %(blue)s%(name)s.%(funcName)s:%(lineno)s'
+        },
+    },
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'colored_console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'colored_verbose'
+        },
+         'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+    },
+    'loggers': {
+        '': {
+            'level': 'INFO',
+            'handlers': ['colored_console'],
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'gunicorn.access': {
+            'handlers': ['colored_console']
+        },
+        'gunicorn.error': {
+            'handlers': ['colored_console']
+        }
+    }
+}
