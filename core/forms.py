@@ -401,7 +401,7 @@ class NewsEmailFormAdmin(forms.ModelForm):
 
     class Meta:
         model = NewsEmail 
-        fields = ('user', 'province', 'municipality', 'areas', 'interval')
+        fields = ('ad_type', 'user', 'province', 'municipality', 'areas', 'interval')
 
     def __init__(self, *args, **kwargs):
         super(NewsEmailFormAdmin, self).__init__(*args, **kwargs)

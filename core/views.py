@@ -60,13 +60,12 @@ def template_preview(request):
     context = {
         'ads': all_ads,
         'ad_root_path': ad_root_path,
-        'province': 'Stockholm',
-        'municipality': 'Stockholms stad',
-        'area': 'Sköndal',
+        'subscribed_province': 'Stockholm',
+        'subscribed_municipality': 'Stockholms stad',
+        'subscribed_area': 'Sköndal',
         'ad_type': 'Hund sökes',
         'news_email_uuid': news_email_uuid,
         'count_ads': all_ads.count()
-
     }
 
     return render(request, 'core/subscription_email/daily_mail.html', context=context)
