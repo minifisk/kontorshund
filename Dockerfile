@@ -42,4 +42,8 @@ COPY ./kontorshund/mediafiles $APP_HOME/mediafiles
 COPY . $APP_HOME
 
 RUN ["chmod", "+x", "/home/kontorshund/web/hello.py"]
+RUN ["chmod", "+x", "/home/kontorshund/web/cron_startup.sh"]
+RUN ["chmod", "+x", "/home/kontorshund/web/django_standalone_setup.py"]
+
+
 

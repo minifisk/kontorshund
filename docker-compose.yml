@@ -16,14 +16,12 @@ services:
       - ./.env.dev
 
   scheduler:
-    depends_on:
-      - web
     build:
       context: .
       dockerfile: Dockerfile
-    command: "supercronic /crontab"
+    command: /bin/sh -c "/home/kontorshund/web/cron_startup.sh" 
     volumes:
-      - .:/home/kontorshund/web
+     # - .:/home/kontorshund/web
       - ./crontab:/crontab:ro
     env_file:
       - ./.env.dev
