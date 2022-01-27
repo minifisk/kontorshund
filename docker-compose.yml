@@ -19,7 +19,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: /bin/sh -c "/home/kontorshund/web/cron_startup.sh" 
+    command: /bin/sh -c "/home/dockeruser/web/cron_startup.sh" 
     volumes:
      # - .:/home/kontorshund/web
       - ./crontab:/crontab:ro
