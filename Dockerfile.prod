@@ -94,6 +94,11 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
 ##############
 COPY . $APP_HOME
 
+##############
+# PERMISSIONS
+##############
+RUN chown -R dockeruser:dockeruser $APP_HOME
+RUN ["chmod", "+x", "/home/dockeruser/web/cron_startup.sh"]
 
 ##############
 # CHANGE USER
@@ -101,8 +106,4 @@ COPY . $APP_HOME
 
 USER dockeruser
 
-##############
-# PERMISSIONS
-##############
-RUN chown -R dockeruser:dockeruser $APP_HOME
-RUN ["chmod", "+x", "/home/dockeruser/web/cron_startup.sh"]
+
