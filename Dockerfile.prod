@@ -95,7 +95,7 @@ COPY . $APP_HOME
 # CHANGE USER
 ##############
 
-USER dockeruser
+#USER dockeruser
 
 ##############
 # PERMISSIONS
