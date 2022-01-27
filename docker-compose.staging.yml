@@ -1,52 +1,14 @@
 version: '3.8'
 
 services:
-  web:
+
+  scheduler:
     build:
       context: .
       dockerfile: Dockerfile.prod
-    command: gunicorn kontorshund.wsgi:application --bind 0.0.0.0:8000
+    command: /bin/sh -c "/home/dockeruser/web/cron_startup.sh" 
     volumes:
-      - static_volume:/home/kontorshund/web/staticfiles
-      - media_volume:/home/kontorshund/web/mediafiles
-    expose:
-      - 8000
+      # - .:/home/kontorshund/web
+      - ./crontab:/crontab:ro
     env_file:
-      - ./.env.staging
-  nginx-proxy:
-    container_name: nginx-proxy
-    build: nginx
-    restart: always
-    ports:
-      - 443:443
-      - 80:80
-    volumes:
-      - static_volume:/home/kontorshund/web/staticfiles
-      - media_volume:/home/kontorshund/web/mediafiles
-      - certs:/etc/nginx/certs
-      - html:/usr/share/nginx/html
-      - vhost:/etc/nginx/vhost.d
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    depends_on:
-      - web
-  nginx-proxy-letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    env_file:
-      - ./.env.staging.proxy-companion
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - certs:/etc/nginx/certs
-      - html:/usr/share/nginx/html
-      - vhost:/etc/nginx/vhost.d
-      - acme:/etc/acme.sh
-    depends_on:
-      - nginx-proxy
-
-volumes:
-  postgres_data:
-  static_volume:
-  media_volume:
-  certs:
-  html:
-  vhost:
-  acme:
+      - ./.env.prod
