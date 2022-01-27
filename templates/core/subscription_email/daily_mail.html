@@ -40,8 +40,15 @@
                     
                     <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
                       Du har valt att prenumerera på när nya annonser kommer in för: 
-                      <i>{{ subscribed_province }}/{{ subscribed_municipality }}{% if subscribed_area %}/{{ subscribed_area }} {% endif %}</i> 
-                        för annonstypen <b>{{ ad_type }}</b> 
+                      <i>{{ subscribed_province }}/{{ subscribed_municipality }}
+                        {% if subscribed_area %}
+                          /
+                          {% for area in subscribed_area %}
+                            {{ area }}, 
+                          {% endfor %}
+                        
+                        {% endif %}</i> 
+                        för annonstypen <b>{% if ad_type == 1 %} Hund erbjudes {% else %} Hund sökes {% endif %}</b> 
                     </p>
                     
                     <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">

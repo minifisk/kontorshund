@@ -17,44 +17,38 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        logger.info('Starting command for sending daily emails...')
+        logger.info('[DAILY_SUBSCRIBE_EMAILS] Starting command for sending daily emails...')
 
-        # Get all _active_ newsemail objects with a _daily_ subscription
-        all_daily_offering_subscriptions = NewsEmail.get_all_active_daily_subscriptions('offering')
-        all_daily_requesting_subscriptions = NewsEmail.get_all_active_daily_subscriptions('requesting')
-
-        date_from = datetime.datetime.now() - datetime.timedelta(days=1)
-
+        one_day_back = datetime.datetime.now() - datetime.timedelta(days=1)
         ad_root_path = 'https://www.kontorshund.se/ads/'
-
         number_of_mails_sent = 0
 
+        logger.info('[DAILY_SUBSCRIBE_EMAILS] Sending emails to subscribers matching "offering" ads...')
+
         # OFFERING
+
+        all_daily_offering_subscriptions = NewsEmail.get_all_active_daily_subscriptions('offering')
         all_active_offering_ads = Advertisement.get_all_active_offering_ads()
 
-        # Iterate over each newsemail object
         for news_email_subscription_object in all_daily_offering_subscriptions:
 
-            # If area provided in subscription
             if news_email_subscription_object.areas:
 
                 area_list = []
+                area_list_names = []
                 for area in news_email_subscription_object.areas.all():
                     area_list.append(area)
+                    area_list_names.append(area.name)
 
-                # Gather all ads matching Province/Municipality/Area & ad_type that's been created during last 24 hours
                 matching_ads = all_active_offering_ads.filter(
-                    created_at__gte=date_from, 
+                    created_at__gte=one_day_back, 
                     province=news_email_subscription_object.province,
                     municipality=news_email_subscription_object.municipality,
                     area__in=area_list
                 )
 
-
-
                 matching_ads_count = matching_ads.count()
 
-                # If any ads found, send email
                 if matching_ads:
 
                     context = {
@@ -62,7 +56,7 @@ class Command(BaseCommand):
                         'ad_root_path': ad_root_path,
                         'subscribed_province': news_email_subscription_object.province,
                         'subscribed_municipality': news_email_subscription_object.municipality,
-                        'subscribed_area': news_email_subscription_object.areas,
+                        'subscribed_area': area_list,
                         'ad_type': news_email_subscription_object.ad_type,
                         'news_email_uuid': news_email_subscription_object.uuid,
                         'ad_count': matching_ads_count
@@ -78,18 +72,15 @@ class Command(BaseCommand):
                     number_of_mails_sent += 1
 
             else: 
-                # If area hasn't been provided in subscription
 
-                # Gather all ads matching Province/Municipality & ad_type that has been created during the last 24 hours
                 all_active_offering_ads.filter(
-                    created_at__gte=date_from, 
+                    created_at__gte=one_day_back, 
                     province=news_email_subscription_object.province,
                     municipality=news_email_subscription_object.municipality,
                 )
 
                 matching_ads_count = matching_ads.count()
 
-                # If any ads found, send email
                 if matching_ads:
 
                     context = {
@@ -112,5 +103,92 @@ class Command(BaseCommand):
                     number_of_mails_sent += 1
 
 
+        offering_emails_sent = number_of_mails_sent
+        logger.info(f'[DAILY_SUBSCRIBE_EMAILS] Finished sending mails for "offering"-ads, sent {offering_emails_sent} emails')
+
         
-        logger.info(f'Finished command for sending daily mails, Sent a total of {number_of_mails_sent} emails to customers!')
+        # REQUESTING
+
+        logger.info('[DAILY_SUBSCRIBE_EMAILS] Sending emails to subscribers matching "requesting" ads...')
+
+        all_daily_requesting_subscriptions = NewsEmail.get_all_active_daily_subscriptions('requesting')
+        all_active_requesting_ads = Advertisement.get_all_active_requesting_ads()
+
+        for news_email_subscription_object in all_daily_requesting_subscriptions:
+
+            if news_email_subscription_object.areas:
+
+                area_list = []
+                area_list_names = []
+                for area in news_email_subscription_object.areas.all():
+                    area_list.append(area)
+                    area_list_names.append(area.name)
+
+                matching_ads = all_active_requesting_ads.filter(
+                    created_at__gte=one_day_back, 
+                    province=news_email_subscription_object.province,
+                    municipality=news_email_subscription_object.municipality,
+                    area__in=area_list
+                )
+
+                matching_ads_count = matching_ads.count()
+
+                if matching_ads:
+
+                    context = {
+                        'ads': matching_ads,
+                        'ad_root_path': ad_root_path,
+                        'subscribed_province': news_email_subscription_object.province,
+                        'subscribed_municipality': news_email_subscription_object.municipality,
+                        'subscribed_area': area_list_names,
+                        'ad_type': news_email_subscription_object.ad_type,
+                        'news_email_uuid': news_email_subscription_object.uuid,
+                        'ad_count': matching_ads_count
+                    }
+
+                    subject = f'{matching_ads_count} nya annonser på Kontorshund.se!'
+                    html_message = render_to_string('core/subscription_email/daily_mail.html', {**context})
+                    plain_message = strip_tags(html_message)
+                    from_email = 'info@kontorshund.se'
+                    to = news_email_subscription_object.user.email
+
+                    send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+                    number_of_mails_sent += 1
+
+            else: 
+
+                all_active_requesting_ads.filter(
+                    created_at__gte=one_day_back, 
+                    province=news_email_subscription_object.province,
+                    municipality=news_email_subscription_object.municipality,
+                )
+
+                matching_ads_count = matching_ads.count()
+
+                if matching_ads:
+
+                    context = {
+                        'ads': matching_ads,
+                        'ad_root_path': ad_root_path,
+                        'subscribed_province': news_email_subscription_object.province,
+                        'subscribed_municipality': news_email_subscription_object.municipality,
+                        'ad_type': news_email_subscription_object.ad_type,
+                        'news_email_uuid': news_email_subscription_object.uuid,
+                        'count_ads': matching_ads_count
+                    }
+
+                    subject = f'{matching_ads_count} nya annonser på Kontorshund.se!'
+                    html_message = render_to_string('core/subscription_email/daily_mail.html', {'context': context})
+                    plain_message = strip_tags(html_message)
+                    from_email = 'From <info@kontorshund.se'
+                    to = news_email_subscription_object.user.email
+
+                    send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+                    number_of_mails_sent += 1
+        
+        
+        requesting_emails_sent = number_of_mails_sent - offering_emails_sent
+        logger.info(f'[DAILY_SUBSCRIBE_EMAILS] Finished sending mails for "requesting"-ads, sent {requesting_emails_sent} emails')
+
+
+        logger.info(f'[DAILY_SUBSCRIBE_EMAILS] FINISHED COMMAND - Sent a total of {number_of_mails_sent} emails to customers!')
