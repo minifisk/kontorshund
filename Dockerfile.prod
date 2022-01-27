@@ -94,6 +94,7 @@ COPY . $APP_HOME
 # PERMISSIONS
 ##############
 RUN chown -R dockeruser:dockeruser $APP_HOME
+RUN ["chmod", "+x", "/home/dockeruser/web/cron_startup.sh"]
 
 ##############
 # CHANGE USER
