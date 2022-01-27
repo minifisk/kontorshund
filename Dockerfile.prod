@@ -1,41 +1,55 @@
 ###########
+###########
 # BUILDER #
 ###########
+###########
 
-# pull official base image
 FROM python:3.9.6 as builder
 
-# set work directory
 WORKDIR /usr/src/dockeruser
 
-# set environment variables
+#######
+# ENV'S
+#######
+
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# install psycopg2 dependencies
+##############
+# DEPENDENCIES
+##############
+
 RUN apt-get update -y \
     && apt-get -y install gcc python3-dev musl-dev
 
-# Requirements
+##############
+# REQUIREMENTS
+##############
+
 RUN pip install --upgrade pip
 COPY ./requirements.txt .
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/dockeruser/wheels -r requirements.txt
 
-
+#########
 #########
 # FINAL #
 #########
+#########
 
-# pull official base image
 FROM python:3.9.6
 
-# create directory for the app user
-RUN mkdir -p /home/dockeruser
 
-# create the app user
+#######
+# USERS
+#######
+
+RUN mkdir -p /home/dockeruser
 RUN adduser --system --group dockeruser 
 
-# create the appropriate directories
+#############
+# DIRECTORIES
+#############
+
 ENV HOME=/home/dockeruser
 ENV APP_HOME=/home/dockeruser/web
 RUN mkdir $APP_HOME
@@ -43,22 +57,46 @@ RUN mkdir $APP_HOME/staticfiles
 RUN mkdir $APP_HOME/mediafiles
 WORKDIR $APP_HOME
 
-# install dependencies
+##############
+# DEPENDENCIES
+##############
+
 RUN apt-get update -y && apt-get -y install libpq-dev
 COPY --from=builder /usr/src/dockeruser/wheels /wheels
 COPY --from=builder /usr/src/dockeruser/requirements.txt .
 RUN pip install --no-cache /wheels/*
 
-# Locales (local language format for date and time)
+##########
+# LOCALES
+##########
+
 RUN apt-get update && apt-get install -y locales && sed -i -e 's/# sv_SE.UTF-8 UTF-8/sv_SE.UTF-8 UTF-8/' /etc/locale.gen && dpkg-reconfigure --frontend=noninteractive locales
 ENV LANG sv_SE.UTF-8
 ENV LC_ALL sv_SE.UTF-8
 
-# copy project
+############
+#SUPERCRONIC
+############
+
+RUN curl -fsSLO "$SUPERCRONIC_URL" \
+ && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
+ && chmod +x "$SUPERCRONIC" \
+ && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
+ && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
+
+
+##############
+# COPY PROJECT
+##############
 COPY . $APP_HOME
 
-# chown all the files to the app user
+##############
+# PERMISSIONS
+##############
 RUN chown -R dockeruser:dockeruser $APP_HOME
 
-# change to the app user
+##############
+# CHANGE USER
+##############
+
 USER dockeruser
