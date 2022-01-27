@@ -13,13 +13,17 @@ WORKDIR /usr/src/kontorshund
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-##########
-# LOCALES
-##########
+############
+# LOCALES/TZ
+############
 
 RUN apt-get update && apt-get install -y locales && sed -i -e 's/# sv_SE.UTF-8 UTF-8/sv_SE.UTF-8 UTF-8/' /etc/locale.gen && dpkg-reconfigure --frontend=noninteractive locales
 ENV LANG sv_SE.UTF-8
 ENV LC_ALL sv_SE.UTF-8
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Stockholm
+RUN apt-get install -y tzdata
 
 ##############
 # DEPENDENCIES
