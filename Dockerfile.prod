@@ -104,6 +104,8 @@ COPY . $APP_HOME
 ##############
 RUN chown -R dockeruser:dockeruser $APP_HOME
 RUN ["chmod", "+x", "/home/dockeruser/web/cron_startup.sh"]
+RUN ["chmod", "+x", "/home/dockeruser/web/core/management/commands/count_users.py"]
+
 
 ##############
 # CHANGE USER
