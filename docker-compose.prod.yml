@@ -59,6 +59,7 @@ services:
     command: --interval 120  --label-enable --warn-on-head-failure never
 
   scheduler:
+    container_name: scheduler
     restart: always
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
