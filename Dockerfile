@@ -70,7 +70,6 @@ COPY . $APP_HOME
 
 RUN ["chmod", "+x", "/home/dockeruser/web/hello.py"]
 RUN ["chmod", "+x", "/home/dockeruser/web/cron_startup.sh"]
-RUN ["chmod", "+x", "/home/dockeruser/web/django_standalone_setup.py"]
 
 
 
