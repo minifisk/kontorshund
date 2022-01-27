@@ -2,13 +2,6 @@
 
 set -e
 
-###############
-# Set-up Django
-###############
-#echo " Setting up Django for stand-alone use.... (cron_startup.sh)"
-#python /home/kontorshund/web/django_standalone_setup.py
-
-#python /home/kontorshund/web/manage.py runserver
 
 ###################
 # Start supercronic 
