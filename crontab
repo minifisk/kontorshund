@@ -5,7 +5,8 @@
 #│    │    └───────────  Day      (1..31)
 #│    └────────────────  Hour     (0..23)
 #└─────────────────────  Minute   (0..59)
-0 * * * * python3 /home/kontorshund/web/core/management/commands/update_count_geographies.py
-0 3 * * * python3 /home/kontorshund/web/core/management/commands/daily_subscribe_mails.py
-* * * * * python3 /home/kontorshund/web/hello.py
+#0 * * * * python3 /home/kontorshund/web/core/management/commands/update_count_geographies.py
+#0 3 * * * python3 /home/kontorshund/web/core/management/commands/daily_subscribe_mails.py
+* * * * * python3 /home/kontorshund/web/manage.py count_users
+#* * * * * python3 /home/kontorshund/web/hello.py
 # DON'T REMOVE LAST LINE
