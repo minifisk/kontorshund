@@ -63,7 +63,7 @@ services:
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
     image: index.docker.io/oneandonly1337/kontorshund:latest
-    command: /bin/sh -c "/home/kontorshund/web/cron_startup.sh" 
+    command: /bin/sh -c "/home/dockeruser/web/cron_startup.sh" 
     volumes:
       - ./crontab:/crontab:ro
       - static_volume:/home/dockeruser/web/staticfiles
