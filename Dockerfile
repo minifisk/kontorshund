@@ -48,9 +48,9 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
 # DIRECTORIES
 #############
 
-RUN mkdir -p /home/kontorshund
-ENV HOME=/home/kontorshund
-ENV APP_HOME=/home/kontorshund/web
+RUN mkdir -p /home/dockeruser
+ENV HOME=/home/dockeruser
+ENV APP_HOME=/home/dockeruser/web
 RUN mkdir $APP_HOME
 RUN mkdir $APP_HOME/staticfiles
 RUN mkdir $APP_HOME/mediafiles
@@ -63,9 +63,9 @@ COPY . $APP_HOME
 # PERMISSIONS
 #############
 
-RUN ["chmod", "+x", "/home/kontorshund/web/hello.py"]
-RUN ["chmod", "+x", "/home/kontorshund/web/cron_startup.sh"]
-RUN ["chmod", "+x", "/home/kontorshund/web/django_standalone_setup.py"]
+RUN ["chmod", "+x", "/home/dockeruser/web/hello.py"]
+RUN ["chmod", "+x", "/home/dockeruser/web/cron_startup.sh"]
+RUN ["chmod", "+x", "/home/dockeruser/web/django_standalone_setup.py"]
 
 
 
