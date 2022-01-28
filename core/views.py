@@ -62,7 +62,7 @@ def template_preview(request):
         'ad_root_path': ad_root_path,
         'subscribed_province': 'Stockholm',
         'subscribed_municipality': 'Stockholms stad',
-        'subscribed_area': 'Sköndal',
+        'subscribed_area': ['Sköndal',],
         'ad_type': 'Hund sökes',
         'news_email_uuid': news_email_uuid,
         'count_ads': all_ads.count()

@@ -14,88 +14,237 @@
     </xml>
   </noscript>
   <![endif]-->
-  <style>
+  <style type="text/css">
     table, td, div, h1, p {font-family: Arial, sans-serif;}
+
+    .my_ad_title {
+      font-size:32px;
+      font-family:Arial,sans-serif;
+      font-weight: bold;
+    }
+    
+    .my_ad_location {
+      font-size: 18px;
+      font-family: Arial,sans-serif;
+      font-style: italic;
+    }
+
+    .my_ad_type {
+      font-size: 18px;
+      font-family: Arial,sans-serif;
+      font-style: italic;
+    }
+    
+    .my_ad_description {
+      font-size: 16px;
+      font-family: Arial,sans-serif;
+    }
+
+
+    .email-headline {
+      font-size:44px;
+      margin:0 0 20px 0;
+      font-family:Arial,sans-serif;
+    }
+
+    .email-paragraph {
+      margin:0 0 12px 0;
+      font-size:18px;
+      font-family:Arial,sans-serif;
+    }
+
+    .red-button {
+      background-color: #f44336;
+      border: none;
+      color: white;
+      padding: 15px 12px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 15px;
+    }
+
+    .blue-button {
+      background-color: #008CBA;
+      border: none;
+      color: white;
+      padding: 15px 12px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 15px;
+    }
+
+    .center-align-wrapper {
+      text-align: center;
+    }
+
+    .company-name {
+      font-size:16px;
+    }
+
+    .company-email {
+      font-size:16px;
+      color: #ffffff;
+      text-decoration:underline;
+    }
+
+    .seventy-percent-wrapper {
+      width: 70%;
+      background: red;
+    }
+
+
+    @media only screen and (max-width: 480px){
+
+
+      .my_ad_title {
+        font-size:32px;
+        font-family:Arial,sans-serif;
+        font-weight: bold;
+      }
+      
+      .my_ad_location {
+        font-size: 28px;
+        font-family: Arial,sans-serif;
+        font-style: italic;
+      }
+
+      .my_ad_type {
+        font-size: 28px;
+        font-family: Arial,sans-serif;
+        font-style: italic;
+      }
+      
+      .my_ad_description {
+        font-size: 24px;
+        font-family: Arial,sans-serif;
+      }
+
+
+      .email-headline{
+        font-size:50px !important;
+      }
+
+      .email-sub-headline{
+        font-size:30px !important;
+        font-weight: bold;
+      }
+
+
+      .email-paragraph {
+        font-size:26px;
+        font-family:Arial,sans-serif;
+      }
+
+      .red-button {
+        background-color: #f44336;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 22px;
+      }
+
+      .blue-button {
+        background-color: #008CBA;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 22px;
+      }
+
+      .center-align-wrapper {
+        text-align: center;
+      }
+
+    }
+
   </style>
 </head>
 <body style="margin:0;padding:0;">
   <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;">
     <tr>
       <td align="center" style="padding:0;">
-        <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
+        <table role="presentation" style="border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
           <tr>
             <td align="center" style="padding:40px 0 30px 0">
-              <img src="https://kontorshund.eu-central-1.linodeobjects.com/Office_Dog .jpg" alt="" width="600" style="height:auto;display:block;" />
+              <img src="https://kontorshund.eu-central-1.linodeobjects.com/Office_Dog .jpg" alt="" style="width:100%;height:auto;display:block;" />
             </td>
           </tr>
           <tr>
             <td style="padding:36px 30px 42px 30px;">
-              <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
+              <table role="presentation" style="text-align:center; width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                 <tr>
                   <td style="padding:0 0 36px 0;color:#153643;">
                    
-                    <h1 style="font-size:24px;margin:0 0 20px 0;font-family:Arial,sans-serif;">
+                    <h1 class="email-headline">
                       Dagligt mail - Nya annonser som matchar din sökning!
                     </h1>
-                    
-                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
-                      Du har valt att prenumerera på när nya annonser kommer in för: 
-                      <i>{{ subscribed_province }}/{{ subscribed_municipality }}
-                        {% if subscribed_area %}
-                          /
-                          {% for area in subscribed_area %}
-                            {{ area }}, 
-                          {% endfor %}
-                        
-                        {% endif %}</i> 
-                        för annonstypen <b>{% if ad_type == 1 %} Hund erbjudes {% else %} Hund sökes {% endif %}</b> 
-                    </p>
-                    
-                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
-                      Det har under senaste 24 timmarna kommit in <b>{{ ad_count }} annonser</b> som matchar din sökning, du hittar dem nedan!  
-                    </p>
 
-                    <br>
-
-                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
-                      Vill du ej prenumerera på mailet längre?  
-                      <a href="http://www.example.com" style="color:#ee4c50;text-decoration:underline;">Klicka här!</a> 
-                    </p>
-
-                    <br>
-                    
-                    <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
-                      Vill du ändra på dina prenumerationsinställningar? 
-                      <a href="https://www.kontorshund.se/profile" style="color:#ee4c50;text-decoration:underline;">Klicka här!</a>
+                    <div class="center-align-wrapper">
+                      <p class="email-paragraph">
+                        Du har valt att prenumerera på när nya annonser kommer in för: 
+                        <i>{{ subscribed_province }}/{{ subscribed_municipality }}
+                          {% if subscribed_area %}/{% for area in subscribed_area %}{{ area }},{% endfor %}
+                          
+                          {% endif %}</i> 
+                          för annonstypen <b>{% if ad_type == 1 %} Hund erbjudes {% else %} Hund sökes {% endif %}</b> 
                       </p>
+                      <br>
+                      <p class="email-paragraph">
+                        Det har under senaste 24 timmarna kommit in <b>{{ ad_count }} annonser</b> som matchar din sökning, du hittar dem nedan!  
+                      </p>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="center-align-wrapper">
+                      <p class="email-paragraph">
+                        Vill du ej prenumerera på mailet längre?  
+                      </p>
+                      <a href="http://www.example.com" class="red-button">Klicka här!</a> 
+                    </div>
+
+                    <br>
+                    <div class="center-align-wrapper">
+                      <p class="email-paragraph">
+                        Vill du ändra på dina prenumerationsinställningar? 
+                      </p>
+                      <a href="https://www.kontorshund.se/profile" class="blue-button">Klicka här!</a> 
+                    </div>
+
 
                   </td>
                 </tr>
                 <tr>
+
                   <td style="padding:0;">
                     <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
+                        <h2 class="center-align-wrapper email-sub-headline">Nya annonser som passar dig:</h2>
                         {% for ad in ads %}
                             <tr>
                                 <td style="width:260px; text-align:center; vertical-align:middle; padding:0;vertical-align:center;color:#153643;">
 
                                     <a 
                                       style="vertical-align:middle; display: inline-block; margin:0 0 0 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;" 
-                                      href="{{ ad_root_path}}{{ ad.pk }}"><img src="{{ ad.image1.url }}" alt="Image of ad" width="260" style="height:auto;display:block;" />
+                                      href="{{ ad_root_path}}{{ ad.pk }}"><img src="{{ ad.image1.url }}" alt="Image of ad" style="width:500px;" />
                                     </a>
                                     
-                                    <p style="margin:0 0 0 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
-                                      <b>{{ ad.title }}</b>
+     
+                                    <p class="my_ad_title">
+                                      {% if ad.is_offering_own_dog %}[Hund erbjudes]{% else %}[Hund sökes]{% endif %} - {{ ad.title }}
                                     </p>
 
-                                    <p style="margin:0 0 0 0;font-size:16px;line-height:20px;font-family:Arial,sans-serif;">
+                                    <p class="my_ad_location">
                                       {{ ad.province }}/{{ ad.municipality }}{% if ad.area %}/{{ ad.area }} {% endif %}
                                     </p>
 
-                                    <p style="margin:0 0 0 0;font-size:16px;line-height:20px;font-family:Arial,sans-serif;">
-                                      <i>{% if ad.is_offering_own_dog %}Hund erbjudes{% else %}Hund sökes{% endif %}</i>
-                                    </p>
-
-                                    <p style="margin:0 0 20px 0;font-size:16px;line-height:20px;font-family:Arial,sans-serif;">
+                                    <p class="my_ad_description">
                                       {{ ad.description }}
                                     </p>
                                 </td>
@@ -113,8 +262,8 @@
               <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
                 <tr>
                   <td style="padding:0;width:50%;" align="left">
-                    <a href="http://www.kontorshund.se" style="color:#ffffff;text-decoration:underline; font-size:16px">Kontorshund.se</a> 
-                   <p style="color:#000000; font-size:12px">Guttae AB, 559266-9948</p> 
+                    <a href="http://www.kontorshund.se" class="company-email">Kontorshund.se</a> 
+                   <p class="company-name">Guttae AB, 559266-9948</p> 
                   </td>
                   <td style="padding:0;width:50%;" align="right">
                     <table role="presentation" style="border-collapse:collapse;border:0;border-spacing:0;">
@@ -134,4 +283,7 @@
     </tr>
   </table>
 </body>
+
+
+
 </html>
