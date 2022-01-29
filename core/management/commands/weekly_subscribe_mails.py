@@ -65,6 +65,7 @@ class Command(BaseCommand):
                         'news_email_uuid': news_email_subscription_object.uuid,
                         'ad_count': matching_ads_count,
                         'interval': 'weekly',
+                        'subscription_uuid': news_email_subscription_object.uuid,
                     }
 
                     subject = f'{matching_ads_count} nya annonser på Kontorshund.se!'
@@ -97,7 +98,7 @@ class Command(BaseCommand):
                         'news_email_uuid': news_email_subscription_object.uuid,
                         'count_ads': matching_ads_count,
                         'interval': 'weekly',
-
+                        'subscription_uuid': news_email_subscription_object.uuid,
                     }
 
                     subject = f'{matching_ads_count} nya annonser på Kontorshund.se!'
@@ -152,6 +153,7 @@ class Command(BaseCommand):
                         'news_email_uuid': news_email_subscription_object.uuid,
                         'ad_count': matching_ads_count,
                         'interval': 'weekly',
+                        'subscription_uuid': news_email_subscription_object.uuid,
                     }
 
                     subject = f'{matching_ads_count} nya annonser på Kontorshund.se!'
@@ -184,6 +186,7 @@ class Command(BaseCommand):
                         'news_email_uuid': news_email_subscription_object.uuid,
                         'count_ads': matching_ads_count,
                         'interval': 'weekly',
+                        'subscription_uuid': news_email_subscription_object.uuid,
                     }
 
                     subject = f'{matching_ads_count} nya annonser på Kontorshund.se!'
