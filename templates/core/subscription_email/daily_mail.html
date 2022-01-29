@@ -184,7 +184,7 @@
                   <td style="padding:0 0 36px 0;color:#153643;">
                    
                     <h1 class="email-headline">
-                      Dagligt mail - Nya annonser som matchar din sökning!
+                      Nya annonser som matchar din sökning!
                     </h1>
 
                     <div class="center-align-wrapper">
@@ -198,7 +198,7 @@
                       </p>
                       <br>
                       <p class="email-paragraph">
-                        Det har under senaste 24 timmarna kommit in <b>{{ ad_count }} annonser</b> som matchar din sökning, du hittar dem nedan!  
+                        Det har under {% if interval == 'weekly' %} den senaste veckan {% else %} de senaste 24 timmarna {% endif %} kommit in <b>{{ ad_count }} annonser</b> som matchar din sökning, du hittar dem nedan!  
                       </p>
                     </div>
                     <br>
