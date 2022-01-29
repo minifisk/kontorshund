@@ -1,12 +1,13 @@
-#*    *    *    *    *  command to be executed
-#┬    ┬    ┬    ┬    ┬
-#│    │    │    │    └─  Weekday  (0=Sun .. 6=Sat)
-#│    │    │    └──────  Month    (1..12)
-#│    │    └───────────  Day      (1..31)
-#│    └────────────────  Hour     (0..23)
-#└─────────────────────  Minute   (0..59)
+# * * * * *  command to be executed
+# ┬ ┬ ┬ ┬ ┬
+# │ │ │ │ └─  Weekday  (0=Sun .. 6=Sat)
+# │ │ │ └──────  Month    (1..12)
+# │ │ └───────────  Day      (1..31)
+# │ └────────────────  Hour     (0..23)
+# └─────────────────────  Minute   (0..59)
 0 * * * * python3 /home/dockeruser/web/manage.py update_count_geographies
 0 3 * * * python3 /home/dockeruser/web/manage.py daily_subscribe_mails
+0 3 * * 0 python3 /home/dockeruser/web/manage.py weekly_subscribe_mails
 #* * * * * python3 /home/dockeruser/web/manage.py count_users
 #* * * * * python3 /home/dockeruser/web/manage.py count_users
 #* * * * * python3 /home/dockeruser/web/hello.py
