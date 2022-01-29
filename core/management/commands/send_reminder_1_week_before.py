@@ -24,13 +24,11 @@ class Command(BaseCommand):
         eight_days_ahead_no_tz = datetime.datetime.now() + datetime.timedelta(days=8)
         six_days_ahead_no_tz = datetime.datetime.now() + datetime.timedelta(days=6)
 
-        eight_days_ahead = utc_sthlm.localize(eight_days_ahead_no_tz) 
-        six_days_ahead = utc_sthlm.localize(six_days_ahead_no_tz) 
+        eight_days_ahead_date = utc_sthlm.localize(eight_days_ahead_no_tz.date()) 
+        six_days_ahead_date = utc_sthlm.localize(six_days_ahead_no_tz.date()) 
 
 
-        # Get all ads where deletion_date is 7 days ahead from today
-
-
+        # Get all ads where deletion_date is between 6 and 8 (i.e. 7 days) ahead from today
 
 
         # Send email to all authors
