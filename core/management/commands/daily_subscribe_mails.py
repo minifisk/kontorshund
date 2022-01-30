@@ -70,7 +70,7 @@ class Command(BaseCommand):
                     }
 
                     subject = f'{matching_ads_count} nya annonser på Kontorshund.se!'
-                    html_message = render_to_string('core/subscription_email/daily_mail.html', {**context})
+                    html_message = render_to_string('core/subscription_email/daily_mail.html', context)
                     plain_message = strip_tags(html_message)
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
@@ -103,7 +103,7 @@ class Command(BaseCommand):
                     }
 
                     subject = f'{matching_ads_count} nya annonser på Kontorshund.se!'
-                    html_message = render_to_string('core/subscription_email/daily_mail.html', {'context': context})
+                    html_message = render_to_string('core/subscription_email/daily_mail.html', context)
                     plain_message = strip_tags(html_message)
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
@@ -159,7 +159,7 @@ class Command(BaseCommand):
                     }
 
                     subject = f'{matching_ads_count} nya annonser på Kontorshund.se!'
-                    html_message = render_to_string('core/subscription_email/daily_mail.html', {**context})
+                    html_message = render_to_string('core/subscription_email/daily_mail.html', context)
                     plain_message = strip_tags(html_message)
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
@@ -192,7 +192,7 @@ class Command(BaseCommand):
                     }
 
                     subject = f'{matching_ads_count} nya annonser på Kontorshund.se!'
-                    html_message = render_to_string('core/subscription_email/daily_mail.html', {'context': context})
+                    html_message = render_to_string('core/subscription_email/daily_mail.html', context)
                     plain_message = strip_tags(html_message)
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email

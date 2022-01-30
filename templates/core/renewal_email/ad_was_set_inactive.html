@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="x-apple-disable-message-reformatting">
+  <title></title>
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
+  <style type="text/css">
+    table, td, div, h1, p {font-family: Arial, sans-serif;}
+
+
+    .email-headline {
+      font-size:44px;
+      margin:0 0 20px 0;
+      font-family:Arial,sans-serif;
+    }
+
+    .email-paragraph {
+      margin:0 0 12px 0;
+      font-size:18px;
+      font-family:Arial,sans-serif;
+    }
+
+
+    .blue-button {
+      background-color: #008CBA;
+      border: none;
+      color: white;
+      padding: 15px 12px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 15px;
+    }
+
+    .red-button {
+      background-color: #f44336;
+      border: none;
+      color: white;
+      padding: 15px 12px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 15px;
+    }
+
+    .center-align-wrapper {
+      text-align: center;
+    }
+
+    .company-name {
+      font-size:16px;
+    }
+
+    .company-email {
+      font-size:16px;
+      color: #ffffff;
+      text-decoration:underline;
+    }
+
+    .seventy-percent-wrapper {
+      width: 70%;
+      background: red;
+    }
+
+
+    @media only screen and (max-width: 480px){
+
+
+
+      .email-headline{
+        font-size:50px !important;
+      }
+
+      .email-sub-headline{
+        font-size:30px !important;
+        font-weight: bold;
+      }
+
+
+      .email-paragraph {
+        font-size:26px;
+        font-family:Arial,sans-serif;
+      }
+
+
+      .blue-button {
+        background-color: #008CBA;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 22px;
+      }
+
+      .red-button {
+        background-color: #f44336;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 22px;
+      }
+      
+
+      .center-align-wrapper {
+        text-align: center;
+      }
+
+    }
+
+  </style>
+</head>
+<body style="margin:0;padding:0;">
+  <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;">
+    <tr>
+      <td align="center" style="padding:0;">
+        <table role="presentation" style="border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
+          <tr>
+            <td align="center" style="padding:40px 0 30px 0">
+              <img src="https://kontorshund.eu-central-1.linodeobjects.com/Office_Dog .jpg" alt="" style="width:100%;height:auto;display:block;" />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:36px 30px 42px 30px;">
+              <table role="presentation" style="text-align:center; width:100%;border-collapse:collapse;border:0;border-spacing:0;">
+                <tr>
+                  <td style="padding:0 0 36px 0;color:#153643;">
+                   
+                    <h1 class="email-headline">
+                      Din annons har gått ut!
+                    </h1>
+
+                    <div class="center-align-wrapper">
+                      <p class="email-paragraph">
+                        Din annons "{{ ad.title }}" har gått ut och blivit inaktiverad. Vill du förlänga din annons med 30 dagar? Klicka på knappen nedan.
+                      </p>
+                      <br>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="center-align-wrapper">
+                      <p class="email-paragraph">
+                        Förläng din annons i 30 dagar för {{ renewal_price }} kronor
+                      </p>
+                      <a href="https://www.kontorshund.se/swish-pay/extend/{{ ad.id }}" class="blue-button">Klicka här!</a> 
+                    </div>
+                    <br>
+                  </td>
+                </tr>
+                
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:30px;background:#90d1e9;">
+              <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
+                <tr>
+                  <td style="padding:0;width:50%;" align="left">
+                    <a href="http://www.kontorshund.se" class="company-email">Kontorshund.se</a> 
+                   <p class="company-name">Guttae AB, 559266-9948</p> 
+                  </td>
+                  <td style="padding:0;width:50%;" align="right">
+                    <table role="presentation" style="border-collapse:collapse;border:0;border-spacing:0;">
+                      <tr>
+                        <td style="padding:0 0 0 10px;width:70px;">
+                          <a href="https://fb.me/kontorshund" style="color:#ffffff;"><img src="https://kontorshund.eu-central-1.linodeobjects.com/fblogo2.png" alt="Facebook" width="38" style="height:auto;display:block;border:0;" /></a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+
+
+
+</html>
