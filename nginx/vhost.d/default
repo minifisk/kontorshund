@@ -1,9 +1,3 @@
- error_page   403  /403.html;
-
- location = /403.html {
-         root   /home/dockeruser/web;
- }
-
 
 location /static/ {
     alias /home/dockeruser/web/staticfiles/;
