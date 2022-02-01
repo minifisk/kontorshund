@@ -82,7 +82,6 @@ INSTALLED_APPS = [
     'lockdown',
     'storages',
     'stdimage',
-    'django_filters',
     'bootstrapform',
     'widget_tweaks',
 
