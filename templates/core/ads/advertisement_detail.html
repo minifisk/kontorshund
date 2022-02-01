@@ -22,10 +22,10 @@
 
                 {% if ad.is_deleted %}
 
-                 {% include 'core/ads/handle_deleted_ad.html' %}
+                 {% include 'core/ads/templates/handle_deleted_ad.html' %}
                  <div id="unpublished">
-                    {% include 'core/ads/ad_content_template.html' %}
-                    {% include 'core/ads/ad_contact_author.html' %}
+                    {% include 'core/ads/templates/ad_content_template.html' %}
+                    {% include 'core/ads/templates/ad_contact_author.html' %}
                 </div>    
                 
 
@@ -33,14 +33,14 @@
         
                     {% if ad.has_initial_payment == False %}
                         <p>Denna annons tillhör dig och är ännu <b>Opublicerad</b></p>
-                        {% include 'core/ads/handle_unpaid_ad.html' %}
+                        {% include 'core/ads/templates/handle_unpaid_ad.html' %}
                     {% else %}
                         <p class="mb-3">Din annons har betalstatus <b> Betald </b> Något har gått snett då din annons är betald men ännu ej publicerad. Vänta i 10 minuter och uppdatera sidan. Är din annons ännu opublicerad kontakta oss på <a href = "mailto: info@kontorshund.se">info@kontorshund.se</a> </p>
                     {% endif %}
 
                     <div id="unpublished">
-                        {% include 'core/ads/ad_content_template.html' %}
-                        {% include 'core/ads/ad_contact_author.html' %}
+                        {% include 'core/ads/templates/ad_content_template.html' %}
+                        {% include 'core/ads/templates/ad_contact_author.html' %}
                     </div>    
                 {% endif %}
 
@@ -53,11 +53,11 @@
         <p>Antal visningar: {{ ad.ad_views }}</p>
 
         {% if ad.author == request.user %}
-            {% include 'core/ads/handle_published_ad.html' %}
+            {% include 'core/ads/templates/handle_published_ad.html' %}
         {% endif %}
         
-        {% include 'core/ads/ad_content_template.html' %}
-        {% include 'core/ads/ad_contact_author.html' %}
+        {% include 'core/ads/templates/ad_content_template.html' %}
+        {% include 'core/ads/templates/ad_contact_author.html' %}
 
     {% endif %}
 

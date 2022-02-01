@@ -67,7 +67,7 @@ def check_extended_payment_status(request, pk):
 ###################
 
 def android_success_page(request):
-    return render(request, 'android_swish_success.html')
+    return render(request, 'core/payment/android_swish_success.html')
 
 #############
 # SWISH VIEWS
@@ -307,7 +307,7 @@ def PayForAdSwishTemplate(request, pk):
             ad_path = f'{url}{path}'
             return render(
                 request, 
-                'core/swish_payment_template.html', 
+                'core/payment/swish_payment_template.html', 
                 {
                     'pk': pk, 
                     'title': ad_title, 
@@ -342,7 +342,7 @@ def PayForAdSwishTemplate(request, pk):
 
             return render(
                 request, 
-                'core/swish_payment_template.html', 
+                'core/payment/swish_payment_template.html', 
                 {
                     'pk': pk, 
                     'title': ad_title, 
@@ -380,7 +380,7 @@ def PayForAdBG(request, pk):
 
         if request.method == "GET":
             # Generate template to fill in your phone number
-            return render(request, 'bg_instructions.html', {'pk': pk, 'price': PRICE_TO_PAY, 'ad_path': ad_path})
+            return render(request, 'core/payment/bg_instructions.html', {'pk': pk, 'price': PRICE_TO_PAY, 'ad_path': ad_path})
     else:
         return redirect('account_login')
 

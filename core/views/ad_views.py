@@ -61,7 +61,7 @@ def profile(request):
 
             return render(
                 request, 
-                'core/profile.html', 
+                'core/profile/profile.html', 
                     {
                         'published_ads': published_ads, 
                         'unpublished_ads': unpublished_ads, 
@@ -80,7 +80,7 @@ def profile(request):
                 form.save()
                 return redirect('profile')
             else:
-                return render(request, 'core/profile.html', {'form': form})
+                return render(request, 'core/profile/profile.html', {'form': form})
     else:
         return redirect('account_login')
 
@@ -111,7 +111,7 @@ def ListAndSearchAdsView(request):
             'count_all_requesting_ads': count_all_requesting_ads,
         }
 
-        return render(request, 'core/list_ads.html', context=context)
+        return render(request, 'core/ads/list_ads.html', context=context)
 
     if request.method == 'POST':
         body_json = json.loads(request.body)
@@ -253,7 +253,7 @@ def ListAndSearchAdsView(request):
 
 def ChooseAd(request):
     if request.user.is_authenticated:
-        return render(request, 'core/choose_ad_type.html')
+        return render(request, 'core/ads/choose_ad_type.html')
     else:
         return redirect('account_login')
 
@@ -261,7 +261,7 @@ def ChooseAd(request):
 class NewAdOfferingDog(LoginRequiredMixin, CreateView):
     model = Advertisement
     form_class = OfferingDogForm
-    template_name = 'core/advertisement_form_take.html'
+    template_name = 'core/ads/new_ad_offering_dog.html'
     success_url = reverse_lazy('profile')
     login_url = '/accounts/login'
 
@@ -333,7 +333,7 @@ class NewAdRequestingDog(CreateView):
     model = Advertisement
     form_class = RequestingDogForm
     success_url = reverse_lazy('ad_changelist')
-    template_name = 'core/advertisement_form_get.html'
+    template_name = 'core/ads/new_ad_requesting_dog.html'
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -399,7 +399,7 @@ class NewAdRequestingDog(CreateView):
 class AdUpdateOfferingDogView(UpdateView):
     model = Advertisement
     form_class = OfferingDogForm
-    template_name = 'core/advertisement_form_update_take.html'
+    template_name = 'core/ads/update_ad_offering_dog.html'
 
     def get_success_url(self):
         return reverse_lazy('ad_detail', kwargs={'pk': self.object.pk})
@@ -468,7 +468,7 @@ class AdUpdateOfferingDogView(UpdateView):
 class AdUpdateRequestingDogView(UpdateView):
     model = Advertisement
     form_class = RequestingDogForm
-    template_name = 'core/advertisement_form_update_get.html'
+    template_name = 'core/ads/update_ad_requesting_dog.html'
 
 
     def get(self, request, *args, **kwargs):
@@ -559,7 +559,7 @@ class AdDetailView(generic.DetailView):
 
 class DeleteAd(generic.DeleteView):
     model = Advertisement
-    template_name = 'core/ad_confirm_delete.html'
+    template_name = 'core/ads/ad_confirm_delete.html'
     success_url = reverse_lazy('profile')
 
 
