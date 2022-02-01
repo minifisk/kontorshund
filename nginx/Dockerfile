@@ -2,6 +2,12 @@ FROM jwilder/nginx-proxy:0.9
 COPY vhost.d/default /etc/nginx/vhost.d/default
 COPY custom.conf /etc/nginx/conf.d/custom.conf
 
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Stockholm
+RUN apt-get install -y tzdata
+
+
+
 # # Inspiration: https://www.rockyourcode.com/run-docker-nginx-as-non-root-user/
 
 # FROM nginx:1.21
