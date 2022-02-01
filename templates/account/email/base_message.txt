@@ -1,7 +1,7 @@
-{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name %}Hej från {{ site_name }}!{% endblocktrans %}
+{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name %}Hej från Kontorshund.se!{% endblocktrans %}
 
 {% block content %}{% endblock %}
 
-{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Tack för att du använder {{ site_name }}!
-{{ site_domain }}{% endblocktrans %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Tack för att du använder Kontorshund.se!
+Hälsningar, kontorshund.se{% endblocktrans %}
 {% endautoescape %}
