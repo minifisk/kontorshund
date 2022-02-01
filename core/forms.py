@@ -134,7 +134,7 @@ class SearchRequestingDogAdsForm(forms.ModelForm):
 #################
 
 
-class NewAdTakeMyDogForm(forms.ModelForm):
+class NewAdOfferingDogForm(forms.ModelForm):
     
     hundras = forms.ModelChoiceField(
         queryset=DogBreed.objects.all(),
@@ -160,7 +160,7 @@ class NewAdTakeMyDogForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(NewAdTakeMyDogForm, self).__init__(*args, **kwargs)
+        super(NewAdOfferingDogForm, self).__init__(*args, **kwargs)
         self.fields['image2'].required = False
         self.fields['image3'].required = False
         self.fields['size_offered'].empty_label = None
@@ -197,7 +197,7 @@ class NewAdTakeMyDogForm(forms.ModelForm):
                 pass # invalid input from the client; ignore and fallback to empty Municipality/Area queryset
 
 
-class NewAdGetMeADogForm(forms.ModelForm):
+class NewAdRequestingDogForm(forms.ModelForm):
     class Meta:
         model = Advertisement
         fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'size_requested', 'image1', 'image2', 'image3', 'payment_type')
@@ -213,7 +213,7 @@ class NewAdGetMeADogForm(forms.ModelForm):
 
 
     def __init__(self, *args, **kwargs):
-        super(NewAdGetMeADogForm, self).__init__(*args, **kwargs)
+        super(NewAdRequestingDogForm, self).__init__(*args, **kwargs)
 
         # If user is creating new ad, not editing
         if self.instance.id == None:

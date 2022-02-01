@@ -38,7 +38,7 @@ from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Field, R
 from crispy_forms.bootstrap import (
     PrependedText, PrependedAppendedText, FormActions, InlineRadios, InlineCheckboxes)
 
-from core.forms import NewAdTakeMyDogForm, NewAdGetMeADogForm
+from core.forms import NewAdOfferingDogForm, NewAdRequestingDogForm
 from core.models import Advertisement, Province, Municipality, Area, DogBreed, DogSizeChoice, Payment, NewsEmail, get_30_days_ahead_from_date_obj, get_30_days_ahead
 from core.forms import NewsEmailForm, SearchAllAdsForm, SearchOfferingDogAdsForm, SearchRequestingDogAdsForm
 from kontorshund.settings import PRICE_SWISH_EXTEND_IN_SEK, PRICE_SWISH_EXTEND, PRICE_BANKGIRO_INITIAL, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
@@ -399,7 +399,7 @@ class AdOfferingDogListView(generic.ListView):
         return queryset
 
 
-class AdListGetMeADog(generic.ListView):
+class AdListRequestingDog(generic.ListView):
     model = Advertisement
     context_object_name = 'ads'
     template_name = 'core/advertisement_list_get.html'
@@ -776,9 +776,9 @@ def ChooseAd(request):
         return redirect('account_login')
 
 
-class NewAdTakeMyDog(LoginRequiredMixin, CreateView):
+class NewAdOfferingDog(LoginRequiredMixin, CreateView):
     model = Advertisement
-    form_class = NewAdTakeMyDogForm
+    form_class = NewAdOfferingDogForm
     template_name = 'core/advertisement_form_take.html'
     success_url = reverse_lazy('view_ads_take_my_dog')
     login_url = '/accounts/login'
@@ -847,9 +847,9 @@ class NewAdTakeMyDog(LoginRequiredMixin, CreateView):
             return reverse('bg_payment', kwargs={'pk': self.object.pk})
 
 
-class NewAdGetMeADog(CreateView):
+class NewAdRequestingDog(CreateView):
     model = Advertisement
-    form_class = NewAdGetMeADogForm
+    form_class = NewAdRequestingDogForm
     success_url = reverse_lazy('ad_changelist')
     template_name = 'core/advertisement_form_get.html'
 
@@ -914,9 +914,9 @@ class NewAdGetMeADog(CreateView):
 ########################
 
 
-class AdUpdateTakeMyDogView(UpdateView):
+class AdUpdateOfferingDogView(UpdateView):
     model = Advertisement
-    form_class = NewAdTakeMyDogForm
+    form_class = NewAdOfferingDogForm
     template_name = 'core/advertisement_form_update_take.html'
 
     def get_success_url(self):
@@ -983,9 +983,9 @@ class AdUpdateTakeMyDogView(UpdateView):
         return form
 
 
-class AdUpdateGetMeADogView(UpdateView):
+class AdUpdateRequestingDogView(UpdateView):
     model = Advertisement
-    form_class = NewAdGetMeADogForm
+    form_class = NewAdRequestingDogForm
     template_name = 'core/advertisement_form_update_get.html'
 
 

@@ -20,7 +20,7 @@ urlpatterns = [
     
     
     path('ads/take-my-dog', views.AdOfferingDogListView.as_view(), name='view_ads_take_my_dog'),
-    path('ads/get-me-a-dog', views.AdListGetMeADog.as_view(), name='view_ads_get_me_a_dog'),
+    path('ads/get-me-a-dog', views.AdListRequestingDog.as_view(), name='view_ads_get_me_a_dog'),
 
     path('ads/<int:pk>', views.AdDetailView.as_view(), name='ad_detail'),
     path('recapcha/<int:pk>', views.recapcha, name='recapcha'),
@@ -40,12 +40,12 @@ urlpatterns = [
     path('ads/choose', views.ChooseAd, name='choose_ad_type'),
     
     # Create take and get-ads
-    path('ads/create/take-my-dog', views.NewAdTakeMyDog.as_view(), name='new_ad_take_my_dog'),
-    path('ads/create/get-me-a-dog', views.NewAdGetMeADog.as_view(), name='new_ad_get_me_a_dog'),
+    path('ads/create/take-my-dog', views.NewAdOfferingDog.as_view(), name='new_ad_take_my_dog'),
+    path('ads/create/get-me-a-dog', views.NewAdRequestingDog.as_view(), name='new_ad_get_me_a_dog'),
 
     # Update for take and get-ads
-    path('ads/update/take-my-dog/<int:pk>', views.AdUpdateTakeMyDogView.as_view(), name='ad_update_take'),
-    path('ads/update/get-me-a-dog/<int:pk>', views.AdUpdateGetMeADogView.as_view(), name='ad_update_get'),
+    path('ads/update/take-my-dog/<int:pk>', views.AdUpdateOfferingDogView.as_view(), name='ad_update_take'),
+    path('ads/update/get-me-a-dog/<int:pk>', views.AdUpdateRequestingDogView.as_view(), name='ad_update_get'),
 
 
     # Path's for area generation

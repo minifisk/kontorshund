@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.sites.models import Site
 
 from core.models import Payment, Province, Municipality, Advertisement, Area, DogSizeChoice, DogBreed
-from core.forms import NewAdTakeMyDogForm, NewAdFormAdmin, NewsEmailFormAdmin
+from core.forms import NewAdOfferingDogForm, NewAdFormAdmin, NewsEmailFormAdmin
 from core.models import NewsEmail
 
 # Register your models here.
