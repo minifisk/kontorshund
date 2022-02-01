@@ -57,8 +57,8 @@ class NewsEmailForm(forms.ModelForm):
                 ),
                 Column(
                     FormActions(
-                        Submit('submit', 'Spara bevakning', css_class='btn btn-sm btn-primary'),                            
-                        HTML(f'<button id="cancel-subscription-button" class="mt-2 btn btn-sm btn-{button_type}">{button_text}</button>')
+                        HTML(f'<button id="cancel-subscription-button" class="btn btn-sm btn-{button_type}">{button_text}</button>'),
+                        Submit('submit', 'Spara bevakning', css_class='mt-2 btn btn-sm btn-primary'),                            
                     ), 
                     css_class='form-group col-1 mt-4 mb-0 ml-4'
                 ),
