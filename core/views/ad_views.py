@@ -539,6 +539,8 @@ class AdUpdateRequestingDogView(UpdateView):
 class AdDetailView(generic.DetailView):
     model = Advertisement
     context_object_name = 'ad'
+    template_name = 'core/ads/advertisement_detail.html' 
+
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()

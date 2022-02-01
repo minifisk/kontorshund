@@ -28,7 +28,7 @@ class OfferingDogForm(forms.ModelForm):
         help_texts = {
             'title': 'Skriv en titel som sammanfattar annonsen - T.ex. "Frans, Border Collie, Söker kompis för 3 dagar per vecka"',
             'description': 'Skriv kort om hunden och er som har hunden, vad har hunden för typ av personlighet? Finns det saker den gillar mer eller mindre? Inom vilket område kan ni tänka er att länmna/hämta hunden?',
-            'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp direkt.',
+            'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp direkt, bankgiro tar 3-5 arbetsdagar.',
             'hundras': 'Fritextsök - börja skriv och resultat dyker upp',
             'image1': 'Max-storlek 20 MB.',
             'image2': 'Max-storlek 20 MB.',
@@ -80,7 +80,7 @@ class RequestingDogForm(forms.ModelForm):
         help_texts = {
             'title': 'Skriv en titel som sammanfattar annonsen - T.ex. "Kontor med 10 anställda söker en kontorshund 2 dagar per vecka" eller "Pensionär söker hund 1 dagar per vecka"',
             'description': 'Skriv om dig/er som vill ta hand om en hund, har någon hundvana, vad gör ni om dagarna? osv.',
-            'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp direkt.',
+            'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp direkt, bankgiro tar 3-5 arbetsdagar.',
             'image1': 'Max-storlek 20 MB.',
             'image2': 'Max-storlek 20 MB.',
             'image3': 'Max-storlek 20 MB.',
