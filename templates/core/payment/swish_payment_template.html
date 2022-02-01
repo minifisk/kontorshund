@@ -4,27 +4,26 @@
 {% block content %}
 
 
-<body onload="hide_completed_payment_button()">
-
 {% if current_end_date %}
   <h1>Förläng din annons "{{ title }}" från <b>{{ current_end_date }}</b> till <b>{{ new_end_date }}</b></h1>
 {% else %}
   <h1>Betala för annons "{{ title }}" med Swish</h1>
 {% endif %}
 
-<h2 class="mt-5">Om du sitter vid en dator</h2>
+<h2 class="mt-5">Om du sitter vid en dator &#128187;</h2>
 <p>Genom att klicka på knappen nedan, öppnas en QR kod för en Swish betalning om <b>{{ price }}.</b> </p>
 <p>OBS. Varje QR kod kan endast användas en gång, slutar den att fungera är det bara trycka på knappen igen.</p>
 <button id="generate-qr" class="btn btn-primary mt-2">Generera Swish-QR-kod </button>
 <br>
 <img class="mt-3 mb-3" id="captchaImg" />
 
-<h2 class="mt-5">Om du öppnat sidan via en mobiltelefon</h2>
+<h2 class="mt-5">Om du öppnat sidan via en mobiltelefon &#128241; </h2>
 <p>Öppna Swish-appen i din telefon, välj QR-kod och rikta kameran mot QR-koden och utför betalningen.</p>
 <p>När du godkänt betalningen i din telefon, skickas du automatiskt till den publicerade annonsen.</p>
 <button id="open-swish" class="btn btn-primary mt-2">Öppna Swish app på denna enhet</button>
 <br>
-<button class="mt-3" id="completed-payment" class="btn btn-warning">Jag har betalt </button>
+<button id="completed-payment" class="mt-3 btn btn-warning invisible">Jag har betalt </button>
+
 <p id="payment-status"></p>
 <br>
 <h3 class="mt-5">Har du betalt och kontrollerat att betalningen gått fram?</h3>
@@ -42,15 +41,10 @@
       /* "PAYMENT-DONE" BUTTON */
       ///////////////////////////
 
-      // Hiding/unhiding button
-      function hide_completed_payment_button() {
-        const completed_payment = document.getElementById('completed-payment');
-        completed_payment.style.display = 'none';
-      }
 
       function show_completed_payment_button() {
         const completed_payment = document.getElementById('completed-payment');
-        completed_payment.style.display = 'block';
+        completed_payment.classList.remove('invisible')
       }
       
         // Creating the request
