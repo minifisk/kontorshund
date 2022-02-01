@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.contrib.sites.models import Site
 
 from core.models import Payment, Province, Municipality, Advertisement, Area, DogSizeChoice, DogBreed
-from core.forms import NewAdOfferingDogForm, NewAdFormAdmin, NewsEmailFormAdmin
+from core.forms.ad_forms import AdFormAdmin
+from core.forms.news_email_form import NewsEmailFormAdmin
 from core.models import NewsEmail
 
 # Register your models here.
@@ -11,7 +12,6 @@ class ProvinceAdmin(admin.ModelAdmin):
     model = Province
 
 admin.site.register(Province, ProvinceAdmin)
-
 
 class MunicipalityAdmin(admin.ModelAdmin):
     model = Municipality
@@ -23,18 +23,15 @@ class AreaAdmin(admin.ModelAdmin):
 
 admin.site.register(Area, AreaAdmin)
 
-
 class DogSizeAdmin(admin.ModelAdmin):
     model = DogSizeChoice
 
 admin.site.register(DogSizeChoice, DogSizeAdmin)
 
-
 class DogBreedAdmin(admin.ModelAdmin):
     model = DogBreed
 
 admin.site.register(DogBreed, DogBreedAdmin)
-
 
 
 class PaymentAdmin(admin.ModelAdmin):
@@ -49,7 +46,7 @@ class PaymentInline(admin.TabularInline):
     extra = 0
 
 class AdvertisementAdmin(admin.ModelAdmin):
-    form = NewAdFormAdmin
+    form = AdFormAdmin
     list_display = ['is_published', 'is_deleted',  'is_offering_own_dog', 'deletion_date', 'created_at', 'id', 'title', 'author', 'name']
     list_display_links = ['title']
     readonly_fields = ('id',)
@@ -60,7 +57,6 @@ class AdvertisementAdmin(admin.ModelAdmin):
 
 admin.site.register(Advertisement, AdvertisementAdmin)
 
-
 class NewsEmailAdmin(admin.ModelAdmin):
     form = NewsEmailFormAdmin
     list_display = ['is_active', 'user', 'province', 'municipality', 'interval', 'ad_type']
@@ -69,12 +65,9 @@ class NewsEmailAdmin(admin.ModelAdmin):
 
 admin.site.register(NewsEmail, NewsEmailAdmin)
 
-
-
 class SiteAdmin(admin.ModelAdmin):
     list_display = ('id', 'domain', 'name')
     search_fields = ('id', 'domain', 'name')
-
 
 admin.site.unregister(Site)
 admin.site.register(Site, SiteAdmin)

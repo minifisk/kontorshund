@@ -8,26 +8,25 @@ from . import views
 urlpatterns = [
     
     path('', views.index, name='index'), 
-    path('deactivate-email-subscription/<str:uuid>', views.deactivate_news_email_subscription, name='deactivate_email_subscription'),
-    path('template-preview', views.template_preview, name='template_preview'), 
-
-
     path('profile', views.profile, name='profile'), 
+
+    path('deactivate-email-subscription/<str:uuid>', views.deactivate_news_email_subscription, name='deactivate_email_subscription'),
     path('handle-email-subscription/<str:uuid>', views.handle_email_subscription_status, name='handle_email_subscription_status'), 
 
+    path('ads/choose', views.ChooseAd, name='choose_ad_type'),
     path('ads/list', views.ListAndSearchAdsView, name='list_ads'),
-
-    
-    
-    path('ads/take-my-dog', views.AdOfferingDogListView.as_view(), name='view_ads_take_my_dog'),
-    path('ads/get-me-a-dog', views.AdListRequestingDog.as_view(), name='view_ads_get_me_a_dog'),
-
     path('ads/<int:pk>', views.AdDetailView.as_view(), name='ad_detail'),
+    path('delete-ad/<int:pk>', views.DeleteAd.as_view(), name='delete_ad'),
+    
+    path('ads/create/take-my-dog', views.NewAdOfferingDog.as_view(), name='new_ad_take_my_dog'),
+    path('ads/create/get-me-a-dog', views.NewAdRequestingDog.as_view(), name='new_ad_get_me_a_dog'),
+
+    path('ads/update/take-my-dog/<int:pk>', views.AdUpdateOfferingDogView.as_view(), name='ad_update_take'),
+    path('ads/update/get-me-a-dog/<int:pk>', views.AdUpdateRequestingDogView.as_view(), name='ad_update_get'),
+    
     path('recapcha/<int:pk>', views.recapcha, name='recapcha'),
 
-    path('delete-ad/<int:pk>', views.DeleteAd.as_view(), name='delete_ad'),
-
-
+    path('swish/callback', views.swish_callback, name='swish_callback'),
     path('swish-pay/initial/<int:pk>', views.PayForAdSwishTemplate, name='swish_payment_initial_template'),
     path('swish-pay/extend/<int:pk>', views.PayForAdSwishTemplate, name='swish_payment_extended_template'),
     path('generate-swish-qr-code/<int:pk>', views.GenerateSwishPaymentQrCode, name='swish_payment_qr_code'),
@@ -37,31 +36,11 @@ urlpatterns = [
     path('swish-successfull-android', views.android_success_page, name='android_success_page'),
     path('bg-pay/<int:pk>', views.PayForAdBG, name='bg_payment'),
 
-    path('ads/choose', views.ChooseAd, name='choose_ad_type'),
-    
-    # Create take and get-ads
-    path('ads/create/take-my-dog', views.NewAdOfferingDog.as_view(), name='new_ad_take_my_dog'),
-    path('ads/create/get-me-a-dog', views.NewAdRequestingDog.as_view(), name='new_ad_get_me_a_dog'),
-
-    # Update for take and get-ads
-    path('ads/update/take-my-dog/<int:pk>', views.AdUpdateOfferingDogView.as_view(), name='ad_update_take'),
-    path('ads/update/get-me-a-dog/<int:pk>', views.AdUpdateRequestingDogView.as_view(), name='ad_update_get'),
-
-
-    # Path's for area generation
     path('ajax/load-provinces/', views.load_provinces, name='ajax_load_provinces'), 
     path('ajax/load-municipalities/', views.load_municipalities, name='ajax_load_municipalities'), 
     path('ajax/load-areas/', views.load_areas, name='ajax_load_areas'), 
 
-    # Autocomplete Breeds URL
     path('breed-autocomplete', views.BreedAutocomplete.as_view(), name='breed-autocomplete'), 
-
-    #path("upload", views.image_upload, name="upload"),
-
-    # Swish callback
-    path('swish/callback', views.swish_callback, name='swish_callback'),
-
-
 ]
 
 if bool(settings.DEBUG):

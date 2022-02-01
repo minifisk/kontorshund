@@ -38,37 +38,15 @@ from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Field, R
 from crispy_forms.bootstrap import (
     PrependedText, PrependedAppendedText, FormActions, InlineRadios, InlineCheckboxes)
 
-from core.forms import NewAdOfferingDogForm, NewAdRequestingDogForm
+from core.forms.ad_forms import OfferingDogForm, RequestingDogForm
 from core.models import Advertisement, Province, Municipality, Area, DogBreed, DogSizeChoice, Payment, NewsEmail, get_30_days_ahead_from_date_obj, get_30_days_ahead
-from core.forms import NewsEmailForm, SearchAllAdsForm, SearchOfferingDogAdsForm, SearchRequestingDogAdsForm
+from core.forms.news_email_form import NewsEmailForm
 from kontorshund.settings import PRICE_SWISH_EXTEND_IN_SEK, PRICE_SWISH_EXTEND, PRICE_BANKGIRO_INITIAL, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
-from core.filters import AdOfferingDogFilter
 
 User = get_user_model()
 
 locale.setlocale(locale.LC_ALL,'sv_SE.UTF-8')
 
-
-def template_preview(request):
-
-    url = request.build_absolute_uri('/')
-    ad_root_path = f'{url}ads/'
-
-    all_ads = Advertisement.objects.all()
-    news_email_uuid = '1198e1f8-e877-4ee3-8024-fbadd246d769'
-
-    context = {
-        'ads': all_ads,
-        'ad_root_path': ad_root_path,
-        'subscribed_province': 'Stockholm',
-        'subscribed_municipality': 'Stockholms stad',
-        'subscribed_area': ['Sköndal',],
-        'ad_type': 'Hund sökes',
-        'news_email_uuid': news_email_uuid,
-        'count_ads': all_ads.count()
-    }
-
-    return render(request, 'core/subscription_email/daily_mail.html', context=context)
 
 
 def deactivate_news_email_subscription(request, uuid):
@@ -383,30 +361,8 @@ def ListAndSearchAdsView(request):
 
 
 
-class AdOfferingDogListView(generic.ListView):
-    
-    model = Advertisement
-    context_object_name = 'ads'
-    template_name = 'core/advertisement_list_offering_dog.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['filter'] = AdOfferingDogFilter(self.request.GET, queryset=self.get_queryset())
-        return context
-
-    def get_queryset(self):
-        queryset = Advertisement.objects.filter(is_offering_own_dog=True, is_published=True, is_deleted=False)
-        return queryset
 
 
-class AdListRequestingDog(generic.ListView):
-    model = Advertisement
-    context_object_name = 'ads'
-    template_name = 'core/advertisement_list_get.html'
-
-    def get_queryset(self):
-        queryset = Advertisement.objects.filter(is_offering_own_dog=False)
-        return queryset
 
 #############################
 # VIEWS FOR HANDLING PAYMENTS 
@@ -778,9 +734,9 @@ def ChooseAd(request):
 
 class NewAdOfferingDog(LoginRequiredMixin, CreateView):
     model = Advertisement
-    form_class = NewAdOfferingDogForm
+    form_class = OfferingDogForm
     template_name = 'core/advertisement_form_take.html'
-    success_url = reverse_lazy('view_ads_take_my_dog')
+    success_url = reverse_lazy('profile')
     login_url = '/accounts/login'
 
     def __init__(self):
@@ -849,7 +805,7 @@ class NewAdOfferingDog(LoginRequiredMixin, CreateView):
 
 class NewAdRequestingDog(CreateView):
     model = Advertisement
-    form_class = NewAdRequestingDogForm
+    form_class = RequestingDogForm
     success_url = reverse_lazy('ad_changelist')
     template_name = 'core/advertisement_form_get.html'
 
@@ -916,7 +872,7 @@ class NewAdRequestingDog(CreateView):
 
 class AdUpdateOfferingDogView(UpdateView):
     model = Advertisement
-    form_class = NewAdOfferingDogForm
+    form_class = OfferingDogForm
     template_name = 'core/advertisement_form_update_take.html'
 
     def get_success_url(self):
@@ -985,7 +941,7 @@ class AdUpdateOfferingDogView(UpdateView):
 
 class AdUpdateRequestingDogView(UpdateView):
     model = Advertisement
-    form_class = NewAdRequestingDogForm
+    form_class = RequestingDogForm
     template_name = 'core/advertisement_form_update_get.html'
 
 
