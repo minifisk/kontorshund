@@ -21,7 +21,6 @@ locale.setlocale(locale.LC_ALL,'sv_SE.UTF-8')
 def deactivate_news_email_subscription(request, uuid):
     if request.method == 'GET':
 
-        print(uuid)
         context = {
             'uuid': uuid
         }

@@ -1,124 +1,46 @@
-import datetime
-import io
-from re import template
-from wsgiref import validate
-import qrcode 
 import json
-import requests
 import json
-from urllib.parse import urljoin
-from pprint import pprint 
 import locale
 
-from django.http.response import HttpResponseNotFound, HttpResponseRedirect, JsonResponse
+from django.http.response import HttpResponseRedirect, JsonResponse
 from django.views import generic
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.views import generic
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.utils.safestring import mark_safe
 from django.forms import HiddenInput, ValidationError
-from django.contrib.auth import get_user, get_user_model
-from django.db.models import F
-from django.template.loader import render_to_string
-from django.core import serializers
-from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth import get_user_model
 
-
-
-from dal import autocomplete
 from lockdown.decorators import lockdown
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Field, Row, Column, HTML, Div
-from crispy_forms.bootstrap import (
-    PrependedText, PrependedAppendedText, FormActions, InlineRadios, InlineCheckboxes)
+from crispy_forms.layout import Layout, Submit, Field, HTML, Div
+from crispy_forms.bootstrap import InlineRadios, InlineCheckboxes
 
 from core.forms.ad_forms import OfferingDogForm, RequestingDogForm
-from core.models import Advertisement, Province, Municipality, Area, DogBreed, DogSizeChoice, Payment, NewsEmail, get_30_days_ahead_from_date_obj, get_30_days_ahead
+from core.models import Advertisement, Province, Municipality, Area, DogSizeChoice, NewsEmail
 from core.forms.news_email_form import NewsEmailForm
-from kontorshund.settings import PRICE_SWISH_EXTEND_IN_SEK, PRICE_SWISH_EXTEND, PRICE_BANKGIRO_INITIAL, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
+from kontorshund.settings import PRICE_SWISH_EXTEND
 
 User = get_user_model()
 
 locale.setlocale(locale.LC_ALL,'sv_SE.UTF-8')
 
 
-
-def deactivate_news_email_subscription(request, uuid):
-
-
-    if request.method == 'GET':
-
-        print(uuid)
-        context = {
-            'uuid': uuid
-        }
-        return render(request, 'core/subscription_email/deactivate_subscription.html', context=context)
-
-
-    if request.method == 'POST':
-
-        try:
-            news_email_obj = NewsEmail.objects.get(uuid=uuid)
-            news_email_obj.is_active = False
-            news_email_obj.save()
-
-        except:
-            return render(request, 'core/subscription_email/subscription_deactivation_error.html')
-
-        return render(request, 'core/subscription_email/subscription_deactivated_confirmation.html')
-
-
-
-
-#############
-# INDEX VIEW
-#############
+########
+# INDEX 
+########
 
 @lockdown()
 def index(request):
     return render(request, 'core/index.html')
 
-
-###############
-# reCAPCHA view
-###############
-
-def recapcha(request, pk):
-    payload=request.body
-    data_dict = json.loads(payload.decode("utf-8"))
-    recaptcha_response = data_dict['token']
-    import os
-
-    data = {
-      'secret': os.environ.get('reCAPTCHA_SECRET_KEY'),
-      'response': recaptcha_response
-      }
-
-
-    print(data)
-      
-    
-    response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
-    result = json.loads(response.text)
-
-    if result['success']:
-        email = Advertisement.objects.get(pk=pk).author.email
-        return JsonResponse(email, status=200, safe=False)
-    
-    else:
-        return JsonResponse('Not validated', status=403, safe=False)
-
-
-#####################
-# USER SPECIFIC VIEWS
-#####################
-
+##########
+# PROFILE
+# ########
 
 def profile(request):
 
@@ -163,42 +85,9 @@ def profile(request):
         return redirect('account_login')
 
 
-
-def handle_email_subscription_status(self, uuid):
-    NewsEmail_obj = NewsEmail.objects.get(uuid=uuid)
-
-    if NewsEmail_obj.is_active == False:
-        NewsEmail_obj.is_active = True
-        NewsEmail_obj.save()
-        return JsonResponse("Activated", status=200, safe=False)
-    else:
-        NewsEmail_obj.is_active = False
-        NewsEmail_obj.save()
-        return JsonResponse("Deactivated", status=200, safe=False)
-
-
-
-########################
-# VIEWS FOR AUTOCOMPLETE
-########################
-
-class BreedAutocomplete(autocomplete.Select2QuerySetView):
-
-    def get_queryset(self):
-
-        if not self.request.user.is_authenticated:
-            return DogBreed.objects.none()
-
-        qs = DogBreed.objects.all()
-
-        if self.q:
-            qs = qs.filter(name__icontains=self.q)
-
-        return qs
-
-#######################
-# VIEWS FOR LISTING ADS 
-#######################
+###########
+# LIST ADS
+# #########
 
 def is_search_object_empty(self):
     if self == {}:
@@ -355,18 +244,12 @@ def ListAndSearchAdsView(request):
 
         data = json.dumps(json_dict)
 
-
-
         return JsonResponse(data, status=200, safe=False)
 
 
-
-
-
-
-########################
-# VIEWS FOR CREATING ADS 
-########################
+#############
+# CREATE ADS
+#############
 
 def ChooseAd(request):
     if request.user.is_authenticated:
@@ -508,9 +391,9 @@ class NewAdRequestingDog(CreateView):
         if self.object.payment_type == 'B':
             return reverse('bg_payment', kwargs={'pk': self.object.pk})
 
-########################
-# VIEWS FOR UPDATING ADS 
-########################
+############
+# UPDATE ADS
+############
 
 
 class AdUpdateOfferingDogView(UpdateView):
@@ -648,9 +531,10 @@ class AdUpdateRequestingDogView(UpdateView):
         return form
 
 
-########################
-# VIEWS FOR VIEWING ADS
-########################
+#############
+# DETAIL VIEW
+#############
+
 
 class AdDetailView(generic.DetailView):
     model = Advertisement
@@ -669,9 +553,9 @@ class AdDetailView(generic.DetailView):
         return context
 
 
-########################
-# VIEWS FOR DELETING ADS 
-########################
+############
+# DELETE ADS
+############
 
 class DeleteAd(generic.DeleteView):
     model = Advertisement
@@ -679,27 +563,3 @@ class DeleteAd(generic.DeleteView):
     success_url = reverse_lazy('profile')
 
 
-###################
-# GEOGRAPHIES VIEWS
-###################
-
-
-# View to be used for getting Municipalities connected to a Province
-
-def load_provinces(request):
-   # province_id = request.headers['province']
-    provinces = list(Province.objects.all().values('id', 'name', 'offering_count', 'requesting_count').order_by('name'))
-    return HttpResponse(json.dumps(provinces), content_type="application/json") 
-
-def load_municipalities(request):
-   # province_id = request.headers['province']
-    province_id = request.GET.get('province','') 
-    municipalities = list(Municipality.objects.filter(province_id=province_id).values('id', 'name', 'offering_count', 'requesting_count').order_by('name'))
-    return HttpResponse(json.dumps(municipalities), content_type="application/json") 
-
-# View to be used for getting Areas connected to a Municipality
-def load_areas(request):
-    #municipality_id = request.headers['municipality']
-    municipality_id = request.GET.get('municipality','') 
-    areas = list(Area.objects.filter(municipality_id=municipality_id).values('id', 'name', 'offering_count', 'requesting_count').order_by('name'))
-    return HttpResponse(json.dumps(areas), content_type="application/json") 
