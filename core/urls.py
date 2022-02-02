@@ -8,13 +8,13 @@ from .views import ad_views, payment_views, supporting_views
 urlpatterns = [
     
     path('', ad_views.index, name='index'), 
-    path('profile', ad_views.profile, name='profile'), 
+    path('profile', ad_views.Profile.as_view(), name='profile'), 
 
     path('deactivate-email-subscription/<str:uuid>', supporting_views.deactivate_news_email_subscription, name='deactivate_email_subscription'),
     path('handle-email-subscription/<str:uuid>', supporting_views.handle_email_subscription_status, name='handle_email_subscription_status'), 
 
-    path('ads/choose', ad_views.ChooseAd, name='choose_ad_type'),
-    path('ads/list', ad_views.ListAndSearchAdsView, name='list_ads'),
+    path('ads/choose', ad_views.ChooseAd.as_view(), name='choose_ad_type'),
+    path('ads/list', ad_views.ListAndSearchAdsView.as_view(), name='list_ads'),
     path('ads/<int:pk>', ad_views.AdDetailView.as_view(), name='ad_detail'),
     path('delete-ad/<int:pk>', ad_views.DeleteAd.as_view(), name='delete_ad'),
     

@@ -8,7 +8,7 @@
 
     <h1>Sök bland annonser</h1>
 
-    <h5 class="mt-4">Välj vilken annonstyp du vill söka inom</h5>
+    <h5 class="mt-4 mb-2">Välj annonstyp</h5>
 
     <div id"ad-search-type">
         <form name="ad-type-form">
@@ -26,26 +26,17 @@
         </form>
     </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col text-center mt-3">
-                <div id="loading-forms"></div>    
-            </div>
-        </div>
-    </div>
+    <h5 class="mt-4 mb-2">Välj inom vilket geografiskt område</h5>
 
-
-    <div class="mt-4" id="form-container-all">
-       
+    <div id="form-container-all">
        
         <div class="row">
-    
     
             <div class="col-4">
                 <div id="div_id_province" class="form-group">
     
                     <label for="id_province" class="">
-                        Landskap/Storstad
+                        <b>Landskap/Storstad</b>
                     </label>
     
                     <div class="">        
@@ -59,7 +50,7 @@
             <div class="col-4">
                 <div id="div_id_municipality" class="form-group">
                     <label for="id_municipality" class="">
-                        Kommun
+                       <b>Kommun</b>
                     </label>
                     
                     <div class="">
@@ -73,7 +64,7 @@
             <div class="col-4">
                 <div id="div_id_area" class="form-group">
                     <label for="id_area" class="">
-                    Område
+                    <b>Område</b>
                     </label>
                     
                     <div class="">
@@ -86,13 +77,14 @@
     
         </div>  
     
+        <h5 class="mt-4 mb-2">Välj omfattning</h5>
+
     
-    
-        <div class="row mt-4">
+        <div class="row">
 
                 <div id="div_id_days_per_week" class="form-group col-3">
                     <label for="" class="">
-                        Dagar per vecka
+                        <b>Dagar per vecka</b>
                     </label>
     
                     <div class="">
@@ -136,7 +128,7 @@
 
             <div id="div_id_size_requested" class="form-group col-3 d-none"> 
                 <label for="" class="">
-                    Hundstorlek
+                    <b>Hundstorlek</b>
                 </label> 
                 <div class=""> 
                     <div class="custom-control custom-checkbox"> 
@@ -169,7 +161,7 @@
 
             <div id="div_id_size_offered" class="form-group col-3 d-none"> 
                 <label for="" class="">
-                    Hundstorlek
+                    <b>Hundstorlek</b>
                 </label> 
                 
                 <div class=""> 
@@ -316,7 +308,6 @@
     const no_more_ads = document.getElementById('no_more_ads')
     const ad_selection_div = document.getElementById('ad_selection')
     const loader_ads = document.getElementById('loading-ads');
-    const loader_forms = document.getElementById('loading-forms');
     const search_result_title_div = document.getElementById('search_result_title_div');
     const formContainer = document.getElementById("form-container");
     const div_size_requested = document.getElementById("div_id_size_requested");

@@ -3,7 +3,7 @@ import json
 import locale
 
 from django.http.response import HttpResponseRedirect, JsonResponse
-from django.views import generic
+from django.views import View, generic
 from django.views.generic import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
@@ -42,22 +42,24 @@ def index(request):
 # PROFILE
 # ########
 
-def profile(request):
+class Profile(View):
+    """ 
+    Show the users Profile with their created views, also let the user update their NewsEmail subscription
+    """
 
-    if request.user.is_authenticated:
+    def get(self, request):
 
-        url = request.build_absolute_uri('/')
-        media_url = f'{url}media/'
-        ad_url = f'{url}ads/'
-        
-        if request.method == 'GET':
+        if request.user.is_authenticated:
+
+            url = request.build_absolute_uri('/')
+            media_url = f'{url}media/'
+            ad_url = f'{url}ads/'
 
             published_ads = Advertisement.objects.filter(author=request.user, is_published=True)
             unpublished_ads = Advertisement.objects.filter(author=request.user, is_published=False)
             deleted_ads = Advertisement.objects.filter(author=request.user, is_deleted=True)
             NewsEmail_obj = NewsEmail.objects.get(user=request.user)
             form = NewsEmailForm(instance=NewsEmail_obj)
-
 
             return render(
                 request, 
@@ -72,7 +74,14 @@ def profile(request):
                         'news_email_obj': NewsEmail_obj,
                 }
             )
-        if request.method == 'POST':
+
+        else:
+            return redirect('account_login')
+
+    def post(self, request):
+
+        if request.user.is_authenticated:
+
             NewsEmail_obj = NewsEmail.objects.get(user=request.user)
             form = NewsEmailForm(request.POST, instance=NewsEmail_obj)
 
@@ -81,15 +90,17 @@ def profile(request):
                 return redirect('profile')
             else:
                 return render(request, 'core/profile/profile.html', {'form': form})
-    else:
-        return redirect('account_login')
+
+        else:
+            return redirect('account_login')
 
 
 ###########
 # LIST ADS
-# #########
+###########
 
-def is_search_object_empty(self):
+# Supportive function of below view
+def variable_is_not_empty(self):
     if self == {}:
         return False
     if self == '':
@@ -98,9 +109,16 @@ def is_search_object_empty(self):
         return False
     return True
 
-def ListAndSearchAdsView(request):
+class ListAndSearchAdsView(View):
+    """ 
+    A view that let the user filter ads depending on a give n number of parameters.
+    Each ttme the user make a change in the form, a JS request is sent to this view,
+    which returns a queryset. The view also use an Offset method to paginate the results
+    and when the user click "load more ads", the next part of the queryset is returned for
+    each request intil there are no more ads in the matching query to return.
+    """
 
-    if request.method == 'GET':
+    def get(self, request):
         count_all_ads = Advertisement.get_all_active_ads().count()
         count_all_offering_ads = Advertisement.get_all_active_offering_ads().count()
         count_all_requesting_ads = Advertisement.get_all_active_requesting_ads().count()
@@ -113,89 +131,90 @@ def ListAndSearchAdsView(request):
 
         return render(request, 'core/ads/list_ads.html', context=context)
 
-    if request.method == 'POST':
-        body_json = json.loads(request.body)
+    def post(self, request):
 
-        province_str = body_json['province'][:-7]
-        municipality_str = body_json['municipality'][:-7]
-        area_str = body_json['area'][:-7]
-        type_of_ad_str= body_json['type_of_ad']
-        size_offered_list_str = body_json['size_offered']
-        size_requested_list_str = body_json['size_requested']
-        days_per_week_list_str = body_json['days_per_week']
+        # Get initial data from request
+        body_json = json.loads(request.body)
+        unsafe_province = body_json['province'][:-7]
+        unsafe_municipality = body_json['municipality'][:-7]
+        unsafe_area = body_json['area'][:-7]
+
+        unsafe_type_of_ad = body_json['type_of_ad']
+
+        unsafe_size_offered_list = body_json['size_offered']
+        unsafe_size_requested_list = body_json['size_requested']
+        unsafe_days_per_week_list = body_json['days_per_week']
+
         OFFSET = body_json['offset']
 
-
+        # Set initial values
         province = ''
         municipality = ''
         area = ''
         size_offered_obj_list = []
         size_requested_obj_list = []
-        type_of_ad = ''
-        days_per_week = ''
 
 
-        if is_search_object_empty(province_str):
+        # Check if user input data is valid
+        if variable_is_not_empty(unsafe_province):
             try:
-                province = Province.objects.get(name=province_str)
+                province = Province.objects.get(name=unsafe_province)
             except Province.DoesNotExist():
-                print('error')
+                raise ValidationError
 
-        if is_search_object_empty(municipality_str):
+        if variable_is_not_empty(unsafe_municipality):
             try:
-                municipality = Municipality.objects.get(name=municipality_str)
+                municipality = Municipality.objects.get(name=unsafe_municipality)
             except Municipality.DoesNotExist():
                 raise ValidationError
 
-        if is_search_object_empty(area_str):
+        if variable_is_not_empty(unsafe_area):
             try:
-                area = Area.objects.get(name=area_str)
+                area = Area.objects.get(name=unsafe_area)
             except Area.DoesNotExist():
                 raise ValidationError
 
-        if is_search_object_empty(size_offered_list_str):
-            for size in size_offered_list_str:
+        if variable_is_not_empty(unsafe_size_offered_list):
+            for size in unsafe_size_offered_list:
                 try:
-                    size_offered_obj_list.append(DogSizeChoice.objects.get(size=size)) 
+                    size_choice = DogSizeChoice.objects.get(size=size)
+                    size_offered_obj_list.append(size_choice) 
                 except DogSizeChoice.DoesNotExist():
                     raise ValidationError
 
-        if is_search_object_empty(size_requested_list_str):
-            for size in size_requested_list_str:
+        if variable_is_not_empty(unsafe_size_requested_list):
+            for size in unsafe_size_requested_list:
                 try:
-                    size_requested_obj_list.append(DogSizeChoice.objects.get(size=size)) 
+                    size_requested = DogSizeChoice.objects.get(size=size)
+                    size_requested_obj_list.append(size_requested) 
                 except DogSizeChoice.DoesNotExist():
                     raise ValidationError
 
 
-        ads = ''
-
+        # Create filter_options object to be used in queries
         field_value_pairs = [
             ('province', province), 
             ('municipality', municipality),
             ('area', area),
-            ('days_per_week__in', days_per_week_list_str),
+            ('days_per_week__in', unsafe_days_per_week_list),
             ('size_offered__in', size_offered_obj_list),
             ('size_requested__in', size_requested_obj_list),
         ]
 
         filter_options = {k:v for k,v in field_value_pairs if v}
 
-
-        # PAGINATED RESPONSE
-
-        TOTAL = 10 # Articles to load per request
-        #OFFSET = request.GET.get('offset', 0)
+        # Set which part of the queryset that should be returned
+            # to understand OFFSET and END, consider this:
+            # mylist = [1,2,3,4,5,6,7,8,9]
+            # mylist[2:5] outputs => [3,4,5]
+            # Above 2 is OFFSET and 5 is END
+        TOTAL = 10 
         END = OFFSET + TOTAL
-        
-        # to understand OFFSET and END, consider this:
-        # mylist = [1,2,3,4,5,6,7,8,9]
-        # mylist[2:5] outputs => [3,4,5]
-        # Above 2 is OFFSET and 5 is END
 
-        # GENERATE QUERYSET
+        # Make queries based on user input and return them to the user
+        ads = ''
 
-        if type_of_ad_str == 'all':
+        if unsafe_type_of_ad  == 'all':
             qs = Advertisement.objects.filter(
                 **filter_options, 
                 is_published=True, 
@@ -204,7 +223,7 @@ def ListAndSearchAdsView(request):
             qs_length = qs.count()
             ads = qs[OFFSET:END]
 
-        if type_of_ad_str == 'offering':
+        if unsafe_type_of_ad  == 'offering':
             qs = Advertisement.objects.filter(
                 **filter_options, 
                 is_published=True, 
@@ -213,7 +232,8 @@ def ListAndSearchAdsView(request):
             ).order_by('pk')
             qs_length = qs.count()
             ads = qs[OFFSET:END]
-        if type_of_ad_str == 'requesting':
+
+        if unsafe_type_of_ad  == 'requesting':
             qs = Advertisement.objects.filter(
                 **filter_options, 
                 is_published=True, 
@@ -223,6 +243,8 @@ def ListAndSearchAdsView(request):
             qs_length = qs.count()
             ads = qs[OFFSET:END]
 
+
+        # Create the response object and return the response to the user in JSON
         json_dict = {}
         json_dict['ads'] = []
 
@@ -251,11 +273,13 @@ def ListAndSearchAdsView(request):
 # CREATE ADS
 #############
 
-def ChooseAd(request):
-    if request.user.is_authenticated:
-        return render(request, 'core/ads/choose_ad_type.html')
-    else:
-        return redirect('account_login')
+class ChooseAd(View):
+
+    def get(self, request):
+        if request.user.is_authenticated:
+            return render(request, 'core/ads/choose_ad_type.html')
+        else:
+            return redirect('account_login')
 
 
 class NewAdOfferingDog(LoginRequiredMixin, CreateView):
