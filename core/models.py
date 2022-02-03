@@ -18,7 +18,8 @@ from common.abstracts import SoftDeleteModel, TimeStampedModel
 User = get_user_model()
 
 def get_30_days_ahead():
-    return datetime.today() + timedelta(days=30)
+    new_date = datetime.today() + timedelta(days=30)
+    return new_date.date()
 
 def get_30_days_ahead_from_date_obj(date_obj):
     return date_obj + timedelta(days=30)
