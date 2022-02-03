@@ -499,7 +499,7 @@
                 for (var i = 0, total = data_obj.ads.length; i < total; i++) {
                     var compile_data;   
                     compile_data = `<div class="card" style="width: 20rem;"> 
-                        <a href="#"> <img class="card-img-top" src="${data_obj.ads[i].image_url}" alt="${data_obj.ads[i].title}-bild"> </a>
+                        <a href="https://www.kontorshund.se/ads/${data_obj.ads[i].pk}"> <img class="card-img-top" src="${data_obj.ads[i].image_url}" alt="${data_obj.ads[i].title}-bild"> </a>
                         <div class="card-body">
                             <h5 class="card-title"><b>${data_obj.ads[i].is_offering_own_dog ? 'Hund erbjudes' : 'Hund sökes'}</b></h5>
                             <h6 class="card-title">${data_obj.ads[i].title} ${data_obj.ads[i].pk}</h6>
