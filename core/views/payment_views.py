@@ -167,8 +167,11 @@ class SwishCallback(View):
             error_code = data_dict['errorCode']
             error_message = data_dict['errorCode']
 
-            logging.error(f'Problem creating payment: {error_code} {error_message}')
-            return JsonResponse(f"Payment couldn't be created: {error_code} {error_message}", status=401, safe=False)
+            if error_code is not "TM01":
+                logging.error(f'Problem creating payment: {error_code} {error_message}')
+                return JsonResponse(f"Payment couldn't be created: {error_code} {error_message}", status=401, safe=False)
+            
+            return JsonResponse(status=200, safe=False)
 
 
 # For mobile payments
