@@ -224,7 +224,7 @@ class GenerateSwishPaymentRequestToken(View):
 
 
 # Support function for below View
-def get_qr_code(self, request, token):
+def get_qr_code(request, token):
     if request.user.is_authenticated:
         qr = qrcode.QRCode(
             version = 1,
