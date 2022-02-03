@@ -4,14 +4,18 @@
 {% block content %}
 
 
-<div id="button-container">
+<div class="mb-4" id="button-container">
   {% if current_end_date %}
     <h1>Förläng din annons "{{ title }}" från <b>{{ current_end_date }}</b> till <b>{{ new_end_date }}</b></h1>
   {% else %}
     <h1>Betala för annons "{{ title }}" med Swish</h1>
   {% endif %}
+</div>
+<br>
+<br>
 
-  <h2 class="mt-5">Om du sitter vid en dator &#128187;</h2>
+<div id="button-container">
+  <h2 class="mt-4">Om du sitter vid en dator &#128187;</h2>
   <p>Genom att klicka på knappen nedan, öppnas en QR kod för en Swish betalning om <b>{{ price }}.</b> </p>
   <p>OBS. Varje QR kod kan endast användas en gång, slutar den att fungera är det bara trycka på knappen igen.</p>
   <button id="generate-qr" class="btn btn-primary mt-4">Generera Swish-QR-kod </button>
