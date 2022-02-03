@@ -40,7 +40,7 @@ class CheckInitialPaymentStatus(View):
     Support function for checking an initial payment status for an ad.
     """
 
-    def get(self, request, pk):
+    def post(self, request, pk):
         if request.user.is_authenticated:
             try:
                 ad = Advertisement.objects.get(pk=pk)
