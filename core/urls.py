@@ -11,7 +11,7 @@ urlpatterns = [
     path('profile', ad_views.Profile.as_view(), name='profile'), 
 
     path('ads/choose', ad_views.ChooseAd.as_view(), name='choose_ad_type'),
-    path('ads/list', ad_views.ListAndSearchAdsView.as_view(), name='list_ads'),
+    path('postings/list', ad_views.ListAndSearchAdsView.as_view(), name='list_postings'),
     path('ads/<int:pk>', ad_views.AdDetailView.as_view(), name='ad_detail'),
     path('delete-ad/<int:pk>', ad_views.DeleteAd.as_view(), name='delete_ad'),
     
