@@ -80,7 +80,7 @@ class CheckExtendedPaymentStatus(View):
 
 class AndroidSuccessPage(View):
 
-    def get(request):
+    def get(self, request):
         return render(request, 'core/payment/android_swish_success.html')
 
 #############
@@ -96,7 +96,7 @@ class SwishCallback(View):
     def dispatch(self, request, *args, **kwargs):
         return super(SwishCallback, self).dispatch(request, *args, **kwargs)
 
-    def post(request):
+    def post(self, request):
 
         data=request.body
         data_dict = json.loads(data.decode("utf-8"))
@@ -224,7 +224,7 @@ class GenerateSwishPaymentRequestToken(View):
 
 
 # Support function for below View
-def get_qr_code(request, token):
+def get_qr_code(self, request, token):
     if request.user.is_authenticated:
         qr = qrcode.QRCode(
             version = 1,
@@ -256,7 +256,7 @@ class GenerateSwishPaymentQrCode(View):
     for a users ad.
     """
 
-    def post(request, pk):
+    def post(self, request, pk):
 
         if request.user.is_authenticated:
 
@@ -315,7 +315,7 @@ class PayForAdSwishTemplate(View):
     Generate template for user for either providing intial or extened payment for their ad.
     """
 
-    def get(request, pk):
+    def get(self, request, pk):
         if request.user.is_authenticated:
 
             url = request.build_absolute_uri()
