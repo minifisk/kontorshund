@@ -26,13 +26,50 @@
   </h3>
 
   <p class="mb-4">Här kan du skapa bevakningar av nya annonser och få ett mail antingen veckovis eller dagligen när det kommit upp nya annonser som matchar dina kriterier. Du kan närsomhelst gå in här och aktivera/inaktivera dina bevakningar.</p>
+  
+  {% load crispy_forms_tags %}
 
 
-    
+  <div id="button-container" class="mb-4">
+    {% if news_email_obj.is_active %}
+      <button id="cancel-subscription-button" class="btn btn-danger mr-2">Deaktivera bevakningar</button>
+    {% else %}
+      <button id="cancel-subscription-button" class="btn btn-success ml-2">Aktivera bevakningar</button>
+    {% endif %}
+
+    <button type="submit" class="btn btn-primary">Spara bevakningar</button>
+  </div>
+   
   <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
     {% csrf_token %}  
 
-    {% crispy form %}
+
+      <div style="display: flex; flex-wrap: wrap;">
+        <div class="form-group col-lg-2 mb-0">
+          {{ form.province|as_crispy_field }}
+        </div>
+
+        <div class="form-group col-lg-2 mb-0">
+          {{ form.municipality|as_crispy_field }}
+        </div>
+
+        <div class="form-group col-lg-3 mb-0">
+          {{ form.areas|as_crispy_field }}
+        </div>
+
+        <div class="form-group col-lg-2 mb-0">
+          {{ form.interval|as_crispy_field }}
+        </div>
+
+        <div class="form-group col-lg-2 mb-0">
+          {{ form.ad_type|as_crispy_field }}
+        </div>
+
+      </div>
+    
+
+
+    {% comment %} {% crispy form %} {% endcomment %}
 
   </form>
 
@@ -201,7 +238,7 @@
                 if (xhr_cancel_subscription.response.includes("Activated")) {
                   const cancel_subscription_button = document.getElementById('cancel-subscription-button');
                   const heading_subscription_status = document.getElementById('heading_subscription_status');
-                  cancel_subscription_button.innerHTML = "Inaktivera"
+                  cancel_subscription_button.innerHTML = "Inaktivera bevakningar"
                   cancel_subscription_button.classList.remove('btn-success')
                   cancel_subscription_button.classList.add('btn-danger')
                   heading_subscription_status.innerHTML = "(Aktiv)"
@@ -209,7 +246,7 @@
                 if (xhr_cancel_subscription.response.includes("Deactivated")) {
                   const cancel_subscription_button = document.getElementById('cancel-subscription-button');
                   const heading_subscription_status = document.getElementById('heading_subscription_status');
-                  cancel_subscription_button.innerHTML = "Aktivera"
+                  cancel_subscription_button.innerHTML = "Aktivera bevakningar"
                   cancel_subscription_button.classList.remove('btn-danger')
                   cancel_subscription_button.classList.add('btn-success')
                   heading_subscription_status.innerHTML = "(Inaktiv)"

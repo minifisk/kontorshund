@@ -34,37 +34,6 @@ class NewsEmailForm(forms.ModelForm):
         self.fields['ad_type'].required = True
         self.fields["interval"].choices = list(self.fields["interval"].choices)[1:] 
         self.fields["ad_type"].choices = list(self.fields["ad_type"].choices)[1:] 
-        self.helper = FormHelper()
-        if self.instance.is_active:
-            button_text = 'Inaktivera'
-            button_type = 'danger'
-        else:
-            button_text = 'Aktivera'
-            button_type = 'success'
-
-        self.helper.layout = Layout(
-            Row(
-                Column('province', css_class='form-group col-2 mb-0'),
-                Column('municipality', css_class='form-group col-2 mb-0 ml-4'),
-                Column('areas', css_class='form-group col-3 mb-0 ml-4'),
-                Column(
-                    InlineRadios('interval'), 
-                    css_class='form-group col-1 mb-0 ml-4'
-                ),
-                Column(
-                    InlineRadios('ad_type', css_class='p-7'), 
-                    css_class='form-group col-1 mb-0 ml-4'
-                ),
-                Column(
-                    FormActions(
-                        HTML(f'<button id="cancel-subscription-button" class="btn btn-sm btn-{button_type}">{button_text}</button>'),
-                        Submit('submit', 'Spara bevakning', css_class='mt-2 btn btn-sm btn-primary'),                            
-                    ), 
-                    css_class='form-group col-1 mt-4 mb-0 ml-4'
-                ),
-                
-            ),
-        )
 
         # If no province selected, clear other fields
         if not self.instance.province:
