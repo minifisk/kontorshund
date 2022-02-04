@@ -105,7 +105,7 @@ class SwishCallback(View):
         # Check if payment was successfull
         if data_dict['status'] == 'PAID':
 
-            logging.info('CAll to swish calback', data)
+            logging.info(data_dict['status'])
 
             ad_id = data_dict['payeePaymentReference']
             amount = data_dict['amount']
@@ -143,7 +143,7 @@ class SwishCallback(View):
                 ad_obj.deletion_date = new_deletion_date
                 ad_obj.save()
 
-                logging.info(f'Payment created, payment id {payment_obj.pk} user id {ad_obj.author.pk} ad pk {ad_obj.pk}')
+                logging.info(f'Extended payment created, payment id {payment_obj.pk} user id {ad_obj.author.pk} ad pk {ad_obj.pk}')
                 return HttpResponse(status=200)
 
             # If payment is initial
@@ -161,7 +161,7 @@ class SwishCallback(View):
                 ad_obj.is_deleted = False      
                 ad_obj.save()
 
-                logging.info(f'Payment created, payment id {payment_obj.pk} user id {ad_obj.author.pk} ad id {ad_obj.pk}')
+                logging.info(f'Initial payment created, payment id {payment_obj.pk} user id {ad_obj.author.pk} ad id {ad_obj.pk}')
 
                 return HttpResponse(status=200)
 
