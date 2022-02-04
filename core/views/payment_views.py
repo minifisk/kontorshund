@@ -105,6 +105,8 @@ class SwishCallback(View):
         # Check if payment was successfull
         if data_dict['status'] == 'PAID':
 
+            logging.info('CAll to swish calback', data)
+
             ad_id = data_dict['payeePaymentReference']
             amount = data_dict['amount']
             date_paid_str = data_dict['datePaid']
