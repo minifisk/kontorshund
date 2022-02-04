@@ -66,6 +66,7 @@ small {
 
 /* CLASSES */
 
+
 .bg-text > p {
     font-size: 32px;
 }
@@ -267,7 +268,7 @@ display: block;
 }
 
 #button-container {
-    text-align: center;
+    text-align: center; 
 }
 
 

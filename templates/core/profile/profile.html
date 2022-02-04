@@ -10,23 +10,26 @@
 
   <h1 id="h1_new_ad" class="mb-5 ">Din profil - {{ user.email}}</h1>
 
+  <hr style="height:1px;border:none;color:#333;background-color:#333;">
 
-  <h3 class="">Dina bevakningar  &#128235;
+  <div id="button-container" class="mb-4">
 
-    {% if news_email_obj.is_active %}
-        <span id="heading_subscription_status">
-        (Aktiv)
-        </span>
-        {% else %}
-        <span id="heading_subscription_status">
-          (Inaktiv)
-        </span>
-    {% endif %}
+    <h3 class="">Dina bevakningar  &#128235;
 
-  </h3>
+      {% if news_email_obj.is_active %}
+          <span id="heading_subscription_status">
+          (Aktiv)
+          </span>
+          {% else %}
+          <span id="heading_subscription_status">
+            (Inaktiv)
+          </span>
+      {% endif %}
 
-  <p class="mb-4">Här kan du skapa bevakningar av nya annonser och få ett mail antingen veckovis eller dagligen när det kommit upp nya annonser som matchar dina kriterier. Du kan närsomhelst gå in här och aktivera/inaktivera dina bevakningar.</p>
-  
+    </h3>
+
+    <p class="mb-4">Här kan du skapa bevakningar av nya annonser och få ett mail antingen veckovis eller dagligen när det kommit upp nya annonser som matchar dina kriterier. Du kan närsomhelst gå in här och aktivera/inaktivera dina bevakningar.</p>
+  </div>
   {% load crispy_forms_tags %}
 
 
@@ -36,11 +39,10 @@
     {% else %}
       <button id="cancel-subscription-button" class="btn btn-success ml-2">Aktivera bevakningar</button>
     {% endif %}
-
-    <button type="submit" class="btn btn-primary">Spara bevakningar</button>
   </div>
-   
+
   <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
+  
     {% csrf_token %}  
 
 
@@ -65,25 +67,62 @@
           {{ form.ad_type|as_crispy_field }}
         </div>
 
+        <div class="form-group col-lg-1 mt-5 mb-0">
+          <div id="button-container" class="mb-4">
+            <button type="submit" class="btn btn-primary">Spara</button>
+          </div>
+        </div>
+
       </div>
-    
-
-
-    {% comment %} {% crispy form %} {% endcomment %}
 
   </form>
 
 
+  <div id="button-container" class="mb-4">
 
-
+  <hr style="height:1px;border:none;color:#333;background-color:#333;">
+  
   <h3 class="mb-5 mt-5">Dina annonser &#128203; </h3>
 
 
-  <h5 class="mb-5"><u>Publicerade</u> annonser ({{ published_ads.count }} st)</h5>
+    <h5 class="mb-5"><u>Publicerade</u> annonser ({{ published_ads.count }} st)</h5>
 
-  {% for ad in published_ads %}
+    {% for ad in published_ads %}
+    
 
-    <div class="card mb-5" style="width: 18rem;">
+      <div class="card mb-5" style="width: 30rem; margin:auto;">
+        <h6 class="card-header text-center">
+          {% if ad.is_offering_own_dog %}
+          Hund erbjudes
+          {% else %}
+          Hund sökes
+          {% endif %}
+        </h6>
+        <a href="{{ ad_url }}{{ ad.id }}">
+          <img class="card-img-top" src=" {{ ad.image1.thumbnail.url }}" alt="published ad">
+        </a>
+          <div class="card-body">
+          <h5 class="card-title">{{ ad.title }}</h5>
+          <hp class="card-text">Giltig till {{ ad.deletion_date }}</hp>
+          <p id="ad_description_snippet" class="card-text">{{ ad.description }}</p>
+          <div id="button-container">
+            <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary mb-3">Gå till annons</a>
+            <br>
+            <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success mb-3">Förläng</button></a>
+            <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
+            <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger mb-3">Ta bort</button></a>
+          </div>
+        </div>
+      </div>
+
+    {% endfor %}
+
+    <h5 class="mb-5 mt-5"><u>Opublicerade</u> annonser ({{ unpublished_ads.count }} st) </h5>
+
+    {% for ad in unpublished_ads %}
+
+
+    <div class="card mb-5" style="width: 30rem; margin:auto;">
       <h6 class="card-header text-center">
         {% if ad.is_offering_own_dog %}
         Hund erbjudes
@@ -94,93 +133,59 @@
       <a href="{{ ad_url }}{{ ad.id }}">
         <img class="card-img-top" src=" {{ ad.image1.thumbnail.url }}" alt="published ad">
       </a>
-        <div class="card-body">
+      <div class="card-body">
         <h5 class="card-title">{{ ad.title }}</h5>
         <hp class="card-text">Giltig till {{ ad.deletion_date }}</hp>
         <p id="ad_description_snippet" class="card-text">{{ ad.description }}</p>
         <div id="button-container">
-          <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary mb-3">Gå till annons</a>
-          <br>
-          <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success mb-3">Förläng</button></a>
-          <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
-          <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger mb-3">Ta bort</button></a>
+            <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary mb-3">Gå till annons</a>
+            <br>
+            <a href="{% url 'swish_payment_initial_template' ad.id %}"><button class="btn btn-success mb-3">Betala</button></a>
+            <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
+            <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger mb-3 ">Ta bort</button></a>
         </div>
       </div>
     </div>
 
-  {% endfor %}
-
-  <h5 class="mb-5 mt-5"><u>Opublicerade</u> annonser ({{ unpublished_ads.count }} st) </h5>
-
-  {% for ad in unpublished_ads %}
+    {% endfor %}
 
 
-  <div class="card mb-5" style="width: 18rem;">
-    <h6 class="card-header text-center">
-      {% if ad.is_offering_own_dog %}
-      Hund erbjudes
-      {% else %}
-      Hund sökes
-      {% endif %}
-    </h6>
-    <a href="{{ ad_url }}{{ ad.id }}">
-      <img class="card-img-top" src=" {{ ad.image1.thumbnail.url }}" alt="published ad">
-    </a>
-    <div class="card-body">
-      <h5 class="card-title">{{ ad.title }}</h5>
-      <hp class="card-text">Giltig till {{ ad.deletion_date }}</hp>
-      <p id="ad_description_snippet" class="card-text">{{ ad.description }}</p>
-      <div id="button-container">
-          <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary mb-3">Gå till annons</a>
-          <br>
-          <a href="{% url 'swish_payment_initial_template' ad.id %}"><button class="btn btn-success mb-3">Betala</button></a>
-          <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
-          <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger mb-3 ">Ta bort</button></a>
+    <h5 class="mb-5 mt-5"><u>Borttagna</u> annonser ({{ deleted_ads.count }} st) </h5>
+
+    {% for ad in deleted_ads %}
+
+
+    <div class="card mb-5" style="width: 30rem; margin:auto;">
+      <h6 class="card-header text-center">
+        {% if ad.is_offering_own_dog %}
+        Hund erbjudes
+        {% else %}
+        Hund sökes
+        {% endif %}
+      </h6>
+      <a href="{{ ad_url }}{{ ad.id }}">
+        <img class="card-img-top" src=" {{ ad.image1.thumbnail.url }}" alt="deleted ad">
+      </a>
+      <div class="card-body">
+        <h5 class="card-title">{{ ad.title }}</h5>
+        <p id="ad_description_snippet" class="card-text">{{ ad.description }}</p>
+        <div id="button-container">
+            <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary mb-3">Gå till annons</a>
+            <br>
+            <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success mb-3">Förläng</button></a>
+            <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
+        </div>
       </div>
     </div>
-  </div>
 
-  {% endfor %}
+    {% endfor %}
 
+    <hr style="height:1px;border:none;color:#333;background-color:#333;">
+  <h3 class="mb-3 mt-5">Hantera din profil  &#128054;</h3>
 
-  <h5 class="mb-5 mt-5"><u>Borttagna</u> annonser ({{ deleted_ads.count }} st) </h5>
-
-  {% for ad in deleted_ads %}
-
-
-  <div class="card mb-5" style="width: 18rem;">
-    <h6 class="card-header text-center">
-      {% if ad.is_offering_own_dog %}
-      Hund erbjudes
-      {% else %}
-      Hund sökes
-      {% endif %}
-    </h6>
-    <a href="{{ ad_url }}{{ ad.id }}">
-      <img class="card-img-top" src=" {{ ad.image1.thumbnail.url }}" alt="deleted ad">
-    </a>
-    <div class="card-body">
-      <h5 class="card-title">{{ ad.title }}</h5>
-      <p id="ad_description_snippet" class="card-text">{{ ad.description }}</p>
-      <div id="button-container">
-          <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary mb-3">Gå till annons</a>
-          <br>
-          <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success mb-3">Förläng</button></a>
-          <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
-      </div>
-    </div>
-  </div>
-
-  {% endfor %}
-
-  <br>
-  <br>
-  <br>
-  <br>
-<h3 class="mb-3 mt-5">Hantera din profil &#10060; </h3>
-
-<h4>Ta bort din profil</h4>
-<a href="{% url 'deactivate_account' %}"><button class="btn btn-danger mb-3">Ta bort din profil</button></a>
+  <h4>Ta bort din profil &#10060;</h4>
+  <a href="{% url 'deactivate_account' %}"><button class="btn btn-danger mb-3">Ta bort din profil</button></a>
+</div>
 
 
 
