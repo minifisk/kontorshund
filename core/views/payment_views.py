@@ -101,7 +101,6 @@ class SwishCallback(View):
 
         data=request.body
         data_dict = json.loads(data.decode("utf-8"))
-        logging.info('Swish payment', data_dict)
 
         # Check if payment was successfull
         if data_dict['status'] == 'PAID':
