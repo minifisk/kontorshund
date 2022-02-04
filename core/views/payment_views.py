@@ -143,7 +143,7 @@ class SwishCallback(View):
                 ad_obj.save()
 
                 logging.info(f'Payment created, payment id {payment_obj.pk} user id {ad_obj.author.pk} ad pk {ad_obj.pk}')
-                return HttpResponse(status=200, safe=False)
+                return HttpResponse(status=200)
 
             # If payment is initial
             else:
@@ -162,7 +162,7 @@ class SwishCallback(View):
 
                 logging.info(f'Payment created, payment id {payment_obj.pk} user id {ad_obj.author.pk} ad id {ad_obj.pk}')
 
-                return HttpResponse(status=200, safe=False)
+                return HttpResponse(status=200)
 
         else:
             error_code = data_dict['errorCode']
@@ -170,9 +170,9 @@ class SwishCallback(View):
 
             if error_code is not "TM01":
                 logging.error(f'Problem creating payment: {error_code} {error_message}')
-                return HttpResponse(status=200, safe=False)
+                return HttpResponse(status=200)
             
-            return HttpResponse(status=200, safe=False)
+            return HttpResponse(status=200)
 
 
 # For mobile payments
