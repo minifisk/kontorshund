@@ -399,7 +399,7 @@ class PayForAdBg(View):
         if request.user.is_authenticated:
 
             # Handle price depending on if it's an initial/extened payment
-            PRICE_TO_PAY = PRICE_SWISH_INITIAL_IN_SEK
+            PRICE_TO_PAY = PRICE_SWISH_INITIAL
 
             try: 
                 ad_obj = Advertisement.objects.get(pk=pk)
@@ -407,7 +407,7 @@ class PayForAdBg(View):
                 return HttpResponseNotFound("Annonsen kunde inte hittas")  
 
             if ad_obj.has_initial_payment:
-                PRICE_TO_PAY = PRICE_SWISH_EXTEND_IN_SEK
+                PRICE_TO_PAY = PRICE_SWISH_EXTEND
 
             url = request.build_absolute_uri('/')
             path = f'ads/{pk}'

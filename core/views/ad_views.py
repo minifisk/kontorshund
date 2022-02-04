@@ -294,6 +294,7 @@ class NewAdOfferingDog(LoginRequiredMixin, CreateView):
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
+        form.fields['image1'].label = "Minst 1 bild obligatorisk - Max bildstorlek 20MB  "    
         form.helper = FormHelper()
         form.helper.add_input(Submit('submit', 'Gå till betalning', css_class='btn-primary'))
       
@@ -362,7 +363,7 @@ class NewAdRequestingDog(CreateView):
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         form.helper = FormHelper()
-        form.fields['image1'].label = False
+        form.fields['image1'].label = "Minst 1 bild obligatorisk - Max bildstorlek 20MB  "
         form.fields['image2'].label = False
         form.fields['image3'].label = False
         form.helper.add_input(Submit('submit', 'Gå till betalning', css_class='btn-primary'))
@@ -382,7 +383,7 @@ class NewAdRequestingDog(CreateView):
                 css_class='mb-5 mt-3'
             ),
             Div(
-                InlineCheckboxes('size_requested', css_class="mb-4 ml-3 mr-2"),
+                InlineCheckboxes('size_requested', css_class="mb-8 ml-3 mr-2"),
                 InlineRadios('days_per_week', css_class="ml-3 mr-2"),
                 css_class='mb-5 mt-3'
             ),  
