@@ -19,7 +19,7 @@
   <p>Genom att klicka på knappen nedan, öppnas en QR kod för en Swish betalning om <b>{{ price }}.</b> </p>
   <p>OBS. Varje QR kod kan endast användas en gång, slutar den att fungera är det bara trycka på knappen igen.</p>
   <br>
-  <button id="generate-qr" class="mb-3 btn btn-primary mt-4">Generera Swish-QR-kod </button>
+  <button id="generate-qr" class="mb-6 btn btn-primary mt-4">Generera Swish-QR-kod </button>
   <br>
   <img class="mt-6 mb-3" id="captchaImg" />
   <br>
@@ -72,7 +72,7 @@
             if (xhr_complete.readyState === xhr_complete.DONE) {
                 if (xhr_complete.status === 200) {
                  
-                  status_field.innerHTML = 'Annonsen är betald!'
+                  status_field.innerHTML = 'Annonsen är betald! Du hittar länken till annonsen nedan.'
                   status_field.style.color = 'green'
 
                  
