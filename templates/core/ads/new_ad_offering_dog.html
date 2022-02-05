@@ -14,32 +14,17 @@
   <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
     {% csrf_token %}  
 
-    <!-- {{ form.as_p }} -->
-
     {% crispy form %}
 
   </form>
-
-  <img id="preview"></img>
-
 
 </body>
 {% endblock content %}
 
 {% block footer %}
 
-  {% comment %} Imports for managing Django Autocomplete Light in form {% endcomment %}
+<!-- Area selectors -->
   <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
-  <link rel="stylesheet" type="text/css" href="{% static 'autocomplete_light/select2.css' %}" />
-  <script type="text/javascript" src="{% static 'autocomplete_light/select2.js' %}"></script>
-  <link rel="stylesheet" type="text/css" href="{% static 'autocomplete_light/vendor/select2/dist/css/select2.css' %}" />
-  <script type="text/javascript" src="{% static 'autocomplete_light/vendor/select2/dist/js/select2.full.js' %}"></script>
-  <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
-  {{ form.media }}
-
-
-
-  {% comment %} Functions for handling area selectors {% endcomment %}
   <script>
       function hide_area_field() {
         const area_selector = document.getElementById('id_area');
@@ -51,9 +36,9 @@
 
 <script type="text/javascript" charset="utf-8"> 
 
-    {% include 'core/ads/templates/geographies_selectors.js' %}
+  {% include 'core/ads/templates/geographies_selectors.js' %}
 
-</script>
+  </script>
      
 {% endblock footer %}
 
