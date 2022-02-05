@@ -4,20 +4,20 @@
 <h4>Hantera annons</h4>
 
 <div>
-    <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success mr-3 mb-3">Förläng annons 30 dagar</button></a>
+    <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success">Förläng annons 30 dagar</button></a>
 </div>
 {% if ad.is_offering_own_dog == True%}
 <br>
 <div class="mt-1">
-    <a href="{% url 'update_ad_offering_dog' ad.id %}"><button class="btn btn-secondary mr-3">Ändra annons</button></a>
+    <a href="{% url 'update_ad_offering_dog' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
 </div>
 {% else %}
 <br>
 <div class="mt-1">
-    <a href="{% url 'update_ad_requesting_dog' ad.id %}"><button class="btn btn-secondary mr-3">Ändra annons</button></a>
+    <a href="{% url 'update_ad_requesting_dog' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
 </div>
 {% endif %}
 <br>
 <div class="mt-1">
-    <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger mr-3">Ta bort annons</button></a>
+    <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger">Ta bort annons</button></a>
 </div>
