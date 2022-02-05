@@ -14,6 +14,8 @@ from django.conf import settings
 from django.utils.safestring import mark_safe
 from django.forms import HiddenInput, ValidationError
 from django.contrib.auth import get_user_model
+from django.contrib import messages 
+
 
 from lockdown.decorators import lockdown
 from crispy_forms.helper import FormHelper
@@ -51,6 +53,8 @@ class Profile(View):
 
         if request.user.is_authenticated:
 
+            #messages.success(request, "Dina inställningar är sparade!" )
+
             url = request.build_absolute_uri('/')
             media_url = f'{url}media/'
             ad_url = f'{url}ads/'
@@ -87,8 +91,10 @@ class Profile(View):
 
             if form.is_valid():
                 form.save()
+                messages.success(request, "Dina bevaknings-inställningar är sparade!" )
                 return redirect('profile')
             else:
+                messages.error(request, "Något gick fel, försök igen." )
                 return render(request, 'core/profile/profile.html', {'form': form})
 
         else:

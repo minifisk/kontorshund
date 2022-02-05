@@ -2,6 +2,8 @@ import os
 from pathlib import Path
 from urllib.parse import urljoin
 from django.utils.log import DEFAULT_LOGGING
+from django.contrib.messages import constants as messages
+
 
 
 # Price constants
@@ -153,6 +155,14 @@ TEMPLATES = [
         },
     },
 ]
+
+MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-secondary',
+        messages.INFO: 'alert-info',
+        messages.SUCCESS: 'alert-success',
+        messages.WARNING: 'alert-warning',
+        messages.ERROR: 'alert-danger',
+ }
 
 # Set color stripe in Django-Admin to production by default, otherwise to development
 env_color = "#FF2222"
