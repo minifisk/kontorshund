@@ -44,7 +44,7 @@
   <br>
    <i> - Notera att annonsen inte publiceras förrän den har blivit betald.</i>
   <br>
-  <a class="btn btn-success mt-3" href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}/{{ ad_path }}"> Gå till din annons</a>
+  <a class="btn btn-success mt-3" href="{{ ad_path }}"> Gå till din annons</a>
 </div>
 
 

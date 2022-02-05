@@ -337,11 +337,9 @@ class PayForAdSwishTemplate(View):
 
                 ad_title = ad_obj.title
 
-                ad_path = f'ads/{pk}'
-
-                from django.contrib.sites.models import Site
-
-
+                url = request.build_absolute_uri('/')
+                path = f'ads/{pk}'
+                ad_path = f'{url}{path}'
 
                 return render(
                     request, 
@@ -367,6 +365,8 @@ class PayForAdSwishTemplate(View):
 
 
                 ad_title = ad_obj.title
+
+                url = request.build_absolute_uri('/')
                 path = f'ads/{pk}'
                 ad_path = f'{url}{path}'
 
