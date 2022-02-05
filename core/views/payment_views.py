@@ -336,8 +336,12 @@ class PayForAdSwishTemplate(View):
                     return HttpResponseRedirect(reverse_lazy('ad_detail', kwargs={'pk': pk}))
 
                 ad_title = ad_obj.title
-                path = f'ads/{pk}'
-                ad_path = f'{url}{path}'
+
+                ad_path = f'ads/{pk}'
+
+                from django.contrib.sites.models import Site
+
+
 
                 return render(
                     request, 

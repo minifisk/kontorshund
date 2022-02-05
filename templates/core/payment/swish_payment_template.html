@@ -27,14 +27,22 @@
   <p id="payment-status"></p>
   
 
-  <h2 class="mt-5">Om du öppnat sidan via en mobiltelefon &#128241; </h2>
+  <h2 class="mt-2">Om du öppnat sidan via en mobiltelefon &#128241; </h2>
   <p>Öppna Swish-appen i din telefon, välj QR-kod och rikta kameran mot QR-koden och utför betalningen.</p>
   <p>När du godkänt betalningen i din telefon, skickas du automatiskt till den publicerade annonsen.</p>
   <button id="open-swish" class="btn btn-primary mt-4">Öppna Swish app på denna enhet</button>
   <br>
   <br>
   <h3 class="mt-5">Har du betalt och kontrollerat att betalningen gått fram?</h3>
-  <a class="btn btn-success" href="{{ ad_path }}" role="button"> Gå till din annons</a>
+  <i>Du kan även gå till din annons och välja ett annat betalsätt eller komma tillbaka till denna sidan senare (notera att annonsen inte publiceras förrän den är betald).</i>
+  <br>
+
+<br>
+  <br>
+  
+<br>
+
+  <a class="btn btn-success mt-3" href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{ request.get_host }}/{{ ad_path }}"> Gå till din annons</a>
 </div>
 
 
