@@ -113,7 +113,7 @@
             <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary mb-3">Gå till annons</a>
             <br>
             <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success mb-3">Förläng</button></a>
-            <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
+            <a href="{% url 'update_ad_offering_dog' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
             <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger mb-3">Ta bort</button></a>
           </div>
         </div>
@@ -145,7 +145,7 @@
             <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary mb-3">Gå till annons</a>
             <br>
             <a href="{% url 'swish_payment_initial_template' ad.id %}"><button class="btn btn-success mb-3">Betala</button></a>
-            <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
+            <a href="{% url 'update_ad_offering_dog' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
             <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger mb-3 ">Ta bort</button></a>
         </div>
       </div>
@@ -177,7 +177,7 @@
             <a href="{{ ad_url }}{{ ad.id }}" class="btn btn-primary mb-3">Gå till annons</a>
             <br>
             <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success mb-3">Förläng</button></a>
-            <a href="{% url 'ad_update_take' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
+            <a href="{% url 'update_ad_offering_dog' ad.id %}"><button class="btn btn-secondary mb-3">Ändra</button></a>
         </div>
       </div>
     </div>

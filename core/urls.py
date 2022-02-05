@@ -15,11 +15,11 @@ urlpatterns = [
     path('ads/<int:pk>', ad_views.AdDetailView.as_view(), name='ad_detail'),
     path('delete-ad/<int:pk>', ad_views.DeleteAd.as_view(), name='delete_ad'),
     
-    path('ads/create/take-my-dog', ad_views.NewAdOfferingDog.as_view(), name='new_ad_take_my_dog'),
-    path('ads/create/get-me-a-dog', ad_views.NewAdRequestingDog.as_view(), name='new_ad_get_me_a_dog'),
+    path('ads/create/offering-dog', ad_views.NewAdOfferingDog.as_view(), name='new_ad_offering_dog'),
+    path('ads/create/requesting-dog', ad_views.NewAdRequestingDog.as_view(), name='new_ad_requesting_dog'),
 
-    path('ads/update/take-my-dog/<int:pk>', ad_views.AdUpdateOfferingDogView.as_view(), name='ad_update_take'),
-    path('ads/update/get-me-a-dog/<int:pk>', ad_views.AdUpdateRequestingDogView.as_view(), name='ad_update_get'),
+    path('ads/update/offering-dog/<int:pk>', ad_views.AdUpdateOfferingDogView.as_view(), name='update_ad_offering_dog'),
+    path('ads/update/requesting-dog/<int:pk>', ad_views.AdUpdateRequestingDogView.as_view(), name='update_ad_requesting_dog'),
 
     path('swish/callback', payment_views.SwishCallback.as_view(), name='swish_callback'),
     path('swish-pay/initial/<int:pk>', payment_views.PayForAdSwishTemplate.as_view(), name='swish_payment_initial_template'),

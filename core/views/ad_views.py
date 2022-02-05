@@ -438,7 +438,7 @@ class AdUpdateOfferingDogView(UpdateView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         if self.object.is_offering_own_dog == False:
-            return HttpResponseRedirect(reverse_lazy('ad_update_get', kwargs={'pk': self.object.pk}))
+            return HttpResponseRedirect(reverse_lazy('update_ad_requesting_dog', kwargs={'pk': self.object.pk}))
         return super().get(request, *args, **kwargs)
 
 
@@ -505,7 +505,7 @@ class AdUpdateRequestingDogView(UpdateView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         if self.object.is_offering_own_dog == True:
-            return HttpResponseRedirect(reverse_lazy('ad_update_take', kwargs={'pk': self.object.pk}))
+            return HttpResponseRedirect(reverse_lazy('update_ad_offering_dog', kwargs={'pk': self.object.pk}))
         return super().get(request, *args, **kwargs)
 
     def get_success_url(self):
