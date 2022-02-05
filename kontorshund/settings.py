@@ -286,6 +286,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # django-allauth config
 
+ACCOUNT_FORMS = {'login': 'core.forms.allauth_forms.CoreLoginForm'}
+
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`

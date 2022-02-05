@@ -8,26 +8,39 @@
 {% load socialaccount %}
 {% providers_media_js %}
 
-<a href="{% provider_login_url "facebook" method="js_sdk" %}" class="btn btn-block btn-social btn-facebook" style="background-color:#3b5998;text-align:center">
-  <span class="fa fa-facebook">        
-  </span>
-  <p class="text-light">Logga in med Facebook</p>
-</a>
-<br>
- <a href="{% provider_login_url 'google' %}">Logga in med Google</a>
+<div class="social-box mb-3">
+  <div class="row">
+    <div class="col-md-12">
+      <a href="{% provider_login_url "facebook" method="js_sdk" %}" id="facebook-login-button" title="Facebook" class="btn btn-block btn-social btn-lg btn-facebook">
+        <i class="fa fa-facebook"></i> Logga in med Facebook
+      </a>
+    </div>
+  </div>
+</div>
 
- 
+<div class="social-box">
+  <div class="row">
+    <div class="col-md-12">
+      <a href="{% provider_login_url "google" %}" id="google-login-button" title="Google" class="btn btn-block btn-social btn-lg btn-google-plus">
+        <i class="fa fa-google"></i> Logga in med Google
+      </a>
+    </div>
+  </div>
+</div>
+
+
+
  <br>
-  <h2>Log In</h2>
+  <h2>Logga in</h2>
   <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
-    <button class="btn btn-success" type="submit">Log In</button>
+    <button class="btn btn-success" type="submit">Logga in</button>
   </form>
-
+  <br>
   <a class="button secondaryAction" href="{% url 'account_reset_password' %}">Glömt ditt lösenord?</a>
-
-
+  <br>
+  <br>
   <p>Om du ännu inte har något konto, behöver du 
     <a href="{{ signup_url }}">registrera ett konto</a> först.</p>
 

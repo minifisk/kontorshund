@@ -191,6 +191,25 @@ display: block;
 
 /* ID's */
 
+#google-login-button {
+    background-color: #ce5642; 
+    color: white;
+}
+
+#google-login-button:hover {
+    background-color: #b43f2c;
+}
+
+#facebook-login-button {
+    background-color: #415a93; 
+    color: white;
+}
+
+#facebook-login-button:hover {
+    background-color: #314470;
+}
+
+
 
 #unpublished {
     background-color: lightgray;
