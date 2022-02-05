@@ -6,5 +6,12 @@ class CoreLoginForm(LoginForm):
 
     def __init__(self, *args, **kwargs):
         super(CoreLoginForm, self).__init__(*args, **kwargs)
-        ## here i add the new fields that i need
+        self.fields['password'] = PasswordField(label='Lösenord')
+
+
+
+class CoreSignupForm(LoginForm):
+
+    def __init__(self, *args, **kwargs):
+        super(CoreSignupForm, self).__init__(*args, **kwargs)
         self.fields['password'] = PasswordField(label='Lösenord')

@@ -286,7 +286,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # django-allauth config
 
-ACCOUNT_FORMS = {'login': 'core.forms.allauth_forms.CoreLoginForm'}
+ACCOUNT_FORMS = {
+    'login': 'core.forms.allauth_forms.CoreLoginForm',
+    'signup': 'core.forms.allauth_forms.CoreSignupForm',
+    
+    }
 
 
 AUTHENTICATION_BACKENDS = (
