@@ -20,13 +20,13 @@
                 </div>
 
                 <div class="col-lg-3">
-                    <input type="radio" class="ml-3" id="ad-search-offering"
+                    <input type="radio" id="ad-search-offering"
                     name="adtype" value="offering">
                     <label for="ad-search-offering">Hund erbjudes ({{ count_all_offering_ads }})</label>
                 </div>
 
                 <div class="col-lg-3">
-                    <input type="radio" class="ml-3" id="ad-search-searching"
+                    <input type="radio" id="ad-search-searching"
                     name="adtype" value="requesting">
                     <label for="ad-search-searching">Hund sökes ({{ count_all_requesting_ads }})</label>
                 </div>
@@ -96,7 +96,7 @@
                     Dagar per vecka
                 </label>
 
-                <div class="form-check">
+                <div>
 
                     <div class="custom-control custom-checkbox"> 
                         <input type="checkbox" class="custom-control-input" name="days_per_week" id="id_days_per_week_1" value="1"  > 
@@ -144,7 +144,7 @@
                     Hundstorlek
                 </label> 
                 
-                <div class="form-check"> 
+                <div> 
 
                     <div class="custom-control custom-checkbox"> 
                         <input type="checkbox" class="custom-control-input" name="size_requested" id="id_size_requested_1" value="1"  > 
@@ -180,11 +180,13 @@
             
 
             <div id="div_id_size_offered" class="form-group col-lg-3 d-none"> 
+
                 <label for="" class="">
                     Hundstorlek
                 </label> 
                 
-                <div class=""> 
+                <div> 
+
                     <div class="custom-control custom-checkbox"> 
                         <input type="checkbox" class="custom-control-input" name="size_offered" id="id_size_offered_1" value="1"  > 
                         <label class="custom-control-label" for="id_size_offered_1">
