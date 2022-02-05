@@ -14,14 +14,16 @@
 
   <div id="button-container" class="mb-4">
 
-    <h3 class="">Dina bevakningar  &#128235;
+    <h3 class="">Dina bevakningar 
 
       {% if news_email_obj.is_active %}
           <span id="heading_subscription_status">
+          &#128236;
           (Aktiv)
           </span>
           {% else %}
           <span id="heading_subscription_status">
+            &#128237;
             (Inaktiv)
           </span>
       {% endif %}
@@ -246,7 +248,7 @@
                   cancel_subscription_button.innerHTML = "Inaktivera bevakningar"
                   cancel_subscription_button.classList.remove('btn-success')
                   cancel_subscription_button.classList.add('btn-danger')
-                  heading_subscription_status.innerHTML = "(Aktiv)"
+                  heading_subscription_status.innerHTML = "&#128236; (Aktiv)"
                 }
                 if (xhr_cancel_subscription.response.includes("Deactivated")) {
                   const cancel_subscription_button = document.getElementById('cancel-subscription-button');
@@ -254,7 +256,7 @@
                   cancel_subscription_button.innerHTML = "Aktivera bevakningar"
                   cancel_subscription_button.classList.remove('btn-danger')
                   cancel_subscription_button.classList.add('btn-success')
-                  heading_subscription_status.innerHTML = "(Inaktiv)"
+                  heading_subscription_status.innerHTML = "&#128237; (Inaktiv)"
                   
                 }
             } 
