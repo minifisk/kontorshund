@@ -3,8 +3,9 @@
 <br>
 <h4>Hantera annons</h4>
 
-
-<a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success mr-3 mb-3">Förläng annons 30 dagar</button></a>
+<div>
+    <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success mr-3 mb-3">Förläng annons 30 dagar</button></a>
+</div>
 {% if ad.is_offering_own_dog == True%}
 <br>
 <div class="mt-1">

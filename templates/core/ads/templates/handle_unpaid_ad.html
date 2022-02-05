@@ -2,18 +2,23 @@
 <br>
 <h4>Hantera annons</h4>
 
-<div style="display: flex; flex-wrap: wrap;">
-
-    <a href="{% url 'swish_payment_initial_template' ad.id %}"><button class="btn btn-primary mr-3 mb-3" >Betala med Swish</button></a>
+    <div>
+        <a href="{% url 'swish_payment_initial_template' ad.id %}"><button class="btn btn-primary" >Betala med Swish</button></a>
+    </div>
+    <div class="mt-4">
+        <a href="{% url 'bg_payment' ad.id %}"><button class="btn btn-secondary mr-3">Betala med Bankgiro</button></a>
+    </div>
     
-    <a href="{% url 'bg_payment' ad.id %}"><button class="btn btn-secondary mr-3">Betala med Bankgiro</button></a>
-    
-    {% if ad.is_offering_own_dog == True%}
-        <a href="{% url 'update_ad_offering_dog' ad.id %}"><button class="btn btn-secondary mr-3">Ändra annons</button></a>
+    {% if ad.is_offering_own_dog == True %}
+        <div class="mt-4">
+            <a href="{% url 'update_ad_offering_dog' ad.id %}"><button class="btn btn-secondary mr-3">Ändra annons</button></a>
+        </div>
     {% else %}
-        <a href="{% url 'update_ad_requesting_dog' ad.id %}"><button class="btn btn-warning mr-3">Ändra annons</button></a>
+        <div class="mt-4">
+            <a href="{% url 'update_ad_requesting_dog' ad.id %}"><button class="btn btn-warning mr-3">Ändra annons</button></a>
+        </div>
     {% endif %}
-    
-    <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger">Ta bort annons</button></a>
-</div>
+        <div class="mt-4">
+            <a href="{% url 'delete_ad' ad.id %}"><button class="btn btn-danger">Ta bort annons</button></a>
+        </div>
 <br>
