@@ -59,6 +59,28 @@
 {% block footer %}
   <script>
 
+        ///////////////////////////
+        // GLOBAL HELPER FUNCTIONS
+        //////////////////////////
+
+        // Handling CSRF Cookies, The following function are copying from https://docs.djangoproject.com/en/dev/ref/csrf/#ajax
+        function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              var cookies = document.cookie.split(';');
+              for (var i = 0; i < cookies.length; i++) {
+                  var cookie = cookies[i].trim();
+                  // Does this cookie string begin with the name we want?
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+
+
       ///////////////////////////
       /* "PAYMENT-DONE" BUTTON */
       ///////////////////////////
@@ -77,8 +99,7 @@
         completed_payment_button.addEventListener('click', (event) => {
 
           // CSRF Set-up
-          let cookie = document.cookie
-          let csrftoken = cookie.substring(cookie.indexOf('=') + 1)
+          let csrftoken = getCookie('csrftoken');
 
           var xhr_complete = new XMLHttpRequest();
           
@@ -119,8 +140,7 @@
         open_swish_button.addEventListener('click', (event) => {
 
             // CSRF Set-up
-            let cookie = document.cookie
-            let csrftoken = cookie.substring(cookie.indexOf('=') + 1)
+            let csrftoken = getCookie('csrftoken');
             var xhr_token = new XMLHttpRequest();
 
             // Runs when token have been retrieved
@@ -166,8 +186,7 @@
       submit_button.addEventListener('click', (event) => {
 
         // CSRF Set-up
-        let cookie = document.cookie
-        let csrftoken = cookie.substring(cookie.indexOf('=') + 1)
+        let csrftoken = getCookie('csrftoken');
 
         var xhr_qr = new XMLHttpRequest();
         xhr_qr.responseType = "arraybuffer";
