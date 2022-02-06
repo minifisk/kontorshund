@@ -5,6 +5,9 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls import url
 
+def trigger_error(request):
+    division_by_zero = 1 / 0
+
 
 urlpatterns = [
     # Django admin
@@ -18,7 +21,8 @@ urlpatterns = [
     path('', include('accounts.urls')),
     path('', include('core.urls')),
    # path('__debug__/', include('debug_toolbar.urls')),
-    url(r'^silk/', include('silk.urls', namespace='silk')),
+
+    path('sentry-debug/', trigger_error),
 
 ]
 

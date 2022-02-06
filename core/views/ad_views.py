@@ -52,8 +52,6 @@ class Profile(View):
 
     def get(self, request):
 
-        return HttpResponse(status=500)
-
         if request.user.is_authenticated:
 
             #messages.success(request, "Dina inställningar är sparade!" )

@@ -4,6 +4,8 @@ from urllib.parse import urljoin
 from django.utils.log import DEFAULT_LOGGING
 from django.contrib.messages import constants as messages
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 
 # Price constants
@@ -403,6 +405,21 @@ ADMINS = (
 LOGGING = DEFAULT_LOGGING
 LOGGING['handlers']['console']['filters'] = ['require_debug_false']
 LOGGING['loggers']['django.server']['propagate'] = True
+
+sentry_sdk.init(
+    dsn="https://4e72c8deb9024ec78e9ebe14d879b3fb@o1136966.ingest.sentry.io/6189092",
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
+
 
 # Logging settings
 LOGGING = {
