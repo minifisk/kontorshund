@@ -169,7 +169,7 @@ MESSAGE_TAGS = {
 env_color = "#FF2222"
 env_text_color = "#FFFFFF"
 
-if (os.environ.get('IS_DEVELOPMENT')) == "True":
+if (os.environ.get('IS_DEVELOPMENT')) == "TRUE":
     env_color = "#00FF00"
     env_text_color = "#000000"
 
