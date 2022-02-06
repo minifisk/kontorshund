@@ -17,6 +17,10 @@ services:
       - 8000
     env_file:
       - ./.env.prod
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "50m"
   
   nginx-proxy:
     container_name: nginx-proxy
@@ -32,6 +36,10 @@ services:
       - html:/usr/share/nginx/html
       - vhost:/etc/nginx/vhost.d
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    logging:
+      driver: "json-file"
+      options:
+          max-size: "50m"
   
   nginx-proxy-letsencrypt:
     container_name: nginx-proxy-letsencrypt
