@@ -371,6 +371,7 @@ if (os.environ.get('IS_DEVELOPMENT')) == "TRUE":
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
+
 if (os.environ.get('IS_DEVELOPMENT')) == 'FALSE':
 
     print('Using live email settings')
@@ -393,6 +394,22 @@ if (os.environ.get('IS_DEVELOPMENT')) == 'FALSE':
     SECURE_HSTS_PRELOAD = True
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
+    # Sentry
+    sentry_sdk.init(
+    environment="production",
+    dsn="https://4e72c8deb9024ec78e9ebe14d879b3fb@o1136966.ingest.sentry.io/6189092",
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
+
 
 
 # LOGGING
@@ -406,19 +423,6 @@ LOGGING = DEFAULT_LOGGING
 LOGGING['handlers']['console']['filters'] = ['require_debug_false']
 LOGGING['loggers']['django.server']['propagate'] = True
 
-sentry_sdk.init(
-    dsn="https://4e72c8deb9024ec78e9ebe14d879b3fb@o1136966.ingest.sentry.io/6189092",
-    integrations=[DjangoIntegration()],
-
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for performance monitoring.
-    # We recommend adjusting this value in production.
-    traces_sample_rate=1.0,
-
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
-)
 
 
 # Logging settings
