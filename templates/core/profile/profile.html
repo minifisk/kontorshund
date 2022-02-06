@@ -98,7 +98,7 @@
     {% for ad in published_ads %}
     
 
-      <div class="card mb-5" style="width: 90%%; margin:auto;">
+      <div class="card mb-5 profile-ad-list">
         <h6 class="card-header text-center">
           {% if ad.is_offering_own_dog %}
           Hund erbjudes
@@ -130,7 +130,7 @@
     {% for ad in unpublished_ads %}
 
 
-    <div class="card mb-5" style="width: 90%; margin:auto;">
+    <div class="card mb-5 profile-ad-list">
       <h6 class="card-header text-center">
         {% if ad.is_offering_own_dog %}
         Hund erbjudes
@@ -163,7 +163,7 @@
     {% for ad in deleted_ads %}
 
 
-    <div class="card mb-5" style="width: 90%%; margin:auto;">
+    <div class="card mb-5 profile-ad-list">
       <h6 class="card-header text-center">
         {% if ad.is_offering_own_dog %}
         Hund erbjudes

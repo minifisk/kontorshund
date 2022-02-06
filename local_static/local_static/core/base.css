@@ -189,6 +189,11 @@ display: block;
     color: #27bcda;
 }
 
+.profile-ad-list {
+    width: 70%; 
+    margin:auto;
+}
+
 /* ID's */
 
 #google-login-button {
