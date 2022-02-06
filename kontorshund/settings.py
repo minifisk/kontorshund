@@ -32,7 +32,6 @@ ALLOWED_NGROK = NGROK_URL[8:]
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -41,12 +40,12 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "ndkwjankgsa")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ['DEBUG'] == 'TRUE'
-#DEBUG = False
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", " ").split(" ")
 ALLOWED_HOSTS.append(ALLOWED_NGROK)
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 
 
 
@@ -365,12 +364,12 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 # EMAIL SETTINGS
 
 # Use console-email if only using development server
-if (os.environ.get('IS_DEVELOPMENT')) == "True":
-    print('is development = True')
+if (os.environ.get('IS_DEVELOPMENT')) == "TRUE":
+    print('Using email console backend')
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
-if (os.environ.get('IS_DEVELOPMENT')) == 'False':
+if (os.environ.get('IS_DEVELOPMENT')) == 'FALSE':
 
     print('Using live email settings')
 
@@ -383,6 +382,13 @@ if (os.environ.get('IS_DEVELOPMENT')) == 'False':
     DEFAULT_FROM_EMAIL = 'Kontorshund.se <info@kontorshund.se>'
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     SERVER_EMAIL = 'server@kontorshund.se'
+
+    print('Using secure SSL redirect')
+    SECURE_SSL_REDIRECT = True
+
+    print('Using secure CSRF cookies over HTTPS')
+    CSRF_COOKIE_SECURE = True
+
 
 
 
