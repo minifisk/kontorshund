@@ -12,6 +12,7 @@ debugpy==1.5.1
 defusedxml==0.7.1
 Django==3.2.9
 django-admin-env-notice==0.4
+django-admin-honeypot==1.1.0
 django-allauth==0.46.0
 django-autocomplete-light==3.9.0rc1
 django-bootstrap-form==3.4

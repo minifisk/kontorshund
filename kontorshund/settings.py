@@ -40,7 +40,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY", "ndkwjankgsa")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get("DEBUG", default=0))
+DEBUG = os.environ['DEBUG'] == 'TRUE'
+#DEBUG = False
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", " ").split(" ")
 ALLOWED_HOSTS.append(ALLOWED_NGROK)
@@ -86,6 +87,7 @@ INSTALLED_APPS = [
     'stdimage',
     'bootstrapform',
     'widget_tweaks',
+    'admin_honeypot',
 
     # Local
     'core',
@@ -380,6 +382,8 @@ if (os.environ.get('IS_DEVELOPMENT')) == 'False':
     EMAIL_HOST_PASSWORD = 'W3;qU]8;-:Pk4`}q`G8&<m=-X2&/E'
     DEFAULT_FROM_EMAIL = 'Kontorshund.se <info@kontorshund.se>'
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    SERVER_EMAIL = 'server@kontorshund.se'
+
 
 
 # LOGGING

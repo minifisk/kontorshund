@@ -1,6 +1,7 @@
 import json
 import json
 import locale
+from django.http import HttpResponse, HttpResponseBadRequest
 
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.views import View, generic
@@ -50,6 +51,8 @@ class Profile(View):
     """
 
     def get(self, request):
+
+        return HttpResponse(status=500)
 
         if request.user.is_authenticated:
 

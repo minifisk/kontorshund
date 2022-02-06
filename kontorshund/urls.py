@@ -9,6 +9,7 @@ from django.conf.urls import url
 urlpatterns = [
     # Django admin
     path('u86013215/', admin.site.urls),
+    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
 
     # User management
     path('accounts/', include('allauth.urls')),
