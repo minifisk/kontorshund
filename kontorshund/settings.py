@@ -383,12 +383,10 @@ if (os.environ.get('IS_DEVELOPMENT')) == 'FALSE':
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     SERVER_EMAIL = 'server@kontorshund.se'
 
-    print('Using secure SSL redirect')
+    print('Using secure SSL settings')
     SECURE_SSL_REDIRECT = True
-
-    print('Using secure CSRF cookies over HTTPS')
     CSRF_COOKIE_SECURE = True
-
+    SESSION_COOKIE_SECURE = True
 
 
 
