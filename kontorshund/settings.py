@@ -387,6 +387,7 @@ if (os.environ.get('IS_DEVELOPMENT')) == 'FALSE':
     SECURE_SSL_REDIRECT = True
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 3600
 
 
 
