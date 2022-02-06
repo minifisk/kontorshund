@@ -19,71 +19,88 @@
   <hr style="height:1px;border:none;color:#333;background-color:#333;">
 
   <div id="center-align-container" class="mb-4">
-
-    <h3 class="">Dina bevakningar 
-
-      {% if news_email_obj.is_active %}
-          <span id="heading_subscription_status">
-          &#128236;
-          (Aktiv)
-          </span>
-          {% else %}
-          <span id="heading_subscription_status">
-            &#128237;
-            (Inaktiv)
-          </span>
-      {% endif %}
-
-    </h3>
-
-    <p class="mb-4">Här kan du skapa bevakningar av nya annonser och få ett mail antingen veckovis eller dagligen när det kommit upp nya annonser som matchar dina kriterier. Du kan närsomhelst gå in här och aktivera/inaktivera dina bevakningar.</p>
+    <p>
+      <a class="btn btn-primary mt-3 mb-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Dina bevakningar
+      </a>
+      <p class="mb-4">Här kan du skapa bevakningar av nya annonser och få ett mail antingen veckovis eller dagligen när det kommit upp nya annonser som matchar dina kriterier. Du kan närsomhelst gå in här och aktivera/inaktivera dina bevakningar.</p>
+    </p>
   </div>
-  {% load crispy_forms_tags %}
-
-
-  <div id="center-align-container" class="mb-4">
-    {% if news_email_obj.is_active %}
-      <button id="cancel-subscription-button" class="btn btn-danger mr-2">Deaktivera bevakningar</button>
-    {% else %}
-      <button id="cancel-subscription-button" class="btn btn-success ml-2">Aktivera bevakningar</button>
-    {% endif %}
-  </div>
-
-  <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
   
-    {% csrf_token %}  
-
-
-      <div style="display: flex; flex-wrap: wrap;">
-        <div class="form-group col-lg-2 mb-0">
-          {{ form.province|as_crispy_field }}
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+      
+        <div id="center-align-container" class="mb-4">
+          
+      
+          <h3 class="">Dina bevakningar 
+      
+            {% if news_email_obj.is_active %}
+                <span id="heading_subscription_status">
+                &#128236;
+                (Aktiv)
+                </span>
+                {% else %}
+                <span id="heading_subscription_status">
+                  &#128237;
+                  (Inaktiv)
+                </span>
+            {% endif %}
+      
+          </h3>
+      
         </div>
-
-        <div class="form-group col-lg-2 mb-0">
-          {{ form.municipality|as_crispy_field }}
+        {% load crispy_forms_tags %}
+      
+      
+        <div id="center-align-container" class="mb-4">
+          {% if news_email_obj.is_active %}
+            <button id="cancel-subscription-button" class="btn btn-danger mr-2">Deaktivera bevakningar</button>
+          {% else %}
+            <button id="cancel-subscription-button" class="btn btn-success ml-2">Aktivera bevakningar</button>
+          {% endif %}
         </div>
+      
+        <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
+        
+          {% csrf_token %}  
+      
+      
+            <div style="display: flex; flex-wrap: wrap;">
+              <div class="form-group col-lg-2 mb-0">
+                {{ form.province|as_crispy_field }}
+              </div>
+      
+              <div class="form-group col-lg-2 mb-0">
+                {{ form.municipality|as_crispy_field }}
+              </div>
+      
+              <div class="form-group col-lg-3 mb-0">
+                {{ form.areas|as_crispy_field }}
+              </div>
+      
+              <div class="form-group col-lg-2 mb-0">
+                {{ form.interval|as_crispy_field }}
+              </div>
+      
+              <div class="form-group col-lg-2 mb-0">
+                {{ form.ad_type|as_crispy_field }}
+              </div>
+      
+              <div class="form-group col-lg-1 mt-5 mb-0">
+                <div id="center-align-container" class="mb-4">
+                  <button type="submit" class="btn btn-primary">Spara</button>
+                </div>
+              </div>
+      
+            </div>
+      
+        </form>
 
-        <div class="form-group col-lg-3 mb-0">
-          {{ form.areas|as_crispy_field }}
-        </div>
 
-        <div class="form-group col-lg-2 mb-0">
-          {{ form.interval|as_crispy_field }}
-        </div>
 
-        <div class="form-group col-lg-2 mb-0">
-          {{ form.ad_type|as_crispy_field }}
-        </div>
-
-        <div class="form-group col-lg-1 mt-5 mb-0">
-          <div id="center-align-container" class="mb-4">
-            <button type="submit" class="btn btn-primary">Spara</button>
-          </div>
-        </div>
-
-      </div>
-
-  </form>
+    </div>
+  </div>
 
 
   <div id="center-align-container" class="mb-4">
