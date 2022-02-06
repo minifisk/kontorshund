@@ -20,7 +20,7 @@ services:
     logging:
       driver: "json-file"
       options:
-          max-size: "50m"
+          max-size: "100m"
   
   nginx-proxy:
     container_name: nginx-proxy
@@ -39,7 +39,7 @@ services:
     logging:
       driver: "json-file"
       options:
-          max-size: "50m"
+          max-size: "100m"
   
   nginx-proxy-letsencrypt:
     container_name: nginx-proxy-letsencrypt
