@@ -128,7 +128,7 @@ class SwishCallback(View):
             try:
                 ad_obj = Advertisement.objects.get(pk=ad_id) 
             except Advertisement.DoesNotExist:
-                logging.exception(f'Swish callback view was requested, ad id {ad_id} amount {amount} payment_reference {payment_reference} payer alias {payer_alias} - Ad couldnt be found')
+                logging.exception(f'Ad couldnt be found in Swish callback view was requested, ad id {ad_id} amount {amount} payment_reference {payment_reference} payer alias {payer_alias}')
                 return JsonResponse("Annonsen hittades ej", status=404, safe=False)
 
             # If payment is extended
@@ -212,7 +212,7 @@ class GenerateSwishPaymentRequestToken(View):
             try: 
                 ad_obj = Advertisement.objects.get(pk=pk)
             except Advertisement.DoesNotExist():
-                logging.exception(f'User with pk {request.user.pk} requested swishpaymentrequesttoken, couldnt find ad with pk {pk}')
+                logging.exception(f'Failed to find Advertisement with pk {pk} when User with pk {request.user.pk} was requesting swish Payment request token ')
                 return HttpResponseNotFound("Annonsen kunde inte hittas")  
 
             if ad_obj.has_initial_payment:
@@ -243,7 +243,7 @@ class GenerateSwishPaymentRequestToken(View):
 
             resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
             PaymentRequestToken = resp.headers['PaymentRequestToken']
-            logging.info(f'User with pk {request.user.pk} requested swish-payment-request-token, for ad with pk {pk} for amount {PRICE_TO_PAY}')
+            logging.info(f'Returning swish-payment-request-token to User with pk {request.user.pk}, for ad with pk {pk} for amount {PRICE_TO_PAY}')
             return JsonResponse({'token': PaymentRequestToken, 'callback_url': SWISH_CALLBACKURL}, status=201, safe=False)
         else:
             return redirect('account_login')
@@ -291,6 +291,7 @@ class GenerateSwishPaymentQrCode(View):
             try: 
                 ad_obj = Advertisement.objects.get(pk=pk)
             except Advertisement.DoesNotExist():
+                logging.exception(f'Failed to find advertisement when user with pk {request.user.pk} requested payment QR code for ad with pk {pk}')
                 return HttpResponseNotFound("Annonsen kunde inte hittas")  
 
             if ad_obj.has_initial_payment:
@@ -325,7 +326,7 @@ class GenerateSwishPaymentQrCode(View):
             PaymentRequestToken = resp.headers['PaymentRequestToken']
 
             qr_image_response = get_qr_code(request, PaymentRequestToken)
-            logging.info(f'User with pk {request.user.pk} requested swish-payment-QR-code, for ad with pk {pk} for amount {PRICE_TO_PAY}')
+            logging.info(f'Returning swish-payment-QR-code to user with pk {request.user.pk}, for ad with pk {pk} for amount {PRICE_TO_PAY}')
             return qr_image_response
         else:
             return redirect('account_login')
@@ -350,6 +351,7 @@ class PayForAdSwishTemplate(View):
                 try: 
                     ad_obj = Advertisement.objects.get(pk=pk)
                 except Advertisement.DoesNotExist():
+                    logging.exception(f'Failed to return Advertisement which couldnt be found when user with PK {request.user-pk} requested initial swish payment template')
                     return HttpResponseNotFound("Annonsen kunde inte hittas")     
 
                 if ad_obj.has_initial_payment:
@@ -361,7 +363,7 @@ class PayForAdSwishTemplate(View):
                 path = f'ads/{pk}'
                 ad_path = f'{url}{path}'
 
-                logging.info(f'User with pk {request.user.pk} requested initial payment template for ad with pk {pk}')
+                logging.info(f'Returning initial swish-payment template to user with pk {request.user.pk} for ad with pk {pk}')
 
                 return render(
                     request, 
@@ -380,6 +382,7 @@ class PayForAdSwishTemplate(View):
                 try: 
                     ad_obj = Advertisement.objects.get(pk=pk)
                 except Advertisement.DoesNotExist():
+                    logging.exception(f'Failed to return Advertisement which couldnt be found when user with PK {request.user-pk} requested extended swish payment template')
                     return HttpResponseNotFound("Annonsen kunde inte hittas")  
 
                 if not ad_obj.has_initial_payment:
@@ -398,7 +401,7 @@ class PayForAdSwishTemplate(View):
                 current_end_date_sv = current_end_date.strftime("%a, %d %b %Y")
                 new_end_date_sv = new_end_date.strftime("%a, %d %b %Y")
 
-                logging.info(f'User with pk {request.user.pk} requested extended payment template for ad with pk {pk}')
+                logging.info(f'Returning extended swish-payment template to user with pk {request.user.pk} for ad with pk {pk}')
 
                 return render(
                     request, 
@@ -440,7 +443,7 @@ class PayForAdBg(View):
             path = f'ads/{pk}'
             ad_path = f'{url}{path}'
 
-            logging.info(f'User with pk {request.user.pk} requested BG payment template for ad with {pk}')
+            logging.info(f'Returning BG payment template to user with pk {request.user.pk} for ad with {pk}')
             return render(request, 'core/payment/bg_instructions.html', {'pk': pk, 'price': PRICE_TO_PAY, 'ad_path': ad_path})
         else:
             return redirect('account_login')
