@@ -1,5 +1,4 @@
 import json
-import json
 import locale
 from django.http import HttpResponse, HttpResponseBadRequest
 
@@ -24,7 +23,7 @@ from crispy_forms.layout import Layout, Submit, Field, HTML, Div
 from crispy_forms.bootstrap import InlineRadios, InlineCheckboxes
 
 from core.forms.ad_forms import OfferingDogForm, RequestingDogForm
-from core.models import Advertisement, Province, Municipality, Area, DogSizeChoice, NewsEmail
+from core.models import Advertisement, DogBreed, Province, Municipality, Area, DogSizeChoice, NewsEmail
 from core.forms.news_email_form import NewsEmailForm
 from kontorshund.settings import PRICE_SWISH_EXTEND
 
@@ -54,12 +53,17 @@ from django.views.decorators.cache import cache_page
 
 @cache_page(CACHE_TTL)
 def test1(request):
-    all_ads = Advertisement.objects.all()
-    all_users = User.objects.all()
+    all_ads_qs = Advertisement.objects.all()
+    all_ads = all_ads_qs.count()
+    users_qs = User.objects.all()
+    all_users = users_qs.count()
+    breeds_qs = DogBreed.objects.all()
+    breeds = breeds_qs.count()
 
     json_dict = {
         'all_ads': all_ads,
         'all_users': all_users,
+        'breeds': breeds,
     }
 
     data = json.dumps(json_dict)
@@ -69,12 +73,17 @@ def test1(request):
 
 
 def test2(request):
-    all_ads = Advertisement.objects.all()
-    all_users = User.objects.all()
+    all_ads_qs = Advertisement.objects.all()
+    all_ads = all_ads_qs.count()
+    users_qs = User.objects.all()
+    all_users = users_qs.count()
+    breeds_qs = DogBreed.objects.all()
+    breeds = breeds_qs.count()
 
     json_dict = {
         'all_ads': all_ads,
         'all_users': all_users,
+        'breeds': breeds,
     }
 
     data = json.dumps(json_dict)
