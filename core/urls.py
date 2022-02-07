@@ -31,7 +31,6 @@ urlpatterns = [
     path('swish-successfull-android', payment_views.AndroidSuccessPage.as_view(), name='android_success_page'),
     path('bg-pay/<int:pk>', payment_views.PayForAdBg.as_view(), name='bg_payment'),
     
-    path('deactivate-email-subscription/<str:uuid>', supporting_views.DeactivateNewsEmailSubscription.as_view(), name='deactivate_email_subscription'),
     path('handle-email-subscription/<str:uuid>', supporting_views.HandleEmailSubscriptionStatus.as_view(), name='handle_email_subscription_status'), 
 
     path('ajax/load-provinces/', supporting_views.LoadProvinces.as_view(), name='ajax_load_provinces'), 

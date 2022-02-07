@@ -14,29 +14,14 @@ from core.models import Advertisement, Province, Municipality, Area, DogBreed, N
 
 locale.setlocale(locale.LC_ALL,'sv_SE.UTF-8')
 
+import logging 
+logger = logging.getLogger(__name__)
+
 
 ####################
 # EMAIL SUBSCRIPTION
 ####################
 
-class DeactivateNewsEmailSubscription(View):
-   
-    def get(self, request, uuid):
-        context = {
-            'uuid': uuid
-        }
-        return render(request, 'core/subscription_email/deactivate_subscription.html', context=context)
-
-    def post(self, request, uuid):
-        try:
-            news_email_obj = NewsEmail.objects.get(uuid=uuid)
-            news_email_obj.is_active = False
-            news_email_obj.save()
-
-        except:
-            return render(request, 'core/subscription_email/subscription_deactivation_error.html')
-
-        return render(request, 'core/subscription_email/subscription_deactivated_confirmation.html')
 
 class HandleEmailSubscriptionStatus(View):
 
@@ -46,10 +31,12 @@ class HandleEmailSubscriptionStatus(View):
         if NewsEmail_obj.is_active == False:
             NewsEmail_obj.is_active = True
             NewsEmail_obj.save()
+            logging.debug(f'Activated NewsEmail subscription for user {request.user.pk}')
             return JsonResponse("Activated", status=200, safe=False)
         else:
             NewsEmail_obj.is_active = False
             NewsEmail_obj.save()
+            logging.debug(f'Deactivated NewsEmail subscription for user {request.user.pk}')
             return JsonResponse("Deactivated", status=200, safe=False)
 
 
