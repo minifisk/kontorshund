@@ -43,14 +43,18 @@ class CheckInitialPaymentStatus(View):
 
     def post(self, request, pk):
         if request.user.is_authenticated:
+            logging.debug(f'User {request.user.pk} checked initial payment status for ad {pk}')
             try:
                 ad = Advertisement.objects.get(pk=pk)
             except Advertisement.DoesNotExist:
+                logging.exception(f'User {request.user.pk} checked initial payment status for ad {pk}, which returned an doesnotexist error')
                 return JsonResponse("Ad does not exist", status=404, safe=False)
 
             if ad.has_initial_payment:
+                logging.debug(f'User {request.user.pk} checking initial payment status for ad {pk}, which returned True')
                 return JsonResponse("Payment is complete!", status=200, safe=False)
             else:
+                logging.debug(f'User {request.user.pk} checking initial payment status for ad {pk}, which returned False')
                 return JsonResponse("Payment is NOT complete", status=404, safe=False)
         else:
             return redirect('account_login')
@@ -62,14 +66,18 @@ class CheckExtendedPaymentStatus(View):
 
     def post(self, request, pk):
         if request.user.is_authenticated:
+            logging.debug(f'User {request.user.pk} checked extended payment status for ad {pk}')
             try:
                 ad = Advertisement.objects.get(pk=pk)
             except Advertisement.DoesNotExist:
+                logging.exception(f'User {request.user.pk} checked extended payment status for ad {pk}, which returned an doesnotexist error')
                 return JsonResponse("Ad does not exist", status=404, safe=False)
 
             if ad.has_extended_payment:
+                logging.debug(f'User {request.user.pk} checking initial payment status for ad {pk}, which returned True')
                 return JsonResponse("Payment is complete!", status=200, safe=False)
             else:
+                logging.debug(f'User {request.user.pk} checking initial payment status for ad {pk}, which returned False')
                 return JsonResponse("Payment is NOT complete", status=404, safe=False)
         else:
             return redirect('account_login')
@@ -82,6 +90,7 @@ class CheckExtendedPaymentStatus(View):
 class AndroidSuccessPage(View):
 
     def get(self, request):
+        logging.info('Android success-page was requested and served')
         return render(request, 'core/payment/android_swish_success.html')
 
 #############
@@ -104,8 +113,7 @@ class SwishCallback(View):
 
         # Check if payment was successfull
         if data_dict['status'] == 'PAID':
-
-            logging.info(data_dict['status'])
+            logging.debug('Swish callback view was requested')
 
             ad_id = data_dict['payeePaymentReference']
             amount = data_dict['amount']
@@ -114,9 +122,13 @@ class SwishCallback(View):
             payment_reference = data_dict['paymentReference']
             payer_alias = data_dict['payerAlias']
 
+            logging.debug(
+                f'Swish callback view was requested, ad id {ad_id} amount {amount} payment_reference {payment_reference} payer alias {payer_alias}'
+            )
             try:
                 ad_obj = Advertisement.objects.get(pk=ad_id) 
             except Advertisement.DoesNotExist:
+                logging.exception(f'Swish callback view was requested, ad id {ad_id} amount {amount} payment_reference {payment_reference} payer alias {payer_alias} - Ad couldnt be found')
                 return JsonResponse("Annonsen hittades ej", status=404, safe=False)
 
             # If payment is extended
@@ -130,6 +142,10 @@ class SwishCallback(View):
                     payer_alias = payer_alias
                     )
 
+                logging.info(
+                    f'Initial payment found - creating extended payment pk {payment_obj.pk}for when Swish callback view was requested, ad id {ad_obj.pk} amount {amount} payment_reference {payment_reference} payer alias {payer_alias}'
+                )
+
                 ad_obj.is_published = True
                 ad_obj.is_deleted = False
 
@@ -140,10 +156,13 @@ class SwishCallback(View):
                 if get_30_days_ahead_from_date_obj(ad_obj.deletion_date) > new_deletion_date:
                     new_deletion_date = get_30_days_ahead_from_date_obj(ad_obj.deletion_date)
 
+                logging.debug(
+                    f'Setting deletion date for ad {ad_obj.pk} to {new_deletion_date} for when Swish callback view was requested, ad id {ad_obj.pk} amount {amount} payment_reference {payment_reference} payer alias {payer_alias}'
+                )
+
                 ad_obj.deletion_date = new_deletion_date
                 ad_obj.save()
 
-                logging.info(f'Extended payment created, payment id {payment_obj.pk} user id {ad_obj.author.pk} ad pk {ad_obj.pk}')
                 return HttpResponse(status=200)
 
             # If payment is initial
@@ -161,8 +180,9 @@ class SwishCallback(View):
                 ad_obj.is_deleted = False      
                 ad_obj.save()
 
-                logging.info(f'Initial payment created, payment id {payment_obj.pk} user id {ad_obj.author.pk} ad id {ad_obj.pk}')
-
+                logging.info(
+                    f'Initial payment not found - creating initial payment pk {payment_obj.pk}for when Swish callback view was requested, ad id {ad_obj.pk} amount {amount} payment_reference {payment_reference} payer alias {payer_alias}'
+                )
                 return HttpResponse(status=200)
 
         else:
@@ -192,6 +212,7 @@ class GenerateSwishPaymentRequestToken(View):
             try: 
                 ad_obj = Advertisement.objects.get(pk=pk)
             except Advertisement.DoesNotExist():
+                logging.exception(f'User with pk {request.user.pk} requested swishpaymentrequesttoken, couldnt find ad with pk {pk}')
                 return HttpResponseNotFound("Annonsen kunde inte hittas")  
 
             if ad_obj.has_initial_payment:
@@ -222,7 +243,7 @@ class GenerateSwishPaymentRequestToken(View):
 
             resp = requests.post(urljoin(SWISH_URL, "v1/paymentrequests"), json=payload, cert=SWISH_CERT, verify=SWISH_ROOTCA, timeout=2)
             PaymentRequestToken = resp.headers['PaymentRequestToken']
-
+            logging.info(f'User with pk {request.user.pk} requested swish-payment-request-token, for ad with pk {pk} for amount {PRICE_TO_PAY}')
             return JsonResponse({'token': PaymentRequestToken, 'callback_url': SWISH_CALLBACKURL}, status=201, safe=False)
         else:
             return redirect('account_login')
@@ -249,7 +270,6 @@ def get_qr_code(request, token):
         response = HttpResponse(content_type=f'image/png')
         response['Content-Disposition'] = f'inline; filename="qr-code-image"'
         response.write(file_data)
-
         return response 
     else:
         return redirect('account_login')
@@ -305,7 +325,7 @@ class GenerateSwishPaymentQrCode(View):
             PaymentRequestToken = resp.headers['PaymentRequestToken']
 
             qr_image_response = get_qr_code(request, PaymentRequestToken)
-
+            logging.info(f'User with pk {request.user.pk} requested swish-payment-QR-code, for ad with pk {pk} for amount {PRICE_TO_PAY}')
             return qr_image_response
         else:
             return redirect('account_login')
@@ -340,6 +360,8 @@ class PayForAdSwishTemplate(View):
                 url = request.build_absolute_uri('/')
                 path = f'ads/{pk}'
                 ad_path = f'{url}{path}'
+
+                logging.info(f'User with pk {request.user.pk} requested initial payment template for ad with pk {pk}')
 
                 return render(
                     request, 
@@ -376,6 +398,7 @@ class PayForAdSwishTemplate(View):
                 current_end_date_sv = current_end_date.strftime("%a, %d %b %Y")
                 new_end_date_sv = new_end_date.strftime("%a, %d %b %Y")
 
+                logging.info(f'User with pk {request.user.pk} requested extended payment template for ad with pk {pk}')
 
                 return render(
                     request, 
@@ -417,8 +440,8 @@ class PayForAdBg(View):
             path = f'ads/{pk}'
             ad_path = f'{url}{path}'
 
-            if request.method == "GET":
-                return render(request, 'core/payment/bg_instructions.html', {'pk': pk, 'price': PRICE_TO_PAY, 'ad_path': ad_path})
+            logging.info(f'User with pk {request.user.pk} requested BG payment template for ad with {pk}')
+            return render(request, 'core/payment/bg_instructions.html', {'pk': pk, 'price': PRICE_TO_PAY, 'ad_path': ad_path})
         else:
             return redirect('account_login')
 
