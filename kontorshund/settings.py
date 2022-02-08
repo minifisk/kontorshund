@@ -43,8 +43,23 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "ndkwjankgsa")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ['DEBUG'] == 'TRUE'
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", " ").split(" ")
+
+ALLOWED_HOSTS = [
+    'localhost', 
+    '0.0.0.0', 
+    'e40c-92-33-202-136.ngrok.io',
+
+    'kontorshund.se',
+
+]
+
 ALLOWED_HOSTS.append(ALLOWED_NGROK)
+
+# Allowing Docker hosts as allowed hosts
+ALLOWED_CIDR_NETS = ['172.23.0.0/16']
+
+
+
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
@@ -63,7 +78,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 
     # Django autocomplete light
-    'silk',
     #"debug_toolbar",
     'dal',
     'dal_select2',
@@ -123,7 +137,7 @@ if DEBUG:
 
 
 MIDDLEWARE = [
-    'silk.middleware.SilkyMiddleware',
+    'allow_cidr.middleware.AllowCIDRMiddleware',
     
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
