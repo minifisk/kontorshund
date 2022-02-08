@@ -53,11 +53,10 @@ services:
     volumes_from:
       - nginx-proxy
     volumes:
-      - certs:/etc/nginx/certs:rw
+      - certs:/etc/nginx/certs:ro
       - acme:/etc/acme.sh
       - /var/run/docker.sock:/var/run/docker.sock:ro
     network_mode: bridge
-    
   # nginx-proxy-letsencrypt:
   #   container_name: nginx-proxy-letsencrypt
   #   image: jrcs/letsencrypt-nginx-proxy-companion
