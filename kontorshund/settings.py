@@ -56,7 +56,7 @@ ALLOWED_HOSTS = [
 ALLOWED_HOSTS.append(ALLOWED_NGROK)
 
 # Allowing Docker hosts as allowed hosts
-ALLOWED_CIDR_NETS = ['172.23.0.0/16']
+ALLOWED_CIDR_NETS = ['172.16.0.0/12']
 
 
 
