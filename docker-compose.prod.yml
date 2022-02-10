@@ -83,6 +83,8 @@ services:
     image: jrcs/letsencrypt-nginx-proxy-companion
     env_file:
       - ./prod.proxy-companion.env
+    environment:
+      - TZ=Europe/Stockholm
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - certs:/etc/nginx/certs
