@@ -43,54 +43,6 @@ locale.setlocale(locale.LC_ALL,'sv_SE.UTF-8')
 def index(request):
     return render(request, 'core/index.html')
 
-############
-# REDIS TEST
-############
-from django.core.cache.backends.base import DEFAULT_TIMEOUT
-CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
-from django.views.decorators.cache import cache_page
-
-
-@cache_page(CACHE_TTL)
-def test1(request):
-    all_ads_qs = Advertisement.objects.all()
-    all_ads = all_ads_qs.count()
-    users_qs = User.objects.all()
-    all_users = users_qs.count()
-    breeds_qs = DogBreed.objects.all()
-    breeds = breeds_qs.count()
-
-    json_dict = {
-        'all_ads': all_ads,
-        'all_users': all_users,
-        'breeds': breeds,
-    }
-
-    data = json.dumps(json_dict)
-
-    return JsonResponse(data, status=200, safe=False)
-
-
-
-def test2(request):
-    all_ads_qs = Advertisement.objects.all()
-    all_ads = all_ads_qs.count()
-    users_qs = User.objects.all()
-    all_users = users_qs.count()
-    breeds_qs = DogBreed.objects.all()
-    breeds = breeds_qs.count()
-
-    json_dict = {
-        'all_ads': all_ads,
-        'all_users': all_users,
-        'breeds': breeds,
-    }
-
-    data = json.dumps(json_dict)
-
-    return JsonResponse(data, status=200, safe=False)
-
-
  
 
 ##########

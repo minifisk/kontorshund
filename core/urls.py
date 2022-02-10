@@ -6,9 +6,6 @@ from django.conf.urls.static import static
 from .views import ad_views, payment_views, supporting_views
 
 urlpatterns = [
-    
-    path('test1', ad_views.test1, name='test1'),
-    path('test2', ad_views.test2, name='test2'),
 
     path('', ad_views.index, name='index'), 
     path('profile', ad_views.Profile.as_view(), name='profile'), 
