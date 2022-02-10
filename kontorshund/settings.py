@@ -50,6 +50,7 @@ ALLOWED_HOSTS = [
     'e40c-92-33-202-136.ngrok.io',
 
     'kontorshund.se',
+    'www.kontorshund.se',
 
 ]
 
