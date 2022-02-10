@@ -19,8 +19,8 @@ services:
     env_file:
       - ./prod.env
     environment:
-      - VIRTUAL_HOST=kontorshund.se
-      - LETSENCRYPT_HOST=kontorshund.se
+      - VIRTUAL_HOST=kontorshund.se, www.kontorshund.se
+      - LETSENCRYPT_HOST=kontorshund.se, www.kontorshund.se
       - VIRTUAL_PORT=8000
     logging:
       driver: "json-file"
