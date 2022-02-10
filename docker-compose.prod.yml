@@ -103,6 +103,8 @@ services:
     - /home/kontorshund/.docker/config.json:/config.json
     env_file:
       - ./prod.env
+    environment:
+      - ENV TZ=Europe/Stockholm
     command: --interval 120  --label-enable --warn-on-head-failure never
     network_mode: bridge
 
