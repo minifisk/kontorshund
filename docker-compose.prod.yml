@@ -104,7 +104,7 @@ services:
     env_file:
       - ./prod.env
     environment:
-      - ENV TZ=Europe/Stockholm
+      - TZ=Europe/Stockholm
     command: --interval 120  --label-enable --warn-on-head-failure never
     network_mode: bridge
 
