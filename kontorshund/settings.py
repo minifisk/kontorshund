@@ -287,7 +287,8 @@ if USE_S3:
     AWS_STORAGE_BUCKET_NAME=LINODE_BUCKET_NAME
     AWS_DEFAULT_ACL= None
 
-else:
+
+if USE_S3 == False:
     print("Not using S3")
 
     STATIC_URL = '/static/'
@@ -295,6 +296,10 @@ else:
 
     MEDIA_URL = '/media/'
     MEDIA_ROOT = BASE_DIR / "mediafiles"
+
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    # much faster password hashing, default one is super slow (on purpose)
+    PASSWORD_HASHERS = ['django.contrib.auth.hashers.MD5PasswordHasher']
 
 
 # Where to collect static files from locally

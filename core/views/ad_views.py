@@ -146,11 +146,15 @@ class ListAndSearchAdsView(View):
 
     def post(self, request):
 
+
         # Get initial data from request
         body_json = json.loads(request.body)
-        unsafe_province = body_json['province'][:-7]
-        unsafe_municipality = body_json['municipality'][:-7]
-        unsafe_area = body_json['area'][:-7]
+
+        
+        unsafe_province = body_json['province'][:-7] # Taking account for "(0, 0) - ad count in field name"
+        unsafe_municipality = body_json['municipality']
+        unsafe_area = body_json['area']
+
 
         unsafe_type_of_ad = body_json['type_of_ad']
 
@@ -168,23 +172,24 @@ class ListAndSearchAdsView(View):
         size_requested_obj_list = []
 
 
+
         # Check if user input data is valid
         if variable_is_not_empty(unsafe_province):
             try:
                 province = Province.objects.get(name=unsafe_province)
-            except Province.DoesNotExist():
+            except Province.DoesNotExist:
                 raise ValidationError
 
         if variable_is_not_empty(unsafe_municipality):
             try:
                 municipality = Municipality.objects.get(name=unsafe_municipality)
-            except Municipality.DoesNotExist():
+            except Municipality.DoesNotExist:
                 raise ValidationError
 
         if variable_is_not_empty(unsafe_area):
             try:
                 area = Area.objects.get(name=unsafe_area)
-            except Area.DoesNotExist():
+            except Area.DoesNotExist:
                 raise ValidationError
 
         if variable_is_not_empty(unsafe_size_offered_list):
@@ -192,7 +197,7 @@ class ListAndSearchAdsView(View):
                 try:
                     size_choice = DogSizeChoice.objects.get(size=size)
                     size_offered_obj_list.append(size_choice) 
-                except DogSizeChoice.DoesNotExist():
+                except DogSizeChoice.DoesNotExist:
                     raise ValidationError
 
         if variable_is_not_empty(unsafe_size_requested_list):
@@ -200,7 +205,7 @@ class ListAndSearchAdsView(View):
                 try:
                     size_requested = DogSizeChoice.objects.get(size=size)
                     size_requested_obj_list.append(size_requested) 
-                except DogSizeChoice.DoesNotExist():
+                except DogSizeChoice.DoesNotExist:
                     raise ValidationError
 
 
@@ -266,7 +271,7 @@ class ListAndSearchAdsView(View):
                 {
                 'pk': ad.pk,
                 'title': ad.title, 
-                'image_url': ad.image1.url,
+                'image_url': ad.image1.url if ad.image1 else '', # Taking account for not providing an image (in tests for example)
                 'is_offering_own_dog': ad.is_offering_own_dog,
                 'province': ad.province.name,
                 'municipality': ad.municipality.name,
