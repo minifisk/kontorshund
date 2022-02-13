@@ -217,23 +217,6 @@ DATABASES = {
 if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
-# Cache
-
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"redis://{os.environ.get('IP_HOST')}:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            'PASSWORD': os.environ.get('REDIS_PASSWORD'),
-        },
-        "KEY_PREFIX": "prod"
-    }
-}
-
-# Cache time to live is 15 minutes.
-CACHE_TTL = 60 * 15
-
 
 
 # Password validation
