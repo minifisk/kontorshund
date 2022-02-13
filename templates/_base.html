@@ -44,8 +44,14 @@
     <!-- Fixed navbar -->
     <a href="{% url 'index' %}" class="navbar-brand my-0 mr-md-auto
     font-weight-normal">
-      <img src="https://kontorshund.eu-central-1.linodeobjects.com/wide_banner.jpg" width="100%" style="width: 100%%;" alt="">
-    </a>
+
+      
+    <picture>
+      <source media="(max-width: 999px)" srcset="https://kontorshund.eu-central-1.linodeobjects.com/small_banner.jpg">
+      <source media="(min-width: 1000px)" srcset="https://kontorshund.eu-central-1.linodeobjects.com/wide_banner.jpg">
+      <img src="https://kontorshund.eu-central-1.linodeobjects.com/wide_banner.jpg" width="100%" alt="Kontorshund.se">
+    </picture>
+
 
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4
      mb-3 bg-white border-bottom shadow-sm">
