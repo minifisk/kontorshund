@@ -91,7 +91,6 @@ class Profile(LoginRequiredMixin, View):
 
         if request.user.is_authenticated:
 
-
             NewsEmail_obj = NewsEmail.objects.get(user=request.user)
             form = NewsEmailForm(request.POST, instance=NewsEmail_obj)
 

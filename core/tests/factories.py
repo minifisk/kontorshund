@@ -10,7 +10,7 @@ def create_offering_ads(count=1, user=None, is_published=False):
 
     province = Province.objects.get(name='Stockholm')
     municipality = Municipality.objects.get(name='Stockholms stad')
-    breed = DogBreed.objects.get(pk=r_low)
+    breed = DogBreed.objects.get(pk=5)
     size_offered = DogSizeChoice.objects.get(pk=1)
     
     ads = []
