@@ -35,7 +35,8 @@ class TestAdViews(TestCase):
         cls.user2.save()
 
 
-        cls.user_1_ads = factories.create_offering_ads(count=5, user=cls.user1, is_published=True)
+        cls.user_1_offering_ads = factories.create_offering_ads(count=5, user=cls.user1, is_published=True)
+        cls.user_2_requesting_ads = factories.create_requesting_ads(count=10, user=cls.user2, is_published=True)
 
 
     #setUp: Run once for every test method to setup clean data.
@@ -52,7 +53,7 @@ class TestAdViews(TestCase):
         self.client.login(username=self.username1, password=self.password1)
         response = self.client.get('/profile')
 
-        ad_title_1 = self.user_1_ads[0].title
+        ad_title_1 = self.user_1_offering_ads[0].title
 
         json_response = json.dumps(response.content.decode("utf-8"))
         self.assertEqual(response.status_code, 200)
@@ -88,6 +89,21 @@ class TestAdViews(TestCase):
         self.assertEqual(NewsEmail_pre_change['province_id'], None)
         self.assertEqual(NewsEmail_post_change, gbg_mun_obj.name)
         self.assertEqual(response.status_code, 302)
+
+
+    def test_getting_list_ads_initial_view(self):
+        response = self.client.get('/postings/list')
+        json_response = json.dumps(response.content.decode("utf-8"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('(15)', json_response)
+        self.assertIn('(5)', json_response)
+        self.assertIn('(10)', json_response)
+
+    def test_requesting_ads(self):
+        pass
+
+
 
 
     
