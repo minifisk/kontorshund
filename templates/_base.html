@@ -42,14 +42,15 @@
 <body>
   <header>
     <!-- Fixed navbar -->
-
-    <img src="https://kontorshund.eu-central-1.linodeobjects.com/testbg.png" width="100%" style="width: 100%%;" alt="">
+    <a href="{% url 'index' %}" class="navbar-brand my-0 mr-md-auto
+    font-weight-normal">
+      <img src="https://kontorshund.eu-central-1.linodeobjects.com/wide_banner.jpg" width="100%" style="width: 100%%;" alt="">
+    </a>
 
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4
      mb-3 bg-white border-bottom shadow-sm">
 
-      <a href="{% url 'index' %}" class="navbar-brand my-0 mr-md-auto
-      font-weight-normal">Kontorshund</a>
+     
 
       <nav class="my-2 my-md-0 mr-md-3">
         {% if user.is_authenticated %}
