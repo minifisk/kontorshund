@@ -7,6 +7,8 @@ import locale
 from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.shortcuts import render, redirect
+
 
 from dal import autocomplete
 
@@ -26,18 +28,26 @@ logger = logging.getLogger(__name__)
 class HandleEmailSubscriptionStatus(View):
 
     def post(self, request, uuid):
-        NewsEmail_obj = NewsEmail.objects.get(uuid=uuid)
 
-        if NewsEmail_obj.is_active == False:
-            NewsEmail_obj.is_active = True
-            NewsEmail_obj.save()
-            logging.debug(f'Activated NewsEmail subscription for user {request.user.pk}')
-            return JsonResponse("Activated", status=200, safe=False)
+        if request.user.is_authenticated:
+
+            NewsEmail_obj = NewsEmail.objects.get(uuid=uuid)
+
+            if NewsEmail_obj.is_active == False:
+                print('Is false, setting to true')
+                NewsEmail_obj.is_active = True
+                NewsEmail_obj.save()
+                logging.debug(f'Activated NewsEmail subscription for user {request.user.pk}')
+                return JsonResponse("Activated", status=200, safe=False)
+            else:
+                print('Is true, setting to false')
+                NewsEmail_obj.is_active = False
+                NewsEmail_obj.save()
+                logging.debug(f'Deactivated NewsEmail subscription for user {request.user.pk}')
+                return JsonResponse("Deactivated", status=200, safe=False)
+        
         else:
-            NewsEmail_obj.is_active = False
-            NewsEmail_obj.save()
-            logging.debug(f'Deactivated NewsEmail subscription for user {request.user.pk}')
-            return JsonResponse("Deactivated", status=200, safe=False)
+            return redirect('account_login')
 
 
 ###############
