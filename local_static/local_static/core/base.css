@@ -1,43 +1,20 @@
-/* NAVBAR TESTING */
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    }
-
-nav li {
-    margin-left: 2em;
-    }
-
-
-nav a {
-    text-decoration: none;
-    }
-    
-nav a:hover,
-nav a:focus {
-    color: #fd5f00;
-}
-    
-.my-nav-container {
-    width: 90%;
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: red;
-    border-radius: 5px;
-}
-
-
-
-
-
 
 
 /* ELEMENTS */
+
+nav ul {
+    list-style: none;
+    display: flex;
+    }
+
+nav ul li {
+    padding: 10px;
+    }
+
+nav ul li a {
+    font-size: 20px;
+    }
+
 
 h1 {
     font-family: 'Barlow Condensed', sans-serif;
@@ -109,8 +86,12 @@ small {
 
 
 
-
-
+.my-nav-container {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 
 
@@ -393,6 +374,13 @@ display: block;
 
     /* CLASSES */
 
+    nav ul li a {
+        font-size: 12px;
+        }
+
+
+    /* CLASSES */
+
     .carousel-item img {
         object-fit: contain;
         height: 200px;;
@@ -420,6 +408,13 @@ display: block;
 }
 
 @media (min-width:641px)  { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ 
+
+    /* CLASSES */
+
+    nav ul li a {
+        font-size: 12px;
+        }
+
 
     /* CLASSES */
 
