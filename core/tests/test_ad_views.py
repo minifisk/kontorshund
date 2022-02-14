@@ -331,6 +331,17 @@ class TestAdViews(TestCase):
             self.assertNotIn(f'"pk": {self.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia[0].pk}', json_response)
             
 
+    def test_choosing_ad_view(self):
+  
+        self.client.login(username=self.username1, password=self.password1)
+        response = self.client.get('/ads/choose')
+
+        content = response.content.decode("utf-8")
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('requesting_dog.jpg', content)
+
+
 
 
 
