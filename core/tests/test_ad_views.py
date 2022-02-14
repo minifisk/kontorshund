@@ -274,8 +274,62 @@ class TestAdViews(TestCase):
             self.assertIn(f'"pk": {self.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia[0].pk}', json_response)
             self.assertNotIn(f'"pk": {self.user_2_requesting_ads_sthlm[0].pk}', json_response)
 
-    
+
+    def test_requesting_all_offering_ads(self):
+                
+                data = {
+                    "type_of_ad": "offering",
+                    "province":"---------",
+                    "municipality":"---------",
+                    "area":"---------",
+                    "days_per_week":[],
+                    "size_offered":[],
+                    "size_requested":[],
+                    "offset":0
+                }
+
+                json_data = json.dumps(data)
+
+                response = self.client.post(
+                    '/postings/list', 
+                    json_data,
+                    content_type='application/json',
+                )
+
+                json_response = json.loads(response.content.decode("utf-8"))
+                
+                self.assertEqual(response.status_code, 200)
+                self.assertIn(f'"pk": {self.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia[0].pk}', json_response)
+                self.assertNotIn(f'"pk": {self.user_2_requesting_ads_sthlm[0].pk}', json_response)
         
+
+    def test_requesting_all_requesting_ads(self):
+            
+            data = {
+                "type_of_ad": "requesting",
+                "province":"---------",
+                "municipality":"---------",
+                "area":"---------",
+                "days_per_week":[],
+                "size_offered":[],
+                "size_requested":[],
+                "offset":0
+            }
+
+            json_data = json.dumps(data)
+
+            response = self.client.post(
+                '/postings/list', 
+                json_data,
+                content_type='application/json',
+            )
+
+            json_response = json.loads(response.content.decode("utf-8"))
+            
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(f'"pk": {self.user_2_requesting_ads_sthlm[0].pk}', json_response)
+            self.assertNotIn(f'"pk": {self.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia[0].pk}', json_response)
+            
 
 
 
