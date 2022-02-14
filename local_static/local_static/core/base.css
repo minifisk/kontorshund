@@ -12,7 +12,8 @@ nav ul li {
     }
 
 nav ul li a {
-    font-size: 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
     }
 
 
@@ -91,6 +92,8 @@ small {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid black;
+    margin-bottom: 30px;
 }
 
 
@@ -374,9 +377,9 @@ display: block;
 
     /* CLASSES */
 
-    nav ul li a {
-        font-size: 12px;
-        }
+    /* nav ul li a {
+        background-color: red;
+        } */
 
 
     /* CLASSES */
@@ -411,9 +414,9 @@ display: block;
 
     /* CLASSES */
 
-    nav ul li a {
+    /* nav ul li a {
         font-size: 12px;
-        }
+        } */
 
 
     /* CLASSES */
