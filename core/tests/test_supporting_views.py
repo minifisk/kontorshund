@@ -37,12 +37,12 @@ class TestAdViews(TestCase):
 
         cls.user1.save()
         cls.user2.save()
+        cls.user2.newsemail.save()
 
 
     #setUp: Run once for every test method to setup clean data.
     def setUp(self):
         pass
-
 
     def test_unauthenticated_trying_to_change_subscription_status(self):
         response = self.client.post(f'/handle-email-subscription/{self.user1.newsemail.uuid}')
@@ -51,25 +51,43 @@ class TestAdViews(TestCase):
         self.assertEqual(response.url, '/accounts/login/')
 
 
-    # def test_authenticated_trying_to_change_subscription_status_from_deactivated_to_activated(self):
-    #     self.client.login(username=self.username1, password=self.password1)
-    #     response = self.client.post(f'/handle-email-subscription/{self.user1.newsemail.uuid}')
+    def test_authenticated_trying_to_change_subscription_status_from_deactivated_to_activated(self):
+        self.client.login(username=self.username1, password=self.password1)
+        response = self.client.post(f'/handle-email-subscription/{self.user1.newsemail.uuid}')
+        json_ = json.loads(response.content)
 
-    #     self.assertEqual(response.status_code, 200)
-
-def test_authenticated_trying_to_change_subscription_status_from_activated_to_deactivated(self):
-
-    #print('user1 newssemail is active', self.user1.newsemail.is_active)
-    
-    print('TEST :', self.user2.newsemail.is_active)
+        self.assertEqual(json_, 'Activated')
+        self.assertEqual(response.status_code, 200)
 
 
-    self.client.login(username=self.username2, password=self.password2)
-    response = self.client.post(f'/handle-email-subscription/{self.user2.newsemail.uuid}')
-    print('\nresponse: ', response.content)
+    def test_authenticated_trying_to_change_subscription_status_from_activated_to_deactivated(self):
+        self.client.login(username=self.username2, password=self.password2)
+        response = self.client.post(f'/handle-email-subscription/{self.user2.newsemail.uuid}')
+        json_ = json.loads(response.content)
 
-    self.assertEqual(response.status_code, 200)
+        self.assertEqual(json_, 'Deactivated')
+        self.assertEqual(response.status_code, 200)
 
+
+    def test_provinces_returning_response(self):
+        response = self.client.get('/ajax/load-provinces/')
+
+        self.assertGreater(len(response.content), 1000)
+        self.assertEqual(response.status_code, 200)
+
+    def test_municipalities_returning_response(self):
+        province_id = Province.objects.all().first().pk
+        response = self.client.get('/ajax/load-municipalities/', {'province': province_id})
+
+        self.assertGreater(len(response.content), 1000)
+        self.assertEqual(response.status_code, 200)
+
+    def test_areas_returning_response(self):
+        municipality_id = Municipality.objects.filter(name="Stockholms stad").first().pk
+        response = self.client.get('/ajax/load-areas/', {'municipality': municipality_id})
+
+        self.assertGreater(len(response.content), 1000)
+        self.assertEqual(response.status_code, 200)
 
 
 

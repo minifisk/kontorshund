@@ -34,13 +34,11 @@ class HandleEmailSubscriptionStatus(View):
             NewsEmail_obj = NewsEmail.objects.get(uuid=uuid)
 
             if NewsEmail_obj.is_active == False:
-                print('Is false, setting to true')
                 NewsEmail_obj.is_active = True
                 NewsEmail_obj.save()
                 logging.debug(f'Activated NewsEmail subscription for user {request.user.pk}')
                 return JsonResponse("Activated", status=200, safe=False)
             else:
-                print('Is true, setting to false')
                 NewsEmail_obj.is_active = False
                 NewsEmail_obj.save()
                 logging.debug(f'Deactivated NewsEmail subscription for user {request.user.pk}')
