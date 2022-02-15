@@ -25,22 +25,22 @@
 
 {% block footer %}
 
-<!-- Area selectors -->
-  <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
-  <script>
-      function hide_area_field() {
-        const area_selector = document.getElementById('id_area');
-        area_selector.style.display = 'none';
-      }
 
-  </script>
+  <!-- DJANGO AUTOCOMPLETE LIGHT -->
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'autocomplete_light/select2.css' %}" />
+    <script type="text/javascript" src="{% static 'autocomplete_light/select2.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'autocomplete_light/vendor/select2/dist/css/select2.css' %}" />
+    <script type="text/javascript" src="{% static 'autocomplete_light/vendor/select2/dist/js/select2.full.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    {{ form.media }}
+  <!-- DJANGO AUTOCOMPLETE LIGHT -->
 
-
-<script type="text/javascript" charset="utf-8"> 
-
-  {% include 'core/ads/templates/geographies_selectors.js' %}
-
-  </script>
+  <!-- GEOGRAPHIES -->
+    <script type="text/javascript" charset="utf-8"> 
+      {% include 'core/ads/templates/geographies_selectors.js' %}
+    </script>
+  <!-- GEOGRAPHIES -->
      
 {% endblock footer %}
 

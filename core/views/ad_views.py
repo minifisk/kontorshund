@@ -364,7 +364,6 @@ class NewAdOfferingDog(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         logging.debug(f'User {self.request.user.pk} Provided a valid NewAdOfferingDog form')
-        print(form)
         form.instance.author = self.request.user
         form.instance.is_offering_own_dog = True
         form.instance.is_published = False
@@ -467,7 +466,7 @@ class AdUpdateOfferingDogView(LoginRequiredMixin, UpdateView):
         return super().get(request, *args, **kwargs)
 
     def get_form(self, form_class=None):
-        logging.debug(f'User {request.user.pk} requested AdUpdateOfferingDogView form')
+        logging.debug(f'User {self.request.user.pk} requested AdUpdateOfferingDogView form')
         form = super().get_form(form_class)
         form.helper = FormHelper()
         form.helper.add_input(Submit('submit', 'Spara och gå tillbaka till annonsen', css_class='btn-primary'))
