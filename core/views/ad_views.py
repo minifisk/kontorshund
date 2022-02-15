@@ -312,6 +312,7 @@ class NewAdOfferingDog(LoginRequiredMixin, CreateView):
     def __init__(self):
         self.pk = None
 
+
     def get_form(self, form_class=None):
         logging.debug(f'User {self.request.user.pk} requested NewAdOfferingDog view')
         form = super().get_form(form_class)
@@ -363,6 +364,7 @@ class NewAdOfferingDog(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         logging.debug(f'User {self.request.user.pk} Provided a valid NewAdOfferingDog form')
+        print(form)
         form.instance.author = self.request.user
         form.instance.is_offering_own_dog = True
         form.instance.is_published = False

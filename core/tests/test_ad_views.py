@@ -342,6 +342,39 @@ class TestAdViews(TestCase):
         self.assertIn('requesting_dog.jpg', content)
 
 
+    def test_unauthenticated_creating_new_ad_offering(self):
+        response = self.client.post('/ads/create/offering-dog')
+        self.assertEqual(response.status_code, 302)
+
+    def test_authenticated_creating_new_ad_offering_without_data(self):
+        self.client.login(username=self.username1, password=self.password1)
+        response = self.client.post('/ads/create/offering-dog')
+        self.assertFormError(response, 'form', 'province', 'This field is required.')
+        self.assertFormError(response, 'form', 'municipality', 'This field is required.')
+        self.assertFormError(response, 'form', 'hundras', 'This field is required.')
+        self.assertFormError(response, 'form', 'image1', 'This field is required.')
+        self.assertFormError(response, 'form', 'days_per_week', 'This field is required.')
+        self.assertFormError(response, 'form', 'title', 'This field is required.')
+        self.assertFormError(response, 'form', 'description', 'This field is required.')
+        self.assertFormError(response, 'form', 'size_offered', 'This field is required.')
+
+    def test_authenticated_creating_new_ad_offering(self):
+        self.client.login(username=self.username1, password=self.password1)
+        
+        form_data = {
+            'province': 'Stockholm'
+        }
+        
+        response = self.client.post('/ads/create/offering-dog', form_data )
+        self.assertFormError(response, 'form', 'province', 'This field is required.')
+
+
+
+
+       # print(response.content)
+        
+        #self.assertEqual(response.status_code, 302)
+
 
 
 
