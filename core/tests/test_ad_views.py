@@ -1,12 +1,15 @@
 
-import pprint
 import json
 from pprint import pprint
+import os
 
+
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
 from core.models import Advertisement, DogBreed, Municipality, NewsEmail, Province
 from core.tests import factories
+from core.forms.ad_forms import OfferingDogForm
 
 from django.contrib.auth import get_user_model
 
@@ -358,22 +361,33 @@ class TestAdViews(TestCase):
         self.assertFormError(response, 'form', 'description', 'This field is required.')
         self.assertFormError(response, 'form', 'size_offered', 'This field is required.')
 
-    def test_authenticated_creating_new_ad_offering(self):
-        self.client.login(username=self.username1, password=self.password1)
-        
+
+    def test_creating_new_ad_offering(self):
+
+        TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+        TEST_DATA_DIR = os.path.join(TEST_DIR, 'data')
+        test_image_path = os.path.join(TEST_DATA_DIR, 'favicon.png')
+
         form_data = {
-            'province': 'Stockholm'
+            'province': 1,
+            'municipality': 1,
+            'age': 3,
+            'days_per_week': '1-2',
+            'description': 'asdf',
+            'title': 'asdf',
+            'name': 'roffe',
+            'payment_type': 'S',
+            'hundras': 1,
+            'size_offered': 1,
+
         }
-        
-        response = self.client.post('/ads/create/offering-dog', form_data )
-        self.assertFormError(response, 'form', 'province', 'This field is required.')
+
+        with open(test_image_path, 'rb') as f:
+            offering_dog_form = OfferingDogForm(data=form_data, files={'image1': SimpleUploadedFile('image1.png', f.read())})
+            self.assertTrue(offering_dog_form.is_valid())
 
 
 
-
-       # print(response.content)
-        
-        #self.assertEqual(response.status_code, 302)
 
 
 
