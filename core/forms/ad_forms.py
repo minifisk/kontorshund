@@ -87,10 +87,10 @@ class RequestingDogForm(forms.ModelForm):
 
 
     def __init__(self, *args, **kwargs):
+        super(RequestingDogForm, self).__init__(*args, **kwargs)
         self.fields['area'].required = False
         self.fields['image2'].required = False
-        self.fields['image3'].required = Fals
-        super(RequestingDogForm, self).__init__(*args, **kwargs)
+        self.fields['image3'].required = False
 
         # If user is creating new ad, not editing
         if self.instance.id == None:
