@@ -39,6 +39,7 @@ class OfferingDogForm(forms.ModelForm):
         super(OfferingDogForm, self).__init__(*args, **kwargs)
         self.fields['image2'].required = False
         self.fields['image3'].required = False
+        self.fields['area'].required = False
         self.fields['size_offered'].empty_label = None
         
 
@@ -86,6 +87,9 @@ class RequestingDogForm(forms.ModelForm):
 
 
     def __init__(self, *args, **kwargs):
+        self.fields['area'].required = False
+        self.fields['image2'].required = False
+        self.fields['image3'].required = Fals
         super(RequestingDogForm, self).__init__(*args, **kwargs)
 
         # If user is creating new ad, not editing
@@ -141,6 +145,7 @@ class AdFormAdmin(forms.ModelForm):
         self.fields['size_requested'].required = False
         self.fields['size_offered'].required = False
         self.fields['hundras'].required = False
+        self.fields['area'].required = False
 
         if (self.instance):
             if (not self.instance.area):
