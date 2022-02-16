@@ -89,6 +89,7 @@ class RequestingDogForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(RequestingDogForm, self).__init__(*args, **kwargs)
         self.fields['area'].required = False
+        self.fields['image1'].required = True
         self.fields['image2'].required = False
         self.fields['image3'].required = False
 
