@@ -9,7 +9,7 @@ from django.test import TestCase
 
 from core.models import Advertisement, DogBreed, Municipality, NewsEmail, Province
 from core.tests import factories
-from core.forms.ad_forms import OfferingDogForm
+from core.forms.ad_forms import OfferingDogForm, RequestingDogForm
 
 from django.contrib.auth import get_user_model
 
@@ -345,11 +345,12 @@ class TestAdViews(TestCase):
         self.assertIn('requesting_dog.jpg', content)
 
 
+
     def test_unauthenticated_creating_new_ad_offering(self):
         response = self.client.post('/ads/create/offering-dog')
         self.assertEqual(response.status_code, 302)
 
-    def test_authenticated_creating_new_ad_offering_without_data(self):
+    def test_required_fields_in_offering_dog_view(self):
         self.client.login(username=self.username1, password=self.password1)
         response = self.client.post('/ads/create/offering-dog')
         self.assertFormError(response, 'form', 'province', 'This field is required.')
@@ -360,9 +361,21 @@ class TestAdViews(TestCase):
         self.assertFormError(response, 'form', 'title', 'This field is required.')
         self.assertFormError(response, 'form', 'description', 'This field is required.')
         self.assertFormError(response, 'form', 'size_offered', 'This field is required.')
+        self.assertFormError(response, 'form', 'age', 'This field is required.')
+        self.assertFormError(response, 'form', 'name', 'This field is required.')
 
 
-    def test_creating_new_ad_offering(self):
+    def test_requesting_endpoint_not_containing_offering_fields(self):
+        self.client.login(username=self.username1, password=self.password1)
+        response = self.client.post('/ads/create/requesting-dog')
+
+        string_ = response.content.decode('utf-8')
+
+        self.assertNotIn('size_requested', string_)
+        self.assertNotIn('name', string_)
+
+
+    def test_form_creating_new_ad_offering_dog(self):
 
         TEST_DIR = os.path.dirname(os.path.abspath(__file__))
         TEST_DATA_DIR = os.path.join(TEST_DIR, 'data')
@@ -386,6 +399,58 @@ class TestAdViews(TestCase):
             offering_dog_form = OfferingDogForm(data=form_data, files={'image1': SimpleUploadedFile('image1.png', f.read())})
             self.assertTrue(offering_dog_form.is_valid())
 
+
+
+
+
+    def test_unauthenticated_creating_new_ad_requesting(self):
+        response = self.client.post('/ads/create/requesting-dog')
+        self.assertEqual(response.status_code, 302)
+
+
+    def test_required_fields_in_requesting_dog_view(self):
+        self.client.login(username=self.username1, password=self.password1)
+        response = self.client.post('/ads/create/requesting-dog')
+        self.assertFormError(response, 'form', 'province', 'This field is required.')
+        self.assertFormError(response, 'form', 'municipality', 'This field is required.')
+        self.assertFormError(response, 'form', 'image1', 'This field is required.')
+        self.assertFormError(response, 'form', 'days_per_week', 'This field is required.')
+        self.assertFormError(response, 'form', 'title', 'This field is required.')
+        self.assertFormError(response, 'form', 'description', 'This field is required.')
+        self.assertFormError(response, 'form', 'size_requested', 'This field is required.')
+
+
+
+    def test_requesting_dog_endpoint_not_containing_offering_fields(self):
+        self.client.login(username=self.username1, password=self.password1)
+        response = self.client.post('/ads/create/requesting-dog')
+
+        string_ = response.content.decode('utf-8')
+
+        self.assertNotIn('hundras', string_)
+        self.assertNotIn('size_offered', string_)
+
+
+    def test_form_creating_new_ad_requesting_dog(self):
+
+        TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+        TEST_DATA_DIR = os.path.join(TEST_DIR, 'data')
+        test_image_path = os.path.join(TEST_DATA_DIR, 'favicon.png')
+
+        form_data = {
+            'province': 1,
+            'municipality': 1,
+            'days_per_week': '1-2',
+            'description': 'asdf',
+            'title': 'asdf',
+            'payment_type': 'S',
+            'size_requested': [1],
+
+        }
+
+        with open(test_image_path, 'rb') as f:
+            offering_dog_form = RequestingDogForm(data=form_data, files={'image1': SimpleUploadedFile('image1.png', f.read())})            
+            self.assertTrue(offering_dog_form.is_valid())
 
 
 
