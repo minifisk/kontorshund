@@ -365,14 +365,13 @@ class TestAdViews(TestCase):
         self.assertFormError(response, 'form', 'name', 'This field is required.')
 
 
-    def test_requesting_endpoint_not_containing_offering_fields(self):
+    def test_offering_endpoint_not_containing_requesting_fields(self):
         self.client.login(username=self.username1, password=self.password1)
-        response = self.client.post('/ads/create/requesting-dog')
+        response = self.client.post('/ads/create/offering-dog')
 
         string_ = response.content.decode('utf-8')
 
         self.assertNotIn('size_requested', string_)
-        self.assertNotIn('name', string_)
 
 
     def test_form_creating_new_ad_offering_dog(self):
