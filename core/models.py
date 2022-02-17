@@ -46,7 +46,7 @@ class Municipality(models.Model):
         return self.name
 
 class Area(models.Model):
-    province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True)
+    province = models.ForeignKey(Province, on_delete=models.CASCADE)
     municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE)
     name= models.CharField(max_length=100)
     offering_count = models.IntegerField(default=0)
@@ -72,8 +72,8 @@ class NewsEmail(models.Model):
     province = ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap/Storstad', null=True, blank=True)
     municipality = ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun', null=True, blank=True)
     areas = ManyToManyField(Area, verbose_name='Område', blank=True)
-    interval = IntegerField(choices=INTERVAL_CHOICES, null=True, blank=True, verbose_name='Intervall')
-    ad_type = IntegerField(choices=AD_TYPES_CHOICES, null=True, blank=True, verbose_name='Annonstyp')
+    interval = IntegerField(choices=INTERVAL_CHOICES, verbose_name='Intervall', null=True, blank=True)
+    ad_type = IntegerField(choices=AD_TYPES_CHOICES, verbose_name='Annonstyp', null=True, blank=True)
     is_active = BooleanField(default=False)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
@@ -129,10 +129,10 @@ DAYS_PER_WEEK_CHOICES = (
 class Advertisement(SoftDeleteModel, TimeStampedModel):
 
     # Foreign keys
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap/Storstad')
     municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun')
-    area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, blank=True, verbose_name='Område')
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, verbose_name='Område', null=True, blank=True,)
 
     # Choices declaration
 
@@ -152,14 +152,14 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     age = models.IntegerField(verbose_name='Hundens ålder (år)', default=0)
 
     # Status
-    is_published = models.BooleanField(default=False, null=True)
-    is_deleted = models.BooleanField(default=False, null=True)
+    is_published = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False)
 
     # Payment status
-    payment_type = models.CharField(max_length=1, choices=PAYMENT_CHOICES, default=1, verbose_name='Betalningsmetod', null=True)
+    payment_type = models.CharField(max_length=1, choices=PAYMENT_CHOICES, default=1, verbose_name='Betalningsmetod')
 
     # Type of Ad (Offering own dog or requesting a dog)
-    is_offering_own_dog = models.BooleanField(null=True)
+    is_offering_own_dog = models.BooleanField(default=True)
 
     # String data
     title = models.CharField(max_length=150, verbose_name='Annons-Titel')
@@ -167,14 +167,14 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     
     # Choices
     days_per_week = models.CharField(max_length=3, choices=DAYS_PER_WEEK_CHOICES, default=1, verbose_name='Önskad omfattning')
-    hundras = models.ForeignKey(DogBreed, on_delete=models.CASCADE, null=True, verbose_name=u'Hundras')
+    hundras = models.ForeignKey(DogBreed, on_delete=models.CASCADE, verbose_name=u'Hundras', null=True,)
     size_offered = models.ForeignKey(DogSizeChoice, verbose_name='Hundens storlek', on_delete=models.CASCADE, related_name='size_offered', null=True)
     size_requested = models.ManyToManyField(DogSizeChoice, verbose_name='Önskade hundstorlekar (flerval)', related_name='size_requested')
 
     # Images
-    image1 = StdImageField(null=True, blank=True, verbose_name="Bild 1", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}})
-    image2 = StdImageField(null=True, blank=True, verbose_name="Bild 2", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}})
-    image3 = StdImageField(null=True, blank=True, verbose_name="Bild 3", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}})
+    image1 = StdImageField(verbose_name="Bild 1", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}}, null=True, blank=True)
+    image2 = StdImageField(verbose_name="Bild 2", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}}, null=True, blank=True)
+    image3 = StdImageField(verbose_name="Bild 3", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}}, null=True, blank=True)
    
     ad_views = models.IntegerField(default=0)
 
@@ -235,7 +235,7 @@ class Payment(models.Model):
     amount = models.IntegerField()
     payment_reference = models.CharField(max_length=50)
     date_time_paid = models.DateTimeField()
-    payer_alias = models.CharField(max_length=50, null=True)
+    payer_alias = models.CharField(max_length=50)
 
 
     def __str__(self):
