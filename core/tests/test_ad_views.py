@@ -16,6 +16,11 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
+TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+TEST_DATA_DIR = os.path.join(TEST_DIR, 'data')
+test_image_path = os.path.join(TEST_DATA_DIR, 'favicon.png')
+
 class TestSetupListAndCreate(TestCase):
     fixtures = [
         '/home/dockeruser/web/core/fixtures/breeds.json', 
@@ -411,9 +416,6 @@ class TestListAndCreateViews(TestSetupListAndCreate):
 
     def test_form_creating_new_ad_offering_dog(self):
 
-        TEST_DIR = os.path.dirname(os.path.abspath(__file__))
-        TEST_DATA_DIR = os.path.join(TEST_DIR, 'data')
-        test_image_path = os.path.join(TEST_DATA_DIR, 'favicon.png')
 
         form_data = {
             'province': 1,
@@ -466,10 +468,6 @@ class TestListAndCreateViews(TestSetupListAndCreate):
 
     def test_form_creating_new_ad_requesting_dog(self):
 
-        TEST_DIR = os.path.dirname(os.path.abspath(__file__))
-        TEST_DATA_DIR = os.path.join(TEST_DIR, 'data')
-        test_image_path = os.path.join(TEST_DATA_DIR, 'favicon.png')
-
         form_data = {
             'province': 1,
             'municipality': 1,
@@ -505,7 +503,7 @@ class TestUpdateAndDeleteViews(TestSetupUpdateAndDelete):
         self.assertFormError(response, 'form', 'name', 'This field is required.')
 
 
-    def test_trying_to_get_edit_form_for_offering_ad_beloning_to_other_users_ad(self):
+    def test_get_request_form_for_offering_ad_belonging_to_other_users_ad(self):
         self.client.login(username=self.username2, password=self.password2)
         first_ad = Advertisement.objects.all().filter(pk=1)[0]
 
@@ -513,42 +511,47 @@ class TestUpdateAndDeleteViews(TestSetupUpdateAndDelete):
         
         self.assertEqual(response.status_code, 302)
 
+    def test_post_request_form_for_offering_ad_belonging_to_other_users_ad(self):
+        self.client.login(username=self.username2, password=self.password2)
+        first_ad = Advertisement.objects.all().filter(pk=1)[0]
 
-
-
-
-
-    # def test_required_fields_in_update_offering_dog_view(self):
-    #     self.client.login(username=self.username2, password=self.password2)
-    #     first_ad = Advertisement.objects.all().filter(pk=1)[0]
-
-
-    #     form_data = {
-    #         'province': 1,
-    #         'municipality': 1,
-    #         'age': 3,
-    #         'days_per_week': '1-2',
-    #         'description': 'asdf',
-    #         'title': 'asdf',
-    #         'name': 'roffe',
-    #         'payment_type': 'S',
-    #         'hundras': 1,
-    #         'size_offered': 1,
-    #     }
-
-
-
-    #     print('pre ', first_ad.title)
-    #     response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': first_ad.pk}), form_data)
+        response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': first_ad.pk}))
         
-        
-        
-        
-    #     first_ad.refresh_from_db()
-    #     print('post :', first_ad.title)
+        self.assertEqual(response.status_code, 302)
 
-    #     print(response.status_code)
-    #    # pprint(response.content)
+
+
+    def test_post_request_offering_dog_view(self):
+        self.client.login(username=self.username1, password=self.password1)
+        first_ad = Advertisement.objects.all().filter(is_offering_own_dog=True)[0]
+
+        self.assertEqual(first_ad.author.username, self.username1)
+
+        with open(test_image_path, 'rb') as f:
+
+            new_title = 'New title'
+
+            form_data = {
+                'province': 1,
+                'municipality': 1,
+                'age': 3,
+                'days_per_week': '1-2',
+                'description': 'asdf',
+                'title': new_title,
+                'name': 'roffe',
+                'payment_type': 'S',
+                'hundras': 1,
+                'size_offered': 1,
+                'image1': SimpleUploadedFile('image1.png', f.read())
+            }
+
+            response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': first_ad.pk}), form_data)
+
+            self.assertEqual(first_ad.title, first_ad.title)
+            first_ad.refresh_from_db()
+            self.assertEqual(first_ad.title, new_title)
+
+            self.assertEqual(response.status_code, 302)
 
     
 
