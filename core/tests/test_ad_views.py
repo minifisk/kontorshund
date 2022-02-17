@@ -6,6 +6,7 @@ import os
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
+from django.urls import reverse
 
 from core.models import Advertisement, DogBreed, Municipality, NewsEmail, Province
 from core.tests import factories
@@ -15,7 +16,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-class TestAdViews(TestCase):
+class TestSetupListAndCreate(TestCase):
     fixtures = [
         '/home/dockeruser/web/core/fixtures/breeds.json', 
         '/home/dockeruser/web/core/fixtures/geographies.json', 
@@ -71,12 +72,46 @@ class TestAdViews(TestCase):
         cls.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia = factories.create_offering_ads_stockholm_stockholm_stad_katarina_sofia(count=cls.count_offering_stockholm_stockholms_stad_katarina_sofia, user=cls.user2, is_published=True)
 
 
-
-
     #setUp: Run once for every test method to setup clean data.
     def setUp(self):
         pass
 
+
+class TestSetupUpdateAndDelete(TestCase):
+    
+    fixtures = [
+        '/home/dockeruser/web/core/fixtures/breeds.json', 
+        '/home/dockeruser/web/core/fixtures/geographies.json', 
+        '/home/dockeruser/web/core/fixtures/size_choices.json'
+    ]
+
+    #setUpTestData: Run once to set up non-modified data for all class methods.
+    @classmethod
+    def setUpTestData(cls):
+
+        cls.username1 = 'testuser1'
+        cls.password1 = '1X<ISRUkw+tuK'
+
+        cls.username2 = 'testuser2'
+        cls.password2 = '2HJ1vRV0Z&3iD'
+
+        cls.user1 = User.objects.create_user(username=cls.username1, password=cls.password1)
+        cls.user1.save()
+
+        cls.user2 = User.objects.create_user(username=cls.username2, password=cls.password2)
+        cls.user2.save()
+
+        cls.user_1_requesting_ads_sthlm = factories.create_requesting_ads_stockholm_stockholms_stad(count=1, user=cls.user1, is_published=True)
+        cls.user_1_requesting_ads_sthlm = factories.create_offering_ads_stockholm_stockholms_stad(count=1, user=cls.user1, is_published=True)
+
+   
+    #setUp: Run once for every test method to setup clean data.
+    def setUp(self):
+        pass
+
+
+
+class TestListAndCreateViews(TestSetupListAndCreate):
 
     def test_unauthenticated_trying_to_get_profile(self):
         response = self.client.get('/profile')
@@ -338,7 +373,7 @@ class TestAdViews(TestCase):
   
         self.client.login(username=self.username1, password=self.password1)
         response = self.client.get('/ads/choose')
-
+ 
         content = response.content.decode("utf-8")
         
         self.assertEqual(response.status_code, 200)
@@ -391,7 +426,6 @@ class TestAdViews(TestCase):
             'payment_type': 'S',
             'hundras': 1,
             'size_offered': 1,
-
         }
 
         with open(test_image_path, 'rb') as f:
@@ -450,6 +484,90 @@ class TestAdViews(TestCase):
         with open(test_image_path, 'rb') as f:
             offering_dog_form = RequestingDogForm(data=form_data, files={'image1': SimpleUploadedFile('image1.png', f.read())})            
             self.assertTrue(offering_dog_form.is_valid())
+
+
+class TestUpdateAndDeleteViews(TestSetupUpdateAndDelete):
+
+
+    def test_required_fields_in_update_offering_dog_view(self):
+        self.client.login(username=self.username1, password=self.password1)
+        first_ad = Advertisement.objects.all().filter(pk=1)[0]
+        response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': first_ad.pk}),)
+        self.assertFormError(response, 'form', 'province', 'This field is required.')
+        self.assertFormError(response, 'form', 'municipality', 'This field is required.')
+        self.assertFormError(response, 'form', 'hundras', 'This field is required.')
+        self.assertFormError(response, 'form', 'image1', 'This field is required.')
+        self.assertFormError(response, 'form', 'days_per_week', 'This field is required.')
+        self.assertFormError(response, 'form', 'title', 'This field is required.')
+        self.assertFormError(response, 'form', 'description', 'This field is required.')
+        self.assertFormError(response, 'form', 'size_offered', 'This field is required.')
+        self.assertFormError(response, 'form', 'age', 'This field is required.')
+        self.assertFormError(response, 'form', 'name', 'This field is required.')
+
+
+    def test_trying_to_get_edit_form_for_offering_ad_beloning_to_other_users_ad(self):
+        self.client.login(username=self.username2, password=self.password2)
+        first_ad = Advertisement.objects.all().filter(pk=1)[0]
+
+        response = self.client.get(reverse('update_ad_offering_dog', kwargs={'pk': first_ad.pk}))
+        
+        self.assertEqual(response.status_code, 302)
+
+
+
+
+
+
+    # def test_required_fields_in_update_offering_dog_view(self):
+    #     self.client.login(username=self.username2, password=self.password2)
+    #     first_ad = Advertisement.objects.all().filter(pk=1)[0]
+
+
+    #     form_data = {
+    #         'province': 1,
+    #         'municipality': 1,
+    #         'age': 3,
+    #         'days_per_week': '1-2',
+    #         'description': 'asdf',
+    #         'title': 'asdf',
+    #         'name': 'roffe',
+    #         'payment_type': 'S',
+    #         'hundras': 1,
+    #         'size_offered': 1,
+    #     }
+
+
+
+    #     print('pre ', first_ad.title)
+    #     response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': first_ad.pk}), form_data)
+        
+        
+        
+        
+    #     first_ad.refresh_from_db()
+    #     print('post :', first_ad.title)
+
+    #     print(response.status_code)
+    #    # pprint(response.content)
+
+    
+
+
+
+    # def test_update_offering_ad(self):
+
+    #     first_ad = Advertisement.objects.filter(pk=1)
+
+
+
+    #     response = self.client.post(
+    #         reverse('update_ad_offering_dog', kwargs={'pk': first_ad.pk}), 
+    #         {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger'})
+
+        # self.assertEqual(response.status_code, 302)
+
+        # book.refresh_from_db()
+        # self.assertEqual(book.author, 'J.D. Salinger')
 
 
 
