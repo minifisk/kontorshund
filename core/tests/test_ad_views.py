@@ -106,8 +106,8 @@ class TestSetupUpdateAndDelete(TestCase):
         cls.user2 = User.objects.create_user(username=cls.username2, password=cls.password2)
         cls.user2.save()
 
-        cls.user_1_requesting_ads_sthlm = factories.create_requesting_ads_stockholm_stockholms_stad(count=1, user=cls.user1, is_published=True)
-        cls.user_1_requesting_ads_sthlm = factories.create_offering_ads_stockholm_stockholms_stad(count=1, user=cls.user1, is_published=True)
+        cls.user_1_requesting_ads = factories.create_requesting_ads_stockholm_stockholms_stad(count=1, user=cls.user1, is_published=True)
+        cls.user_1_offering_ads = factories.create_offering_ads_stockholm_stockholms_stad(count=1, user=cls.user1, is_published=True)
 
    
     #setUp: Run once for every test method to setup clean data.
@@ -116,7 +116,7 @@ class TestSetupUpdateAndDelete(TestCase):
 
 
 
-class TestListAndCreateViews(TestSetupListAndCreate):
+class TestProfileAndChooseAd(TestSetupListAndCreate):
 
     def test_unauthenticated_trying_to_get_profile(self):
         response = self.client.get('/profile')
@@ -159,11 +159,22 @@ class TestListAndCreateViews(TestSetupListAndCreate):
 
         NewsEmail_post_change = NewsEmail.objects.get(user__pk=self.user1.pk).municipality.name
 
-
         self.assertEqual(NewsEmail_pre_change['province_id'], None)
         self.assertEqual(NewsEmail_post_change, halland_mun_obj.name)
         self.assertEqual(response.status_code, 302)
 
+    def test_choosing_ad_view(self):
+  
+        self.client.login(username=self.username1, password=self.password1)
+        response = self.client.get('/ads/choose')
+ 
+        content = response.content.decode("utf-8")
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('requesting_dog.jpg', content)
+
+
+class TestListAdsView(TestSetupListAndCreate):
 
     def test_getting_list_ads_initial_view(self):
         response = self.client.get('/postings/list')
@@ -261,7 +272,6 @@ class TestListAndCreateViews(TestSetupListAndCreate):
             self.assertIn(f'"pk": {self.user_2_offering_ads_halland_halmstad[0].pk}', json_response)
             self.assertIn(f'"pk": {self.user_1_offering_ads_stockholm_stockholms_stad[0].pk}', json_response)
 
-
     def test_requesting_specific_municipality(self):
             
             data = {
@@ -288,7 +298,6 @@ class TestListAndCreateViews(TestSetupListAndCreate):
             self.assertEqual(response.status_code, 200)
             self.assertIn(f'"pk": {self.user_2_offering_ads_halland_falkenberg[0].pk}', json_response)
             self.assertNotIn(f'"pk": {self.user_2_offering_ads_halland_halmstad[0].pk}', json_response)
-
 
     def test_requesting_specific_area(self):
             
@@ -317,7 +326,6 @@ class TestListAndCreateViews(TestSetupListAndCreate):
             self.assertIn(f'"pk": {self.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia[0].pk}', json_response)
             self.assertNotIn(f'"pk": {self.user_2_requesting_ads_sthlm[0].pk}', json_response)
 
-
     def test_requesting_all_offering_ads(self):
                 
                 data = {
@@ -344,7 +352,6 @@ class TestListAndCreateViews(TestSetupListAndCreate):
                 self.assertEqual(response.status_code, 200)
                 self.assertIn(f'"pk": {self.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia[0].pk}', json_response)
                 self.assertNotIn(f'"pk": {self.user_2_requesting_ads_sthlm[0].pk}', json_response)
-        
 
     def test_requesting_all_requesting_ads(self):
             
@@ -372,19 +379,9 @@ class TestListAndCreateViews(TestSetupListAndCreate):
             self.assertEqual(response.status_code, 200)
             self.assertIn(f'"pk": {self.user_2_requesting_ads_sthlm[0].pk}', json_response)
             self.assertNotIn(f'"pk": {self.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia[0].pk}', json_response)
-            
-
-    def test_choosing_ad_view(self):
-  
-        self.client.login(username=self.username1, password=self.password1)
-        response = self.client.get('/ads/choose')
- 
-        content = response.content.decode("utf-8")
-        
-        self.assertEqual(response.status_code, 200)
-        self.assertIn('requesting_dog.jpg', content)
 
 
+class TestCreateOfferingDogView(TestSetupListAndCreate):
 
     def test_unauthenticated_creating_new_ad_offering(self):
         response = self.client.post('/ads/create/offering-dog')
@@ -404,18 +401,14 @@ class TestListAndCreateViews(TestSetupListAndCreate):
         self.assertFormError(response, 'form', 'age', 'This field is required.')
         self.assertFormError(response, 'form', 'name', 'This field is required.')
 
-
     def test_offering_endpoint_not_containing_requesting_fields(self):
         self.client.login(username=self.username1, password=self.password1)
         response = self.client.post('/ads/create/offering-dog')
-
         string_ = response.content.decode('utf-8')
-
         self.assertNotIn('size_requested', string_)
 
 
     def test_form_creating_new_ad_offering_dog(self):
-
 
         form_data = {
             'province': 1,
@@ -435,13 +428,11 @@ class TestListAndCreateViews(TestSetupListAndCreate):
             self.assertTrue(offering_dog_form.is_valid())
 
 
-
-
+class TestCreateRequestingDogView(TestSetupListAndCreate):
 
     def test_unauthenticated_creating_new_ad_requesting(self):
         response = self.client.post('/ads/create/requesting-dog')
         self.assertEqual(response.status_code, 302)
-
 
     def test_required_fields_in_requesting_dog_view(self):
         self.client.login(username=self.username1, password=self.password1)
@@ -454,17 +445,12 @@ class TestListAndCreateViews(TestSetupListAndCreate):
         self.assertFormError(response, 'form', 'description', 'This field is required.')
         self.assertFormError(response, 'form', 'size_requested', 'This field is required.')
 
-
-
-    def test_requesting_dog_endpoint_not_containing_offering_fields(self):
+    def test_create_requesting_dog_endpoint_not_containing_offering_fields(self):
         self.client.login(username=self.username1, password=self.password1)
         response = self.client.post('/ads/create/requesting-dog')
-
         string_ = response.content.decode('utf-8')
-
         self.assertNotIn('hundras', string_)
         self.assertNotIn('size_offered', string_)
-
 
     def test_form_creating_new_ad_requesting_dog(self):
 
@@ -476,7 +462,6 @@ class TestListAndCreateViews(TestSetupListAndCreate):
             'title': 'asdf',
             'payment_type': 'S',
             'size_requested': [1],
-
         }
 
         with open(test_image_path, 'rb') as f:
@@ -484,13 +469,12 @@ class TestListAndCreateViews(TestSetupListAndCreate):
             self.assertTrue(offering_dog_form.is_valid())
 
 
-class TestUpdateAndDeleteViews(TestSetupUpdateAndDelete):
-
+class TestUpdateOfferingDogView(TestSetupUpdateAndDelete):
 
     def test_required_fields_in_update_offering_dog_view(self):
         self.client.login(username=self.username1, password=self.password1)
-        first_ad = Advertisement.objects.all().filter(pk=1)[0]
-        response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': first_ad.pk}),)
+        ad = self.user_1_offering_ads[0]
+        response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': ad.pk}),)
         self.assertFormError(response, 'form', 'province', 'This field is required.')
         self.assertFormError(response, 'form', 'municipality', 'This field is required.')
         self.assertFormError(response, 'form', 'hundras', 'This field is required.')
@@ -505,27 +489,32 @@ class TestUpdateAndDeleteViews(TestSetupUpdateAndDelete):
 
     def test_get_request_form_for_offering_ad_belonging_to_other_users_ad(self):
         self.client.login(username=self.username2, password=self.password2)
-        first_ad = Advertisement.objects.all().filter(pk=1)[0]
+        other_users_ad = self.user_1_offering_ads[0]
 
-        response = self.client.get(reverse('update_ad_offering_dog', kwargs={'pk': first_ad.pk}))
+        response = self.client.get(reverse('update_ad_offering_dog', kwargs={'pk': other_users_ad.pk}))
         
         self.assertEqual(response.status_code, 302)
 
     def test_post_request_form_for_offering_ad_belonging_to_other_users_ad(self):
         self.client.login(username=self.username2, password=self.password2)
-        first_ad = Advertisement.objects.all().filter(pk=1)[0]
+        other_users_ad = self.user_1_offering_ads[0]
 
-        response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': first_ad.pk}))
+        response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': other_users_ad.pk}))
         
         self.assertEqual(response.status_code, 302)
 
-
+    def test_update_offering_dog_endpoint_not_containing_requesting_fields(self):
+        self.client.login(username=self.username1, password=self.password1)
+        own_ad = self.user_1_requesting_ads[0]
+        response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': own_ad.pk}))
+        string_ = response.content.decode('utf-8')
+        self.assertNotIn('size_requested', string_)
 
     def test_post_request_offering_dog_view(self):
         self.client.login(username=self.username1, password=self.password1)
-        first_ad = Advertisement.objects.all().filter(is_offering_own_dog=True)[0]
+        own_ad = self.user_1_offering_ads[0]
 
-        self.assertEqual(first_ad.author.username, self.username1)
+        self.assertEqual(own_ad.author.username, self.username1)
 
         with open(test_image_path, 'rb') as f:
 
@@ -545,32 +534,81 @@ class TestUpdateAndDeleteViews(TestSetupUpdateAndDelete):
                 'image1': SimpleUploadedFile('image1.png', f.read())
             }
 
-            response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': first_ad.pk}), form_data)
+            response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': own_ad.pk}), form_data)
 
-            self.assertEqual(first_ad.title, first_ad.title)
-            first_ad.refresh_from_db()
-            self.assertEqual(first_ad.title, new_title)
+            self.assertEqual(own_ad.title, own_ad.title)
+            own_ad.refresh_from_db()
+            self.assertEqual(own_ad.title, new_title)
 
             self.assertEqual(response.status_code, 302)
 
     
+class TestUpdateRequestingDogView(TestSetupUpdateAndDelete):
+
+    def test_required_fields_in_update_requesting_dog_view(self):
+        self.client.login(username=self.username1, password=self.password1)
+        first_ad = self.user_1_requesting_ads[0]
+        response = self.client.post(reverse('update_ad_requesting_dog', kwargs={'pk': first_ad.pk}),)
+        self.assertFormError(response, 'form', 'province', 'This field is required.')
+        self.assertFormError(response, 'form', 'municipality', 'This field is required.')
+        self.assertFormError(response, 'form', 'image1', 'This field is required.')
+        self.assertFormError(response, 'form', 'days_per_week', 'This field is required.')
+        self.assertFormError(response, 'form', 'title', 'This field is required.')
+        self.assertFormError(response, 'form', 'description', 'This field is required.')
+        self.assertFormError(response, 'form', 'size_requested', 'This field is required.')
+
+    def test_get_request_form_for_requesting_ad_belonging_to_other_users_ad(self):
+        self.client.login(username=self.username2, password=self.password2)
+        other_users_ad = self.user_1_requesting_ads[0]
+        response = self.client.get(reverse('update_ad_requesting_dog', kwargs={'pk': other_users_ad.pk}))
+        self.assertEqual(response.status_code, 302)
+
+    def test_post_request_form_for_requesting_ad_belonging_to_other_users_ad(self):
+        self.client.login(username=self.username2, password=self.password2)
+        other_users_ad = self.user_1_requesting_ads[0]
+        response = self.client.post(reverse('update_ad_requesting_dog', kwargs={'pk': other_users_ad.pk}))
+        self.assertEqual(response.status_code, 302)
+
+    def test_update_requesting_dog_endpoint_not_containing_offering_fields(self):
+        self.client.login(username=self.username1, password=self.password1)
+        own_ad = self.user_1_requesting_ads[0]
+        response = self.client.post(reverse('update_ad_requesting_dog', kwargs={'pk': own_ad.pk}))
+        string_ = response.content.decode('utf-8')
+        self.assertNotIn('hundras', string_)
+        self.assertNotIn('size_offered', string_)
+
+    def test_post_request_offering_dog_view(self):
+        self.client.login(username=self.username1, password=self.password1)
+        own_ad = self.user_1_offering_ads[0]
+
+        self.assertEqual(own_ad.author.username, self.username1)
+
+        with open(test_image_path, 'rb') as f:
+
+            new_title = 'New title'
+
+            form_data = {
+                'province': 1,
+                'municipality': 1,
+                'age': 3,
+                'days_per_week': '1-2',
+                'description': 'asdf',
+                'title': new_title,
+                'payment_type': 'S',
+                'size_requested': [1],
+                'image1': SimpleUploadedFile('image1.png', f.read())
+            }
+
+            response = self.client.post(reverse('update_ad_requesting_dog', kwargs={'pk': own_ad.pk}), form_data)
+
+            self.assertEqual(own_ad.title, own_ad.title)
+            own_ad.refresh_from_db()
+            self.assertEqual(own_ad.title, new_title)
+
+            self.assertEqual(response.status_code, 302)
 
 
-
-    # def test_update_offering_ad(self):
-
-    #     first_ad = Advertisement.objects.filter(pk=1)
-
-
-
-    #     response = self.client.post(
-    #         reverse('update_ad_offering_dog', kwargs={'pk': first_ad.pk}), 
-    #         {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger'})
-
-        # self.assertEqual(response.status_code, 302)
-
-        # book.refresh_from_db()
-        # self.assertEqual(book.author, 'J.D. Salinger')
+            
 
 
 
