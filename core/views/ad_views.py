@@ -636,7 +636,7 @@ class AdDetailView(generic.DetailView):
 # DELETE ADS
 ############
 
-class DeleteAd(LoginRequiredMixin, LoginRequiredMixin, generic.DeleteView):
+class DeleteAd(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = Advertisement
     template_name = 'core/ads/ad_confirm_delete.html'
     success_url = reverse_lazy('profile')
