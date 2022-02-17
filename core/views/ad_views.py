@@ -15,6 +15,8 @@ from django.utils.safestring import mark_safe
 from django.forms import HiddenInput, ValidationError
 from django.contrib.auth import get_user_model
 from django.contrib import messages 
+from django.contrib.auth.mixins import UserPassesTestMixin
+
 
 
 from lockdown.decorators import lockdown
@@ -449,18 +451,30 @@ class NewAdRequestingDog(LoginRequiredMixin, CreateView):
 # UPDATE ADS
 ############
 
+from django.core.exceptions import PermissionDenied
 
-class AdUpdateOfferingDogView(LoginRequiredMixin, UpdateView):
+class AdUpdateOfferingDogView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Advertisement
     form_class = OfferingDogForm
     template_name = 'core/ads/update_ad_offering_dog.html'
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('profile')
 
     def get_success_url(self):
         return reverse_lazy('ad_detail', kwargs={'pk': self.object.pk})
 
     def get(self, request, *args, **kwargs):
+        print('Requesting user :', request.user.pk)
         logging.debug(f'User {request.user.pk} requested AdUpdateOfferingDogView')
         self.object = self.get_object()
+        print(self.object)
         if self.object.is_offering_own_dog == False:
             return HttpResponseRedirect(reverse_lazy('update_ad_requesting_dog', kwargs={'pk': self.object.pk}))
         return super().get(request, *args, **kwargs)
@@ -519,10 +533,19 @@ class AdUpdateOfferingDogView(LoginRequiredMixin, UpdateView):
         return form
 
 
-class AdUpdateRequestingDogView(LoginRequiredMixin, UpdateView):
+class AdUpdateRequestingDogView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Advertisement
     form_class = RequestingDogForm
     template_name = 'core/ads/update_ad_requesting_dog.html'
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('profile')
 
     def get_success_url(self):
         return reverse("ad_detail", kwargs={'pk': self.object.pk})
@@ -613,9 +636,17 @@ class AdDetailView(generic.DetailView):
 # DELETE ADS
 ############
 
-class DeleteAd(LoginRequiredMixin, generic.DeleteView):
+class DeleteAd(LoginRequiredMixin, LoginRequiredMixin, generic.DeleteView):
     model = Advertisement
     template_name = 'core/ads/ad_confirm_delete.html'
     success_url = reverse_lazy('profile')
 
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
+
+    def handle_no_permission(self):
+        if self.raise_exception:
+            raise PermissionDenied(self.get_permission_denied_message())
+        return redirect('profile')
 
