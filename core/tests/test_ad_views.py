@@ -608,6 +608,18 @@ class TestUpdateRequestingDogView(TestSetupUpdateAndDelete):
             self.assertEqual(response.status_code, 302)
 
 
+class TestUpdateRequestingDogView(TestSetupUpdateAndDelete):
+
+    def test_ad_detail_view(self):
+        user_1_ad = self.user_1_requesting_ads[0]
+        response = self.client.get(reverse('ad_detail', kwargs={'pk': user_1_ad.pk}),)
+        
+        response_string = response.content.decode('utf-8')
+
+        self.assertIn(user_1_ad.title, response_string)
+        self.assertIn(user_1_ad.province.name, response_string)
+        self.assertIn(user_1_ad.municipality.name, response_string)
+        self.assertEqual(response.status_code, 200)
             
 
 
