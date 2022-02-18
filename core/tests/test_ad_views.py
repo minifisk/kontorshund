@@ -608,7 +608,7 @@ class TestUpdateRequestingDogView(TestSetupUpdateAndDelete):
             self.assertEqual(response.status_code, 302)
 
 
-class TestUpdateRequestingDogView(TestSetupUpdateAndDelete):
+class TestAdDetailView(TestSetupUpdateAndDelete):
 
     def test_ad_detail_view(self):
         user_1_ad = self.user_1_requesting_ads[0]
@@ -620,7 +620,19 @@ class TestUpdateRequestingDogView(TestSetupUpdateAndDelete):
         self.assertIn(user_1_ad.province.name, response_string)
         self.assertIn(user_1_ad.municipality.name, response_string)
         self.assertEqual(response.status_code, 200)
+
+
+class TestAdDeleteView(TestSetupUpdateAndDelete):
+
+    def test_delete_ad_view_unauthenticated(self):
+        user_1_ad = self.user_1_requesting_ads[0]
+        response = self.client.post(reverse('delete_ad', kwargs={'pk': user_1_ad.pk}),)
+        self.assertEqual(response.status_code, 302)
             
+    def test_delete_ad_view_other_users_ad(self):
+        user_1_ad = self.user_1_requesting_ads[0]
+        response = self.client.post(reverse('delete_ad', kwargs={'pk': user_1_ad.pk}),)
+        self.assertEqual(response.status_code, 302)
 
 
 
