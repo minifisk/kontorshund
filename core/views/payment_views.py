@@ -19,6 +19,10 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db.models import F
 from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
+
+
 
 
 from kontorshund.settings import PRICE_SWISH_EXTEND_IN_SEK, PRICE_SWISH_EXTEND, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
@@ -43,21 +47,33 @@ class CheckInitialPaymentStatus(View):
 
     def post(self, request, pk):
         if request.user.is_authenticated:
-            logging.debug(f'User {request.user.pk} checked initial payment status for ad {pk}')
             try:
                 ad = Advertisement.objects.get(pk=pk)
             except Advertisement.DoesNotExist:
-                logging.exception(f'User {request.user.pk} checked initial payment status for ad {pk}, which returned an doesnotexist error')
+                logging.exception(f'User {request.user.pk} checked extended payment status for ad {pk}, which returned an doesnotexist error')
                 return JsonResponse("Ad does not exist", status=404, safe=False)
+            if request.user == ad.author:
+                logging.debug(f'User {request.user.pk} checked initial payment status for ad {pk}')
+                try:
+                    ad = Advertisement.objects.get(pk=pk)
+                except Advertisement.DoesNotExist:
+                    logging.exception(f'User {request.user.pk} checked initial payment status for ad {pk}, which returned an doesnotexist error')
+                    return JsonResponse("Ad does not exist", status=404, safe=False)
 
-            if ad.has_initial_payment:
-                logging.debug(f'User {request.user.pk} checking initial payment status for ad {pk}, which returned True')
-                return JsonResponse("Payment is complete!", status=200, safe=False)
+                if ad.has_initial_payment:
+                    logging.debug(f'User {request.user.pk} checking initial payment status for ad {pk}, which returned True')
+                    return JsonResponse("Payment is complete!", status=200, safe=False)
+                else:
+                    logging.debug(f'User {request.user.pk} checking initial payment status for ad {pk}, which returned False')
+                    return JsonResponse("Payment is NOT complete", status=404, safe=False)
             else:
-                logging.debug(f'User {request.user.pk} checking initial payment status for ad {pk}, which returned False')
-                return JsonResponse("Payment is NOT complete", status=404, safe=False)
+                logging.debug(f'User {request.user.pk} tried checking initial payment status for ad ({pk}) belonging to another user, redirecting to profile...')
+                return redirect('profile')
+
         else:
             return redirect('account_login')
+
+    
 
 class CheckExtendedPaymentStatus(View):
     """ 
@@ -66,19 +82,23 @@ class CheckExtendedPaymentStatus(View):
 
     def post(self, request, pk):
         if request.user.is_authenticated:
-            logging.debug(f'User {request.user.pk} checked extended payment status for ad {pk}')
             try:
                 ad = Advertisement.objects.get(pk=pk)
             except Advertisement.DoesNotExist:
                 logging.exception(f'User {request.user.pk} checked extended payment status for ad {pk}, which returned an doesnotexist error')
                 return JsonResponse("Ad does not exist", status=404, safe=False)
+            if request.user == ad.author:
+                logging.debug(f'User {request.user.pk} checked extended payment status for ad {pk}')
 
-            if ad.has_extended_payment:
-                logging.debug(f'User {request.user.pk} checking initial payment status for ad {pk}, which returned True')
-                return JsonResponse("Payment is complete!", status=200, safe=False)
+                if ad.has_extended_payment:
+                    logging.debug(f'User {request.user.pk} checking initial payment status for ad {pk}, which returned True')
+                    return JsonResponse("Payment is complete!", status=200, safe=False)
+                else:
+                    logging.debug(f'User {request.user.pk} checking initial payment status for ad {pk}, which returned False')
+                    return JsonResponse("Payment is NOT complete", status=404, safe=False)
             else:
-                logging.debug(f'User {request.user.pk} checking initial payment status for ad {pk}, which returned False')
-                return JsonResponse("Payment is NOT complete", status=404, safe=False)
+                logging.debug(f'User {request.user.pk} tried checking initial payment status for ad ({pk}) belonging to another user, redirecting to profile...')
+                return redirect('profile')
         else:
             return redirect('account_login')
 
