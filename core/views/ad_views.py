@@ -650,3 +650,17 @@ class DeleteAd(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
             raise PermissionDenied(self.get_permission_denied_message())
         return redirect('profile')
 
+    def delete(self, request, *args, **kwargs):
+        """
+        Call the delete() method on the fetched object and then redirect to the
+        success URL.
+        """
+        print('delete')
+        self.object = self.get_object()
+        print('from delete view pre: ', self.object.title)
+        success_url = self.get_success_url()
+        self.object.delete()
+        self.object.refresh_from_db()
+        print('from delete view post : ', self.object.title)
+        return HttpResponseRedirect(success_url)
+

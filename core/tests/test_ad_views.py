@@ -108,6 +108,7 @@ class TestSetupUpdateAndDelete(TestCase):
 
         cls.user_1_requesting_ads = factories.create_requesting_ads_stockholm_stockholms_stad(count=1, user=cls.user1, is_published=True)
         cls.user_1_offering_ads = factories.create_offering_ads_stockholm_stockholms_stad(count=1, user=cls.user1, is_published=True)
+        cls.user_2_offering_ads = factories.create_offering_ads_stockholm_stockholms_stad(count=1, user=cls.user2, is_published=True)
 
    
     #setUp: Run once for every test method to setup clean data.
@@ -630,9 +631,17 @@ class TestAdDeleteView(TestSetupUpdateAndDelete):
         self.assertEqual(response.status_code, 302)
             
     def test_delete_ad_view_other_users_ad(self):
-        user_1_ad = self.user_1_requesting_ads[0]
-        response = self.client.post(reverse('delete_ad', kwargs={'pk': user_1_ad.pk}),)
+        self.client.login(username=self.username1, password=self.password1)
+        user_2_ad = self.user_2_offering_ads[0]
+        response = self.client.post(reverse('delete_ad', kwargs={'pk': user_2_ad.pk}),)
         self.assertEqual(response.status_code, 302)
+
+    # def test_delete_ad(self):
+    #     self.client.login(username=self.username1, password=self.password1)
+    #     user_1_ad = self.user_1_offering_ads[0]
+    #     response = self.client.delete(reverse('delete_ad', kwargs={'pk': user_1_ad.pk}),)
+    #     user_1_ad.refresh_from_db()
+    #     #self.assertEqual(response.status_code, 302)
 
 
 
