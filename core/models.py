@@ -226,7 +226,7 @@ class Payment(models.Model):
 
     PAYMENT_TYPES = (
         ("1", "Initial payment"),
-        ("2", "Extend ad run-time payment"),
+        ("2", "Extend payment"),
         ("3", "Other"),
     )
 
