@@ -16,6 +16,7 @@ from django.forms import HiddenInput, ValidationError
 from django.contrib.auth import get_user_model
 from django.contrib import messages 
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 
 
 
@@ -451,7 +452,6 @@ class NewAdRequestingDog(LoginRequiredMixin, CreateView):
 # UPDATE ADS
 ############
 
-from django.core.exceptions import PermissionDenied
 
 class AdUpdateOfferingDogView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Advertisement
