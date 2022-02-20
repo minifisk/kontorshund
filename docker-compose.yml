@@ -15,16 +15,16 @@ services:
     env_file:
       - ./dev.env
 
-  scheduler:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: /bin/sh -c "/home/dockeruser/web/cron_startup.sh" 
-    volumes:
-     # - .:/home/kontorshund/web
-      - ./crontab:/crontab:ro
-    env_file:
-      - ./dev.env
+  # scheduler:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   command: /bin/sh -c "/home/dockeruser/web/cron_startup.sh" 
+  #   volumes:
+  #    # - .:/home/kontorshund/web
+  #     - ./crontab:/crontab:ro
+  #   env_file:
+  #     - ./dev.env
 
 volumes:
   static_volume:
