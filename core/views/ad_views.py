@@ -28,6 +28,7 @@ from crispy_forms.bootstrap import InlineRadios, InlineCheckboxes
 from core.forms.ad_forms import OfferingDogForm, RequestingDogForm
 from core.models import Advertisement, DogBreed, Province, Municipality, Area, DogSizeChoice, NewsEmail
 from core.forms.news_email_form import NewsEmailForm
+from core.models import AdKind
 from kontorshund.settings import PRICE_SWISH_EXTEND
 
 User = get_user_model()
@@ -359,7 +360,7 @@ class NewAdOfferingDog(LoginRequiredMixin, CreateView):
 
             Field(HTML(mark_safe('<b>Betalning</b>'))),  
             Div(
-                InlineRadios('payment_type', css_class="ml-3 mr-2"),
+                InlineRadios('payment_choice', css_class="ml-3 mr-2"),
                 css_class='mt-3 mb-5'
             ),
         )
@@ -374,10 +375,10 @@ class NewAdOfferingDog(LoginRequiredMixin, CreateView):
         return response
 
     def get_success_url(self):
-        if self.object.payment_type == 'S':
+        if self.object.payment_choice == 'S':
             logging.debug(f'User {self.request.user.pk} Choose payment with swish')
             return reverse('swish_payment_initial_template', kwargs={'pk': self.object.pk})
-        if self.object.payment_type == 'B':
+        if self.object.payment_choice == 'B':
             logging.debug(f'User {self.request.user.pk} Choose payment with Bankgiro')
             return reverse('bg_payment', kwargs={'pk': self.object.pk})
 
@@ -426,7 +427,7 @@ class NewAdRequestingDog(LoginRequiredMixin, CreateView):
 
             Field(HTML(mark_safe('<b>Betalning</b>'))),  
             Div(
-                InlineRadios('payment_type', css_class="ml-3 mr-2"),
+                InlineRadios('payment_choice', css_class="ml-3 mr-2"),
                 css_class='mt-3 mb-5'
             ),
         )
@@ -441,10 +442,10 @@ class NewAdRequestingDog(LoginRequiredMixin, CreateView):
         return response
 
     def get_success_url(self):
-        if self.object.payment_type == 'S':
+        if self.object.payment_choice == 'S':
             logging.debug(f'User {self.request.user.pk} Choose payment with swish')
             return reverse('swish_payment_initial_template', kwargs={'pk': self.object.pk})
-        if self.object.payment_type == 'B':
+        if self.object.payment_choice == 'B':
             logging.debug(f'User {self.request.user.pk} Choose payment with bankgiro')
             return reverse('bg_payment', kwargs={'pk': self.object.pk})
 
@@ -473,7 +474,7 @@ class AdUpdateOfferingDogView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
     def get(self, request, *args, **kwargs):
         logging.debug(f'User {request.user.pk} requested AdUpdateOfferingDogView')
         self.object = self.get_object()
-        if self.object.ad_kind == 'RQ':
+        if self.object.ad_kind == AdKind.REQUESTING:
             return HttpResponseRedirect(reverse_lazy('update_ad_requesting_dog', kwargs={'pk': self.object.pk}))
         return super().get(request, *args, **kwargs)
 
@@ -484,7 +485,7 @@ class AdUpdateOfferingDogView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
         form.helper.add_input(Submit('submit', 'Spara och gå tillbaka till annonsen', css_class='btn-primary'))
         payment_header = ''
         if form.instance.is_published:
-            form.fields['payment_type'].widget = HiddenInput()
+            form.fields['payment_choice'].widget = HiddenInput()
             payment_header = ''
         else:
             payment_header = '<b>Betalning</b>'
@@ -524,7 +525,7 @@ class AdUpdateOfferingDogView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
 
             Field(HTML(mark_safe(payment_header))),  
             Div(
-                InlineRadios('payment_type', css_class="ml-3 mr-2"),
+                InlineRadios('payment_choice', css_class="ml-3 mr-2"),
                 css_class='mt-3 mb-5'
             ),
         )
@@ -551,7 +552,7 @@ class AdUpdateRequestingDogView(LoginRequiredMixin, UserPassesTestMixin, UpdateV
     def get(self, request, *args, **kwargs):
         logging.debug(f'User {request.user.pk} requested AdUpdateREquestingDogView')
         self.object = self.get_object()
-        if self.object.ad_kind == 'OF':
+        if self.object.ad_kind == AdKind.OFFERING:
             return HttpResponseRedirect(reverse_lazy('update_ad_offering_dog', kwargs={'pk': self.object.pk}))
         return super().get(request, *args, **kwargs)
 
@@ -564,7 +565,7 @@ class AdUpdateRequestingDogView(LoginRequiredMixin, UserPassesTestMixin, UpdateV
         form.fields['image3'].label = False
         payment_header = ''
         if form.instance.is_published:
-            form.fields['payment_type'].widget = HiddenInput()
+            form.fields['payment_choice'].widget = HiddenInput()
             payment_header = ''
         else:
             payment_header = '<b>Betalning</b>'
@@ -599,7 +600,7 @@ class AdUpdateRequestingDogView(LoginRequiredMixin, UserPassesTestMixin, UpdateV
 
             Field(HTML(mark_safe(payment_header))),  
             Div(
-                InlineRadios('payment_type', css_class="ml-3 mr-2"),
+                InlineRadios('payment_choice', css_class="ml-3 mr-2"),
                 css_class='mt-3 mb-5'
             ),
         )

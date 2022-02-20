@@ -8,6 +8,7 @@ import os
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from core.models import Payment
+from core.models import PaymentKind
 
 
 
@@ -230,7 +231,7 @@ def create_ad_with_initial_payment(count=1, user=None, is_published=True):
 
     Payment.objects.create(
         advertisement=ad,
-        payment_type=1,
+        payment_kind=PaymentKind.INITIAL,
         amount=30,
         payment_reference=r_high,
         date_time_paid=datetime.now(pytz.utc),
@@ -267,7 +268,7 @@ def create_ad_with_extended_payment(count=1, user=None, is_published=True):
 
     Payment.objects.create(
         advertisement=ad,
-        payment_type=2,
+        payment_kind=PaymentKind.EXTENDED,
         amount=30,
         payment_reference=r_high,
         date_time_paid=datetime.now(pytz.utc),

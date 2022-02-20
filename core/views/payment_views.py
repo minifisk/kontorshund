@@ -21,6 +21,7 @@ from django.db.models import F
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
+from core.models import PaymentKind
 
 
 
@@ -160,7 +161,7 @@ class SwishCallback(View):
             if ad_obj.has_initial_payment:
 
                 payment_obj = ad_obj.create_payment(
-                    payment_type=2, 
+                    payment_kind=PaymentKind.EXTENDED, 
                     amount=amount, 
                     payment_reference=payment_reference,
                     date_time_paid = date_paid_obj,
@@ -194,7 +195,7 @@ class SwishCallback(View):
             else:
 
                 payment_obj = ad_obj.create_payment(
-                    payment_type=1, 
+                    payment_kind=PaymentKind.INITIAL, 
                     amount=amount, 
                     payment_reference=payment_reference,
                     date_time_paid = date_paid_obj,

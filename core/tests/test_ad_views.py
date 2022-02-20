@@ -419,7 +419,7 @@ class TestCreateOfferingDogView(TestSetupListAndCreate):
             'description': 'asdf',
             'title': 'asdf',
             'name': 'roffe',
-            'payment_type': 'S',
+            'payment_choice': 'S',
             'hundras': 1,
             'size_offered': 1,
         }
@@ -461,7 +461,7 @@ class TestCreateRequestingDogView(TestSetupListAndCreate):
             'days_per_week': '1-2',
             'description': 'asdf',
             'title': 'asdf',
-            'payment_type': 'S',
+            'payment_choice': 'S',
             'size_requested': [1],
         }
 
@@ -529,7 +529,7 @@ class TestUpdateOfferingDogView(TestSetupUpdateAndDelete):
                 'description': 'asdf',
                 'title': new_title,
                 'name': 'roffe',
-                'payment_type': 'S',
+                'payment_choice': 'S',
                 'hundras': 1,
                 'size_offered': 1,
                 'image1': SimpleUploadedFile('image1.png', f.read())
@@ -595,7 +595,7 @@ class TestUpdateRequestingDogView(TestSetupUpdateAndDelete):
                 'days_per_week': '1-2',
                 'description': 'asdf',
                 'title': new_title,
-                'payment_type': 'S',
+                'payment_choice': 'S',
                 'size_requested': [1],
                 'image1': SimpleUploadedFile('image1.png', f.read())
             }

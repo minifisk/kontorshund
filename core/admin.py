@@ -36,7 +36,7 @@ admin.site.register(DogBreed, DogBreedAdmin)
 
 class PaymentAdmin(admin.ModelAdmin):
     model = Payment
-    list_display = ['id', 'payment_type', 'advertisement', 'amount', 'date_time_paid', 'payer_alias']
+    list_display = ['id', 'payment_kind', 'advertisement', 'amount', 'date_time_paid', 'payer_alias']
     list_display_links = ['id']
 
 admin.site.register(Payment, PaymentAdmin)
@@ -58,7 +58,7 @@ class AdvertisementAdmin(admin.ModelAdmin):
         ('General', {'fields': ('author', 'ad_kind', 'title', 'description', 'days_per_week', 'image1', 'image2', 'image3')}),
         ('Offering-fields', {'fields': ('size_offered', 'name', 'age', 'hundras')}),
         ('Requesting-fields', {'fields': ('size_requested',)}),
-        ('Chosen payment type', {'fields': ('payment_type',)}),
+        ('Chosen payment type', {'fields': ('payment_kind',)}),
     )
     inlines = [
         PaymentInline,

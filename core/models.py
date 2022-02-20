@@ -158,7 +158,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     size_offered = models.ForeignKey(DogSizeChoice, verbose_name='Hundens storlek', on_delete=models.CASCADE, related_name='size_offered', null=True)
     size_requested = models.ManyToManyField(DogSizeChoice, verbose_name='Önskade hundstorlekar (flerval)', related_name='size_requested')
 
-    payment_type = models.CharField(max_length=1, choices=PAYMENT_CHOICES, default=1, verbose_name='Betalningsmetod')
+    payment_choice = models.CharField(max_length=1, choices=PAYMENT_CHOICES, default=1, verbose_name='Betalningsmetod')
     
     image1 = StdImageField(verbose_name="Bild 1", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}}, null=True, blank=True)
     image2 = StdImageField(verbose_name="Bild 2", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}}, null=True, blank=True)
@@ -169,11 +169,11 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
         return self.title
 
 
-    def create_payment(self, payment_type, amount, payment_reference, date_time_paid, payer_alias):
+    def create_payment(self, payment_choice, amount, payment_reference, date_time_paid, payer_alias):
         
         new_payment = Payment.objects.create(
             advertisement=self,
-            payment_type=payment_type,
+            payment_choice=payment_choice,
             amount=amount,
             payment_reference=payment_reference,
             date_time_paid=date_time_paid,
@@ -196,29 +196,28 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
 
     @property
     def has_initial_payment(self):
-        if Payment.objects.filter(advertisement=self, payment_type=1).exists():
+        if Payment.objects.filter(advertisement=self, payment_kind=PaymentKind.INITIAL).exists():
             return True
         else:
             return False
 
     @property
     def has_extended_payment(self):
-        if Payment.objects.filter(advertisement=self, payment_type=2).exists():
+        if Payment.objects.filter(advertisement=self, payment_kind=PaymentKind.EXTENDED).exists():
             return True
         else:
             return False
 
+class PaymentKind(models.TextChoices):
+    INITIAL = 'IN', 'Initial',
+    EXTENDED = 'EX', 'Extended',
+
 
 class Payment(models.Model):
 
-    PAYMENT_TYPES = (
-        ("1", "Initial payment"),
-        ("2", "Extend payment"),
-        ("3", "Other"),
-    )
 
     advertisement = models.ForeignKey(Advertisement, on_delete=models.CASCADE, verbose_name='advertisement')
-    payment_type = models.CharField(max_length=1, choices=PAYMENT_TYPES, default=1, verbose_name='payment_type')
+    payment_kind = models.CharField(max_length=2, choices=PaymentKind.choices, default=PaymentKind.INITIAL, verbose_name='Betalningstyp')
     amount = models.IntegerField()
     payment_reference = models.CharField(max_length=50)
     date_time_paid = models.DateTimeField()

@@ -24,11 +24,11 @@ class OfferingDogForm(forms.ModelForm):
 
     class Meta:
         model = Advertisement
-        fields = ('province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'hundras', 'image1', 'image2', 'image3', 'payment_type')
+        fields = ('province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'hundras', 'image1', 'image2', 'image3', 'payment_choice')
         help_texts = {
             'title': 'Skriv en titel som sammanfattar annonsen - T.ex. "Frans, Border Collie, Söker kompis för 3 dagar per vecka"',
             'description': 'Skriv kort om hunden och er som har hunden, vad har hunden för typ av personlighet? Finns det saker den gillar mer eller mindre? Inom vilket område kan ni tänka er att länmna/hämta hunden?',
-            'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp inom 15 minuter, bankgiro tar 3-5 arbetsdagar.',
+            'payment_choice': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp inom 15 minuter, bankgiro tar 3-5 arbetsdagar.',
             'hundras': 'Fritextsök - börja skriv och resultat dyker upp',
             'image1': 'Max-storlek 20 MB.',
             'image2': 'Max-storlek 20 MB.',
@@ -77,11 +77,11 @@ class OfferingDogForm(forms.ModelForm):
 class RequestingDogForm(forms.ModelForm):
     class Meta:
         model = Advertisement
-        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'size_requested', 'image1', 'image2', 'image3', 'payment_type')
+        fields = ('province', 'municipality', 'area', 'title', 'description', 'days_per_week', 'size_requested', 'image1', 'image2', 'image3', 'payment_choice')
         help_texts = {
             'title': 'Skriv en titel som sammanfattar annonsen - T.ex. "Kontor med 10 anställda söker en kontorshund 2 dagar per vecka" eller "Pensionär söker hund 1 dagar per vecka"',
             'description': 'Skriv om dig/er som vill ta hand om en hund, har någon hundvana, vad gör ni om dagarna? osv.',
-            'payment_type': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp inom 15 minuter, bankgiro tar 3-5 arbetsdagar.',
+            'payment_choice': 'Välj betalningsmetod, Swish rekommenderas då din annons då dyker upp inom 15 minuter, bankgiro tar 3-5 arbetsdagar.',
         }
 
 
@@ -137,7 +137,7 @@ class AdFormAdmin(forms.ModelForm):
 
     class Meta:
         model = Advertisement
-        fields = ('is_published', 'deletion_date', 'ad_kind', 'is_deleted',  'author', 'province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'size_requested', 'hundras', 'image1', 'image2', 'image3', 'payment_type')
+        fields = ('is_published', 'deletion_date', 'ad_kind', 'is_deleted',  'author', 'province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'size_requested', 'hundras', 'image1', 'image2', 'image3', 'payment_choice')
 
 
     def __init__(self, *args, **kwargs):
