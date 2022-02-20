@@ -499,9 +499,9 @@ LOGGING = {
         'gunicorn.error': {
             'handlers': ['colored_console']
         },
-        'django.db.backends': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-        }
+        # 'django.db.backends': {
+        #     'level': 'DEBUG',
+        #     'handlers': ['console'],
+        # }
     }
 }
