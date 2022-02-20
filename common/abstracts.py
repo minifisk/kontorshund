@@ -9,8 +9,8 @@ from .managers import SoftDeleteManager
 
 
 class TimeStampedModel(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Skapad')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Senast ändrad')
 
     class Meta:
         abstract = True

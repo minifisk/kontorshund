@@ -47,13 +47,24 @@ class PaymentInline(admin.TabularInline):
 
 class AdvertisementAdmin(admin.ModelAdmin):
     form = AdFormAdmin
-    list_display = ['is_published', 'is_deleted',  'ad_kind', 'deletion_date', 'created_at', 'id', 'title', 'author', 'name']
+    list_display = ['pk', 'is_published', 'is_deleted',  'title', 'ad_kind', 'deletion_date', 'created_at',  'author']
     list_display_links = ['title']
-    readonly_fields = ('id',)
+    readonly_fields = ('id', 'created_at', 'updated_at', 'ad_views')
+    save_as = True
+    list_filter = ('is_deleted', 'is_published',)
+    fieldsets = (
+        ('Ad details', {'fields': ('is_published', 'is_deleted', 'deletion_date')}),
+        ('Geographical', {'fields': ('province', 'municipality', 'area')}),
+        ('General', {'fields': ('author', 'ad_kind', 'title', 'description', 'days_per_week', 'image1', 'image2', 'image3')}),
+        ('Offering-fields', {'fields': ('size_offered', 'name', 'age', 'hundras')}),
+        ('Requesting-fields', {'fields': ('size_requested',)}),
+        ('Chosen payment type', {'fields': ('payment_type',)}),
+    )
     inlines = [
         PaymentInline,
     ]
-    save_as = True
+    search_fields = ('title', 'description',)
+    ordering = ('pk',)
 
 admin.site.register(Advertisement, AdvertisementAdmin)
 

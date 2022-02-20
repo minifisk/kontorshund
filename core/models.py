@@ -137,20 +137,18 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
         ("B", "Bankgiro"),
     )
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Författare')
     province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap/Storstad')
     municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun')
     area = models.ForeignKey(Area, on_delete=models.CASCADE, verbose_name='Område', null=True, blank=True,)
 
-    ad_kind = models.CharField(max_length=2, choices=AdKind.choices, default=AdKind.OFFERING)
+    ad_kind = models.CharField(max_length=2, choices=AdKind.choices, default=AdKind.OFFERING, verbose_name='Annonstyp')
     
-    #is_offering_own_dog = models.BooleanField(default=True)
+    is_published = models.BooleanField(default=False, verbose_name='Publicerad')
+    is_deleted = models.BooleanField(default=False, verbose_name='Borttagen')
 
-    is_published = models.BooleanField(default=False)
-    is_deleted = models.BooleanField(default=False)
-
-    deletion_date = models.DateField(default=get_30_days_ahead)
-    ad_views = models.IntegerField(default=0)
+    deletion_date = models.DateField(default=get_30_days_ahead, verbose_name='Borttagnings-datum')
+    ad_views = models.IntegerField(default=0, verbose_name='Visningar')
     name = models.CharField(max_length=50, verbose_name='Hundens namn', default='')
     age = models.IntegerField(verbose_name='Hundens ålder (år)', default=0)
     title = models.CharField(max_length=150, verbose_name='Annons-Titel')
