@@ -250,7 +250,7 @@ class ListAndSearchAdsView(View):
                 **filter_options, 
                 is_published=True, 
                 is_deleted=False, 
-                ad_kind='OF',
+                ad_kind=AdKind.OFFERING,
             ).order_by('pk')
             qs_length = qs.count()
             ads = qs[OFFSET:END]
@@ -260,7 +260,7 @@ class ListAndSearchAdsView(View):
                 **filter_options, 
                 is_published=True, 
                 is_deleted=False, 
-                ad_kind='RQ',
+                ad_kind=AdKind.REQUESTING,
             ).order_by('pk')
             qs_length = qs.count()
             ads = qs[OFFSET:END]
@@ -369,7 +369,7 @@ class NewAdOfferingDog(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         logging.debug(f'User {self.request.user.pk} Provided a valid NewAdOfferingDog form')
         form.instance.author = self.request.user
-        form.instance.ad_kind='OF',
+        form.instance.ad_kind=AdKind.OFFERING,
         form.instance.is_published = False
         response = super().form_valid(form)
         return response
@@ -434,9 +434,13 @@ class NewAdRequestingDog(LoginRequiredMixin, CreateView):
         return form
 
     def form_valid(self, form):
+        print('FORM VALID')
         logging.debug(f'User {self.request.user.pk} Provided a valid NewAdRequestingDog form')
         form.instance.author = self.request.user
-        form.instance.ad_kind='RQ',
+        print('Length adkind', len(AdKind.REQUESTING))
+        print(form.instance)
+        print(type(form.instance))
+        form.instance.ad_kind=AdKind.REQUESTING,
         form.instance.is_published = False
         response = super().form_valid(form)
         return response
