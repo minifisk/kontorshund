@@ -434,15 +434,9 @@ class NewAdRequestingDog(LoginRequiredMixin, CreateView):
         return form
 
     def form_valid(self, form):
-        print('FORM VALID')
         logging.debug(f'User {self.request.user.pk} Provided a valid NewAdRequestingDog form')
         form.instance.author = self.request.user
-        print(vars(AdKind.REQUESTING))
-        print(len(AdKind.REQUESTING._value_))
-        form.instance.ad_kind='RQ',
-        #form.instance.ad_kind='RQ',
-        #form.instance.ad_kind=AdKind.REQUESTING._value_,
-        #form.instance.ad_kind='R',
+        form.instance.ad_kind=AdKind.REQUESTING
         form.instance.is_published = False
         response = super().form_valid(form)
         return response
