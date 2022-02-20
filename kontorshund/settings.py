@@ -330,39 +330,39 @@ AUTHENTICATION_BACKENDS = (
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
 
-    # Facebook
-    # 'facebook': {
-    #     'METHOD': 'oauth2',
-    #     'SCOPE': ['email','public_profile', 'user_friends'],
-    #     'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-    #     'FIELDS': [
-    #         'id',
-    #         'email',
-    #         'name',
-    #         'first_name',
-    #         'last_name',
-    #         'verified',
-    #         'locale',
-    #         'timezone',
-    #         'link',
-    #         'gender',
-    #         'updated_time'],
-    #     'EXCHANGE_TOKEN': True,
-    #     'LOCALE_FUNC': lambda request: 'kr_KR',
-    #     'VERIFIED_EMAIL': False,
-    #     'VERSION': 'v2.4'
-    # },
+   # Facebook
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['email','public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time'],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': lambda request: 'kr_KR',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v2.4'
+    },
 
-    # Google
-    # 'google': {
-    #     'SCOPE': [
-    #         'profile',
-    #         'email',
-    #     ],
-    #     'AUTH_PARAMS': {
-    #         'access_type': 'online',
-    #     }
-    # }
+   # Google
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
 }
 
 # Facebook
