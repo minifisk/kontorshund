@@ -110,7 +110,7 @@ class CheckExtendedPaymentStatus(View):
 class AndroidSuccessPage(View):
 
     def get(self, request):
-        logging.info('Android success-page was requested and served')
+        logging.debug('Android success-page was requested and served')
         return render(request, 'core/payment/android_swish_success.html')
 
 #############

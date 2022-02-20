@@ -132,3 +132,10 @@ class TestPaymentStatus(TestSetupPaymentViews):
         self.client.login(username=self.username1, password=self.password1)
         response = self.client.post(reverse('check_extended_payment_status', kwargs={'pk': 20}))
         self.assertEqual(response.status_code, 404)
+
+
+class TestAndroidPage(TestSetupPaymentViews):
+
+    def test_getting_android_page(self):
+        response = self.client.post(reverse('android_success_page'))
+        self.assertEqual(response.status_code, 200)
