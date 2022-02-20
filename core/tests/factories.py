@@ -7,8 +7,7 @@ import os
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 
-from core.models import Payment
-from core.models import PaymentKind
+from core.models import Payment, PaymentKind, AdKind
 
 
 
@@ -29,19 +28,19 @@ def create_offering_ads_stockholm_stockholms_stad(count=1, user=None, is_publish
     for i in range(count):
         ads.append(
             Advertisement.objects.create(
-            ad_kind='OF',
-            author=user,
-            province=province,
-            municipality=municipality,
-            name=f'Frasse {r_high}',
-            age=r_low,
-            is_published=is_published,
-            is_deleted=False,
-            title=f'Hund erbjudes {r_high}',
-            description=f'Hejsan här kommer en ny annons {r_high}',
-            hundras=breed,  
-            days_per_week=1,
-            size_offered=size_offered,
+                ad_kind=AdKind.OFFERING,
+                author=user,
+                province=province,
+                municipality=municipality,
+                name=f'Frasse {r_high}',
+                age=r_low,
+                is_published=is_published,
+                is_deleted=False,
+                title=f'Hund erbjudes {r_high}',
+                description=f'Hejsan här kommer en ny annons {r_high}',
+                hundras=breed,  
+                days_per_week=1,
+                size_offered=size_offered,
             )
         )   
 
@@ -63,20 +62,20 @@ def create_offering_ads_stockholm_stockholm_stad_katarina_sofia(count=1, user=No
     for i in range(count):
         ads.append(
             Advertisement.objects.create(
-            ad_kind='OF',
-            author=user,
-            province=province,
-            municipality=municipality,
-            area=area,
-            name=f'Frasse {r_high}',
-            age=r_low,
-            is_published=is_published,
-            is_deleted=False,
-            title=f'Hund erbjudes {r_high}',
-            description=f'Hejsan här kommer en ny annons {r_high}',
-            hundras=breed,  
-            days_per_week=1,
-            size_offered=size_offered,
+                ad_kind=AdKind.OFFERING,
+                author=user,
+                province=province,
+                municipality=municipality,
+                area=area,
+                name=f'Frasse {r_high}',
+                age=r_low,
+                is_published=is_published,
+                is_deleted=False,
+                title=f'Hund erbjudes {r_high}',
+                description=f'Hejsan här kommer en ny annons {r_high}',
+                hundras=breed,  
+                days_per_week=1,
+                size_offered=size_offered,
             )
         )   
 
@@ -95,16 +94,16 @@ def create_requesting_ads_stockholm_stockholms_stad(count=1, user=None, is_publi
     for i in range(count):
         ads.append(
             Advertisement.objects.create(
-            ad_kind='RQ',
-            author=user,
-            province=province,
-            municipality=municipality,
-            is_published=is_published,
-            is_deleted=False,
-            title=f'Hund sökes {r_high}',
-            description=f'Hejsan här kommer en ny annons {r_high}',
-            days_per_week=1,
-            size_offered=size_requested,
+                ad_kind=AdKind.REQUESTING,
+                author=user,
+                province=province,
+                municipality=municipality,
+                is_published=is_published,
+                is_deleted=False,
+                title=f'Hund sökes {r_high}',
+                description=f'Hejsan här kommer en ny annons {r_high}',
+                days_per_week=1,
+                size_offered=size_requested,
             )
         )   
 
@@ -125,19 +124,19 @@ def create_offering_ads_halland_falkenberg(count=1, user=None, is_published=Fals
     for i in range(count):
         ads.append(
             Advertisement.objects.create(
-            ad_kind='OF',
-            author=user,
-            province=province,
-            municipality=municipality,
-            name=f'Frasse {r_high}',
-            age=r_low,
-            is_published=is_published,
-            is_deleted=False,
-            title=f'Hund erbjudes {r_high}',
-            description=f'Hejsan här kommer en ny annons {r_high}',
-            hundras=breed,  
-            days_per_week=1,
-            size_offered=size_offered,
+                ad_kind=AdKind.OFFERING,
+                author=user,
+                province=province,
+                municipality=municipality,
+                name=f'Frasse {r_high}',
+                age=r_low,
+                is_published=is_published,
+                is_deleted=False,
+                title=f'Hund erbjudes {r_high}',
+                description=f'Hejsan här kommer en ny annons {r_high}',
+                hundras=breed,  
+                days_per_week=1,
+                size_offered=size_offered,
             )
         )   
 
@@ -158,19 +157,19 @@ def create_offering_ads_halland_halmstad(count=1, user=None, is_published=False)
     for i in range(count):
         ads.append(
             Advertisement.objects.create(
-            ad_kind='OF',
-            author=user,
-            province=province,
-            municipality=municipality,
-            name=f'Frasse {r_high}',
-            age=r_low,
-            is_published=is_published,
-            is_deleted=False,
-            title=f'Hund erbjudes {r_high}',
-            description=f'Hejsan här kommer en ny annons {r_high}',
-            hundras=breed,  
-            days_per_week=1,
-            size_offered=size_offered,
+                ad_kind=AdKind.OFFERING,
+                author=user,
+                province=province,
+                municipality=municipality,
+                name=f'Frasse {r_high}',
+                age=r_low,
+                is_published=is_published,
+                is_deleted=False,
+                title=f'Hund erbjudes {r_high}',
+                description=f'Hejsan här kommer en ny annons {r_high}',
+                hundras=breed,  
+                days_per_week=1,
+                size_offered=size_offered,
             )
         )   
 
@@ -187,7 +186,7 @@ def create_ad_without_payment(count=1, user=None, is_published=False):
     size_offered = DogSizeChoice.objects.get(pk=1)
     
     ad = Advertisement.objects.create(
-        ad_kind='OF',
+        ad_kind=AdKind.OFFERING,
         author=user,
         province=province,
         municipality=municipality,
@@ -214,7 +213,7 @@ def create_ad_with_initial_payment(count=1, user=None, is_published=True):
     size_offered = DogSizeChoice.objects.get(pk=1)
     
     ad = Advertisement.objects.create(
-        ad_kind='OF',
+        ad_kind=AdKind.OFFERING,
         author=user,
         province=province,
         municipality=municipality,
@@ -251,7 +250,7 @@ def create_ad_with_extended_payment(count=1, user=None, is_published=True):
     size_offered = DogSizeChoice.objects.get(pk=1)
     
     ad = Advertisement.objects.create(
-        ad_kind='OF',
+        ad_kind=AdKind.OFFERING,
         author=user,
         province=province,
         municipality=municipality,
