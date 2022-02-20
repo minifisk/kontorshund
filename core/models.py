@@ -142,7 +142,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun')
     area = models.ForeignKey(Area, on_delete=models.CASCADE, verbose_name='Område', null=True, blank=True,)
 
-    ad_kind = models.CharField(max_length=4, choices=AdKind.choices, default=AdKind.OFFERING, verbose_name='Annonstyp')
+    ad_kind = models.CharField(max_length=2, choices=AdKind.choices, default=AdKind.OFFERING, verbose_name='Annonstyp')
     
     is_published = models.BooleanField(default=False, verbose_name='Publicerad')
     is_deleted = models.BooleanField(default=False, verbose_name='Borttagen')
