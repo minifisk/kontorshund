@@ -129,7 +129,12 @@ class SwishCallback(View):
     def post(self, request):
 
         data=request.body
+        print('FROM SWISH CALLBACK')
+        print('DATA BEFORE DECODE')
+        print(data)
         data_dict = json.loads(data.decode("utf-8"))
+        print('DATA AFTER DECODE')
+        print(data_dict)
 
         # Check if payment was successfull
         if data_dict['status'] == 'PAID':

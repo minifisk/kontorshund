@@ -137,5 +137,33 @@ class TestPaymentStatus(TestSetupPaymentViews):
 class TestAndroidPage(TestSetupPaymentViews):
 
     def test_getting_android_page(self):
-        response = self.client.post(reverse('android_success_page'))
+        response = self.client.get(reverse('android_success_page'))
         self.assertEqual(response.status_code, 200)
+
+
+class SwishCallbackView(TestSetupPaymentViews):
+
+    pass
+
+    # def test_getting_android_page(self):
+    #     response = self.client.get(reverse('android_success_page'))
+    #     self.assertEqual(response.status_code, 200)
+
+
+
+# check status paid
+
+    # For non existant ad
+
+    # For existant ad
+
+        # With initial payment
+
+            # With deletion date 5 days ahead
+
+            # With deletion date today
+
+        # Without initial payment 
+
+
+# Check status other
