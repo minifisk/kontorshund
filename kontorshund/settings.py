@@ -461,9 +461,17 @@ LOGGING = {
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
-        }
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
     },
     'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+        },
         'colored_console': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
@@ -490,6 +498,10 @@ LOGGING = {
         },
         'gunicorn.error': {
             'handlers': ['colored_console']
+        },
+        'django.db.backends': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
         }
     }
 }
