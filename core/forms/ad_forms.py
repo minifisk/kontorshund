@@ -137,7 +137,7 @@ class AdFormAdmin(forms.ModelForm):
 
     class Meta:
         model = Advertisement
-        fields = ('is_published', 'deletion_date', 'is_offering_own_dog', 'is_deleted',  'author', 'province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'size_requested', 'hundras', 'image1', 'image2', 'image3', 'payment_type')
+        fields = ('is_published', 'deletion_date', 'ad_kind', 'is_deleted',  'author', 'province', 'municipality', 'area', 'title', 'name', 'age', 'description', 'days_per_week', 'size_offered', 'size_requested', 'hundras', 'image1', 'image2', 'image3', 'payment_type')
 
 
     def __init__(self, *args, **kwargs):

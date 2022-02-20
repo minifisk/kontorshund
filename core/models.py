@@ -113,10 +113,9 @@ class DogBreed(models.Model):
         return self.name
 
 
-
-
 def content_file_name(instance, filename):
     return '/'.join(['content', instance.author.username, filename])
+
 
 DAYS_PER_WEEK_CHOICES = (
     ("1", "1 dag per vecka"),
@@ -126,57 +125,47 @@ DAYS_PER_WEEK_CHOICES = (
     ("1-5", "1-5 dagar per vecka"),
 )
 
+class AdKind(models.TextChoices):
+    OFFERING = 'OF', 'Offering',
+    REQUESTING = 'RQ', 'Requesting',
+
+
 class Advertisement(SoftDeleteModel, TimeStampedModel):
 
-    # Foreign keys
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap/Storstad')
-    municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun')
-    area = models.ForeignKey(Area, on_delete=models.CASCADE, verbose_name='Område', null=True, blank=True,)
-
-    # Choices declaration
-
-
-    # Choices declaration
     PAYMENT_CHOICES = (
         ("S", "Swish"),
         ("B", "Bankgiro"),
     )
 
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap/Storstad')
+    municipality = models.ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun')
+    area = models.ForeignKey(Area, on_delete=models.CASCADE, verbose_name='Område', null=True, blank=True,)
 
-    # Ad life-time
-    deletion_date = models.DateField(default=get_30_days_ahead)
+    ad_kind = models.CharField(max_length=2, choices=AdKind.choices, default=AdKind.OFFERING)
+    
+    is_offering_own_dog = models.BooleanField(default=True)
 
-    # Dog details
-    name = models.CharField(max_length=50, verbose_name='Hundens namn', default='')
-    age = models.IntegerField(verbose_name='Hundens ålder (år)', default=0)
-
-    # Status
     is_published = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
 
-    # Payment status
-    payment_type = models.CharField(max_length=1, choices=PAYMENT_CHOICES, default=1, verbose_name='Betalningsmetod')
-
-    # Type of Ad (Offering own dog or requesting a dog)
-    is_offering_own_dog = models.BooleanField(default=True)
-
-    # String data
+    deletion_date = models.DateField(default=get_30_days_ahead)
+    ad_views = models.IntegerField(default=0)
+    name = models.CharField(max_length=50, verbose_name='Hundens namn', default='')
+    age = models.IntegerField(verbose_name='Hundens ålder (år)', default=0)
     title = models.CharField(max_length=150, verbose_name='Annons-Titel')
     description = models.TextField(max_length=1500, verbose_name='Annons-beskrivning')
-    
-    # Choices
     days_per_week = models.CharField(max_length=3, choices=DAYS_PER_WEEK_CHOICES, default=1, verbose_name='Önskad omfattning')
     hundras = models.ForeignKey(DogBreed, on_delete=models.CASCADE, verbose_name=u'Hundras', null=True,)
     size_offered = models.ForeignKey(DogSizeChoice, verbose_name='Hundens storlek', on_delete=models.CASCADE, related_name='size_offered', null=True)
     size_requested = models.ManyToManyField(DogSizeChoice, verbose_name='Önskade hundstorlekar (flerval)', related_name='size_requested')
 
-    # Images
+    payment_type = models.CharField(max_length=1, choices=PAYMENT_CHOICES, default=1, verbose_name='Betalningsmetod')
+    
     image1 = StdImageField(verbose_name="Bild 1", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}}, null=True, blank=True)
     image2 = StdImageField(verbose_name="Bild 2", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}}, null=True, blank=True)
     image3 = StdImageField(verbose_name="Bild 3", upload_to=content_file_name, variations={'thumbnail': {'width': 600, 'height': 800}}, null=True, blank=True)
    
-    ad_views = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
