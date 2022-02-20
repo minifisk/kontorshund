@@ -16,11 +16,14 @@
 <br>
 <br>
 
+<div id="center-align-container" class="mb-4">
     {% if ad.ad_kind == 'OF' %}
         <h1>Hund erbjudes</h1>
     {% else %}
         <h1>Hund sökes</h1>
     {% endif %}
+
+
 
     {% if not ad.is_published %}
 
@@ -59,13 +62,16 @@
         <p>Antal visningar: {{ ad.ad_views }}</p>
 
         {% if ad.author == request.user %}
-            {% include 'core/ads/templates/handle_published_ad.html' %}
+                {% include 'core/ads/templates/handle_published_ad.html' %}
         {% endif %}
         
         {% include 'core/ads/templates/ad_content_template.html' %}
         {% include 'core/ads/templates/ad_contact_author.html' %}
 
     {% endif %}
+
+</div>
+
 
 {% endblock content %}
 
