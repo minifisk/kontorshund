@@ -237,7 +237,7 @@
                                     
      
                                     <p class="my_ad_title">
-                                      {% if ad.is_offering_own_dog %}[Hund erbjudes]{% else %}[Hund sökes]{% endif %} - {{ ad.title }}
+                                      {% if ad.ad_kind == 'OF' %}[Hund erbjudes]{% else %}[Hund sökes]{% endif %} - {{ ad.title }}
                                     </p>
 
                                     <p class="my_ad_location">

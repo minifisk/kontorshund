@@ -117,7 +117,7 @@
 
       <div class="card mb-5 profile-ad-list">
         <h6 class="card-header text-center">
-          {% if ad.is_offering_own_dog %}
+          {% if ad.ad_kind == 'OF' %}
           Hund erbjudes
           {% else %}
           Hund sökes
@@ -149,7 +149,7 @@
 
     <div class="card mb-5 profile-ad-list">
       <h6 class="card-header text-center">
-        {% if ad.is_offering_own_dog %}
+        {% if ad.ad_kind == 'OF' %}
         Hund erbjudes
         {% else %}
         Hund sökes
@@ -182,7 +182,7 @@
 
     <div class="card mb-5 profile-ad-list">
       <h6 class="card-header text-center">
-        {% if ad.is_offering_own_dog %}
+        {% if ad.ad_kind == 'OF' %}
         Hund erbjudes
         {% else %}
         Hund sökes

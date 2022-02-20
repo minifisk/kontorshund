@@ -249,7 +249,7 @@ class ListAndSearchAdsView(View):
                 **filter_options, 
                 is_published=True, 
                 is_deleted=False, 
-                is_offering_own_dog=True
+                ad_kind='OF',
             ).order_by('pk')
             qs_length = qs.count()
             ads = qs[OFFSET:END]
@@ -259,7 +259,7 @@ class ListAndSearchAdsView(View):
                 **filter_options, 
                 is_published=True, 
                 is_deleted=False, 
-                is_offering_own_dog=False
+                ad_kind='RQ',
             ).order_by('pk')
             qs_length = qs.count()
             ads = qs[OFFSET:END]
@@ -275,7 +275,7 @@ class ListAndSearchAdsView(View):
                 'pk': ad.pk,
                 'title': ad.title, 
                 'image_url': ad.image1.url if ad.image1 else '', # Taking account for not providing an image (in tests for example)
-                'is_offering_own_dog': ad.is_offering_own_dog,
+                'ad_kind': ad.ad_kind,
                 'province': ad.province.name,
                 'municipality': ad.municipality.name,
                 'days_per_week': ad.days_per_week,
@@ -368,7 +368,7 @@ class NewAdOfferingDog(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         logging.debug(f'User {self.request.user.pk} Provided a valid NewAdOfferingDog form')
         form.instance.author = self.request.user
-        form.instance.is_offering_own_dog = True
+        form.instance.ad_kind='OF',
         form.instance.is_published = False
         response = super().form_valid(form)
         return response
@@ -435,7 +435,7 @@ class NewAdRequestingDog(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         logging.debug(f'User {self.request.user.pk} Provided a valid NewAdRequestingDog form')
         form.instance.author = self.request.user
-        form.instance.is_offering_own_dog = False
+        form.instance.ad_kind='RQ',
         form.instance.is_published = False
         response = super().form_valid(form)
         return response
@@ -471,11 +471,9 @@ class AdUpdateOfferingDogView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
         return reverse_lazy('ad_detail', kwargs={'pk': self.object.pk})
 
     def get(self, request, *args, **kwargs):
-        print('Requesting user :', request.user.pk)
         logging.debug(f'User {request.user.pk} requested AdUpdateOfferingDogView')
         self.object = self.get_object()
-        print(self.object)
-        if self.object.is_offering_own_dog == False:
+        if self.object.ad_kind == 'RQ':
             return HttpResponseRedirect(reverse_lazy('update_ad_requesting_dog', kwargs={'pk': self.object.pk}))
         return super().get(request, *args, **kwargs)
 
@@ -553,7 +551,7 @@ class AdUpdateRequestingDogView(LoginRequiredMixin, UserPassesTestMixin, UpdateV
     def get(self, request, *args, **kwargs):
         logging.debug(f'User {request.user.pk} requested AdUpdateREquestingDogView')
         self.object = self.get_object()
-        if self.object.is_offering_own_dog == True:
+        if self.object.ad_kind == 'OF':
             return HttpResponseRedirect(reverse_lazy('update_ad_offering_dog', kwargs={'pk': self.object.pk}))
         return super().get(request, *args, **kwargs)
 

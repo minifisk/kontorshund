@@ -28,7 +28,7 @@ def create_offering_ads_stockholm_stockholms_stad(count=1, user=None, is_publish
     for i in range(count):
         ads.append(
             Advertisement.objects.create(
-            is_offering_own_dog=True,
+            ad_kind='OF',
             author=user,
             province=province,
             municipality=municipality,
@@ -62,7 +62,7 @@ def create_offering_ads_stockholm_stockholm_stad_katarina_sofia(count=1, user=No
     for i in range(count):
         ads.append(
             Advertisement.objects.create(
-            is_offering_own_dog=True,
+            ad_kind='OF',
             author=user,
             province=province,
             municipality=municipality,
@@ -94,7 +94,7 @@ def create_requesting_ads_stockholm_stockholms_stad(count=1, user=None, is_publi
     for i in range(count):
         ads.append(
             Advertisement.objects.create(
-            is_offering_own_dog=False,
+            ad_kind='RQ',
             author=user,
             province=province,
             municipality=municipality,
@@ -124,7 +124,7 @@ def create_offering_ads_halland_falkenberg(count=1, user=None, is_published=Fals
     for i in range(count):
         ads.append(
             Advertisement.objects.create(
-            is_offering_own_dog=True,
+            ad_kind='OF',
             author=user,
             province=province,
             municipality=municipality,
@@ -157,7 +157,7 @@ def create_offering_ads_halland_halmstad(count=1, user=None, is_published=False)
     for i in range(count):
         ads.append(
             Advertisement.objects.create(
-            is_offering_own_dog=True,
+            ad_kind='OF',
             author=user,
             province=province,
             municipality=municipality,
@@ -186,7 +186,7 @@ def create_ad_without_payment(count=1, user=None, is_published=False):
     size_offered = DogSizeChoice.objects.get(pk=1)
     
     ad = Advertisement.objects.create(
-        is_offering_own_dog=True,
+        ad_kind='OF',
         author=user,
         province=province,
         municipality=municipality,
@@ -213,7 +213,7 @@ def create_ad_with_initial_payment(count=1, user=None, is_published=True):
     size_offered = DogSizeChoice.objects.get(pk=1)
     
     ad = Advertisement.objects.create(
-        is_offering_own_dog=True,
+        ad_kind='OF',
         author=user,
         province=province,
         municipality=municipality,
@@ -250,7 +250,7 @@ def create_ad_with_extended_payment(count=1, user=None, is_published=True):
     size_offered = DogSizeChoice.objects.get(pk=1)
     
     ad = Advertisement.objects.create(
-        is_offering_own_dog=True,
+        ad_kind='OF',
         author=user,
         province=province,
         municipality=municipality,

@@ -9,7 +9,7 @@
         <a href="{% url 'bg_payment' ad.id %}"><button class="btn btn-secondary mr-3">Betala med Bankgiro</button></a>
     </div>
     
-    {% if ad.is_offering_own_dog == True %}
+    {% if ad.ad_kind == 'OF' %}
         <div class="mt-4">
             <a href="{% url 'update_ad_offering_dog' ad.id %}"><button class="btn btn-secondary mr-3">Ändra annons</button></a>
         </div>

@@ -144,7 +144,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
 
     ad_kind = models.CharField(max_length=2, choices=AdKind.choices, default=AdKind.OFFERING)
     
-    is_offering_own_dog = models.BooleanField(default=True)
+    #is_offering_own_dog = models.BooleanField(default=True)
 
     is_published = models.BooleanField(default=False)
     is_deleted = models.BooleanField(default=False)
@@ -190,11 +190,11 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
 
     @staticmethod
     def get_all_active_offering_ads():
-        return Advertisement.objects.filter(is_published=True, is_deleted=False, is_offering_own_dog=True)
+        return Advertisement.objects.filter(is_published=True, is_deleted=False, ad_kind='OF')
 
     @staticmethod
     def get_all_active_requesting_ads():
-        return Advertisement.objects.filter(is_published=True, is_deleted=False, is_offering_own_dog=False)
+        return Advertisement.objects.filter(is_published=True, is_deleted=False, ad_kind='RQ')
 
     @property
     def has_initial_payment(self):

@@ -6,7 +6,7 @@
 <p>Skapad: {{ ad.created_at }}</p>
 
 <div id="ad_type">
-    {% if ad.is_offering_own_dog %}
+    {% if ad.ad_kind == 'OF' %}
         <p>Typ av annons: Hund erbjudes</p>
     {% else %}
         <p>Type av annons: Hund sökes</p>
@@ -62,7 +62,7 @@
 
     <div id="dog_info">
     <h4>{{ ad.title }}</h4>
-    {% if ad.is_offering_own_dog %}
+    {% if ad.ad_kind == 'OF' %}
         <p>{{ ad.name }}, en {{ ad.hundras }} ({{ ad.size_offered }}) på {{ ad.age }} år söker någonstans att vara under <b>{{ ad.days_per_week }} 
             {% if ad.days_per_week > 1 %} 
                 dagar 

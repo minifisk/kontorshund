@@ -13,8 +13,8 @@ class Command(BaseCommand):
         all_province_obj = Province.objects.all()
 
         for province in all_province_obj:
-            offering_count_ads_in_province = all_active_ads.filter(province=province, is_offering_own_dog=True).count()
-            requesting_count_ads_in_province = all_active_ads.filter(province=province, is_offering_own_dog=False).count()
+            offering_count_ads_in_province = all_active_ads.filter(province=province, ad_kind='OF').count()
+            requesting_count_ads_in_province = all_active_ads.filter(province=province, ad_kind='RQ').count()
 
             province.offering_count = offering_count_ads_in_province
             province.requesting_count = requesting_count_ads_in_province
@@ -24,8 +24,8 @@ class Command(BaseCommand):
 
         # Update count for municipalities's
         for municipality in all_municipality_obj:
-            offering_count_ads_in_municipality = all_active_ads.filter(municipality=municipality, is_offering_own_dog=True).count()
-            requesting_count_ads_in_municipality = all_active_ads.filter(municipality=municipality, is_offering_own_dog=False).count()
+            offering_count_ads_in_municipality = all_active_ads.filter(municipality=municipality,  ad_kind='OF').count()
+            requesting_count_ads_in_municipality = all_active_ads.filter(municipality=municipality, ad_kind='RQ').count()
 
             municipality.offering_count = offering_count_ads_in_municipality
             municipality.requesting_count = requesting_count_ads_in_municipality
@@ -35,8 +35,8 @@ class Command(BaseCommand):
 
         # Update count for areas's
         for area in all_area_obj:
-            offering_count_ads_in_area = all_active_ads.filter(area=area, is_offering_own_dog=True).count()
-            requesting_count_ads_in_area = all_active_ads.filter(area=area, is_offering_own_dog=False).count()
+            offering_count_ads_in_area = all_active_ads.filter(area=area, ad_kind='OF').count()
+            requesting_count_ads_in_area = all_active_ads.filter(area=area, ad_kind='RQ').count()
 
             area.offering_count = offering_count_ads_in_area
             area.requesting_count = requesting_count_ads_in_area

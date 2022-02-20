@@ -550,7 +550,7 @@
                     compile_data = `<div class="card" style="width: 20rem;"> 
                         <a href="https://www.kontorshund.se/ads/${data_obj.ads[i].pk}"> <img class="card-img-top" src="${data_obj.ads[i].image_url}" alt="${data_obj.ads[i].title}-bild"> </a>
                         <div class="card-body">
-                            <h5 class="card-title">${data_obj.ads[i].is_offering_own_dog ? '- Hund erbjudes -' : '- Hund sökes -'}</h5>
+                            <h5 class="card-title">${(data_obj.ads[i].ad_kind === 'OF') ? '- Hund erbjudes -' : '- Hund sökes -'}</h5>
                             <h6 class="card-title">${data_obj.ads[i].title} ${data_obj.ads[i].pk}</h6>
                             <h7 class="card-title">${data_obj.ads[i].province}/${data_obj.ads[i].municipality}${data_obj.ads[i].area ? `/${data_obj['ads'][i].area}` : ''} </h7>
                         </div>

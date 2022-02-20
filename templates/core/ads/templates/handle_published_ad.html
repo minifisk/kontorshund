@@ -6,7 +6,7 @@
 <div>
     <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-success">Förläng annons 30 dagar</button></a>
 </div>
-{% if ad.is_offering_own_dog == True%}
+{% if ad.ad_kind == 'OF' %}
 <br>
 <div class="mt-1">
     <a href="{% url 'update_ad_offering_dog' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>

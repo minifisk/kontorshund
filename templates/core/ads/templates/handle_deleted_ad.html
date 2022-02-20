@@ -3,7 +3,7 @@
 <br>
 <h4>Hantera annons</h4>
 <a href="{% url 'swish_payment_extended_template' ad.id %}"><button class="btn btn-primary" >Betala med Swish</button></a>    
-{% if ad.is_offering_own_dog == True%}
+{% if ad.ad_kind == 'OF' %}
     <a href="{% url 'update_ad_offering_dog' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
 {% else %}
     <a href="{% url 'update_ad_requesting_dog' ad.id %}"><button class="btn btn-secondary">Ändra annons</button></a>
