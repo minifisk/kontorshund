@@ -134,6 +134,8 @@ class SwishCallback(View):
         logger.info('DATA AFTER DECODE')
         logger.info(data_dict)
 
+        
+
         # Check if payment was successfull
         if data_dict['status'] == 'PAID':
             logger.debug('Swish callback view was requested')

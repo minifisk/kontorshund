@@ -11,6 +11,7 @@ from core.models import Advertisement, DogBreed, Municipality, NewsEmail, Provin
 from core.tests import factories
 from core.forms.ad_forms import OfferingDogForm, RequestingDogForm
 from core.abstracts import prevent_request_warnings
+from core.views.payment_views import SwishCallback
 
 from django.contrib.auth import get_user_model
 
@@ -46,9 +47,6 @@ class TestSetupPaymentViews(TestCase):
         cls.user2.save()
 
         # Create ads
-
-
-        # creation
         cls.user_1_ad_without_payment = factories.create_ad_without_payment(user=cls.user1)
         cls.user_1_ad_with_initial_payment = factories.create_ad_with_initial_payment(user=cls.user1)
         cls.user_1_ad_with_extended_payment = factories.create_ad_with_extended_payment(user=cls.user1)
@@ -56,6 +54,24 @@ class TestSetupPaymentViews(TestCase):
         cls.user_2_ad_without_payment = factories.create_ad_without_payment(user=cls.user2)
         cls.user_2_ad_with_initial_payment = factories.create_ad_with_initial_payment(user=cls.user2)
         cls.user_2_ad_with_extended_payment = factories.create_ad_with_initial_payment(user=cls.user2)
+
+        # Swish callback data
+        cls.swish_callback_data = {
+            'id': 'CD3820D9B3734EFAB4EC2CCA63C66BCB',
+            'payeePaymentReference': '3',
+            'paymentReference': 'A05B3CFC615143798F9DF8509E39C9B8',
+            'callbackUrl': 'https://kontorshund.se/swish/callback',
+            'payerAlias': '46721506520',
+            'payeeAlias': '1233473337',
+            'currency': 'SEK',
+            'message': 'Betalning för annons med ID 3',
+            'errorMessage': '',
+            'status': 'PAID',
+            'amount': 1.0,
+            'dateCreated': '2022-02-22T19:26:03.619Z',
+            'datePaid': '2022-02-22T19:26:14.826Z',
+            'errorCode': ''
+        }
 
 
     #setUp: Run once for every test method to setup clean data.
@@ -141,13 +157,19 @@ class TestAndroidPage(TestSetupPaymentViews):
         self.assertEqual(response.status_code, 200)
 
 
-class SwishCallbackView(TestSetupPaymentViews):
+class TestSwishCallbackView(TestSetupPaymentViews):
 
-    pass
 
-    # def test_getting_android_page(self):
-    #     response = self.client.get(reverse('android_success_page'))
-    #     self.assertEqual(response.status_code, 200)
+    def test_status_paid(self):
+
+        request_body_string = json.dumps(self.swish_callback_data)
+        request_body_bytes = request_body_string.encode('utf-8')
+
+        request = type('', (), {})()
+        request.body = request_body_bytes
+
+        SwishCallback.post(self, request=request)
+
 
 
 
