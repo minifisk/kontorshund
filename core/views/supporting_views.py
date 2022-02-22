@@ -36,12 +36,12 @@ class HandleEmailSubscriptionStatus(View):
             if NewsEmail_obj.is_active == False:
                 NewsEmail_obj.is_active = True
                 NewsEmail_obj.save()
-                logging.debug(f'Activated NewsEmail subscription for user {request.user.pk}')
+                logger.debug(f'Activated NewsEmail subscription for user {request.user.pk}')
                 return JsonResponse("Activated", status=200, safe=False)
             else:
                 NewsEmail_obj.is_active = False
                 NewsEmail_obj.save()
-                logging.debug(f'Deactivated NewsEmail subscription for user {request.user.pk}')
+                logger.debug(f'Deactivated NewsEmail subscription for user {request.user.pk}')
                 return JsonResponse("Deactivated", status=200, safe=False)
         
         else:
