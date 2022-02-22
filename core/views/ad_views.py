@@ -62,7 +62,7 @@ class Profile(LoginRequiredMixin, View):
 
         if request.user.is_authenticated:
             
-            logging.debug(f'Profile for user {request.user.pk} was loaded')
+            logger.debug(f'Profile for user {request.user.pk} was loaded')
 
             url = request.build_absolute_uri('/')
             media_url = f'{url}media/'
@@ -99,12 +99,12 @@ class Profile(LoginRequiredMixin, View):
             form = NewsEmailForm(request.POST, instance=NewsEmail_obj)
 
             if form.is_valid():
-                logging.info(f'User {request.user.pk} Updated NewsEmail preferences.')
+                logger.info(f'User {request.user.pk} Updated NewsEmail preferences.')
                 form.save()
                 messages.success(request, "Dina bevaknings-inställningar är sparade!" )
                 return redirect('profile')
             else:
-                logging.error(f'User {request.user.pk} tried updating NewsEmail preferences, but form was not valid.')
+                logger.error(f'User {request.user.pk} tried updating NewsEmail preferences, but form was not valid.')
                 messages.error(request, "Något gick fel, försök igen." )
                 return render(request, 'core/profile/profile.html', {'form': form})
 
@@ -300,7 +300,7 @@ class ChooseAd(View):
     def get(self, request):
 
         if request.user.is_authenticated:
-            logging.debug(f'User {request.user.pk} requested ChooseAd view')
+            logger.debug(f'User {request.user.pk} requested ChooseAd view')
             return render(request, 'core/ads/choose_ad_type.html')
         else:
             return redirect('account_login')
@@ -318,7 +318,7 @@ class NewAdOfferingDog(LoginRequiredMixin, CreateView):
 
 
     def get_form(self, form_class=None):
-        logging.debug(f'User {self.request.user.pk} requested NewAdOfferingDog view')
+        logger.debug(f'User {self.request.user.pk} requested NewAdOfferingDog view')
         form = super().get_form(form_class)
         form.fields['image1'].label = "Minst 1 bild obligatorisk - Max bildstorlek 20MB  "    
         form.helper = FormHelper()
@@ -367,7 +367,7 @@ class NewAdOfferingDog(LoginRequiredMixin, CreateView):
         return form
 
     def form_valid(self, form):
-        logging.debug(f'User {self.request.user.pk} Provided a valid NewAdOfferingDog form')
+        logger.debug(f'User {self.request.user.pk} Provided a valid NewAdOfferingDog form')
         form.instance.author = self.request.user
         form.instance.ad_kind=AdKind.OFFERING,
         form.instance.is_published = False
@@ -376,10 +376,10 @@ class NewAdOfferingDog(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         if self.object.payment_choice == 'S':
-            logging.debug(f'User {self.request.user.pk} Choose payment with swish')
+            logger.debug(f'User {self.request.user.pk} Choose payment with swish')
             return reverse('swish_payment_initial_template', kwargs={'pk': self.object.pk})
         if self.object.payment_choice == 'B':
-            logging.debug(f'User {self.request.user.pk} Choose payment with Bankgiro')
+            logger.debug(f'User {self.request.user.pk} Choose payment with Bankgiro')
             return reverse('bg_payment', kwargs={'pk': self.object.pk})
 
 
@@ -390,7 +390,7 @@ class NewAdRequestingDog(LoginRequiredMixin, CreateView):
     template_name = 'core/ads/new_ad_requesting_dog.html'
 
     def get_form(self, form_class=None):
-        logging.debug(f'User {self.request.user.pk} requested NewAdRequestingDog view')
+        logger.debug(f'User {self.request.user.pk} requested NewAdRequestingDog view')
         form = super().get_form(form_class)
         form.helper = FormHelper()
         form.fields['image1'].label = "Minst 1 bild obligatorisk - Max bildstorlek 20MB  "
@@ -434,7 +434,7 @@ class NewAdRequestingDog(LoginRequiredMixin, CreateView):
         return form
 
     def form_valid(self, form):
-        logging.debug(f'User {self.request.user.pk} Provided a valid NewAdRequestingDog form')
+        logger.debug(f'User {self.request.user.pk} Provided a valid NewAdRequestingDog form')
         form.instance.author = self.request.user
         form.instance.ad_kind=AdKind.REQUESTING
         form.instance.is_published = False
@@ -443,10 +443,10 @@ class NewAdRequestingDog(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         if self.object.payment_choice == 'S':
-            logging.debug(f'User {self.request.user.pk} Choose payment with swish')
+            logger.debug(f'User {self.request.user.pk} Choose payment with swish')
             return reverse('swish_payment_initial_template', kwargs={'pk': self.object.pk})
         if self.object.payment_choice == 'B':
-            logging.debug(f'User {self.request.user.pk} Choose payment with bankgiro')
+            logger.debug(f'User {self.request.user.pk} Choose payment with bankgiro')
             return reverse('bg_payment', kwargs={'pk': self.object.pk})
 
 ############
@@ -472,14 +472,14 @@ class AdUpdateOfferingDogView(LoginRequiredMixin, UserPassesTestMixin, UpdateVie
         return reverse_lazy('ad_detail', kwargs={'pk': self.object.pk})
 
     def get(self, request, *args, **kwargs):
-        logging.debug(f'User {request.user.pk} requested AdUpdateOfferingDogView')
+        logger.debug(f'User {request.user.pk} requested AdUpdateOfferingDogView')
         self.object = self.get_object()
         if self.object.ad_kind == AdKind.REQUESTING:
             return HttpResponseRedirect(reverse_lazy('update_ad_requesting_dog', kwargs={'pk': self.object.pk}))
         return super().get(request, *args, **kwargs)
 
     def get_form(self, form_class=None):
-        logging.debug(f'User {self.request.user.pk} requested AdUpdateOfferingDogView form')
+        logger.debug(f'User {self.request.user.pk} requested AdUpdateOfferingDogView form')
         form = super().get_form(form_class)
         form.helper = FormHelper()
         form.helper.add_input(Submit('submit', 'Spara och gå tillbaka till annonsen', css_class='btn-primary'))
@@ -550,14 +550,14 @@ class AdUpdateRequestingDogView(LoginRequiredMixin, UserPassesTestMixin, UpdateV
         return reverse("ad_detail", kwargs={'pk': self.object.pk})
 
     def get(self, request, *args, **kwargs):
-        logging.debug(f'User {request.user.pk} requested AdUpdateREquestingDogView')
+        logger.debug(f'User {request.user.pk} requested AdUpdateREquestingDogView')
         self.object = self.get_object()
         if self.object.ad_kind == AdKind.OFFERING:
             return HttpResponseRedirect(reverse_lazy('update_ad_offering_dog', kwargs={'pk': self.object.pk}))
         return super().get(request, *args, **kwargs)
 
     def get_form(self, form_class=None):
-        logging.debug(f'User {self.request.user.pk} requested AdUpdateREquestingDog form')
+        logger.debug(f'User {self.request.user.pk} requested AdUpdateREquestingDog form')
         form = super().get_form(form_class)
         form.helper = FormHelper()
         form.fields['image1'].label = False
