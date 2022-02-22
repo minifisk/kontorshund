@@ -169,11 +169,18 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
         return self.title
 
 
-    def create_payment(self, payment_choice, amount, payment_reference, date_time_paid, payer_alias):
+    def create_payment(
+        self,
+        payment_kind,
+        amount,
+        payment_reference,
+        date_time_paid,
+        payer_alias
+    ):
         
         new_payment = Payment.objects.create(
             advertisement=self,
-            payment_choice=payment_choice,
+            payment_kind=payment_kind,
             amount=amount,
             payment_reference=payment_reference,
             date_time_paid=date_time_paid,
