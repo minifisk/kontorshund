@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('ad_kind', models.CharField(choices=[('OF', 'Offering'), ('RQ', 'Requesting')], default='OF', max_length=4, verbose_name='Annonstyp')),
                 ('is_published', models.BooleanField(default=False, verbose_name='Publicerad')),
                 ('is_deleted', models.BooleanField(default=False, verbose_name='Borttagen')),
-                ('deletion_date', models.DateField(default=core.models.get_30_days_ahead, verbose_name='Borttagnings-datum')),
+                ('deletion_date', models.DateField(default=core.models.get_one_month_ahead_from_today, verbose_name='Borttagnings-datum')),
                 ('ad_views', models.IntegerField(default=0, verbose_name='Visningar')),
                 ('name', models.CharField(default='', max_length=50, verbose_name='Hundens namn')),
                 ('age', models.IntegerField(default=0, verbose_name='Hundens ålder (år)')),

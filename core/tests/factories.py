@@ -8,6 +8,7 @@ import os
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from core.models import Payment, PaymentKind, AdKind
+from core.models import get_one_month_ahead_from_today
 
 
 
@@ -203,7 +204,7 @@ def create_ad_without_payment(count=1, user=None, is_published=False):
 
     return ad
 
-def create_ad_with_initial_payment(count=1, user=None, is_published=True):
+def create_ad_with_initial_payment(count=1, user=None, is_published=True, deletion_date=get_one_month_ahead_from_today()):
     r_high = randint(1,300)
     r_low = randint(1,20)
 
@@ -226,6 +227,7 @@ def create_ad_with_initial_payment(count=1, user=None, is_published=True):
         hundras=breed,  
         days_per_week=1,
         size_offered=size_offered,
+        deletion_date=deletion_date,
         )
 
     Payment.objects.create(
@@ -240,7 +242,9 @@ def create_ad_with_initial_payment(count=1, user=None, is_published=True):
     return ad
 
 
-def create_ad_with_extended_payment(count=1, user=None, is_published=True):
+
+
+def create_ad_with_extended_payment(count=1, user=None, is_published=True, deletion_date=get_one_month_ahead_from_today()):
     r_high = randint(1,300)
     r_low = randint(1,20)
 
@@ -263,6 +267,7 @@ def create_ad_with_extended_payment(count=1, user=None, is_published=True):
         hundras=breed,  
         days_per_week=1,
         size_offered=size_offered,
+        deletion_date=deletion_date
         )
 
     Payment.objects.create(
@@ -275,3 +280,22 @@ def create_ad_with_extended_payment(count=1, user=None, is_published=True):
     )
 
     return ad
+
+
+def create_swish_callback_payload(self, id='123456', ad_id=None, error_message='', status='PAID', error_code=''):
+    return {
+        'id': id,
+        'payeePaymentReference': ad_id,
+        'paymentReference': 'A05B3CFC615143798F9DF8509E39C9B8',
+        'callbackUrl': 'https://kontorshund.se/swish/callback',
+        'payerAlias': '46721506520',
+        'payeeAlias': '1233473337',
+        'currency': 'SEK',
+        'message': 'Betalning för annons med ID 3',
+        'errorMessage': error_message,
+        'status': status,
+        'amount': 1.0,
+        'dateCreated': '2022-02-22T19:26:03.619Z',
+        'datePaid': '2022-02-22T19:26:14.826Z',
+        'errorCode': error_code
+}

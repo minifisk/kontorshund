@@ -24,7 +24,7 @@ from django.core.exceptions import PermissionDenied
 from core.models import PaymentKind
 
 from kontorshund.settings import PRICE_SWISH_EXTEND_IN_SEK, PRICE_SWISH_EXTEND, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
-from core.models import Advertisement, get_30_days_ahead_from_date_obj, get_30_days_ahead
+from core.models import Advertisement, get_one_month_ahead_from_date_obj, get_one_month_ahead_from_today
 
 User = get_user_model()
 
@@ -131,7 +131,7 @@ class SwishCallback(View):
 
         # Check if payment was successfull
         if data_dict['status'] == 'PAID':
-            logger.debug('Swish callback view was requested')
+            logger.debug('Swish callback view was called')
 
             ad_id = data_dict['payeePaymentReference']
             amount = data_dict['amount']
@@ -141,12 +141,12 @@ class SwishCallback(View):
             payer_alias = data_dict['payerAlias']
 
             logger.debug(
-                f'Swish callback view was requested, ad id {ad_id} amount {amount} payment_reference {payment_reference} payer alias {payer_alias}'
+                f'Swish callback view was called, ad id {ad_id} amount {amount} payment_reference {payment_reference} payer alias {payer_alias}'
             )
             try:
                 ad_obj = Advertisement.objects.get(pk=ad_id) 
             except Advertisement.DoesNotExist:
-                logger.exception(f'Ad couldnt be found in Swish callback view was requested, ad id {ad_id} amount {amount} payment_reference {payment_reference} payer alias {payer_alias}')
+                logger.exception(f'Ad could not be found in Swish callback view, ad id {ad_id} amount {amount} payment_reference {payment_reference} payer alias {payer_alias}')
                 return JsonResponse("Annonsen hittades ej", status=404, safe=False)
 
             # If payment is extended
@@ -167,12 +167,13 @@ class SwishCallback(View):
                 ad_obj.is_published = True
                 ad_obj.is_deleted = False
 
+
                 # Base case - add 30 day ahead from today (if ad already has passed deletion date)
-                new_deletion_date = get_30_days_ahead()
+                new_deletion_date = get_one_month_ahead_from_today()
 
                 # If deletion date is later than today, add 30 days ontop of that
-                if get_30_days_ahead_from_date_obj(ad_obj.deletion_date) > new_deletion_date:
-                    new_deletion_date = get_30_days_ahead_from_date_obj(ad_obj.deletion_date)
+                if get_one_month_ahead_from_date_obj(ad_obj.deletion_date) > new_deletion_date:
+                    new_deletion_date = get_one_month_ahead_from_date_obj(ad_obj.deletion_date)
 
                 logger.debug(
                     f'Setting deletion date for ad {ad_obj.pk} to {new_deletion_date} for when Swish callback view was requested, ad id {ad_obj.pk} amount {amount} payment_reference {payment_reference} payer alias {payer_alias}'

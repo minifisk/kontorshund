@@ -1,12 +1,13 @@
 from io import open_code
 import datetime
-from datetime import timedelta, datetime
 import uuid
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models.fields import BooleanField, CharField, IntegerField
 from django.db.models.fields.related import ForeignKey, ManyToManyField
 from django.forms.fields import UUIDField
+from dateutil.relativedelta import *
+
 
 from stdimage import StdImageField
 
@@ -17,12 +18,12 @@ from common.abstracts import SoftDeleteModel, TimeStampedModel
 
 User = get_user_model()
 
-def get_30_days_ahead():
-    new_date = datetime.today() + timedelta(days=30)
-    return new_date.date()
+def get_one_month_ahead_from_today():
+    new_date = datetime.date.today() + relativedelta(months=+1)
+    return new_date
 
-def get_30_days_ahead_from_date_obj(date_obj):
-    return date_obj + timedelta(days=30)
+def get_one_month_ahead_from_date_obj(date_obj):
+    return date_obj + relativedelta(months=+1)
 
 
 
@@ -147,7 +148,7 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
     is_published = models.BooleanField(default=False, verbose_name='Publicerad')
     is_deleted = models.BooleanField(default=False, verbose_name='Borttagen')
 
-    deletion_date = models.DateField(default=get_30_days_ahead, verbose_name='Borttagnings-datum')
+    deletion_date = models.DateField(default=get_one_month_ahead_from_today, verbose_name='Borttagnings-datum')
     ad_views = models.IntegerField(default=0, verbose_name='Visningar')
     name = models.CharField(max_length=50, verbose_name='Hundens namn', default='')
     age = models.IntegerField(verbose_name='Hundens ålder (år)', default=0)
