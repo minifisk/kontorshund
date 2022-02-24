@@ -168,12 +168,16 @@ class SwishCallback(View):
                 ad_obj.is_deleted = False
 
 
-                # Base case - add 30 day ahead from today (if ad already has passed deletion date)
+                # Base case - add 30 day ahead from today 
                 new_deletion_date = get_one_month_ahead_from_today()
 
                 # If deletion date is later than today, add 30 days ontop of that
                 if get_one_month_ahead_from_date_obj(ad_obj.deletion_date) > new_deletion_date:
+                   # print('old deletion date', ad_obj.deletion_date)
+                   # print('new deletion date', new_deletion_date)
+                   # print('test!')
                     new_deletion_date = get_one_month_ahead_from_date_obj(ad_obj.deletion_date)
+                   # print('extra new deletion date', new_deletion_date)
 
                 logger.debug(
                     f'Setting deletion date for ad {ad_obj.pk} to {new_deletion_date} for when Swish callback view was requested, ad id {ad_obj.pk} amount {amount} payment_reference {payment_reference} payer alias {payer_alias}'

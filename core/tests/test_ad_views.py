@@ -19,7 +19,7 @@ User = get_user_model()
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_DATA_DIR = os.path.join(TEST_DIR, 'data')
-test_image_path = os.path.join(TEST_DATA_DIR, 'favicon.png')
+test_image_path = os.path.join(TEST_DATA_DIR, 'favicon.jpeg')
 
 class TestSetupListAndCreate(TestCase):
     fixtures = [

@@ -3,7 +3,7 @@ from pprint import pprint
 import os
 from venv import create
 import datetime
-from dateutil import relativedelta
+from dateutil.relativedelta import *
 
 
 
@@ -27,7 +27,7 @@ User = get_user_model()
 
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_DATA_DIR = os.path.join(TEST_DIR, 'data')
-test_image_path = os.path.join(TEST_DATA_DIR, 'favicon.png')
+test_image_path = os.path.join(TEST_DATA_DIR, 'favicon.jpeg')
 
 class TestSetupPaymentViews(TestCase):
     fixtures = [
@@ -58,8 +58,10 @@ class TestSetupPaymentViews(TestCase):
         cls.user_1_ad_with_initial_payment = factories.create_ad_with_initial_payment(user=cls.user1)
         cls.user_1_ad_with_extended_payment = factories.create_ad_with_extended_payment(user=cls.user1)
 
-        cls.one_week_ago = datetime.datetime.today() - datetime.timedelta(days=7)
-        cls.one_week_ahead = datetime.datetime.today() + datetime.timedelta(days=7)
+        cls.one_week_ago = datetime.date.today() - datetime.timedelta(days=7)
+        cls.one_week_ahead = datetime.date.today() + datetime.timedelta(days=7)
+        cls.one_week_and_one_month_ahead = cls.one_week_ahead + relativedelta(months=+1)
+
 
         cls.user_1_ad_with_initial_payment_deletion_date_one_week_ago = factories.create_ad_with_initial_payment(
             user=cls.user1,
@@ -164,113 +166,110 @@ class TestAndroidPage(TestSetupPaymentViews):
 class TestSwishCallbackView(TestSetupPaymentViews):
 
 
-    # def test_ad_without_payment_creates_initial_payment(self):
+    def test_ad_without_payment_creates_initial_payment(self):
 
-    #     payment_before_request = self.user_1_ad_without_payment.payment_set.all()
+        payment_before_request = self.user_1_ad_without_payment.payment_set.all()
 
-    #     self.assertEqual(self.user_1_ad_without_payment.is_published, False)
-    #     self.assertEqual(payment_before_request.exists(), False)
+        self.assertEqual(self.user_1_ad_without_payment.is_published, False)
+        self.assertEqual(payment_before_request.exists(), False)
         
-    #     swish_payload = create_swish_callback_payload(self, ad_id=self.user_1_ad_without_payment.pk)
+        swish_payload = create_swish_callback_payload(self, ad_id=self.user_1_ad_without_payment.pk)
         
-    #     request_body_string = json.dumps(swish_payload)
-    #     request_body_bytes = request_body_string.encode('utf-8')
-    #     request = type('', (), {})()
-    #     request.body = request_body_bytes
+        request_body_string = json.dumps(swish_payload)
+        request_body_bytes = request_body_string.encode('utf-8')
+        request = type('', (), {})()
+        request.body = request_body_bytes
         
-    #     SwishCallback.post(self, request=request)
+        SwishCallback.post(self, request=request)
 
-    #     payment_after_request = self.user_1_ad_without_payment.payment_set.all()
+        payment_after_request = self.user_1_ad_without_payment.payment_set.all()
         
-    #     self.user_1_ad_without_payment.refresh_from_db()
+        self.user_1_ad_without_payment.refresh_from_db()
 
-    #     self.assertEqual(self.user_1_ad_without_payment.is_published, True)
-    #     self.assertEqual(payment_after_request.exists(), True)
+        self.assertEqual(self.user_1_ad_without_payment.is_published, True)
+        self.assertEqual(payment_after_request.exists(), True)
 
 
-    # def test_ad_with_initial_payment_creates_extended_payment(self):
+    def test_ad_with_initial_payment_creates_extended_payment(self):
 
-    #     payment_before_request_qs = self.user_1_ad_with_initial_payment.payment_set.all()
-    #     initial_payment_exists = payment_before_request_qs.filter(payment_kind=PaymentKind.INITIAL).exists()
-    #     extended_payment_dont_exist = payment_before_request_qs.filter(payment_kind=PaymentKind.EXTENDED).exists()
+        payment_before_request_qs = self.user_1_ad_with_initial_payment.payment_set.all()
+        initial_payment_exists = payment_before_request_qs.filter(payment_kind=PaymentKind.INITIAL).exists()
+        extended_payment_dont_exist = payment_before_request_qs.filter(payment_kind=PaymentKind.EXTENDED).exists()
 
-    #     self.assertEqual(payment_before_request_qs.count(), 1)
-    #     self.assertEqual(initial_payment_exists, True)
-    #     self.assertEqual(extended_payment_dont_exist, False)
+        self.assertEqual(payment_before_request_qs.count(), 1)
+        self.assertEqual(initial_payment_exists, True)
+        self.assertEqual(extended_payment_dont_exist, False)
 
-    #     swish_payload = create_swish_callback_payload(self, ad_id=self.user_1_ad_with_initial_payment.pk)
+        swish_payload = create_swish_callback_payload(self, ad_id=self.user_1_ad_with_initial_payment.pk)
         
-    #     request_body_string = json.dumps(swish_payload)
-    #     request_body_bytes = request_body_string.encode('utf-8')
-    #     request = type('', (), {})()
-    #     request.body = request_body_bytes
+        request_body_string = json.dumps(swish_payload)
+        request_body_bytes = request_body_string.encode('utf-8')
+        request = type('', (), {})()
+        request.body = request_body_bytes
         
-    #     SwishCallback.post(self, request=request)
+        SwishCallback.post(self, request=request)
 
-    #     payment_after_request_qs = self.user_1_ad_with_initial_payment.payment_set.all()
-    #     initial_payment_exists = payment_before_request_qs.filter(payment_kind=PaymentKind.INITIAL).exists()
-    #     extended_payment_exist = payment_before_request_qs.filter(payment_kind=PaymentKind.EXTENDED).exists()
+        payment_after_request_qs = self.user_1_ad_with_initial_payment.payment_set.all()
+        initial_payment_exists = payment_before_request_qs.filter(payment_kind=PaymentKind.INITIAL).exists()
+        extended_payment_exist = payment_before_request_qs.filter(payment_kind=PaymentKind.EXTENDED).exists()
 
-    #     self.assertEqual(payment_after_request_qs.count(), 2)
-    #     self.assertEqual(initial_payment_exists, True)
-    #     self.assertEqual(extended_payment_exist, True)
+        self.assertEqual(payment_after_request_qs.count(), 2)
+        self.assertEqual(initial_payment_exists, True)
+        self.assertEqual(extended_payment_exist, True)
 
     
-    # def test_payload_not_being_paid(self):
+    def test_payload_not_being_paid(self):
 
-    #     swish_payload = create_swish_callback_payload(
-    #         self, 
-    #         ad_id=self.user_1_ad_with_initial_payment.pk,
-    #         status='ERROR'
-    #         )
+        swish_payload = create_swish_callback_payload(
+            self, 
+            ad_id=self.user_1_ad_with_initial_payment.pk,
+            status='ERROR'
+            )
         
-    #     request_body_string = json.dumps(swish_payload)
-    #     request_body_bytes = request_body_string.encode('utf-8')
-    #     request = type('', (), {})()
-    #     request.body = request_body_bytes
+        request_body_string = json.dumps(swish_payload)
+        request_body_bytes = request_body_string.encode('utf-8')
+        request = type('', (), {})()
+        request.body = request_body_bytes
         
-    #     with self.assertLogs(logger=logger, level='ERROR') as cm:
-    #         SwishCallback.post(self, request=request)
+        with self.assertLogs(logger=logger, level='ERROR') as cm:
+            SwishCallback.post(self, request=request)
 
-    #         self.assertIn(
-    #             "Problem creating payment",
-    #             cm.output[0]
-    #         )
+            self.assertIn(
+                "Problem creating payment",
+                cm.output[0]
+            )
         
 
  
-    # def test_non_existant_ad(self):
+    def test_non_existant_ad(self):
 
-    #     swish_payload = create_swish_callback_payload(
-    #         self, 
-    #         ad_id=100
-    #     )
+        swish_payload = create_swish_callback_payload(
+            self, 
+            ad_id=100
+        )
         
-    #     request_body_string = json.dumps(swish_payload)
-    #     request_body_bytes = request_body_string.encode('utf-8')
-    #     request = type('', (), {})()
-    #     request.body = request_body_bytes
+        request_body_string = json.dumps(swish_payload)
+        request_body_bytes = request_body_string.encode('utf-8')
+        request = type('', (), {})()
+        request.body = request_body_bytes
         
-    #     with self.assertLogs(logger=logger, level='ERROR') as cm:
-    #         response = SwishCallback.post(self, request=request)
+        with self.assertLogs(logger=logger, level='ERROR') as cm:
+            response = SwishCallback.post(self, request=request)
             
-    #         self.assertEqual(response.status_code, 404)
+            self.assertEqual(response.status_code, 404)
 
-    #         self.assertIn(
-    #             "Ad could not be found in Swish callback view",
-    #             cm.output[0]
-    #         )
+            self.assertIn(
+                "Ad could not be found in Swish callback view",
+                cm.output[0]
+            )
 
 
 
-    def test_ad_with_deletion_date_yesterday(self):
+    def test_ad_with_deletion_date_last_week_still_gets_date_one_month_ahead_from_today(self):
    
-
         swish_payload = create_swish_callback_payload(self, ad_id=self.user_1_ad_with_initial_payment_deletion_date_one_week_ago.pk)
         
         self.assertEqual(self.user_1_ad_with_initial_payment_deletion_date_one_week_ago.deletion_date, self.one_week_ago)
-
-        print('old deletion date: ', self.user_1_ad_with_initial_payment_deletion_date_one_week_ago.deletion_date)
 
         request_body_string = json.dumps(swish_payload)
         request_body_bytes = request_body_string.encode('utf-8')
@@ -279,38 +278,26 @@ class TestSwishCallbackView(TestSetupPaymentViews):
 
         SwishCallback.post(self, request=request)
 
-        today = datetime.date.today()
-        #one_month_ahead = datetime.date.today() + relativedelta(months=+1)
-
-        print('TODAY', today)
-        #print('ONE MONTH AHEAD', one_month_ahead)
-
         self.user_1_ad_with_initial_payment_deletion_date_one_week_ago.refresh_from_db()
+        one_month_ahead = datetime.date.today() + relativedelta(months=+1)
+        self.assertEqual(self.user_1_ad_with_initial_payment_deletion_date_one_week_ago.deletion_date, one_month_ahead)
 
-        print('new deletion date :', self.user_1_ad_with_initial_payment_deletion_date_one_week_ago.deletion_date)
+
+
+    def test_ad_with_deletion_date_one_week_ahead_gets_deletion_date_one_month_from_that_date(self):
+   
+        swish_payload = create_swish_callback_payload(self, ad_id=self.user_1_ad_with_initial_payment_deletion_date_one_week_ahead.pk)
+
+        self.assertEqual(self.user_1_ad_with_initial_payment_deletion_date_one_week_ahead.deletion_date, self.one_week_ahead)
         
-        #one_month_ahead = datetime.today() + relativedelta(months=+1)
+        request_body_string = json.dumps(swish_payload)
+        request_body_bytes = request_body_string.encode('utf-8')
+        request = type('', (), {})()
+        request.body = request_body_bytes
 
+        SwishCallback.post(self, request=request)
 
+        self.user_1_ad_with_initial_payment_deletion_date_one_week_ahead.refresh_from_db()
 
+        self.assertEqual(self.user_1_ad_with_initial_payment_deletion_date_one_week_ahead.deletion_date, self.one_week_and_one_month_ahead)
 
-
-
-
-
-# check status paid
-
-    # For non existant ad
-
-    # For existant ad
-
-        # With initial payment
-
-            # With deletion date 5 days ahead
-
-            # With deletion date today
-
-        # Without initial payment 
-
-
-# Check status other
