@@ -57,6 +57,14 @@ class Area(models.Model):
         return self.name
 
 
+class IntervalChoices(models.TextChoices):
+    WEEKLY = "Veckovis"
+    DAILY = "Dagligen"
+
+class AdTypesChoices(models.TextChoices):
+    OFFERING = "Erbjudes"
+    REQUESTING = "Sökes"
+
 class NewsEmail(models.Model):
 
     INTERVAL_CHOICES = (
@@ -73,8 +81,10 @@ class NewsEmail(models.Model):
     province = ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap/Storstad', null=True, blank=True)
     municipality = ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun', null=True, blank=True)
     areas = ManyToManyField(Area, verbose_name='Område', blank=True)
-    interval = IntegerField(choices=INTERVAL_CHOICES, verbose_name='Intervall', null=True, blank=True)
-    ad_type = IntegerField(choices=AD_TYPES_CHOICES, verbose_name='Annonstyp', null=True, blank=True)
+
+    interval = CharField(max_length=10, choices=IntervalChoices.choices, default=IntervalChoices.WEEKLY, verbose_name='Intervall')
+    ad_type = CharField(max_length=10, choices=AdTypesChoices.choices, default=AdTypesChoices.OFFERING, verbose_name='Annonstyp')
+
     is_active = BooleanField(default=False)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
@@ -86,18 +96,13 @@ class NewsEmail(models.Model):
         return NewsEmail.objects.filter(is_active=True)
 
     @staticmethod
-    def get_all_active_daily_subscriptions(ad_type: str):
-        if ad_type == 'offering':
-            return NewsEmail.objects.filter(is_active=True, ad_type=1, interval=2)
-        if ad_type == 'requesting':
-            return NewsEmail.objects.filter(is_active=True, ad_type=2, interval=2)
+    def get_all_active_daily_subscriptions(ad_type):
+        return NewsEmail.objects.filter(is_active=True, ad_type=ad_type, interval=IntervalChoices.DAILY)
 
     @staticmethod
-    def get_all_active_weekly_subscriptions(ad_type: str):
-        if ad_type == 'offering':
-            return NewsEmail.objects.filter(is_active=True, ad_type=1, interval=1)
-        if ad_type == 'requesting':
-            return NewsEmail.objects.filter(is_active=True, ad_type=2, interval=1)
+    def get_all_active_weekly_subscriptions(ad_type):
+        return  NewsEmail.objects.filter(is_active=True, ad_type=ad_type, interval=IntervalChoices.WEEKLY)
+
 
 
 class DogSizeChoice(models.Model):
