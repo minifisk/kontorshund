@@ -9,7 +9,9 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 
-import logging 
+import logging
+
+from kontorshund.core.models import AdTypesChoices 
 logger = logging.getLogger(__name__)
 
 
@@ -32,7 +34,7 @@ class Command(BaseCommand):
 
         # OFFERING
 
-        all_daily_offering_subscriptions = NewsEmail.get_all_active_daily_subscriptions('offering')
+        all_daily_offering_subscriptions = NewsEmail.get_all_active_daily_subscriptions(AdTypesChoices.OFFERING)
         all_active_offering_ads = Advertisement.get_all_active_offering_ads()
 
         for news_email_subscription_object in all_daily_offering_subscriptions:
@@ -120,7 +122,7 @@ class Command(BaseCommand):
 
         logger.info('[DAILY_SUBSCRIBE_EMAILS] Sending emails to subscribers matching "requesting" ads...')
 
-        all_daily_requesting_subscriptions = NewsEmail.get_all_active_daily_subscriptions('requesting')
+        all_daily_requesting_subscriptions = NewsEmail.get_all_active_daily_subscriptions(AdTypesChoices.REQUESTING)
         all_active_requesting_ads = Advertisement.get_all_active_requesting_ads()
 
         for news_email_subscription_object in all_daily_requesting_subscriptions:
