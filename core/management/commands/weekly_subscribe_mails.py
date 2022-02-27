@@ -8,7 +8,9 @@ from django.utils.html import strip_tags
 
 from core.models import Province, Municipality, Area, Advertisement, NewsEmail
 
-import logging 
+import logging
+
+from kontorshund.core.models import AdTypesChoices 
 logger = logging.getLogger(__name__)
 
 
@@ -31,7 +33,7 @@ class Command(BaseCommand):
 
         # OFFERING
 
-        all_weekly_offering_subscriptions = NewsEmail.get_all_active_weekly_subscriptions('offering')
+        all_weekly_offering_subscriptions = NewsEmail.get_all_active_weekly_subscriptions(AdTypesChoices.OFFERING)
         all_active_offering_ads = Advertisement.get_all_active_offering_ads()
 
         for news_email_subscription_object in all_weekly_offering_subscriptions:
@@ -119,7 +121,7 @@ class Command(BaseCommand):
 
         logger.info('[WEEKLY_SUBSCRIBE_EMAILS] Sending emails to subscribers matching "requesting" ads...')
 
-        all_weekly_requesting_subscriptions = NewsEmail.get_all_active_weekly_subscriptions('requesting')
+        all_weekly_requesting_subscriptions = NewsEmail.get_all_active_weekly_subscriptions(AdTypesChoices.REQUESTING)
         all_active_requesting_ads = Advertisement.get_all_active_requesting_ads()
 
         for news_email_subscription_object in all_weekly_requesting_subscriptions:
