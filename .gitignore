@@ -11,6 +11,8 @@ media
 /Certificates_prod
 *.png
 
+/staticfiles
+
 # Backup files # 
 *.bak 
 
