@@ -15,6 +15,10 @@ from core.tests import factories
 from core.abstracts import prevent_request_warnings
 from core.views.payment_views import SwishCallback, logger, get_qr_code
 from core.tests.factories import create_swish_callback_payload
+from django.conf import settings
+
+from kontorshund.settings import PRICE_SWISH_INITIAL, PRICE_SWISH_EXTEND
+
 
 User = get_user_model()
 
@@ -309,13 +313,19 @@ class TestSwishCallbackView(TestSetupPaymentViews):
         self.client.login(username=self.username1, password=self.password1)
         response = self.client.get(reverse('bg_payment', kwargs={'pk': self.user_1_ad_with_initial_payment.pk}))
         
-        #response_encoded = response.content.encode('utf-8')
-
-        #print(response_encoded)
         response_html = response.content.decode('utf-8')
 
         self.assertIn(f'Annons-nummer: {self.user_1_ad_with_initial_payment.pk}', response_html)
-        self.assertIn(SWISH_PRICE, response_html)
-        # self.assertEqual(self.user_1_ad_with_initial_payment.has_extended_payment, False)
-        # self.assertEqual(response_json, 'Payment is NOT complete')
-        # self.assertEqual(response.status_code, 404)
+        self.assertIn(PRICE_SWISH_EXTEND, response_html)
+
+
+        
+    def test_pay_for_ad_pg_extend(self):
+
+        self.client.login(username=self.username1, password=self.password1)
+        response = self.client.get(reverse('bg_payment', kwargs={'pk': self.user_1_ad_with_extended_payment.pk}))
+        
+        response_html = response.content.decode('utf-8')
+
+        self.assertIn(f'Annons-nummer: {self.user_1_ad_with_extended_payment.pk}', response_html)
+        self.assertIn(PRICE_SWISH_INITIAL, response_html)
