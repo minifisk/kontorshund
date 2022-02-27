@@ -292,7 +292,7 @@ if USE_S3 == False:
     print("Not using S3")
 
     STATIC_URL = '/static/'
-    STATIC_ROOT = '/home/kontorshund/web/staticfiles'
+    STATIC_ROOT = '/home/dockeruser/web/staticfiles'
 
     MEDIA_URL = '/media/'
     MEDIA_ROOT = BASE_DIR / "mediafiles"
