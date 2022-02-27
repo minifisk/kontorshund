@@ -6,25 +6,19 @@ import datetime
 from dateutil.relativedelta import *
 
 
-
-from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
+from django.contrib.auth import get_user_model
 
 from core.models import PaymentKind
 from core.tests import factories
-from core.forms.ad_forms import OfferingDogForm, RequestingDogForm
 from core.abstracts import prevent_request_warnings
-from core.views.payment_views import SwishCallback
+from core.views.payment_views import SwishCallback, logger, get_qr_code
 from core.tests.factories import create_swish_callback_payload
-
-from django.contrib.auth import get_user_model
-from core.views.payment_views import logger
-
 
 User = get_user_model()
 
-
+# Set-up for imagefile in tests
 TEST_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_DATA_DIR = os.path.join(TEST_DIR, 'data')
 test_image_path = os.path.join(TEST_DATA_DIR, 'favicon.jpeg')
@@ -301,3 +295,27 @@ class TestSwishCallbackView(TestSetupPaymentViews):
 
         self.assertEqual(self.user_1_ad_with_initial_payment_deletion_date_one_week_ahead.deletion_date, self.one_week_and_one_month_ahead)
 
+
+
+    
+    def test_pay_for_ad_pg_unauthorized(self):
+        response = self.client.get(reverse('bg_payment', kwargs={'pk': self.user_1_ad_with_initial_payment.pk}))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, '/accounts/login/')
+
+        
+    def test_pay_for_ad_pg_initial(self):
+
+        self.client.login(username=self.username1, password=self.password1)
+        response = self.client.get(reverse('bg_payment', kwargs={'pk': self.user_1_ad_with_initial_payment.pk}))
+        
+        #response_encoded = response.content.encode('utf-8')
+
+        #print(response_encoded)
+        response_html = response.content.decode('utf-8')
+
+        self.assertIn(f'Annons-nummer: {self.user_1_ad_with_initial_payment.pk}', response_html)
+        self.assertIn(SWISH_PRICE, response_html)
+        # self.assertEqual(self.user_1_ad_with_initial_payment.has_extended_payment, False)
+        # self.assertEqual(response_json, 'Payment is NOT complete')
+        # self.assertEqual(response.status_code, 404)
