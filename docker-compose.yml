@@ -7,9 +7,9 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/home/dockeruser/web
-      - static_volume:/home/kontorshund/web/staticfiles
-      - ./mediafiles:/home/kontorshund/web/mediafiles
-      #- media_volume:/home/kontorshund/web/mediafiles
+      - static_volume:/home/dockeruser/web/staticfiles
+      - ./mediafiles:/home/dockeruser/web/mediafiles
+      #- media_volume:/home/dockeruser/web/mediafiles
     ports:
       - 8000:8000
     env_file:
