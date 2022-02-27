@@ -9,6 +9,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 from core.models import Payment, PaymentKind, AdKind
 from core.models import get_one_month_ahead_from_today
+from kontorshund.core.models import NewsEmail
 
 
 
@@ -299,3 +300,15 @@ def create_swish_callback_payload(self, id='123456', ad_id=None, error_message='
         'datePaid': '2022-02-22T19:26:14.826Z',
         'errorCode': error_code
 }
+
+def create_subscription_without_areas(self, user, ad_type, is_active, interval):
+    user=user,
+    province = Province.objects.get(name='Stockholm'),
+    municipality = Municipality.objects.get(name='Stockholms stad'),
+    interval = interval,
+    ad_type = ad_type,
+
+
+    NewsEmail.objects.create(
+
+    )
