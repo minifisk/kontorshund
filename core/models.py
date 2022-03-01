@@ -56,34 +56,26 @@ class Area(models.Model):
     def __str__(self):
         return self.name
 
+from django.utils.translation import gettext_lazy as _
+
 
 class IntervalChoices(models.TextChoices):
-    WEEKLY = "Veckovis"
-    DAILY = "Dagligen"
+    WEEKLY = "WK", _('Veckovis')
+    DAILY = "DL", _('Dagligen')
 
 class AdTypesChoices(models.TextChoices):
-    OFFERING = "Erbjudes"
-    REQUESTING = "Sökes"
+    OFFERING = "OF", _('Erbjudes')
+    REQUESTING = "RQ",  _('Sökes')
 
 class NewsEmail(models.Model):
-
-    INTERVAL_CHOICES = (
-        (1, "Veckovis"),
-        (2, "Dagligen"),
-    )
-
-    AD_TYPES_CHOICES = (
-        (1, "Erbjudes"),
-        (2, "Sökes"),
-    )
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     province = ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap/Storstad', null=True, blank=True)
     municipality = ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun', null=True, blank=True)
     areas = ManyToManyField(Area, verbose_name='Område', blank=True)
 
-    interval = CharField(max_length=10, choices=IntervalChoices.choices, default=IntervalChoices.WEEKLY, verbose_name='Intervall')
-    ad_type = CharField(max_length=10, choices=AdTypesChoices.choices, default=AdTypesChoices.OFFERING, verbose_name='Annonstyp')
+    interval = CharField(max_length=2, choices=IntervalChoices.choices, default=IntervalChoices.WEEKLY, verbose_name='Intervall')
+    ad_type = CharField(max_length=2, choices=AdTypesChoices.choices, default=AdTypesChoices.OFFERING, verbose_name='Annonstyp')
 
     is_active = BooleanField(default=False)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
