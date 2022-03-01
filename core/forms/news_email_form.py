@@ -32,8 +32,6 @@ class NewsEmailForm(forms.ModelForm):
         self.fields['areas'].required = False
         self.fields['interval'].required = True
         self.fields['ad_type'].required = True
-        self.fields["interval"].choices = list(self.fields["interval"].choices)[1:] 
-        self.fields["ad_type"].choices = list(self.fields["ad_type"].choices)[1:] 
 
         # If no province selected, clear other fields
         if not self.instance.province:
