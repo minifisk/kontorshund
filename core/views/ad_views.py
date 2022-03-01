@@ -72,7 +72,16 @@ class Profile(LoginRequiredMixin, View):
             unpublished_ads = Advertisement.objects.filter(author=request.user, is_published=False)
             deleted_ads = Advertisement.objects.filter(author=request.user, is_deleted=True)
             NewsEmail_obj = NewsEmail.objects.get(user=request.user)
-            form = NewsEmailForm(instance=NewsEmail_obj)
+
+            from pprint import pprint
+            pprint(vars(NewsEmailForm))
+            pprint(vars(NewsEmailForm.base_fields['interval']))
+            #form = NewsEmailForm(instance=NewsEmail_obj)
+            form = NewsEmailForm()
+
+            #pprint(vars(form.fields['interval']))
+
+            #print(form)
 
             return render(
                 request, 
