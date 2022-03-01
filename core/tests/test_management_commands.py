@@ -5,7 +5,7 @@ from venv import create
 import datetime
 from dateutil.relativedelta import *
 
-
+from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
@@ -15,7 +15,7 @@ from core.tests import factories
 from core.abstracts import prevent_request_warnings
 from core.views.payment_views import SwishCallback, logger, get_qr_code
 from core.tests.factories import create_swish_callback_payload
-from django.conf import settings
+from kontorshund.core.models import Area
 
 from kontorshund.settings import PRICE_SWISH_INITIAL, PRICE_SWISH_EXTEND
 
@@ -38,7 +38,7 @@ class TestSetupCommands(TestCase):
     @classmethod
     def setUpTestData(cls):
 
-        # Create users
+        # USERS
         cls.username1 = 'testuser1'
         cls.password1 = '1X<ISRUkw+tuK'
 
@@ -51,49 +51,118 @@ class TestSetupCommands(TestCase):
         cls.user1.save()
         cls.user2.save()
 
-
-        # Offering-  Daily subscription with areas
+        from core.tests.factories import create_news_email
+        from core.models import Province, Municipality, IntervalChoices, AdTypesChoices
         
+        # SUBSCRIPTIONS
+        cls.province = Province.objects.get(name='Stockholm'),
+        cls.municipality = Municipality.objects.get(name='Stockholms stad'),
+        cls.area = Area.objects.get(name='Enskede, Årsta, Skarpnäck')
 
-        # Offering - Daily subscription without areas
+        ##### Offering ######
+        cls.ad_type_offering = AdTypesChoices.OFFERING
 
-
-        # Requesting - Weekly subscription with areas
-
-        # Requesting - Weekly subscription without areas
-
-
-
-
-
-
-
-
-
-
-        # Create ads
-        cls.user_1_ad_without_payment = factories.create_ad_without_payment(user=cls.user1)
-        cls.user_1_ad_with_initial_payment = factories.create_ad_with_initial_payment(user=cls.user1)
-        cls.user_1_ad_with_extended_payment = factories.create_ad_with_extended_payment(user=cls.user1)
-
-        cls.one_week_ago = datetime.date.today() - datetime.timedelta(days=7)
-        cls.one_week_ahead = datetime.date.today() + datetime.timedelta(days=7)
-        cls.one_week_and_one_month_ahead = cls.one_week_ahead + relativedelta(months=+1)
-
-
-        cls.user_1_ad_with_initial_payment_deletion_date_one_week_ago = factories.create_ad_with_initial_payment(
+        ### Daily 
+        cls.interval_daily = IntervalChoices.DAILY
+        
+        #### subscription without areas
+        cls.news_email_daily_offering_without_area = create_news_email( 
             user=cls.user1,
-            deletion_date=cls.one_week_ago
-            )
-
-        cls.user_1_ad_with_initial_payment_deletion_date_one_week_ahead = factories.create_ad_with_initial_payment(
+            province=cls.province,
+            municipality=cls.municipality,
+            interval=cls.interval_daily,
+            ad_type=cls.ad_type_offering,
+            is_active=True
+        )
+        
+        #### subscription with areas
+        cls.news_email_daily_offering_with_area = create_news_email( 
             user=cls.user1,
-            deletion_date=cls.one_week_ahead
-            )
+            province=cls.province,
+            municipality=cls.municipality,
+            interval=cls.interval_daily,
+            ad_type=cls.ad_type_offering,
+            is_active=True
+        )
 
-        cls.user_2_ad_without_payment = factories.create_ad_without_payment(user=cls.user2)
-        cls.user_2_ad_with_initial_payment = factories.create_ad_with_initial_payment(user=cls.user2)
-        cls.user_2_ad_with_extended_payment = factories.create_ad_with_initial_payment(user=cls.user2)
+        cls.news_email_daily_offering_with_area.areas.add(cls.area)
+
+        ### Weekly 
+        cls.interval_weekly = IntervalChoices.WEEKLY
+
+        #### subscription without areas
+        cls.news_email_daily_offering_without_area = create_news_email( 
+            user=cls.user1,
+            province=cls.province,
+            municipality=cls.municipality,
+            interval=cls.interval_weekly,
+            ad_type=cls.ad_type_offering,
+            is_active=True
+        )
+
+        #### subscription with areas
+        cls.news_email_daily_offering_with_area = create_news_email( 
+            user=cls.user1,
+            province=cls.province,
+            municipality=cls.municipality,
+            interval=cls.interval_weekly,
+            ad_type=cls.ad_type_offering,
+            is_active=True
+        )
+
+        cls.news_email_daily_offering_with_area.areas.add(cls.area)
+
+
+        ##### Requesting #####
+        cls.ad_type_requesting = AdTypesChoices.REQUESTING
+
+        #### subscription without areas
+        cls.news_email_daily_offering_without_area = create_news_email( 
+            user=cls.user1,
+            province=cls.province,
+            municipality=cls.municipality,
+            interval=cls.interval_daily,
+            ad_type=cls.ad_type_requesting,
+            is_active=True
+        )
+        
+        #### subscription with areas
+        cls.news_email_daily_offering_with_area = create_news_email( 
+            user=cls.user1,
+            province=cls.province,
+            municipality=cls.municipality,
+            interval=cls.interval_daily,
+            ad_type=cls.ad_type_requesting,
+            is_active=True
+        )
+
+        cls.news_email_daily_offering_with_area.areas.add(cls.area)
+
+        ### Weekly 
+        cls.interval_weekly = IntervalChoices.WEEKLY
+
+        #### subscription without areas
+        cls.news_email_daily_offering_without_area = create_news_email( 
+            user=cls.user1,
+            province=cls.province,
+            municipality=cls.municipality,
+            interval=cls.interval_weekly,
+            ad_type=cls.ad_type_requesting,
+            is_active=True
+        )
+
+        #### subscription with areas
+        cls.news_email_daily_offering_with_area = create_news_email( 
+            user=cls.user1,
+            province=cls.province,
+            municipality=cls.municipality,
+            interval=cls.interval_weekly,
+            ad_type=cls.ad_type_requesting,
+            is_active=True
+        )
+
+        cls.news_email_daily_offering_with_area.areas.add(cls.area)
+
 
 
 
@@ -103,7 +172,7 @@ class TestSetupCommands(TestCase):
         pass
 
 
-class TestPaymentStatus(TestSetupCommands):
+class TestDailysubscribeEmails(TestSetupCommands):
 
     def test_test(self):
         pass
