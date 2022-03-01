@@ -301,14 +301,19 @@ def create_swish_callback_payload(self, id='123456', ad_id=None, error_message='
         'errorCode': error_code
 }
 
-def create_subscription_without_areas(self, user, ad_type, is_active, interval):
-    user=user,
-    province = Province.objects.get(name='Stockholm'),
-    municipality = Municipality.objects.get(name='Stockholms stad'),
-    interval = interval,
-    ad_type = ad_type,
+def create_news_email(self, province, municipality, user, ad_type, is_active, interval, areas=None,):
 
 
-    NewsEmail.objects.create(
-
+    news_email_obj = NewsEmail.objects.create(
+        user=user,
+        province=province,
+        municipality=municipality,
+        interval=interval,
+        ad_type=ad_type,
+        is_active=is_active,
     )
+
+    for area in areas:
+        news_email_obj.add(area)
+
+    return news_email_obj
