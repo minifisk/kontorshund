@@ -9,7 +9,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 
 from core.models import Payment, PaymentKind, AdKind
 from core.models import get_one_month_ahead_from_today
-from kontorshund.core.models import NewsEmail
+from core.models import NewsEmail
 
 
 
