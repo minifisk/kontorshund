@@ -44,6 +44,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "ndkwjankgsa")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ['DEBUG'] == 'TRUE'
 
+print(f'Debug is  {DEBUG}')
+
 
 ALLOWED_HOSTS = [
     'localhost', 
@@ -281,7 +283,7 @@ if USE_S3:
     # Using AWS template settings for Boto3 with Linode crentials
     AWS_S3_ENDPOINT_URL=f'https://{LINODE_BUCKET_REGION}.linodeobjects.com'
     AWS_ACCESS_KEY_ID=LINODE_BUCKET_ACCESS_KEY
-    AWS_SECRET_ACCESS_KEY=LINODE_BUCKET_SECRET_KEY
+    AWS_SECRET_ACCESS_KEY=LINODE_BUCKET_SECRET_KEY  
     AWS_S3_REGION_NAME=LINODE_BUCKET_REGION
     AWS_S3_USE_SSL=True
     AWS_STORAGE_BUCKET_NAME=LINODE_BUCKET_NAME
