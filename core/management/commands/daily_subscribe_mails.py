@@ -1,5 +1,6 @@
 import datetime
 import pytz
+import json
 
 from django.core.management.base import BaseCommand, CommandError
 from core.models import Province, Municipality, Area, Advertisement, NewsEmail
@@ -11,7 +12,7 @@ from django.utils.html import strip_tags
 
 import logging
 
-from kontorshund.core.models import AdTypesChoices 
+from core.models import AdTypesChoices 
 logger = logging.getLogger(__name__)
 
 
@@ -29,6 +30,8 @@ class Command(BaseCommand):
 
         ad_root_path = 'https://www.kontorshund.se/ads/'
         number_of_mails_sent = 0
+
+        sent_mail_to_news_email_subscription_pks = []
 
         logger.info('[DAILY_SUBSCRIBE_EMAILS] Sending emails to subscribers matching "offering" ads...')
 
@@ -77,6 +80,7 @@ class Command(BaseCommand):
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
 
+                    sent_mail_to_news_email_subscription_pks.append(news_email_subscription_object.pk)
                     send_mail(subject, plain_message, from_email, [to], html_message=html_message)
                     number_of_mails_sent += 1
 
@@ -110,6 +114,7 @@ class Command(BaseCommand):
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
 
+                    sent_mail_to_news_email_subscription_pks.append(news_email_subscription_object.pk)
                     send_mail(subject, plain_message, from_email, [to], html_message=html_message)
                     number_of_mails_sent += 1
 
@@ -166,6 +171,7 @@ class Command(BaseCommand):
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
 
+                    sent_mail_to_news_email_subscription_pks.append(news_email_subscription_object.pk)
                     send_mail(subject, plain_message, from_email, [to], html_message=html_message)
                     number_of_mails_sent += 1
 
@@ -199,6 +205,7 @@ class Command(BaseCommand):
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
 
+                    sent_mail_to_news_email_subscription_pks.append(news_email_subscription_object.pk)
                     send_mail(subject, plain_message, from_email, [to], html_message=html_message)
                     number_of_mails_sent += 1
         
@@ -208,3 +215,8 @@ class Command(BaseCommand):
 
 
         logger.info(f'[DAILY_SUBSCRIBE_EMAILS] FINISHED COMMAND - Sent a total of {number_of_mails_sent} emails to customers!')
+
+
+        response_json = json.dumps(sent_mail_to_news_email_subscription_pks)
+
+        return response_json

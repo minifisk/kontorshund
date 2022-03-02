@@ -301,13 +301,13 @@ def create_swish_callback_payload(self, id='123456', ad_id=None, error_message='
         'errorCode': error_code
 }
 
-def create_news_email(self, province, municipality, user, ad_type, is_active, interval, areas=None,):
+def create_news_email(province, municipality, user, ad_type, is_active, interval, areas=None,):
 
 
     news_email_obj = NewsEmail.objects.create(
         user=user,
-        province=province,
-        municipality=municipality,
+        province=province[0],
+        municipality=municipality[0],
         interval=interval,
         ad_type=ad_type,
         is_active=is_active,
