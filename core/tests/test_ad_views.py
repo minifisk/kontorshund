@@ -152,8 +152,8 @@ class TestProfileAndChooseAd(TestSetupListAndCreate):
             'province': ['15'], 
             'municipality': [halland_mun_obj.pk], 
             'areas': ['12', '13', '16', '17', '14'], 
-            'interval': ['2'], 
-            'ad_type': ['1']
+            'interval': ['DL'], 
+            'ad_type': ['RQ']
             }
 
         response = self.client.post('/profile', data)
