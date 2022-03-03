@@ -69,7 +69,7 @@ class AdTypesChoices(models.TextChoices):
 
 class NewsEmail(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True, related_name='news_email')
     province = ForeignKey(Province, on_delete=models.CASCADE, verbose_name='Landskap/Storstad', null=True, blank=True)
     municipality = ForeignKey(Municipality, on_delete=models.CASCADE, verbose_name='Kommun', null=True, blank=True)
     areas = ManyToManyField(Area, verbose_name='Område', blank=True)
