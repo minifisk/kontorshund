@@ -1,6 +1,6 @@
 import json
 import locale
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound
 
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.views import View, generic
@@ -107,8 +107,7 @@ class Profile(LoginRequiredMixin, View):
             else:
                 logger.error(f'User {request.user.pk} tried updating NewsEmail preferences, but form was not valid.')
                 messages.error(request, "Något gick fel, försök igen." )
-                return render(request, 'core/profile/profile.html', {'form': form})
-
+                return redirect('profile')
         else:
             return redirect('account_login')
 
