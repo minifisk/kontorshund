@@ -38,36 +38,20 @@ class TestSetupCommands(TestCase):
         '/home/dockeruser/web/core/fixtures/size_choices.json'
     ]
 
+
+    def create_users(cls, number_of_users=1):
+        cls.user_dict = {}
+        for i in range(number_of_users):
+            username = f'asdf {randrange(10000)}'
+            password = '1234'
+            cls.user_dict[f'user_{i}'] = User.objects.create_user(username=username, password=password)
+
     #setUpTestData: Run once to set up non-modified data for all class methods.
     @classmethod
     def setUpTestData(cls):
 
         # USERS
-        cls.username1 = 'testuser1'
-        cls.password1 = '1X<ISRUkw+tuK'
-
-        cls.username2 = 'testuser2'
-        cls.password2 = '2HJ1vRV0Z&3iD'
-
-        cls.user1 = User.objects.create_user(username=cls.username1, password=cls.password1)
-        cls.user2 = User.objects.create_user(username=cls.username2, password=cls.password2)
-
-        cls.user1.save()
-        cls.user2.save()
-
-
-
-
-        def create_users(number_of_users=1):
-            
-            cls.user_dict = {}
-
-            for i in range(number_of_users):
-                username = f'asdf {randrange(10000)}'
-                password = '1234'
-                cls.user_dict[f'user_{i}'] = User.objects.create_user(username=username, password=password)
-
-        create_users(number_of_users=8)
+        cls.create_users(cls, number_of_users=8)
         
         # SUBSCRIPTIONS
         cls.province = Province.objects.get(name='Stockholm')
@@ -88,7 +72,6 @@ class TestSetupCommands(TestCase):
         cls.news_email_daily_offering_without_area.is_active = True
         cls.news_email_daily_offering_without_area.save()
 
-
         cls.news_email_daily_offering_with_area = cls.user_dict['user_1'].news_email
         cls.news_email_daily_offering_with_area.province = cls.province
         cls.news_email_daily_offering_with_area.municipality = cls.municipality
@@ -97,7 +80,6 @@ class TestSetupCommands(TestCase):
         cls.news_email_daily_offering_with_area.is_active = True
         cls.news_email_daily_offering_with_area.areas.add(cls.area)
         cls.news_email_daily_offering_with_area.save()
-    
 
         ### Weekly 
         cls.interval_weekly = IntervalChoices.WEEKLY
@@ -110,7 +92,6 @@ class TestSetupCommands(TestCase):
         cls.news_email_daily_offering_without_area.is_active = True
         cls.news_email_daily_offering_without_area.save()
 
-
         cls.news_email_daily_offering_with_area = cls.user_dict['user_3'].news_email
         cls.news_email_daily_offering_with_area.province = cls.province
         cls.news_email_daily_offering_with_area.municipality = cls.municipality
@@ -120,10 +101,8 @@ class TestSetupCommands(TestCase):
         cls.news_email_daily_offering_with_area.areas.add(cls.area)
         cls.news_email_daily_offering_with_area.save()
 
-
-        # ##### Requesting #####
+        ###### Requesting #####
         cls.ad_type_requesting = AdTypesChoices.REQUESTING
-
 
         ### Daily 
         cls.news_email_daily_offering_without_area = cls.user_dict['user_4'].news_email
@@ -133,7 +112,6 @@ class TestSetupCommands(TestCase):
         cls.news_email_daily_offering_without_area.ad_type = cls.ad_type_requesting
         cls.news_email_daily_offering_without_area.is_active = True
         cls.news_email_daily_offering_without_area.save()
-
 
         cls.news_email_daily_offering_with_area = cls.user_dict['user_5'].news_email
         cls.news_email_daily_offering_with_area.province = cls.province
@@ -155,7 +133,6 @@ class TestSetupCommands(TestCase):
         cls.news_email_daily_offering_without_area.is_active = True
         cls.news_email_daily_offering_without_area.save()
 
-
         cls.news_email_daily_offering_with_area = cls.user_dict['user_7'].news_email
         cls.news_email_daily_offering_with_area.province = cls.province
         cls.news_email_daily_offering_with_area.municipality = cls.municipality
@@ -164,8 +141,6 @@ class TestSetupCommands(TestCase):
         cls.news_email_daily_offering_with_area.is_active = True
         cls.news_email_daily_offering_with_area.areas.add(cls.area)
         cls.news_email_daily_offering_with_area.save()
-
-
 
 
     #setUp: Run once for every test method to setup clean data.
