@@ -51,7 +51,7 @@ class Command(BaseCommand):
                     area_list_names.append(area.name)
 
                 matching_ads = all_active_offering_ads.filter(
-                    created_at__gte=one_day_back, 
+                    created_at__gte=one_day_back, # All emails between 24 - 0 hours old
                     province=news_email_subscription_object.province,
                     municipality=news_email_subscription_object.municipality,
                     area__in=area_list
@@ -87,7 +87,7 @@ class Command(BaseCommand):
             else: 
 
                 all_active_offering_ads.filter(
-                    created_at__gte=one_day_back, 
+                    created_at__gte=one_day_back, # All emails between 24 - 0 hours old
                     province=news_email_subscription_object.province,
                     municipality=news_email_subscription_object.municipality,
                 )
@@ -141,7 +141,7 @@ class Command(BaseCommand):
                     area_list_names.append(area.name)
 
                 matching_ads = all_active_requesting_ads.filter(
-                    created_at__gte=one_day_back, 
+                    created_at__gte=one_day_back, # All emails between 24 - 0 hours old
                     province=news_email_subscription_object.province,
                     municipality=news_email_subscription_object.municipality,
                     area__in=area_list
@@ -178,7 +178,7 @@ class Command(BaseCommand):
             else: 
 
                 all_active_requesting_ads.filter(
-                    created_at__gte=one_day_back, 
+                    created_at__gte=one_day_back, # All emails between 24 - 0 hours old
                     province=news_email_subscription_object.province,
                     municipality=news_email_subscription_object.municipality,
                 )
@@ -208,15 +208,10 @@ class Command(BaseCommand):
                     sent_mail_to_news_email_subscription_pks.append(news_email_subscription_object.pk)
                     send_mail(subject, plain_message, from_email, [to], html_message=html_message)
                     number_of_mails_sent += 1
-        
-        
+                
         requesting_emails_sent = number_of_mails_sent - offering_emails_sent
         logger.info(f'[DAILY_SUBSCRIBE_EMAILS] Finished sending mails for "requesting"-ads, sent {requesting_emails_sent} emails')
-
-
         logger.info(f'[DAILY_SUBSCRIBE_EMAILS] FINISHED COMMAND - Sent a total of {number_of_mails_sent} emails to customers!')
 
-
         response_json = json.dumps(sent_mail_to_news_email_subscription_pks)
-
         return response_json

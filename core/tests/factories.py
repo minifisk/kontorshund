@@ -16,7 +16,49 @@ from core.models import NewsEmail
 
 # Create X unpublished ads to Y user
 
-def create_offering_ads_stockholm_stockholms_stad(count=1, user=None, is_published=False):
+def create_offering_ad(
+    count=1,
+    user=None,
+    province=None,
+    municipality=None,
+    area=None,
+    is_published=False,
+    created_at=None,
+    ):
+    r_high = randint(1,300)
+    r_low = randint(1,20)
+
+    breed = DogBreed.objects.get(pk=5)
+    size_offered = DogSizeChoice.objects.get(pk=1)
+    
+    ads = []
+
+    for i in range(count):
+        ad = Advertisement.objects.create(
+            ad_kind=AdKind.OFFERING,
+            created_at=created_at,
+            author=user,
+            province=province,
+            municipality=municipality,
+            area=area,
+            name=f'Frasse {r_high}',
+            age=r_low,
+            is_published=is_published,
+            is_deleted=False,
+            title=f'Hund erbjudes {r_high}',
+            description=f'Hejsan här kommer en ny annons {r_high}',
+            hundras=breed,  
+            days_per_week=1,
+            size_offered=size_offered,
+        )
+        ads.append(ad)  
+
+    return ads
+
+
+
+
+def create_offering_ads_stockholm_stockholms_stad(count=1, user=None, is_published=False, created_at=None):
     r_high = randint(1,300)
     r_low = randint(1,20)
 
@@ -31,6 +73,7 @@ def create_offering_ads_stockholm_stockholms_stad(count=1, user=None, is_publish
         ads.append(
             Advertisement.objects.create(
                 ad_kind=AdKind.OFFERING,
+                created_at=created_at,
                 author=user,
                 province=province,
                 municipality=municipality,

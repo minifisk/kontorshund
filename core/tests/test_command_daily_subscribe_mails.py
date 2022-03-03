@@ -143,6 +143,29 @@ class TestSetupCommands(TestCase):
         cls.news_email_daily_offering_with_area.save()
 
 
+        # Ads
+        import pytz
+        utc_sthlm=pytz.timezone('Europe/Stockholm')
+        one_hour_back_no_tz = datetime.datetime.now() - datetime.timedelta(hours=1)
+        one_hour_back = utc_sthlm.localize(one_hour_back_no_tz) 
+
+        print(one_hour_back_no_tz)
+        print(one_hour_back)
+
+        from core.tests.factories import create_offering_ad
+        
+        cls.offering_ad_no_areas = create_offering_ad(
+            province=cls.province,
+            municipality=cls.municipality,
+            user=cls.user_dict['user_1'],
+            is_published=True,
+            created_at=one_hour_back,
+            
+
+        )
+
+
+
     #setUp: Run once for every test method to setup clean data.
     def setUp(self):
         pass
