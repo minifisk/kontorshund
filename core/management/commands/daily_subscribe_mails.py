@@ -86,7 +86,7 @@ class Command(BaseCommand):
 
             else: 
 
-                all_active_offering_ads.filter(
+                matching_ads = all_active_offering_ads.filter(
                     created_at__gte=one_day_back, # All emails between 24 - 0 hours old
                     province=news_email_subscription_object.province,
                     municipality=news_email_subscription_object.municipality,

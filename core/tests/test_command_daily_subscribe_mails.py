@@ -5,6 +5,8 @@ from venv import create
 import datetime
 from dateutil.relativedelta import *
 from random import randrange
+import pytz
+
 
 from django.core.management import call_command
 from django.conf import settings
@@ -144,7 +146,6 @@ class TestSetupCommands(TestCase):
 
 
         # Ads
-        import pytz
         utc_sthlm=pytz.timezone('Europe/Stockholm')
         one_hour_back_no_tz = datetime.datetime.now() - datetime.timedelta(hours=1)
         one_hour_back = utc_sthlm.localize(one_hour_back_no_tz) 
@@ -160,8 +161,6 @@ class TestSetupCommands(TestCase):
             user=cls.user_dict['user_1'],
             is_published=True,
             created_at=one_hour_back,
-            
-
         )
 
 

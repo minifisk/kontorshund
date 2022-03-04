@@ -33,11 +33,11 @@ class TestAdViews(TestCase):
         cls.user1 = User.objects.create_user(username=cls.username1, password=cls.password1)
 
         cls.user2 = User.objects.create_user(username=cls.username2, password=cls.password2)
-        cls.user2.newsemail.is_active = True
+        cls.user2.news_email.is_active = True
 
         cls.user1.save()
         cls.user2.save()
-        cls.user2.newsemail.save()
+        cls.user2.news_email.save()
 
 
     #setUp: Run once for every test method to setup clean data.
@@ -45,7 +45,7 @@ class TestAdViews(TestCase):
         pass
 
     def test_unauthenticated_trying_to_change_subscription_status(self):
-        response = self.client.post(f'/handle-email-subscription/{self.user1.newsemail.uuid}')
+        response = self.client.post(f'/handle-email-subscription/{self.user1.news_email.uuid}')
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, '/accounts/login/')
@@ -53,7 +53,7 @@ class TestAdViews(TestCase):
 
     def test_authenticated_trying_to_change_subscription_status_from_deactivated_to_activated(self):
         self.client.login(username=self.username1, password=self.password1)
-        response = self.client.post(f'/handle-email-subscription/{self.user1.newsemail.uuid}')
+        response = self.client.post(f'/handle-email-subscription/{self.user1.news_email.uuid}')
         json_ = json.loads(response.content)
 
         self.assertEqual(json_, 'Activated')
@@ -62,7 +62,7 @@ class TestAdViews(TestCase):
 
     def test_authenticated_trying_to_change_subscription_status_from_activated_to_deactivated(self):
         self.client.login(username=self.username2, password=self.password2)
-        response = self.client.post(f'/handle-email-subscription/{self.user2.newsemail.uuid}')
+        response = self.client.post(f'/handle-email-subscription/{self.user2.news_email.uuid}')
         json_ = json.loads(response.content)
 
         self.assertEqual(json_, 'Deactivated')
