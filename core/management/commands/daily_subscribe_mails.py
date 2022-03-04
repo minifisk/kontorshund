@@ -39,10 +39,14 @@ class Command(BaseCommand):
 
         all_daily_offering_subscriptions = NewsEmail.get_all_active_daily_subscriptions(AdTypesChoices.OFFERING)
         all_active_offering_ads = Advertisement.get_all_active_offering_ads()
+        
+            
 
         for news_email_subscription_object in all_daily_offering_subscriptions:
 
-            if news_email_subscription_object.areas:
+            if news_email_subscription_object.areas.all().exists():
+
+                print('areas')
 
                 area_list = []
                 area_list_names = []
@@ -56,6 +60,7 @@ class Command(BaseCommand):
                     municipality=news_email_subscription_object.municipality,
                     area__in=area_list
                 )
+
 
                 matching_ads_count = matching_ads.count()
 
@@ -85,6 +90,9 @@ class Command(BaseCommand):
                     number_of_mails_sent += 1
 
             else: 
+
+                print('no areas')
+
 
                 matching_ads = all_active_offering_ads.filter(
                     created_at__gte=one_day_back, # All emails between 24 - 0 hours old
@@ -132,7 +140,7 @@ class Command(BaseCommand):
 
         for news_email_subscription_object in all_daily_requesting_subscriptions:
 
-            if news_email_subscription_object.areas:
+            if news_email_subscription_object.areas.all().exists():
 
                 area_list = []
                 area_list_names = []
