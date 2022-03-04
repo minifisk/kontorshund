@@ -37,7 +37,7 @@ class Command(BaseCommand):
         all_active_offering_ads = Advertisement.get_all_active_offering_ads()
 
         for news_email_subscription_object in all_weekly_offering_subscriptions:
-            if news_email_subscription_object.areas:
+            if news_email_subscription_object.areas.all().exists():
 
                 area_list = []
                 area_list_names = []
@@ -126,7 +126,7 @@ class Command(BaseCommand):
 
         for news_email_subscription_object in all_weekly_requesting_subscriptions:
 
-            if news_email_subscription_object.areas:
+            if news_email_subscription_object.areas.all().exists():
 
                 area_list = []
                 area_list_names = []
