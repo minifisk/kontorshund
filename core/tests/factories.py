@@ -51,6 +51,8 @@ def create_offering_ad(
             days_per_week=1,
             size_offered=size_offered,
         )
+
+
         ads.append(ad)  
 
     return ads

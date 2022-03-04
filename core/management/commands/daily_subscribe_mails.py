@@ -40,13 +40,10 @@ class Command(BaseCommand):
         all_daily_offering_subscriptions = NewsEmail.get_all_active_daily_subscriptions(AdTypesChoices.OFFERING)
         all_active_offering_ads = Advertisement.get_all_active_offering_ads()
         
-            
-
         for news_email_subscription_object in all_daily_offering_subscriptions:
 
             if news_email_subscription_object.areas.all().exists():
 
-                print('areas')
 
                 area_list = []
                 area_list_names = []
@@ -61,8 +58,10 @@ class Command(BaseCommand):
                     area__in=area_list
                 )
 
-
                 matching_ads_count = matching_ads.count()
+
+                if matching_ads_count > 0:
+                    logger.debug(f'* [DAILY_SUBSCRIBE_MAILS] NewsEmail-pk: {news_email_subscription_object.pk} - Found {matching_ads_count} matching ads with areas {area_list_names}, matching province [{news_email_subscription_object.province}] and municpality [{news_email_subscription_object.municipality}]')
 
                 if matching_ads:
 
@@ -91,9 +90,6 @@ class Command(BaseCommand):
 
             else: 
 
-                print('no areas')
-
-
                 matching_ads = all_active_offering_ads.filter(
                     created_at__gte=one_day_back, # All emails between 24 - 0 hours old
                     province=news_email_subscription_object.province,
@@ -101,6 +97,9 @@ class Command(BaseCommand):
                 )
 
                 matching_ads_count = matching_ads.count()
+
+                if matching_ads_count > 0:
+                    logger.debug(f'* [DAILY_SUBSCRIBE_MAILS] NewsEmail-pk: {news_email_subscription_object.pk} - Found {matching_ads_count} matching ads without area specified, matching province [{news_email_subscription_object.province}] and municpality [{news_email_subscription_object.municipality}]')
 
                 if matching_ads:
 

@@ -58,7 +58,8 @@ class TestSetupCommands(TestCase):
         # SUBSCRIPTIONS
         cls.province = Province.objects.get(name='Stockholm')
         cls.municipality = Municipality.objects.get(name='Stockholms stad')
-        cls.area = Area.objects.get(name='Enskede, Årsta, Skarpnäck')
+        cls.area_1 = Area.objects.get(name='Enskede, Årsta, Skarpnäck')
+        cls.area_2 = Area.objects.get(name='Hägersten, Liljeholmen')
 
         ##### Offering ######
         cls.ad_type_offering = AdTypesChoices.OFFERING
@@ -80,7 +81,7 @@ class TestSetupCommands(TestCase):
         cls.news_email_daily_offering_with_area.interval = cls.interval_daily
         cls.news_email_daily_offering_with_area.ad_type = cls.ad_type_offering
         cls.news_email_daily_offering_with_area.is_active = True
-        cls.news_email_daily_offering_with_area.areas.add(cls.area)
+        cls.news_email_daily_offering_with_area.areas.add(cls.area_1)
         cls.news_email_daily_offering_with_area.save()
 
 
@@ -101,7 +102,7 @@ class TestSetupCommands(TestCase):
         cls.news_email_weekly_offering_with_area.interval = cls.interval_weekly
         cls.news_email_weekly_offering_with_area.ad_type = cls.ad_type_offering
         cls.news_email_weekly_offering_with_area.is_active = True
-        cls.news_email_weekly_offering_with_area.areas.add(cls.area)
+        cls.news_email_weekly_offering_with_area.areas.add(cls.area_1)
         cls.news_email_weekly_offering_with_area.save()
 
         ###### Requesting #####
@@ -124,7 +125,7 @@ class TestSetupCommands(TestCase):
         cls.news_email_daily_offering_with_area.interval = cls.interval_daily
         cls.news_email_daily_offering_with_area.ad_type = cls.ad_type_requesting
         cls.news_email_daily_offering_with_area.is_active = True
-        cls.news_email_daily_offering_with_area.areas.add(cls.area)
+        cls.news_email_daily_offering_with_area.areas.add(cls.area_1)
         cls.news_email_daily_offering_with_area.save()
 
         # ### Weekly 
@@ -144,7 +145,7 @@ class TestSetupCommands(TestCase):
         cls.news_email_weekly_offering_with_area.interval = cls.interval_weekly
         cls.news_email_weekly_offering_with_area.ad_type = cls.ad_type_requesting
         cls.news_email_weekly_offering_with_area.is_active = True
-        cls.news_email_weekly_offering_with_area.areas.add(cls.area)
+        cls.news_email_weekly_offering_with_area.areas.add(cls.area_1)
         cls.news_email_weekly_offering_with_area.save()
 
 
@@ -164,6 +165,17 @@ class TestSetupCommands(TestCase):
             created_at=one_hour_back,
         )
 
+        cls.offering_ad_with_areas = create_offering_ad(
+            province=cls.province,
+            municipality=cls.municipality,
+            area=cls.area_1,
+            user=cls.user_dict['user_1'],
+            is_published=True,
+            created_at=one_hour_back,
+        )
+
+
+
 
 
     #setUp: Run once for every test method to setup clean data.
@@ -175,5 +187,4 @@ class TestDailysubscribeEmails(TestSetupCommands):
 
     def test_test(self):
         result = call_command('daily_subscribe_mails')
-
         print(result)

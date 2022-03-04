@@ -8,6 +8,8 @@ from django.contrib.messages import constants as messages
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
+import logging
+logger = logging.getLogger('SETTINGS')
 
 # Price constants
 PRICE_SWISH_INITIAL = '1 kr'
@@ -44,7 +46,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "ndkwjankgsa")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ['DEBUG'] == 'TRUE'
 
-print(f'Debug is  {DEBUG}')
+print(f'Debug is {DEBUG}')
 
 
 ALLOWED_HOSTS = [
@@ -448,7 +450,10 @@ LOGGING = DEFAULT_LOGGING
 LOGGING['handlers']['console']['filters'] = ['require_debug_false']
 LOGGING['loggers']['django.server']['propagate'] = True
 
-
+if DEBUG == True:
+    log_level = 'DEBUG'
+else:
+    log_level = 'INFO'
 
 # Logging settings
 LOGGING = {
@@ -475,7 +480,7 @@ LOGGING = {
             'class': 'logging.StreamHandler',
         },
         'colored_console': {
-            'level': 'INFO',
+            'level': log_level,
             'class': 'logging.StreamHandler',
             'formatter': 'colored_verbose'
         },
@@ -487,7 +492,7 @@ LOGGING = {
     },
     'loggers': {
         '': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'handlers': ['colored_console'],
         },
         'django.request': {
