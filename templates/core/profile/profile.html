@@ -124,7 +124,9 @@
           {% endif %}
         </h6>
         <a href="{{ ad_url }}{{ ad.id }}">
+          {% if ad.image1 %}
           <img class="card-img-top" src=" {{ ad.image1.thumbnail.url }}" alt="published ad">
+          {% endif %}
         </a>
           <div class="card-body">
           <h5 class="card-title">{{ ad.title }}</h5>
@@ -156,7 +158,9 @@
         {% endif %}
       </h6>
       <a href="{{ ad_url }}{{ ad.id }}">
-        <img class="card-img-top" src=" {{ ad.image1.thumbnail.url }}" alt="published ad">
+        {% if ad.image1 %}
+          <img class="card-img-top" src=" {{ ad.image1.thumbnail.url }}" alt="published ad">
+        {% endif %}
       </a>
       <div class="card-body">
         <h5 class="card-title">{{ ad.title }}</h5>
@@ -189,7 +193,9 @@
         {% endif %}
       </h6>
       <a href="{{ ad_url }}{{ ad.id }}">
-        <img class="card-img-top" src=" {{ ad.image1.thumbnail.url }}" alt="deleted ad">
+        {% if ad.image1 %}
+          <img class="card-img-top" src=" {{ ad.image1.thumbnail.url }}" alt="deleted ad">
+        {% endif %}
       </a>
       <div class="card-body">
         <h5 class="card-title">{{ ad.title }}</h5>

@@ -230,11 +230,13 @@
                             <tr>
                                 <td style="width:260px; text-align:center; vertical-align:middle; padding:0;vertical-align:center;color:#153643;">
 
+                                  {% if ad.image1 %}
                                     <a 
                                       style="vertical-align:middle; display: inline-block; margin:0 0 0 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;" 
                                       href="{{ ad_root_path}}{{ ad.pk }}"><img src="{{ ad.image1.url }}" alt="Image of ad" style="width:500px;" />
                                     </a>
-                                    
+                                  {% endif %}
+                                
      
                                     <p class="my_ad_title">
                                       {% if ad.ad_kind == 'OF' %}[Hund erbjudes]{% else %}[Hund sökes]{% endif %} - {{ ad.title }}
