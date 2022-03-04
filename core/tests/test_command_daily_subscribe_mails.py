@@ -83,30 +83,33 @@ class TestSetupCommands(TestCase):
         cls.news_email_daily_offering_with_area.areas.add(cls.area)
         cls.news_email_daily_offering_with_area.save()
 
+
         ### Weekly 
         cls.interval_weekly = IntervalChoices.WEEKLY
 
-        cls.news_email_daily_offering_without_area = cls.user_dict['user_2'].news_email
-        cls.news_email_daily_offering_without_area.province = cls.province
-        cls.news_email_daily_offering_without_area.municipality = cls.municipality
-        cls.news_email_daily_offering_without_area.interval = cls.interval_weekly
-        cls.news_email_daily_offering_without_area.ad_type = cls.ad_type_offering
-        cls.news_email_daily_offering_without_area.is_active = True
-        cls.news_email_daily_offering_without_area.save()
+        cls.news_email_weekly_offering_without_area = cls.user_dict['user_2'].news_email
+        cls.news_email_weekly_offering_without_area.province = cls.province
+        cls.news_email_weekly_offering_without_area.municipality = cls.municipality
+        cls.news_email_weekly_offering_without_area.interval = cls.interval_weekly
+        cls.news_email_weekly_offering_without_area.ad_type = cls.ad_type_offering
+        cls.news_email_weekly_offering_without_area.is_active = True
+        cls.news_email_weekly_offering_without_area.save()
 
-        cls.news_email_daily_offering_with_area = cls.user_dict['user_3'].news_email
-        cls.news_email_daily_offering_with_area.province = cls.province
-        cls.news_email_daily_offering_with_area.municipality = cls.municipality
-        cls.news_email_daily_offering_with_area.interval = cls.interval_weekly
-        cls.news_email_daily_offering_with_area.ad_type = cls.ad_type_offering
-        cls.news_email_daily_offering_with_area.is_active = True
-        cls.news_email_daily_offering_with_area.areas.add(cls.area)
-        cls.news_email_daily_offering_with_area.save()
+        cls.news_email_weekly_offering_with_area = cls.user_dict['user_3'].news_email
+        cls.news_email_weekly_offering_with_area.province = cls.province
+        cls.news_email_weekly_offering_with_area.municipality = cls.municipality
+        cls.news_email_weekly_offering_with_area.interval = cls.interval_weekly
+        cls.news_email_weekly_offering_with_area.ad_type = cls.ad_type_offering
+        cls.news_email_weekly_offering_with_area.is_active = True
+        cls.news_email_weekly_offering_with_area.areas.add(cls.area)
+        cls.news_email_weekly_offering_with_area.save()
 
         ###### Requesting #####
         cls.ad_type_requesting = AdTypesChoices.REQUESTING
 
         ### Daily 
+        cls.interval_daily = IntervalChoices.DAILY
+
         cls.news_email_daily_offering_without_area = cls.user_dict['user_4'].news_email
         cls.news_email_daily_offering_without_area.province = cls.province
         cls.news_email_daily_offering_without_area.municipality = cls.municipality
@@ -127,22 +130,22 @@ class TestSetupCommands(TestCase):
         # ### Weekly 
         cls.interval_weekly = IntervalChoices.WEEKLY
 
-        cls.news_email_daily_offering_without_area = cls.user_dict['user_6'].news_email
-        cls.news_email_daily_offering_without_area.province = cls.province
-        cls.news_email_daily_offering_without_area.municipality = cls.municipality
-        cls.news_email_daily_offering_without_area.interval = cls.interval_weekly
-        cls.news_email_daily_offering_without_area.ad_type = cls.ad_type_requesting
-        cls.news_email_daily_offering_without_area.is_active = True
-        cls.news_email_daily_offering_without_area.save()
+        cls.news_email_weekly_offering_without_area = cls.user_dict['user_6'].news_email
+        cls.news_email_weekly_offering_without_area.province = cls.province
+        cls.news_email_weekly_offering_without_area.municipality = cls.municipality
+        cls.news_email_weekly_offering_without_area.interval = cls.interval_weekly
+        cls.news_email_weekly_offering_without_area.ad_type = cls.ad_type_requesting
+        cls.news_email_weekly_offering_without_area.is_active = True
+        cls.news_email_weekly_offering_without_area.save()
 
-        cls.news_email_daily_offering_with_area = cls.user_dict['user_7'].news_email
-        cls.news_email_daily_offering_with_area.province = cls.province
-        cls.news_email_daily_offering_with_area.municipality = cls.municipality
-        cls.news_email_daily_offering_with_area.interval = cls.interval_weekly
-        cls.news_email_daily_offering_with_area.ad_type = cls.ad_type_requesting
-        cls.news_email_daily_offering_with_area.is_active = True
-        cls.news_email_daily_offering_with_area.areas.add(cls.area)
-        cls.news_email_daily_offering_with_area.save()
+        cls.news_email_weekly_offering_with_area = cls.user_dict['user_7'].news_email
+        cls.news_email_weekly_offering_with_area.province = cls.province
+        cls.news_email_weekly_offering_with_area.municipality = cls.municipality
+        cls.news_email_weekly_offering_with_area.interval = cls.interval_weekly
+        cls.news_email_weekly_offering_with_area.ad_type = cls.ad_type_requesting
+        cls.news_email_weekly_offering_with_area.is_active = True
+        cls.news_email_weekly_offering_with_area.areas.add(cls.area)
+        cls.news_email_weekly_offering_with_area.save()
 
 
         # Ads
@@ -150,8 +153,6 @@ class TestSetupCommands(TestCase):
         one_hour_back_no_tz = datetime.datetime.now() - datetime.timedelta(hours=1)
         one_hour_back = utc_sthlm.localize(one_hour_back_no_tz) 
 
-        print(one_hour_back_no_tz)
-        print(one_hour_back)
 
         from core.tests.factories import create_offering_ad
         
