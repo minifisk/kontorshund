@@ -1,5 +1,6 @@
 import pytz 
 import datetime
+import json
 
 from django.core.management.base import BaseCommand, CommandError
 from django.core.mail import send_mail
@@ -10,7 +11,7 @@ from core.models import Province, Municipality, Area, Advertisement, NewsEmail
 
 import logging
 
-from kontorshund.core.models import AdTypesChoices 
+from core.models import AdTypesChoices 
 logger = logging.getLogger(__name__)
 
 
@@ -28,6 +29,7 @@ class Command(BaseCommand):
 
         ad_root_path = 'https://www.kontorshund.se/ads/'
         number_of_mails_sent = 0
+        has_send_mail_to = []
 
         logger.info('[WEEKLY_SUBSCRIBE_EMAILS] Sending emails to subscribers matching "offering" ads...')
 
@@ -81,12 +83,13 @@ class Command(BaseCommand):
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
 
+                    has_send_mail_to.append(news_email_subscription_object.pk)
                     send_mail(subject, plain_message, from_email, [to], html_message=html_message)
                     number_of_mails_sent += 1
 
             else: 
 
-                all_active_offering_ads.filter(
+                matching_ads = all_active_offering_ads.filter(
                     created_at__gte=one_week_back, 
                     province=news_email_subscription_object.province,
                     municipality=news_email_subscription_object.municipality,
@@ -117,6 +120,7 @@ class Command(BaseCommand):
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
 
+                    has_send_mail_to.append(news_email_subscription_object.pk)
                     send_mail(subject, plain_message, from_email, [to], html_message=html_message)
                     number_of_mails_sent += 1
 
@@ -178,12 +182,13 @@ class Command(BaseCommand):
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
 
+                    has_send_mail_to.append(news_email_subscription_object.pk)
                     send_mail(subject, plain_message, from_email, [to], html_message=html_message)
                     number_of_mails_sent += 1
 
             else: 
 
-                all_active_requesting_ads.filter(
+                matching_ads = all_active_requesting_ads.filter(
                     created_at__gte=one_week_back, 
                     province=news_email_subscription_object.province,
                     municipality=news_email_subscription_object.municipality,
@@ -215,12 +220,14 @@ class Command(BaseCommand):
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
 
+                    has_send_mail_to.append(news_email_subscription_object.pk)
                     send_mail(subject, plain_message, from_email, [to], html_message=html_message)
                     number_of_mails_sent += 1
         
         
         requesting_emails_sent = number_of_mails_sent - offering_emails_sent
         logger.info(f'[WEEKLY_SUBSCRIBE_EMAILS] Finished sending mails for "requesting"-ads, sent {requesting_emails_sent} emails')
-
-
         logger.info(f'[WEEKLY_SUBSCRIBE_EMAILS] FINISHED COMMAND - Sent a total of {number_of_mails_sent} emails to customers!')
+
+        response_json = json.dumps(has_send_mail_to)
+        return response_json

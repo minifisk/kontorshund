@@ -37,7 +37,6 @@ def create_offering_ads(
     for i in range(count):
         ad = Advertisement.objects.create(
             ad_kind=AdKind.OFFERING,
-            created_at=created_at,
             author=user,
             province=province,
             municipality=municipality,
@@ -53,6 +52,9 @@ def create_offering_ads(
             size_offered=size_offered,
         )
 
+        ad.save()
+        ad.created_at = created_at
+        ad.save()
         ads.append(ad)  
 
     return ads
