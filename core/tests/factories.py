@@ -24,6 +24,7 @@ def create_offering_ads(
     area=None,
     is_published=False,
     created_at=None,
+    deletion_date=None,
     ):
 
     r_high = randint(1,300)
@@ -45,6 +46,7 @@ def create_offering_ads(
             age=r_low,
             is_published=is_published,
             is_deleted=False,
+            deletion_date=deletion_date,
             title=f'Hund erbjudes {r_high}',
             description=f'Hejsan här kommer en ny annons {r_high}',
             hundras=breed,  
@@ -53,8 +55,9 @@ def create_offering_ads(
         )
 
         ad.save()
-        ad.created_at = created_at
-        ad.save()
+        if created_at:
+            ad.created_at = created_at
+            ad.save()
         ads.append(ad)  
 
     return ads
@@ -92,8 +95,9 @@ def create_requesting_ads(
         )
 
         ad.save()
-        ad.created_at = created_at
-        ad.save()
+        if created_at:
+            ad.created_at = created_at
+            ad.save()
         ad.size_requested.add(size_requested)
 
         ads.append(ad)  

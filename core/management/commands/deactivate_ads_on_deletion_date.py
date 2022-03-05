@@ -1,4 +1,6 @@
 import datetime
+import json
+import pytz
 
 from django.core.management.base import BaseCommand
 from django.core.mail import send_mail
@@ -19,17 +21,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        current_date_datetime = datetime.datetime.now() 
-        current_date = current_date_datetime.date()
+        current_date = datetime.datetime.now(pytz.timezone('Europe/Stockholm')).date()
+        deactivated_ads_pks = []
 
         logger.info(f'[DEACTIVATE_ADS_ON_DELETION_DATE] Starting command for deactivating ads whos deletion date on the date {current_date}')
-
 
         number_of_mails_sent = 0
 
         all_ads = Advertisement.get_all_active_ads()
 
-        ad_selection = all_ads.filter(deletion_date=current_date)
+        ad_selection = all_ads.filter(deletion_date__lte=current_date)
 
 
         if ad_selection:
@@ -52,10 +53,16 @@ class Command(BaseCommand):
                 from_email = 'Kontorshund.se <info@kontorshund.se>'
                 to = ad.author.email
 
+                deactivated_ads_pks.append(ad.pk)
                 send_mail(subject, plain_message, from_email, [to], html_message=html_message)
                 
                 number_of_mails_sent += 1
 
 
+        logger.info(f'[DEACTIVATE_ADS_ON_DELETION_DATE] Deactivated the following ads: {deactivated_ads_pks}')
 
         logger.info(f'[DEACTIVATE_ADS_ON_DELETION_DATE] Sent out a number of {number_of_mails_sent} emails and inactivated associated ads.')
+
+        deactivated_ads_pks_json = json.dumps(deactivated_ads_pks)
+
+        return(deactivated_ads_pks_json)
