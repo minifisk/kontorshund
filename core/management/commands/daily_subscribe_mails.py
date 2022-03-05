@@ -200,11 +200,6 @@ class Command(BaseCommand):
                     municipality=news_email_subscription_object.municipality,
                 )
 
-                print('\n\n\n')
-                print('one day back', one_day_back)
-                print('created at ', matching_ads.first().created_at)
-                print('\n\n\n')
-
                 matching_ads_count = matching_ads.count()
 
                 if matching_ads_count > 0:

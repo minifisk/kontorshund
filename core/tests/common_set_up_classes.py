@@ -136,19 +136,13 @@ class SetUpNewsEmailsTesting(TestCase):
         one_hour_back_no_tz = datetime.datetime.now() - datetime.timedelta(hours=1)
         cls.one_hour_back = utc_sthlm.localize(one_hour_back_no_tz) 
 
-        print('one hour back', cls.one_hour_back)
-
         utc_sthlm=pytz.timezone('Europe/Stockholm')
         twenty_three_hours_back_no_tz = datetime.datetime.now() - datetime.timedelta(hours=23)
         cls.twenty_three_hours_back = utc_sthlm.localize(twenty_three_hours_back_no_tz) 
 
-        print('23 hours back', cls.twenty_three_hours_back)
-
         utc_sthlm=pytz.timezone('Europe/Stockholm')
         twenty_five_hours_back_no_tz = datetime.datetime.now() - datetime.timedelta(days=1, hours=1)
         cls.twenty_five_hours_back = utc_sthlm.localize(twenty_five_hours_back_no_tz) 
-
-        print('25 hours back', cls.twenty_five_hours_back)
 
 
     #setUp: Run once for every test method to setup clean data.

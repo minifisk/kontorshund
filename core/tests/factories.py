@@ -89,6 +89,9 @@ def create_requesting_ads(
             days_per_week=1,
         )
 
+        ad.save()
+        ad.created_at = created_at
+        ad.save()
         ad.size_requested.add(size_requested)
 
         ads.append(ad)  
