@@ -24,7 +24,7 @@ def create_offering_ads(
     area=None,
     is_published=False,
     created_at=None,
-    deletion_date=None,
+    deletion_date='2023-01-01',
     ):
 
     r_high = randint(1,300)
@@ -71,6 +71,7 @@ def create_requesting_ads(
     area=None,
     is_published=False,
     created_at=None,
+    deletion_date='2023-01-01',
     ):
 
     r_high = randint(1,300)
