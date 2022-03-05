@@ -1,4 +1,5 @@
 import datetime
+from select import select
 import pytz
 import json
 
@@ -61,7 +62,7 @@ class Command(BaseCommand):
                 matching_ads_count = matching_ads.count()
 
                 if matching_ads_count > 0:
-                    logger.debug(f'* [DAILY_SUBSCRIBE_MAILS] NewsEmail-pk: {news_email_subscription_object.pk} - Found {matching_ads_count} matching ads with areas {area_list_names}, matching province [{news_email_subscription_object.province}] and municpality [{news_email_subscription_object.municipality}]')
+                    logger.debug(f'* [DAILY_SUBSCRIBE_MAILS] NewsEmail-pk: {news_email_subscription_object.pk} (area specified) - Found {matching_ads_count} matching "Offering"-ads matcihing areas {area_list_names}, matching province [{news_email_subscription_object.province}] and municpality [{news_email_subscription_object.municipality}]')
 
                 if matching_ads:
 
@@ -99,7 +100,7 @@ class Command(BaseCommand):
                 matching_ads_count = matching_ads.count()
 
                 if matching_ads_count > 0:
-                    logger.debug(f'* [DAILY_SUBSCRIBE_MAILS] NewsEmail-pk: {news_email_subscription_object.pk} - Found {matching_ads_count} matching ads without area specified, matching province [{news_email_subscription_object.province}] and municpality [{news_email_subscription_object.municipality}]')
+                    logger.debug(f'* [DAILY_SUBSCRIBE_MAILS] NewsEmail-pk: {news_email_subscription_object.pk} (no area specified)- Found {matching_ads_count} matching "Offering"-ads matching province [{news_email_subscription_object.province}] and municpality [{news_email_subscription_object.municipality}]')
 
                 if matching_ads:
 
@@ -130,6 +131,12 @@ class Command(BaseCommand):
         logger.info(f'[DAILY_SUBSCRIBE_EMAILS] Finished sending mails for "offering"-ads, sent {offering_emails_sent} emails')
 
         
+
+
+
+
+
+
         # REQUESTING
 
         logger.info('[DAILY_SUBSCRIBE_EMAILS] Sending emails to subscribers matching "requesting" ads...')
@@ -155,6 +162,10 @@ class Command(BaseCommand):
                 )
 
                 matching_ads_count = matching_ads.count()
+
+                if matching_ads_count > 0:
+                    logger.debug(f'* [DAILY_SUBSCRIBE_MAILS] NewsEmail-pk: {news_email_subscription_object.pk} (area specified) - Found {matching_ads_count} matching "Requesting"-ads matchin areas {area_list_names}, matching province [{news_email_subscription_object.province}] and municpality [{news_email_subscription_object.municipality}]')
+
 
                 if matching_ads:
 
@@ -183,14 +194,21 @@ class Command(BaseCommand):
                     number_of_mails_sent += 1
 
             else: 
-
-                all_active_requesting_ads.filter(
+                matching_ads = all_active_requesting_ads.filter(
                     created_at__gte=one_day_back, # All emails between 24 - 0 hours old
                     province=news_email_subscription_object.province,
                     municipality=news_email_subscription_object.municipality,
                 )
 
+                print('\n\n\n')
+                print('one day back', one_day_back)
+                print('created at ', matching_ads.first().created_at)
+                print('\n\n\n')
+
                 matching_ads_count = matching_ads.count()
+
+                if matching_ads_count > 0:
+                    logger.debug(f'* [DAILY_SUBSCRIBE_MAILS] NewsEmail-pk: {news_email_subscription_object.pk} (no area specified) - Found {matching_ads_count} matching "Requesting"-ads, matching province [{news_email_subscription_object.province}] and municpality [{news_email_subscription_object.municipality}]')
 
                 if matching_ads:
 

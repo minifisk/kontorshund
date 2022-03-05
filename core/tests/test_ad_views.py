@@ -68,13 +68,13 @@ class TestSetupListAndCreate(TestCase):
         cls.total_count = cls.total_offering_count + cls.total_requesting_count
 
         # creation
-        cls.user_1_offering_ads_stockholm_stockholms_stad = factories.create_offering_ads_stockholm_stockholms_stad(count=cls.count_offering_stockholm_stockholms_stad, user=cls.user1, is_published=True)
+        cls.user_1_offering_ads_stockholm_stockholms_stad = factories.create_offering_adss_stockholm_stockholms_stad(count=cls.count_offering_stockholm_stockholms_stad, user=cls.user1, is_published=True)
         cls.user_2_requesting_ads_sthlm = factories.create_requesting_ads_stockholm_stockholms_stad(count=cls.count_requesting_stockholm_stockholms_stad, user=cls.user2, is_published=True)
        
-        cls.user_2_offering_ads_halland_falkenberg = factories.create_offering_ads_halland_falkenberg(count=cls.count_offering_halland_falkenberg, user=cls.user2, is_published=True)
-        cls.user_2_offering_ads_halland_halmstad = factories.create_offering_ads_halland_halmstad(count=cls.count_offering_halland_halmstad, user=cls.user2, is_published=True)
+        cls.user_2_offering_ads_halland_falkenberg = factories.create_offering_adss_halland_falkenberg(count=cls.count_offering_halland_falkenberg, user=cls.user2, is_published=True)
+        cls.user_2_offering_ads_halland_halmstad = factories.create_offering_adss_halland_halmstad(count=cls.count_offering_halland_halmstad, user=cls.user2, is_published=True)
         
-        cls.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia = factories.create_offering_ads_stockholm_stockholm_stad_katarina_sofia(count=cls.count_offering_stockholm_stockholms_stad_katarina_sofia, user=cls.user2, is_published=True)
+        cls.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia = factories.create_offering_adss_stockholm_stockholm_stad_katarina_sofia(count=cls.count_offering_stockholm_stockholms_stad_katarina_sofia, user=cls.user2, is_published=True)
 
 
     #setUp: Run once for every test method to setup clean data.
@@ -107,8 +107,8 @@ class TestSetupUpdateAndDelete(TestCase):
         cls.user2.save()
 
         cls.user_1_requesting_ads = factories.create_requesting_ads_stockholm_stockholms_stad(count=1, user=cls.user1, is_published=True)
-        cls.user_1_offering_ads = factories.create_offering_ads_stockholm_stockholms_stad(count=1, user=cls.user1, is_published=True)
-        cls.user_2_offering_ads = factories.create_offering_ads_stockholm_stockholms_stad(count=1, user=cls.user2, is_published=True)
+        cls.user_1_offering_ads = factories.create_offering_adss_stockholm_stockholms_stad(count=1, user=cls.user1, is_published=True)
+        cls.user_2_offering_ads = factories.create_offering_adss_stockholm_stockholms_stad(count=1, user=cls.user2, is_published=True)
 
    
     #setUp: Run once for every test method to setup clean data.

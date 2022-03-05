@@ -53,12 +53,12 @@ class AdvertisementAdmin(admin.ModelAdmin):
     save_as = True
     list_filter = ('is_deleted', 'is_published',)
     fieldsets = (
-        ('Ad details', {'fields': ('is_published', 'is_deleted', 'deletion_date')}),
+        ('Ad details', {'fields': ('is_published', 'is_deleted', 'deletion_date', 'created_at', 'updated_at', 'ad_views', 'id',)}),
         ('Geographical', {'fields': ('province', 'municipality', 'area')}),
         ('General', {'fields': ('author', 'ad_kind', 'title', 'description', 'days_per_week', 'image1', 'image2', 'image3')}),
         ('Offering-fields', {'fields': ('size_offered', 'name', 'age', 'hundras')}),
         ('Requesting-fields', {'fields': ('size_requested',)}),
-        ('Chosen payment type', {'fields': ('payment_kind',)}),
+        ('Chosen payment type', {'fields': ('payment_choice',)}),
     )
     inlines = [
         PaymentInline,
