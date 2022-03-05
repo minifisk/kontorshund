@@ -20,7 +20,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        logger.info('[WEEKLY_SUBSCRIBE_EMAILS] Starting command for sending daily emails...')
+        logger.info('[WEEKLY_SUBSCRIBE_EMAILS] Starting command for sending weekly emails...')
 
         utc_sthlm=pytz.timezone('Europe/Stockholm')
         one_week_back_no_tz = datetime.datetime.now() - datetime.timedelta(days=7)
@@ -37,6 +37,7 @@ class Command(BaseCommand):
         all_active_offering_ads = Advertisement.get_all_active_offering_ads()
 
         for news_email_subscription_object in all_weekly_offering_subscriptions:
+
             if news_email_subscription_object.areas.all().exists():
 
                 area_list = []
@@ -55,6 +56,10 @@ class Command(BaseCommand):
 
                 matching_ads_count = matching_ads.count()
 
+                if matching_ads_count > 0:
+                    logger.debug(f'* [WEEKLY_SUBSCRIBE_MAILS] NewsEmail-pk: {news_email_subscription_object.pk} (area specified) - Found {matching_ads_count} matching "Offering"-ads matcihing areas {area_list_names}, matching province [{news_email_subscription_object.province}] and municpality [{news_email_subscription_object.municipality}]')
+
+
                 if matching_ads:
 
                     context = {
@@ -71,7 +76,7 @@ class Command(BaseCommand):
                     }
 
                     subject = f'{matching_ads_count} nya annonser på Kontorshund.se!'
-                    html_message = render_to_string('core/subscription_email/daily_mail.html', context)
+                    html_message = render_to_string('core/subscription_email/subscription_mail.html', context)
                     plain_message = strip_tags(html_message)
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
@@ -89,6 +94,9 @@ class Command(BaseCommand):
 
                 matching_ads_count = matching_ads.count()
 
+                if matching_ads_count > 0:
+                    logger.debug(f'* [WEEKLY_SUBSCRIBE_MAILS] NewsEmail-pk: {news_email_subscription_object.pk} (no area specified)- Found {matching_ads_count} matching "Offering"-ads matching province [{news_email_subscription_object.province}] and municpality [{news_email_subscription_object.municipality}]')
+
                 if matching_ads:
 
                     context = {
@@ -104,7 +112,7 @@ class Command(BaseCommand):
                     }
 
                     subject = f'{matching_ads_count} nya annonser på Kontorshund.se!'
-                    html_message = render_to_string('core/subscription_email/daily_mail.html', context)
+                    html_message = render_to_string('core/subscription_email/subscription_mail.html', context)
                     plain_message = strip_tags(html_message)
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
@@ -117,6 +125,9 @@ class Command(BaseCommand):
         logger.info(f'[WEEKLY_SUBSCRIBE_EMAILS] Finished sending mails for "offering"-ads, sent {offering_emails_sent} emails')
 
         
+
+
+
         # REQUESTING
 
         logger.info('[WEEKLY_SUBSCRIBE_EMAILS] Sending emails to subscribers matching "requesting" ads...')
@@ -142,6 +153,9 @@ class Command(BaseCommand):
                 )
 
                 matching_ads_count = matching_ads.count()
+                
+                if matching_ads_count > 0:
+                    logger.debug(f'* [WEEKLY_SUBSCRIBE_MAILS] NewsEmail-pk: {news_email_subscription_object.pk} (area specified) - Found {matching_ads_count} matching "Requesting"-ads matchin areas {area_list_names}, matching province [{news_email_subscription_object.province}] and municpality [{news_email_subscription_object.municipality}]')
 
                 if matching_ads:
 
@@ -159,7 +173,7 @@ class Command(BaseCommand):
                     }
 
                     subject = f'{matching_ads_count} nya annonser på Kontorshund.se!'
-                    html_message = render_to_string('core/subscription_email/daily_mail.html', context)
+                    html_message = render_to_string('core/subscription_email/subscription_mail.html', context)
                     plain_message = strip_tags(html_message)
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
@@ -177,6 +191,10 @@ class Command(BaseCommand):
 
                 matching_ads_count = matching_ads.count()
 
+                if matching_ads_count > 0:
+                    logger.debug(f'* [WEEKLY_SUBSCRIBE_MAILS] NewsEmail-pk: {news_email_subscription_object.pk} (no area specified) - Found {matching_ads_count} matching "Requesting"-ads, matching province [{news_email_subscription_object.province}] and municpality [{news_email_subscription_object.municipality}]')
+
+
                 if matching_ads:
 
                     context = {
@@ -192,7 +210,7 @@ class Command(BaseCommand):
                     }
 
                     subject = f'{matching_ads_count} nya annonser på Kontorshund.se!'
-                    html_message = render_to_string('core/subscription_email/daily_mail.html', context)
+                    html_message = render_to_string('core/subscription_email/subscription_mail.html', context)
                     plain_message = strip_tags(html_message)
                     from_email = 'Kontorshund.se <info@kontorshund.se>'
                     to = news_email_subscription_object.user.email
