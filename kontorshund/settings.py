@@ -275,12 +275,12 @@ if USE_S3:
     LINODE_BUCKET_SECRET_KEY=os.environ.get('LINODE_BUCKET_SECRET_KEY') 
 
     # Static settings
-    STATIC_LOCATION = 'static'
+    STATIC_LOCATION = '/static/'
     STATIC_URL = f'https://{LINODE_BUCKET_NAME}.{LINODE_BUCKET_REGION}.linodeobjects.com/{STATIC_LOCATION}/'
     STATICFILES_STORAGE = 'kontorshund.storage_backends.StaticStorage' # Add files to bucket when running collectstatic
     
     # Media settings
-    MEDIA_LOCATION = 'media'
+    MEDIA_LOCATION = '/media/'
     STATIC_URL = f'https://{LINODE_BUCKET_NAME}.{LINODE_BUCKET_REGION}.linodeobjects.com/{MEDIA_LOCATION}/'
     DEFAULT_FILE_STORAGE = 'kontorshund.storage_backends.PublicMediaStorage'
 
