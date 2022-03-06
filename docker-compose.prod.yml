@@ -41,6 +41,20 @@ services:
     # networks:
     #   - proxy
     #   - net
+    depends_on:
+      - matomo_db
+    restart: unless-stopped
+
+  matomo_db:
+    container_name: matomo_db
+    image: mariadb
+    command: --max-allowed-packet=64MB
+    environment:
+      - MYSQL_ROOT_PASSWORD=akjwnd123298dankw
+    env_file:
+      - ./db.env
+    # networks:
+    #   - net
     restart: unless-stopped
   
   nginx-proxy:
