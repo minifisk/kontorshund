@@ -109,6 +109,7 @@ INSTALLED_APPS = [
     'bootstrapform',
     'widget_tweaks',
     'admin_honeypot',
+    'cookielaw', 
 
     # Local
     'core',
@@ -174,6 +175,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django_admin_env_notice.context_processors.from_settings',
+                'cookielaw.context_processors.cookielaw'
             ],
         },
     },
