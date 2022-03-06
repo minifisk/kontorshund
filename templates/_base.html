@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load cookielaw_tags %}
 
 <!DOCTYPE html>
 <html>
@@ -7,15 +7,18 @@
 <head>
   <link rel="icon" type="image/x-icon" href="https://kontorshund.eu-central-1.linodeobjects.com/static/local_static/core/favicon.ico">
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KZLXQRFD87"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+  {% if cookielaw.accepted %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KZLXQRFD87"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-    gtag('config', 'G-KZLXQRFD87');
-  </script>
+      gtag('config', 'G-KZLXQRFD87');
+    </script>
+  {% endif %}
+
   
   {% block header %}
 
@@ -25,7 +28,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
-
+  
   <title>{% block title %}Kontorshund{% endblock title %}</title>
   <!-- CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -40,6 +43,8 @@
 </head>
 
 <body>
+    {% cookielaw_banner %}
+
   <header>
     <!-- Fixed navbar -->
       
@@ -110,6 +115,8 @@
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
 
+
+  <script src="/static/cookielaw/js/cookielaw.js"></script>
   
 </body>
 
