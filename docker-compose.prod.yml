@@ -38,9 +38,9 @@ services:
       - LETSENCRYPT_EMAIL=alexlindgren08@gmail.com
     env_file:
       - ./prod.env
-    networks:
-      - proxy
-      - net
+    # networks:
+    #   - proxy
+    #   - net
     restart: unless-stopped
   
   nginx-proxy:
@@ -123,9 +123,9 @@ volumes:
   static_volume:
   media_volume:
 
-networks:
-  proxy:
-    external:
-      name: nginx-proxy
-  net:
-    driver: bridge
+# networks:
+#   proxy:
+#     external:
+#       name: nginx-proxy
+#   net:
+#     driver: bridge
