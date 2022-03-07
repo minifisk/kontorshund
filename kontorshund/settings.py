@@ -64,13 +64,7 @@ ALLOWED_HOSTS.append(ALLOWED_NGROK)
 # Allowing Docker hosts as allowed hosts
 ALLOWED_CIDR_NETS = ['172.16.0.0/12']
 
-
-
-
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-
-
-
 
 # Application definition
 
@@ -118,22 +112,7 @@ INSTALLED_APPS = [
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-
-LOCKDOWN_PASSWORDS = ['sP4%tF_"QPHn4Z@k']
-
-# LOCKDOWN_URL_EXCEPTIONS = (
-#     r'^/generate-swish-qr-code/$',   # unlock /about
-#     r'^/generate-swish-request-token/$',   # unlock /about
-#     r'^/generate-swish-qr-code/$',   # unlock /about
-#     r'^/check-payment-status/[0-9]*$',   # unlock /about
-#     r'^/swish-successfull-android$',   # unlock /about
-#     r'^/ajax/load-municipalities/$',   # unlock /about
-#     r'^/ajax/load-areas/$',   # unlock /about
-#     r'^/breed-autocomplete$',   # unlock /about
-# )
-
-
-CISPY_TEMPLATE_PACK = 'bootstrap4'
+LOCKDOWN_PASSWORDS = ['ölkaka123']
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
@@ -304,6 +283,7 @@ if not USE_S3:
     MEDIA_ROOT = BASE_DIR / "mediafiles"
 
 if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    print('Using test password hashing')
     # much faster password hashing, default one is super slow (on purpose)
     PASSWORD_HASHERS = ['django.contrib.auth.hashers.MD5PasswordHasher']
 
@@ -333,43 +313,6 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-# Provider specific settings
-# SOCIALACCOUNT_PROVIDERS = {
-
-# #    # Facebook
-# #     'facebook': {
-# #         'METHOD': 'oauth2',
-# #         'SCOPE': ['email','public_profile', 'user_friends'],
-# #         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
-# #         'FIELDS': [
-# #             'id',
-# #             'email',
-# #             'name',
-# #             'first_name',
-# #             'last_name',
-# #             'verified',
-# #             'locale',
-# #             'timezone',
-# #             'link',
-# #             'gender',
-# #             'updated_time'],
-# #         'EXCHANGE_TOKEN': True,
-# #         'LOCALE_FUNC': lambda request: 'kr_KR',
-# #         'VERIFIED_EMAIL': False,
-# #         'VERSION': 'v2.4'
-# #     },
-
-#    # Google
-#     'google': {
-#         'SCOPE': [
-#             'profile',
-#             'email',
-#         ],
-#         'AUTH_PARAMS': {
-#             'access_type': 'online',
-#         }
-#     }
-# }
 
 # Facebook
 SOCIAL_AUTH_FACEBOOK_KEY = '596768574908566'  # App KEY
