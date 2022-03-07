@@ -1,5 +1,5 @@
 from django import forms
-from allauth.account.forms import LoginForm
+from allauth.account.forms import LoginForm, SignupForm
 from allauth.account.forms import PasswordField
 
 class CoreLoginForm(LoginForm):
@@ -10,8 +10,19 @@ class CoreLoginForm(LoginForm):
 
 
 
-class CoreSignupForm(LoginForm):
+class CoreSignupForm(SignupForm):
 
     def __init__(self, *args, **kwargs):
         super(CoreSignupForm, self).__init__(*args, **kwargs)
         self.fields['password'] = PasswordField(label='Lösenord')
+
+    def save(self, request):
+
+        # Ensure you call the parent class's save.
+        # .save() returns a User object.
+        user = super(CoreSignupForm, self).save(request)
+
+        # Add your own processing here.
+
+        # You must return the original result.
+        return user
