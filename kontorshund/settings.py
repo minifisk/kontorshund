@@ -301,7 +301,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ACCOUNT_FORMS = {
     'login': 'core.forms.allauth_forms.CoreLoginForm',
-    'signup': 'core.forms.allauth_forms.CoreSignupForm',
+    #'signup': 'core.forms.allauth_forms.CoreSignupForm',
     
     }
 

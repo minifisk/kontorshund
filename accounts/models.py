@@ -1,14 +1,30 @@
-import uuid 
-
+from django.utils import timezone
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.utils.translation import gettext_lazy as _
+
+from accounts.managers import UserManager
 
 from core import models as core_models
 
 # Create your models here.
 
-class CustomUser(AbstractUser):
-    pass
+
+# https://testdriven.io/blog/django-custom-user-model/
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    """ 
+        Custom User-model, where email-field is set as default authentication field.
+    """
+    
+    email = models.EmailField(_('email address'), unique=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
