@@ -62,6 +62,8 @@
 
       <ul>
 
+
+        
         {% if user.is_authenticated %}
           <li class="nav-item">
             <a class="p-2 text-dark" href="{% url 'profile' %}">Din profil</a>
@@ -75,6 +77,10 @@
 
         <li class="nav-item">
           <a class="p-2 text-dark" href="{% url 'choose_ad_type' %}">Skapa annons</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="p-2 text-dark" href="{% url 'choose_ad_type' %}">Om oss</a>
         </li>
 
         {% if user.is_authenticated %}
@@ -92,6 +98,12 @@
             <a class="btn btn-outline-primary" href="{% url 'account_signup' %}">Registrera</a>
           </li>
         {% endif %}
+
+        {% if user.is_authenticated %}
+        <li class="nav-item ml-4">
+          <p class="text-info">{{ user.email }}</p>
+        </li>
+      {% endif %}
 
       </ul>
     </nav>
