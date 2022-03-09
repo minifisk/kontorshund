@@ -1,0 +1,140 @@
+{% extends '_base.html' %}
+
+{% block title %}Om oss{% endblock title %}
+
+{% block content %}
+
+    <h1>Om kontorshund.se</h1>
+
+    <p>Hej och välkommen till kontorshund.se! Här hittar du information om sidan, en kort historik och vanliga frågor och svar.</p>
+
+
+    <br>
+    <h2>Vad är Kontorshund.se?</h2>
+        <p>
+            Kontorshund.se är en lösning för dig som har en hund, men inte alltid har möjlighet att ta hand om denne under dagtid. Du kanske behöver vara på kontoret några dagar i veckan, men ej har möjlighet att ta med dig hunden/har ett yrke där det inte går att ta med en hund. Du kan då genom kontorshund.se hitta en eller flera personer som kan hjälpa dig att ta hand om din hund på dagarna - ett alternativ till att lämna in hunden på hund-dagis! 
+        </p>
+        <br>
+        <p>
+            Att ha en fyrbent vän på kontoret skapar en trevlig miljö och något gemensamt att göra under dagarna, en hund kan verkligen knyta samman ett kontor! Hemarbete har blivit vanligt efter Corona-pandemin, och är antagligen här för att stanna. En kontorshund är ett ytterligare skäl att komma in till kontoret!
+        </p>
+
+        <br>
+    
+    <h2>Några ord om hur idén till kontorshund.se uppstod</h2>
+
+    <p>
+        Idén om att skapa en sida där människor kan hitta en kontorshund eller hitta någon som vill ta hand om deras hund om dagarna uppstod hösten 2021, efter en diskussion med vänner om hur roligt de tyckte om att ha en fyrbent pälsig vän att umgås med på kontoret under dagarna. 
+    </p>
+    
+        <br>
+    
+    <p>
+        Jag som skapat och äger hemsidan heter Alexander Lindgren och har alltid tyckt om hundar, och tycker det vore roligt att ge likasinnade en möjlighet att träffa en hund regelbundet, även om man kanske själv ej har möjlighet att ha en egen hund. Att ge hundägare ett alternativ till hunddagis är också ett plus! 
+    </p>
+    
+        <br>
+    
+    <p>
+        Jag hoppas ni kommer ha nytta av hemsidan, och ni är alltid välkomna att komma med funderingar, förslag eller hejarop! Skicka ett mail till info@kontorshund.se så försöker jag svara så snabbt jag kan.
+    </p>
+    
+        <br>
+    
+    <b>
+        Hälsningar
+    </b>
+    <p>
+        Alexander Lindgren
+    </p>
+    <p>
+        Skapare och ägare av kontorshund.se
+    </p>
+    
+        <br>
+
+    <h2>
+        Vanliga frågor och svar
+    </h2>
+    
+        <br>
+    
+    <h3>
+        Vem är kontorshund.se till för?
+    </h3>
+
+    <p>
+        Kontorshund är till för både ägare av hundar som vill hitta någon som kan ta hand om deras hund under dagtid en eller flera dagar i veckan (eller hela dagar!). Dessa personer som vill ta hand om en hund kan vara ett helt kontor, eller enskilda personer som har möjlighet att ta hand om en hund om dagarna. Det kan vara pensionärer, sjukskrivna, eller bara de som jobbar hemma under dagarna. 
+    </p>
+        
+        <br>
+
+    <h3>
+        Jag vill hitta en kontorshund, hur gör jag?
+    </h3>
+        
+    <p>
+        Du lägger upp en annons av typen <a href="{% url 'new_ad_requesting_dog' %}"> "Kontorshund sökes"</a>. När du fyllt i annonsen och betalat för den, så kan hundägare hitta din annons på hemsidan och höra av sig till dig, och därefter sköter ni resten sinsemellan varandra.
+    </p>
+
+        <br>
+
+    <h3>
+        Jag vill hitta någon som tar hand om min hund om dagarna, hur gör jag?
+    </h3>
+
+    <p>
+        Du lägger upp en annons om <a href="{% url 'new_ad_offering_dog' %}"> "Kontorshund erbjudes"</a>. När du fyllt i annonsen och betalat för den, så kan andra som letar efter en kontorshund/hemmahund att ta hand om på dagarna ta kontakt med dig, och därefter sköter ni resten sinsemellan varandra.
+    </p>
+
+    <br>
+
+    <h3>
+        Hur kan jag lita på personen att ta hand om min hund?
+    </h3>
+
+    <p>
+        Det är såklart alltid viktigt att se vem det är som vill ta hand om din hund om dagarna, så se alltid till att förhöra dig med personen om vem denne är, om den har någon hundvana, etc. Se också till att ta legitimation och personnummer på personen samt att ni byter flera kontaktuppgifter till varandra om ni inte skulle vara tillgängliga men den andra personen behöver få tag på er. 
+    </p>
+
+        <br>
+
+    <h3>
+        Hur gör vi med hundmat/hundbajspåsar?
+    </h3>
+
+    <p>
+        Detta pratar ni med varandra om och hittar den bästa lösningen. Till en början så kan hundägaren skicka med hundmat tills man ser att upplägget fungerar för båda och hunden, och därefter kan den som tar emot hunden köpa in den hundmat som ägaren rekommenderar, samt hundbajspåsar.
+    </p>
+
+        <br>
+
+    <h3>
+        Hur fungerar det med försäkring?
+    </h3>
+
+    <p>
+        Vi har frågat ett antal försäkringsbolag som ej har några regler om att några andra villkor gäller om någon annan tar hand om hunden, men det kan alltid vara bra att ringa ditt eget försäkringsbolag för att se om detta skulle påverka försäkringen på din hund på något sätt.
+    </p>
+
+        <br>
+
+    <h3>
+        Hur gör vi med hämtning och lämning?
+    </h3>
+
+    <p>
+        Detta diskuterar ni fram sinsemellan och hittar en lösning som passar för er båda. Kanske bor någon som jobbar på kontoret i närheten av hundägaren eller kan mötas upp på vägen, eller så lämnar ägaren hunden på kontoret i om denne själv arbetar i närheten.
+    </p>
+
+        <br>
+    
+    <h3>
+        Hur ofta behöver man gå ut med en hund?
+    </h3>
+
+    <p>
+        Man bör rasta en hund minst var 6e timme, men gärna mer. Så om du skall ta hand om en hund behöver du ha detta i åtanke och ha möjlighet att motionera hunden och se till att denne kan utföra sina behov under den tiden du tar hand om denne.
+    </p>
+
+{% endblock content %}
