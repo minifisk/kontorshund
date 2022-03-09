@@ -23,7 +23,9 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from core.models import PaymentKind
 
-from kontorshund.settings import PRICE_SWISH_EXTEND_IN_SEK, PRICE_SWISH_EXTEND, PRICE_SWISH_INITIAL, PRICE_SWISH_INITIAL_IN_SEK, SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
+from kontorshund.settings import SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
+
+from common.prices import CURRENT_PRICE, CURRENT_PRICE_STRING
 from core.models import Advertisement, get_one_month_ahead_from_date_obj, get_one_month_ahead_from_today
 
 User = get_user_model()
@@ -226,7 +228,7 @@ class GenerateSwishPaymentRequestToken(View):
 
         if request.user.is_authenticated:
 
-            PRICE_TO_PAY = PRICE_SWISH_INITIAL_IN_SEK
+            PRICE_TO_PAY = CURRENT_PRICE
 
             try: 
                 ad_obj = Advertisement.objects.get(pk=pk)
@@ -235,7 +237,7 @@ class GenerateSwishPaymentRequestToken(View):
                 return HttpResponseNotFound("Annonsen kunde inte hittas")  
 
             if ad_obj.has_initial_payment:
-                PRICE_TO_PAY = PRICE_SWISH_EXTEND_IN_SEK
+                PRICE_TO_PAY = CURRENT_PRICE
                     
             ##########################
             # Enable for local testing
@@ -305,7 +307,7 @@ class GenerateSwishPaymentQrCode(View):
         if request.user.is_authenticated:
 
             # Handle price depending on if it's an initial/extened payment
-            PRICE_TO_PAY = PRICE_SWISH_INITIAL_IN_SEK
+            PRICE_TO_PAY = CURRENT_PRICE
 
             try: 
                 ad_obj = Advertisement.objects.get(pk=pk)
@@ -314,9 +316,9 @@ class GenerateSwishPaymentQrCode(View):
                 return HttpResponseNotFound("Annonsen kunde inte hittas")  
 
             if ad_obj.has_initial_payment:
-                PRICE_TO_PAY = PRICE_SWISH_EXTEND_IN_SEK
+                PRICE_TO_PAY = CURRENT_PRICE
             else:
-                PRICE_TO_PAY = PRICE_SWISH_INITIAL_IN_SEK
+                PRICE_TO_PAY = CURRENT_PRICE
 
             ##########################
             # Enable for local testing
@@ -390,7 +392,7 @@ class PayForAdSwishTemplate(View):
                     {
                         'pk': pk, 
                         'title': ad_title, 
-                        'price': PRICE_SWISH_INITIAL, 
+                        'price': CURRENT_PRICE_STRING, 
                         'ad_path': ad_path
                     }
                 )
@@ -428,7 +430,7 @@ class PayForAdSwishTemplate(View):
                     {
                         'pk': pk, 
                         'title': ad_title, 
-                        'price': PRICE_SWISH_EXTEND, 
+                        'price': CURRENT_PRICE_STRING, 
                         'ad_path': ad_path,
                         'current_end_date': current_end_date_sv,
                         'new_end_date': new_end_date_sv,
@@ -448,7 +450,7 @@ class PayForAdBg(View):
         if request.user.is_authenticated:
 
             # Handle price depending on if it's an initial/extened payment
-            PRICE_TO_PAY = PRICE_SWISH_INITIAL
+            PRICE_TO_PAY = CURRENT_PRICE_STRING
 
             try: 
                 ad_obj = Advertisement.objects.get(pk=pk)
@@ -456,7 +458,7 @@ class PayForAdBg(View):
                 return HttpResponseNotFound("Annonsen kunde inte hittas")  
 
             if ad_obj.has_initial_payment:
-                PRICE_TO_PAY = PRICE_SWISH_EXTEND
+                PRICE_TO_PAY = CURRENT_PRICE_STRING
 
             url = request.build_absolute_uri('/')
             path = f'ads/{pk}'

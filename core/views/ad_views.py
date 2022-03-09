@@ -17,6 +17,7 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages 
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
+from django.contrib import messages
 
 
 
@@ -25,11 +26,11 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Field, HTML, Div
 from crispy_forms.bootstrap import InlineRadios, InlineCheckboxes
 
+from common.prices import count_of_ads_with_initial_payment, CURRENT_PRICE_STRING
 from core.forms.ad_forms import OfferingDogForm, RequestingDogForm
 from core.models import Advertisement, DogBreed, Province, Municipality, Area, DogSizeChoice, NewsEmail
 from core.forms.news_email_form import NewsEmailForm
 from core.models import AdKind
-from kontorshund.settings import PRICE_SWISH_EXTEND
 
 User = get_user_model()
 
@@ -128,6 +129,8 @@ def variable_is_not_empty(self):
 
 class ListAndSearchAdsView(View):
     """ 
+    THE INDEX VIEW
+
     A view that let the user filter ads depending on a give n number of parameters.
     Each ttme the user make a change in the form, a JS request is sent to this view,
     which returns a queryset. The view also use an Offset method to paginate the results
@@ -140,7 +143,15 @@ class ListAndSearchAdsView(View):
         count_all_offering_ads = Advertisement.get_all_active_offering_ads().count()
         count_all_requesting_ads = Advertisement.get_all_active_requesting_ads().count()
 
+
+        from kontorshund.settings import NUMBER_OF_ADS_OFFERED_AT_DISCOUNT
+        ads_left_on_special_offer = NUMBER_OF_ADS_OFFERED_AT_DISCOUNT - count_of_ads_with_initial_payment
+
+
         context = {
+            'number_of_ads_offered_at_discount': NUMBER_OF_ADS_OFFERED_AT_DISCOUNT,
+            'ads_left_on_special_offer': ads_left_on_special_offer,
+            'price_new_ad': CURRENT_PRICE_STRING,
             'count_all_ads': count_all_ads,
             'count_all_offering_ads': count_all_offering_ads,
             'count_all_requesting_ads': count_all_requesting_ads,
@@ -374,6 +385,10 @@ class NewAdOfferingDog(LoginRequiredMixin, CreateView):
         response = super().form_valid(form)
         return response
 
+    def form_invalid(self, form):
+        messages.error(self.request, 'Något fattas i formuläret, vänligen titta igenom alla fält.')
+        return self.render_to_response(self.get_context_data(form=form))
+
     def get_success_url(self):
         if self.object.payment_choice == 'S':
             logger.debug(f'User {self.request.user.pk} Choose payment with swish')
@@ -434,12 +449,16 @@ class NewAdRequestingDog(LoginRequiredMixin, CreateView):
         return form
 
     def form_valid(self, form):
-        logger.debug(f'User {self.request.user.pk} Provided a valid NewAdRequestingDog form')
+        logger.debug(f'User {self.request.user.pk} Provided a valid NewAdRequestingDog form instance pk')
         form.instance.author = self.request.user
         form.instance.ad_kind=AdKind.REQUESTING
         form.instance.is_published = False
         response = super().form_valid(form)
         return response
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Något fattas i formuläret, vänligen titta igenom alla fält.')
+        return self.render_to_response(self.get_context_data(form=form))
 
     def get_success_url(self):
         if self.object.payment_choice == 'S':
@@ -627,7 +646,7 @@ class AdDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(AdDetailView, self).get_context_data(**kwargs)
         context['site_key'] = settings.RECAPTCHA_SITE_KEY
-        context['price_swish_extend'] = PRICE_SWISH_EXTEND
+        context['CURRENT_PRICE_STRING'] = CURRENT_PRICE_STRING
         return context
 
 

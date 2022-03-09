@@ -188,6 +188,10 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
         return new_payment
 
     @staticmethod
+    def count_of_ads_with_intiial_payment():
+        return Advertisement.objects.filter(payment__payment_kind=PaymentKind.INITIAL).count()
+
+    @staticmethod
     def get_all_active_ads():
         return Advertisement.objects.filter(is_published=True, is_deleted=False)
 
@@ -219,7 +223,6 @@ class PaymentKind(models.TextChoices):
 
 
 class Payment(models.Model):
-
 
     advertisement = models.ForeignKey(Advertisement, on_delete=models.CASCADE, verbose_name='advertisement')
     payment_kind = models.CharField(max_length=2, choices=PaymentKind.choices, default=PaymentKind.INITIAL, verbose_name='Betalningstyp')

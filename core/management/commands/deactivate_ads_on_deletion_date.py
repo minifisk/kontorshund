@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
-from kontorshund.settings import PRICE_SWISH_EXTEND
+from common.prices import CURRENT_PRICE_STRING
 
 from core.models import Advertisement
 
@@ -43,7 +43,7 @@ class Command(BaseCommand):
 
                 context = {
                     'ad': ad,
-                    'renewal_price': PRICE_SWISH_EXTEND
+                    'renewal_price': CURRENT_PRICE_STRING
                 }
 
 
