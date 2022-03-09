@@ -15,6 +15,10 @@
             {{ ads_left_on_special_offer }} / {{ number_of_ads_offered_at_discount }} annonser kvar till priset 10 kr, därefter 40 kr/annons!
         </b>
     </div>
+
+    <div class="alert alert-dark" role="alert" style="text-align: center;">
+       Just nu finns det totalt {{ count_all_offering_ads }} "Hund erbjudes", och {{ count_all_requesting_ads }} "Hund sökes" annonser uppe
+      </div>
   
 
     <div id="center-align-container" class="mb-4">
@@ -40,7 +44,7 @@
 
                 <form name="ad-type-form">
 
-                        <div name="ad-type-selectors" style="display: flex; flex-wrap: wrap; text-align:" >
+                        <div name="ad-type-selectors" style="display: flex; flex-wrap: wrap;" >
                             <div class="col-lg-3">
                                 <input type="radio" id="ad-search-all"
                                 name="adtype" value="all" checked>
