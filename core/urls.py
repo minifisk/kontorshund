@@ -7,11 +7,11 @@ from .views import ad_views, payment_views, supporting_views
 
 urlpatterns = [
 
-    path('', ad_views.index, name='index'), 
+    #path('', ad_views.index, name='index'), 
     path('profile', ad_views.Profile.as_view(), name='profile'), 
 
     path('ads/choose', ad_views.ChooseAd.as_view(), name='choose_ad_type'),
-    path('postings/list', ad_views.ListAndSearchAdsView.as_view(), name='list_postings'),
+    path('', ad_views.ListAndSearchAdsView.as_view(), name='list_postings'),
     path('ads/<int:pk>', ad_views.AdDetailView.as_view(), name='ad_detail'),
     path('delete-ad/<int:pk>', ad_views.DeleteAd.as_view(), name='delete_ad'),
     
