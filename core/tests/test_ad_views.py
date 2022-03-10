@@ -33,14 +33,14 @@ class TestSetupListAndCreate(TestCase):
     def setUpTestData(cls):
 
         # Create users
-        cls.username1 = 'testuser1'
+        cls.email1 = 'test@test.se'
         cls.password1 = '1X<ISRUkw+tuK'
 
-        cls.username2 = 'testuser2'
+        cls.email2 = 'test2@test2.se'
         cls.password2 = '2HJ1vRV0Z&3iD'
 
-        cls.user1 = User.objects.create_user(username=cls.username1, password=cls.password1)
-        cls.user2 = User.objects.create_user(username=cls.username2, password=cls.password2)
+        cls.user1 = User.objects.create_user(email=cls.email1, password=cls.password1)
+        cls.user2 = User.objects.create_user(email=cls.email2, password=cls.password2)
 
         cls.user1.save()
         cls.user2.save()
@@ -94,16 +94,16 @@ class TestSetupUpdateAndDelete(TestCase):
     @classmethod
     def setUpTestData(cls):
 
-        cls.username1 = 'testuser1'
+        cls.email1 = 'test@test.se'
         cls.password1 = '1X<ISRUkw+tuK'
 
-        cls.username2 = 'testuser2'
+        cls.email2 = 'test2@test2.se'
         cls.password2 = '2HJ1vRV0Z&3iD'
 
-        cls.user1 = User.objects.create_user(username=cls.username1, password=cls.password1)
+        cls.user1 = User.objects.create_user(email=cls.email1, password=cls.password1)
         cls.user1.save()
 
-        cls.user2 = User.objects.create_user(username=cls.username2, password=cls.password2)
+        cls.user2 = User.objects.create_user(email=cls.email2, password=cls.password2)
         cls.user2.save()
 
         cls.user_1_requesting_ads = factories.create_requesting_ads_stockholm_stockholms_stad(count=1, user=cls.user1, is_published=True)
@@ -125,7 +125,7 @@ class TestProfileAndChooseAd(TestSetupListAndCreate):
         self.assertEqual(response.url, '/accounts/login/?next=/profile')
 
     def test_authenticated_trying_to_access_profile(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.get('/profile')
 
         ad_title_1 = self.user_1_offering_ads_stockholm_stockholms_stad[0].title
@@ -143,7 +143,7 @@ class TestProfileAndChooseAd(TestSetupListAndCreate):
 
 
     def test_authenticated_trying_to_post_to_profile_and_change_subscription(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         halland_mun_obj= Municipality.objects.get(pk=179)
 
         NewsEmail_pre_change = vars(NewsEmail.objects.get(user__pk=self.user1.pk))
@@ -166,7 +166,7 @@ class TestProfileAndChooseAd(TestSetupListAndCreate):
 
     def test_choosing_ad_view(self):
   
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.get('/ads/choose')
  
         content = response.content.decode("utf-8")
@@ -389,21 +389,21 @@ class TestCreateOfferingDogView(TestSetupListAndCreate):
         self.assertEqual(response.status_code, 302)
 
     def test_required_fields_in_offering_dog_view(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.post('/ads/create/offering-dog')
-        self.assertFormError(response, 'form', 'province', 'This field is required.')
-        self.assertFormError(response, 'form', 'municipality', 'This field is required.')
-        self.assertFormError(response, 'form', 'hundras', 'This field is required.')
-        self.assertFormError(response, 'form', 'image1', 'This field is required.')
-        self.assertFormError(response, 'form', 'days_per_week', 'This field is required.')
-        self.assertFormError(response, 'form', 'title', 'This field is required.')
-        self.assertFormError(response, 'form', 'description', 'This field is required.')
-        self.assertFormError(response, 'form', 'size_offered', 'This field is required.')
-        self.assertFormError(response, 'form', 'age', 'This field is required.')
-        self.assertFormError(response, 'form', 'name', 'This field is required.')
+        self.assertFormError(response, 'form', 'province', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'municipality', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'hundras', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'image1', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'days_per_week', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'title', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'description', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'size_offered', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'age', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'name', 'Detta fält måste fyllas i.')
 
     def test_offering_endpoint_not_containing_requesting_fields(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.post('/ads/create/offering-dog')
         string_ = response.content.decode('utf-8')
         self.assertNotIn('size_requested', string_)
@@ -436,18 +436,18 @@ class TestCreateRequestingDogView(TestSetupListAndCreate):
         self.assertEqual(response.status_code, 302)
 
     def test_required_fields_in_requesting_dog_view(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.post('/ads/create/requesting-dog')
-        self.assertFormError(response, 'form', 'province', 'This field is required.')
-        self.assertFormError(response, 'form', 'municipality', 'This field is required.')
-        self.assertFormError(response, 'form', 'image1', 'This field is required.')
-        self.assertFormError(response, 'form', 'days_per_week', 'This field is required.')
-        self.assertFormError(response, 'form', 'title', 'This field is required.')
-        self.assertFormError(response, 'form', 'description', 'This field is required.')
-        self.assertFormError(response, 'form', 'size_requested', 'This field is required.')
+        self.assertFormError(response, 'form', 'province', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'municipality', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'image1', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'days_per_week', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'title', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'description', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'size_requested', 'Detta fält måste fyllas i.')
 
     def test_create_requesting_dog_endpoint_not_containing_offering_fields(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.post('/ads/create/requesting-dog')
         string_ = response.content.decode('utf-8')
         self.assertNotIn('hundras', string_)
@@ -473,23 +473,23 @@ class TestCreateRequestingDogView(TestSetupListAndCreate):
 class TestUpdateOfferingDogView(TestSetupUpdateAndDelete):
 
     def test_required_fields_in_update_offering_dog_view(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         ad = self.user_1_offering_ads[0]
         response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': ad.pk}),)
-        self.assertFormError(response, 'form', 'province', 'This field is required.')
-        self.assertFormError(response, 'form', 'municipality', 'This field is required.')
-        self.assertFormError(response, 'form', 'hundras', 'This field is required.')
-        self.assertFormError(response, 'form', 'image1', 'This field is required.')
-        self.assertFormError(response, 'form', 'days_per_week', 'This field is required.')
-        self.assertFormError(response, 'form', 'title', 'This field is required.')
-        self.assertFormError(response, 'form', 'description', 'This field is required.')
-        self.assertFormError(response, 'form', 'size_offered', 'This field is required.')
-        self.assertFormError(response, 'form', 'age', 'This field is required.')
-        self.assertFormError(response, 'form', 'name', 'This field is required.')
+        self.assertFormError(response, 'form', 'province', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'municipality', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'hundras', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'image1', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'days_per_week', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'title', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'description', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'size_offered', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'age', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'name', 'Detta fält måste fyllas i.')
 
 
     def test_get_request_form_for_offering_ad_belonging_to_other_users_ad(self):
-        self.client.login(username=self.username2, password=self.password2)
+        self.client.login(email=self.email2, password=self.password2)
         other_users_ad = self.user_1_offering_ads[0]
 
         response = self.client.get(reverse('update_ad_offering_dog', kwargs={'pk': other_users_ad.pk}))
@@ -497,7 +497,7 @@ class TestUpdateOfferingDogView(TestSetupUpdateAndDelete):
         self.assertEqual(response.status_code, 302)
 
     def test_post_request_form_for_offering_ad_belonging_to_other_users_ad(self):
-        self.client.login(username=self.username2, password=self.password2)
+        self.client.login(email=self.email2, password=self.password2)
         other_users_ad = self.user_1_offering_ads[0]
 
         response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': other_users_ad.pk}))
@@ -505,17 +505,17 @@ class TestUpdateOfferingDogView(TestSetupUpdateAndDelete):
         self.assertEqual(response.status_code, 302)
 
     def test_update_offering_dog_endpoint_not_containing_requesting_fields(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         own_ad = self.user_1_requesting_ads[0]
         response = self.client.post(reverse('update_ad_offering_dog', kwargs={'pk': own_ad.pk}))
         string_ = response.content.decode('utf-8')
         self.assertNotIn('size_requested', string_)
 
     def test_post_request_offering_dog_view(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         own_ad = self.user_1_offering_ads[0]
 
-        self.assertEqual(own_ad.author.username, self.username1)
+        self.assertEqual(own_ad.author.email, self.email1)
 
         with open(test_image_path, 'rb') as f:
 
@@ -547,31 +547,31 @@ class TestUpdateOfferingDogView(TestSetupUpdateAndDelete):
 class TestUpdateRequestingDogView(TestSetupUpdateAndDelete):
 
     def test_required_fields_in_update_requesting_dog_view(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         first_ad = self.user_1_requesting_ads[0]
         response = self.client.post(reverse('update_ad_requesting_dog', kwargs={'pk': first_ad.pk}),)
-        self.assertFormError(response, 'form', 'province', 'This field is required.')
-        self.assertFormError(response, 'form', 'municipality', 'This field is required.')
-        self.assertFormError(response, 'form', 'image1', 'This field is required.')
-        self.assertFormError(response, 'form', 'days_per_week', 'This field is required.')
-        self.assertFormError(response, 'form', 'title', 'This field is required.')
-        self.assertFormError(response, 'form', 'description', 'This field is required.')
-        self.assertFormError(response, 'form', 'size_requested', 'This field is required.')
+        self.assertFormError(response, 'form', 'province', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'municipality', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'image1', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'days_per_week', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'title', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'description', 'Detta fält måste fyllas i.')
+        self.assertFormError(response, 'form', 'size_requested', 'Detta fält måste fyllas i.')
 
     def test_get_request_form_for_requesting_ad_belonging_to_other_users_ad(self):
-        self.client.login(username=self.username2, password=self.password2)
+        self.client.login(email=self.email2, password=self.password2)
         other_users_ad = self.user_1_requesting_ads[0]
         response = self.client.get(reverse('update_ad_requesting_dog', kwargs={'pk': other_users_ad.pk}))
         self.assertEqual(response.status_code, 302)
 
     def test_post_request_form_for_requesting_ad_belonging_to_other_users_ad(self):
-        self.client.login(username=self.username2, password=self.password2)
+        self.client.login(email=self.email2, password=self.password2)
         other_users_ad = self.user_1_requesting_ads[0]
         response = self.client.post(reverse('update_ad_requesting_dog', kwargs={'pk': other_users_ad.pk}))
         self.assertEqual(response.status_code, 302)
 
     def test_update_requesting_dog_endpoint_not_containing_offering_fields(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         own_ad = self.user_1_requesting_ads[0]
         response = self.client.post(reverse('update_ad_requesting_dog', kwargs={'pk': own_ad.pk}))
         string_ = response.content.decode('utf-8')
@@ -579,10 +579,10 @@ class TestUpdateRequestingDogView(TestSetupUpdateAndDelete):
         self.assertNotIn('size_offered', string_)
 
     def test_post_request_offering_dog_view(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         own_ad = self.user_1_offering_ads[0]
 
-        self.assertEqual(own_ad.author.username, self.username1)
+        self.assertEqual(own_ad.author.email, self.email1)
 
         with open(test_image_path, 'rb') as f:
 
@@ -631,13 +631,13 @@ class TestAdDeleteView(TestSetupUpdateAndDelete):
         self.assertEqual(response.status_code, 302)
             
     def test_delete_ad_view_other_users_ad(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         user_2_ad = self.user_2_offering_ads[0]
         response = self.client.post(reverse('delete_ad', kwargs={'pk': user_2_ad.pk}),)
         self.assertEqual(response.status_code, 302)
 
     # def test_delete_ad(self):
-    #     self.client.login(username=self.username1, password=self.password1)
+    #     self.client.login(email=self.email1, password=self.password1)
     #     user_1_ad = self.user_1_offering_ads[0]
     #     response = self.client.delete(reverse('delete_ad', kwargs={'pk': user_1_ad.pk}),)
     #     user_1_ad.refresh_from_db()

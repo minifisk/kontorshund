@@ -8,7 +8,6 @@ class CustomUserTests(TestCase):
     def test_create_user(self):
         User = get_user_model()
         user = User.objects.create_user(
-            username='alex',
             email='alex@gmail.com',
             password='testpass123',
         )
@@ -21,7 +20,6 @@ class CustomUserTests(TestCase):
     def test_create_superuser(self):
         User = get_user_model()
         user = User.objects.create_superuser(
-            username='superadmin',
             email='admin@gmail.com',
             password='testpass123',
         )

@@ -38,17 +38,16 @@ class TestSetupPaymentViews(TestCase):
     @classmethod
     def setUpTestData(cls):
 
-        # Create users
-        cls.username1 = 'testuser1'
+        cls.email1 = 'test@test.se'
         cls.password1 = '1X<ISRUkw+tuK'
 
-        cls.username2 = 'testuser2'
+        cls.email2 = 'test2@test2.se'
         cls.password2 = '2HJ1vRV0Z&3iD'
 
-        cls.user1 = User.objects.create_user(username=cls.username1, password=cls.password1)
-        cls.user2 = User.objects.create_user(username=cls.username2, password=cls.password2)
-
+        cls.user1 = User.objects.create_user(email=cls.email1, password=cls.password1)
         cls.user1.save()
+
+        cls.user2 = User.objects.create_user(email=cls.email2, password=cls.password2)
         cls.user2.save()
 
         # Create ads
@@ -96,19 +95,19 @@ class TestPaymentStatus(TestSetupPaymentViews):
         self.assertEqual(response.url, '/accounts/login/')
 
     def test_getting_another_users_initial_payment_status(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.post(reverse('check_initial_payment_status', kwargs={'pk': self.user_2_ad_with_initial_payment.pk}))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, '/profile')
 
     def test_getting_another_users_extended_payment_status(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.post(reverse('check_extended_payment_status', kwargs={'pk': self.user_2_ad_with_extended_payment.pk}))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, '/profile')
 
     def test_getting_successfull_initial_payment_status(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.post(reverse('check_initial_payment_status', kwargs={'pk': self.user_1_ad_with_initial_payment.pk}))
         response_json = json.loads(response.content)
         self.assertEqual(self.user_1_ad_with_initial_payment.has_initial_payment, True)
@@ -116,7 +115,7 @@ class TestPaymentStatus(TestSetupPaymentViews):
         self.assertEqual(response.status_code, 200)
 
     def test_getting_successfull_extended_payment_status(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.post(reverse('check_extended_payment_status', kwargs={'pk': self.user_1_ad_with_extended_payment.pk}))
         response_json = json.loads(response.content)
         self.assertEqual(self.user_1_ad_with_extended_payment.has_extended_payment, True)
@@ -125,7 +124,7 @@ class TestPaymentStatus(TestSetupPaymentViews):
 
     @prevent_request_warnings
     def test_getting_missing_initial_payment_status(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.post(reverse('check_initial_payment_status', kwargs={'pk': self.user_1_ad_with_extended_payment.pk}))
         response_json = json.loads(response.content)
         self.assertEqual(self.user_1_ad_with_extended_payment.has_initial_payment, False)
@@ -134,7 +133,7 @@ class TestPaymentStatus(TestSetupPaymentViews):
 
     @prevent_request_warnings
     def test_getting_missing_extended_payment_status(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.post(reverse('check_extended_payment_status', kwargs={'pk': self.user_1_ad_with_initial_payment.pk}))
         response_json = json.loads(response.content)
         self.assertEqual(self.user_1_ad_with_initial_payment.has_extended_payment, False)
@@ -143,13 +142,13 @@ class TestPaymentStatus(TestSetupPaymentViews):
 
     @prevent_request_warnings
     def test_getting_initial_payment_status_for_non_existing_ad(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.post(reverse('check_initial_payment_status', kwargs={'pk': 20}))
         self.assertEqual(response.status_code, 404)
 
     @prevent_request_warnings
     def test_getting_extended_payment_status_for_non_existing_ad(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.post(reverse('check_extended_payment_status', kwargs={'pk': 20}))
         self.assertEqual(response.status_code, 404)
 
@@ -310,7 +309,7 @@ class TestSwishCallbackView(TestSetupPaymentViews):
         
     def test_pay_for_ad_pg_initial(self):
 
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.get(reverse('bg_payment', kwargs={'pk': self.user_1_ad_with_initial_payment.pk}))
         
         response_html = response.content.decode('utf-8')
@@ -322,7 +321,7 @@ class TestSwishCallbackView(TestSetupPaymentViews):
         
     def test_pay_for_ad_pg_extend(self):
 
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.get(reverse('bg_payment', kwargs={'pk': self.user_1_ad_with_extended_payment.pk}))
         
         response_html = response.content.decode('utf-8')

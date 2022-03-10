@@ -23,20 +23,19 @@ class TestAdViews(TestCase):
     @classmethod
     def setUpTestData(cls):
 
-        # Create users
-        cls.username1 = 'testuser1'
+        cls.email1 = 'test@test.se'
         cls.password1 = '1X<ISRUkw+tuK'
 
-        cls.username2 = 'testuser2'
+        cls.email2 = 'test2@test2.se'
         cls.password2 = '2HJ1vRV0Z&3iD'
 
-        cls.user1 = User.objects.create_user(username=cls.username1, password=cls.password1)
-
-        cls.user2 = User.objects.create_user(username=cls.username2, password=cls.password2)
-        cls.user2.news_email.is_active = True
-
+        cls.user1 = User.objects.create_user(email=cls.email1, password=cls.password1)
         cls.user1.save()
+
+        cls.user2 = User.objects.create_user(email=cls.email2, password=cls.password2)
+        cls.user2.news_email.is_active = True
         cls.user2.save()
+
         cls.user2.news_email.save()
 
 
@@ -52,7 +51,7 @@ class TestAdViews(TestCase):
 
 
     def test_authenticated_trying_to_change_subscription_status_from_deactivated_to_activated(self):
-        self.client.login(username=self.username1, password=self.password1)
+        self.client.login(email=self.email1, password=self.password1)
         response = self.client.post(f'/handle-email-subscription/{self.user1.news_email.uuid}')
         json_ = json.loads(response.content)
 
@@ -61,7 +60,7 @@ class TestAdViews(TestCase):
 
 
     def test_authenticated_trying_to_change_subscription_status_from_activated_to_deactivated(self):
-        self.client.login(username=self.username2, password=self.password2)
+        self.client.login(email=self.email2, password=self.password2)
         response = self.client.post(f'/handle-email-subscription/{self.user2.news_email.uuid}')
         json_ = json.loads(response.content)
 

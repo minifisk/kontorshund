@@ -21,9 +21,9 @@ class SetUpNewsEmailsTesting(TestCase):
     def create_users(cls, number_of_users=1):
         cls.user_dict = {}
         for i in range(number_of_users):
-            username = f'asdf {randrange(10000)}'
+            email = f'asdf@{randrange(10000)}.com'
             password = '1234'
-            cls.user_dict[f'user_{i}'] = User.objects.create_user(username=username, password=password)
+            cls.user_dict[f'user_{i}'] = User.objects.create_user(email=email, password=password)
 
     #setUpTestData: Run once to set up non-modified data for all class methods.
     @classmethod
