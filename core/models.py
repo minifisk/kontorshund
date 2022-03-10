@@ -112,7 +112,7 @@ class DogBreed(models.Model):
 
 
 def content_file_name(instance, filename):
-    return '/'.join(['content', instance.author.username, filename])
+    return '/'.join(['content', instance.author.email, filename])
 
 
 DAYS_PER_WEEK_CHOICES = (

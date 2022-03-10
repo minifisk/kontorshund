@@ -178,7 +178,7 @@ class TestProfileAndChooseAd(TestSetupListAndCreate):
 class TestListAdsView(TestSetupListAndCreate):
 
     def test_getting_list_ads_initial_view(self):
-        response = self.client.get('/postings/list')
+        response = self.client.get('')
         json_response = json.dumps(response.content.decode("utf-8"))
 
         self.assertEqual(response.status_code, 200)
@@ -202,7 +202,7 @@ class TestListAdsView(TestSetupListAndCreate):
         json_data = json.dumps(data)
 
         response = self.client.post(
-            '/postings/list', 
+            '', 
             json_data,
             content_type='application/json',
         )
@@ -232,7 +232,7 @@ class TestListAdsView(TestSetupListAndCreate):
             json_data = json.dumps(data)
 
             response = self.client.post(
-                '/postings/list', 
+                '', 
                 json_data,
                 content_type='application/json',
             )
@@ -261,7 +261,7 @@ class TestListAdsView(TestSetupListAndCreate):
             json_data = json.dumps(data)
 
             response = self.client.post(
-                '/postings/list', 
+                '', 
                 json_data,
                 content_type='application/json',
             )
@@ -289,7 +289,7 @@ class TestListAdsView(TestSetupListAndCreate):
             json_data = json.dumps(data)
 
             response = self.client.post(
-                '/postings/list', 
+                '', 
                 json_data,
                 content_type='application/json',
             )
@@ -316,7 +316,7 @@ class TestListAdsView(TestSetupListAndCreate):
             json_data = json.dumps(data)
 
             response = self.client.post(
-                '/postings/list', 
+                '', 
                 json_data,
                 content_type='application/json',
             )
@@ -343,7 +343,7 @@ class TestListAdsView(TestSetupListAndCreate):
                 json_data = json.dumps(data)
 
                 response = self.client.post(
-                    '/postings/list', 
+                    '', 
                     json_data,
                     content_type='application/json',
                 )
@@ -370,7 +370,7 @@ class TestListAdsView(TestSetupListAndCreate):
             json_data = json.dumps(data)
 
             response = self.client.post(
-                '/postings/list', 
+                '', 
                 json_data,
                 content_type='application/json',
             )

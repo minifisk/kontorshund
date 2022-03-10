@@ -39,15 +39,6 @@ logger = logging.getLogger(__name__)
 
 locale.setlocale(locale.LC_ALL,'sv_SE.UTF-8')
 
-
-########
-# INDEX 
-########
-
-@lockdown()
-def index(request):
-    return render(request, 'core/index.html')
-
  
 
 ##########
@@ -142,9 +133,9 @@ class ListAndSearchAdsView(View):
 
     from lockdown.decorators import lockdown
     from django.utils.decorators import method_decorator
-    @method_decorator(lockdown())
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+    # @method_decorator(lockdown())
+    # def dispatch(self, *args, **kwargs):
+    #     return super().dispatch(*args, **kwargs)
 
     def get(self, request):
         count_all_ads = Advertisement.get_all_active_ads().count()
