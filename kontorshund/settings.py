@@ -203,6 +203,8 @@ DATABASES = {
 
 if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
+    DATABASES['default']['NAME'] = os.path.join(os.path.dirname(__file__), 'test.db'),
+    DATABASES['default']['TEST_NAME'] = os.path.join(os.path.dirname(__file__), 'test.db'),
 
 
 
