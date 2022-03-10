@@ -15,23 +15,20 @@
 
 <div class="social-box mb-3">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-4">
+      
       <a href="{% provider_login_url "facebook" method="js_sdk" %}" id="facebook-login-button" title="Facebook" class="btn btn-block btn-social btn-lg btn-facebook">
         <i class="fa fa-facebook"></i> Registrera med Facebook
       </a>
+    
+      <a href="{% provider_login_url "google" %}" id="google-login-button" title="Google" class="btn btn-block btn-social btn-lg btn-google-plus">
+        <i class="fa fa-google"></i> Registrera med Google
+      </a>
+    
     </div>
   </div>
 </div>
 
-<div class="social-box">
-  <div class="row">
-    <div class="col-md-12">
-      <a href="{% provider_login_url "google" %}" id="google-login-button" title="Google" class="btn btn-block btn-social btn-lg btn-google-plus">
-        <i class="fa fa-google"></i> Registrera med Google
-      </a>
-    </div>
-  </div>
-</div>
 
 <br>
 <br>
