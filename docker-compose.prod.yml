@@ -27,38 +27,6 @@ services:
           max-size: "100m"
     network_mode: bridge
 
-  matomo:
-    container_name: matomo
-    image: matomo
-    ports:
-      - 8080:80
-    environment:
-      - VIRTUAL_HOST=stats.kontorshund.se
-      - LETSENCRYPT_HOST=stats.kontorshund.se
-      - LETSENCRYPT_EMAIL=alexlindgren08@gmail.com
-    env_file:
-      - ./prod.env
-    # networks:
-    #   - proxy
-    #   - net
-    depends_on:
-      - matomo_db
-    restart: unless-stopped
-    network_mode: bridge
-
-  matomo_db:
-    container_name: matomo_db
-    image: mariadb
-    command: --max-allowed-packet=64MB
-    environment:
-      - MYSQL_ROOT_PASSWORD=akjwnd123298dankw
-    env_file:
-      - ./db.env
-    # networks:
-    #   - net
-    restart: unless-stopped
-    network_mode: bridge
-
   nginx-proxy:
     container_name: nginx-proxy
     restart: always
