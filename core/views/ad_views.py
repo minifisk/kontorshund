@@ -43,7 +43,7 @@ locale.setlocale(locale.LC_ALL,'sv_SE.UTF-8')
 
 from core.models import Advertisement
 
-from kontorshund.settings import NUMBER_OF_ADS_OFFERED_AT_DISCOUNT, REGULAR_PRICE, REGULAR_PRICE_STRING, PRICE_DURING_DISCOUNT, PRICE_DURING_DISCOUNT_STRING
+from kontorshund.settings import NUMBER_OF_ADS_OFFERED_AT_DISCOUNT
 
 
 
