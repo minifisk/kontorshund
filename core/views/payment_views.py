@@ -25,7 +25,7 @@ from core.models import PaymentKind
 
 from kontorshund.settings import SWISH_PAYEEALIAS, SWISH_URL, SWISH_CERT, SWISH_ROOTCA, NGROK_URL
 
-from common.prices import CURRENT_PRICE, CURRENT_PRICE_STRING
+from common.prices import get_current_ad_price_as_int_and_string
 from core.models import Advertisement, get_one_month_ahead_from_date_obj, get_one_month_ahead_from_today
 
 User = get_user_model()
@@ -228,6 +228,8 @@ class GenerateSwishPaymentRequestToken(View):
 
         if request.user.is_authenticated:
 
+            CURRENT_PRICE, CURRENT_PRICE_STRING = get_current_ad_price_as_int_and_string()
+
             PRICE_TO_PAY = CURRENT_PRICE
 
             try: 
@@ -305,6 +307,7 @@ class GenerateSwishPaymentQrCode(View):
     def post(self, request, pk):
 
         if request.user.is_authenticated:
+            CURRENT_PRICE, CURRENT_PRICE_STRING = get_current_ad_price_as_int_and_string()
 
             # Handle price depending on if it's an initial/extened payment
             PRICE_TO_PAY = CURRENT_PRICE
@@ -368,6 +371,7 @@ class PayForAdSwishTemplate(View):
             url = request.build_absolute_uri()
 
             if 'swish-pay/initial' in url:
+                CURRENT_PRICE, CURRENT_PRICE_STRING = get_current_ad_price_as_int_and_string()
             
                 try: 
                     ad_obj = Advertisement.objects.get(pk=pk)
@@ -448,6 +452,7 @@ class PayForAdBg(View):
 
     def get(self, request, pk):
         if request.user.is_authenticated:
+            CURRENT_PRICE, CURRENT_PRICE_STRING = get_current_ad_price_as_int_and_string()
 
             # Handle price depending on if it's an initial/extened payment
             PRICE_TO_PAY = CURRENT_PRICE_STRING

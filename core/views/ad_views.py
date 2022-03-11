@@ -26,11 +26,13 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Field, HTML, Div
 from crispy_forms.bootstrap import InlineRadios, InlineCheckboxes
 
-from common.prices import count_of_ads_with_initial_payment, CURRENT_PRICE_STRING
+from kontorshund.settings import NUMBER_OF_ADS_OFFERED_AT_DISCOUNT
 from core.forms.ad_forms import OfferingDogForm, RequestingDogForm
 from core.models import Advertisement, DogBreed, Province, Municipality, Area, DogSizeChoice, NewsEmail
 from core.forms.news_email_form import NewsEmailForm
 from core.models import AdKind
+from common.prices import get_number_of_ads_left_on_discounted_price, get_current_ad_price_as_int_and_string
+
 
 User = get_user_model()
 
@@ -39,7 +41,11 @@ logger = logging.getLogger(__name__)
 
 locale.setlocale(locale.LC_ALL,'sv_SE.UTF-8')
 
- 
+from core.models import Advertisement
+
+from kontorshund.settings import NUMBER_OF_ADS_OFFERED_AT_DISCOUNT, REGULAR_PRICE, REGULAR_PRICE_STRING, PRICE_DURING_DISCOUNT, PRICE_DURING_DISCOUNT_STRING
+
+
 
 ##########
 # PROFILE
@@ -131,8 +137,6 @@ class ListAndSearchAdsView(View):
     each request intil there are no more ads in the matching query to return.
     """
 
-    from lockdown.decorators import lockdown
-    from django.utils.decorators import method_decorator
     # @method_decorator(lockdown())
     # def dispatch(self, *args, **kwargs):
     #     return super().dispatch(*args, **kwargs)
@@ -143,9 +147,8 @@ class ListAndSearchAdsView(View):
         count_all_requesting_ads = Advertisement.get_all_active_requesting_ads().count()
 
 
-        from kontorshund.settings import NUMBER_OF_ADS_OFFERED_AT_DISCOUNT
-        ads_left_on_special_offer = NUMBER_OF_ADS_OFFERED_AT_DISCOUNT - count_of_ads_with_initial_payment
-
+        ads_left_on_special_offer = get_number_of_ads_left_on_discounted_price()
+        CURRENT_PRICE, CURRENT_PRICE_STRING = get_current_ad_price_as_int_and_string()
 
         context = {
             'number_of_ads_offered_at_discount': NUMBER_OF_ADS_OFFERED_AT_DISCOUNT,
@@ -643,6 +646,7 @@ class AdDetailView(generic.DetailView):
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        CURRENT_PRICE, CURRENT_PRICE_STRING = get_current_ad_price_as_int_and_string()
         context = super(AdDetailView, self).get_context_data(**kwargs)
         context['site_key'] = settings.RECAPTCHA_SITE_KEY
         context['CURRENT_PRICE_STRING'] = CURRENT_PRICE_STRING

@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
-from common.prices import CURRENT_PRICE_STRING
+from common.prices import get_current_ad_price_as_int_and_string
 
 from core.models import Advertisement
 
@@ -32,6 +32,7 @@ class Command(BaseCommand):
 
         ad_selection = all_ads.filter(deletion_date__lte=current_date)
 
+        CURRENT_PRICE, CURRENT_PRICE_STRING = get_current_ad_price_as_int_and_string()
 
         if ad_selection:
 

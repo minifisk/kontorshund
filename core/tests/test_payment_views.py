@@ -17,7 +17,7 @@ from core.views.payment_views import SwishCallback, logger, get_qr_code
 from core.tests.factories import create_swish_callback_payload
 from django.conf import settings
 
-from common.prices import CURRENT_PRICE_STRING
+from common.prices import get_current_ad_price_as_int_and_string
 
 
 User = get_user_model()
@@ -37,6 +37,8 @@ class TestSetupPaymentViews(TestCase):
     #setUpTestData: Run once to set up non-modified data for all class methods.
     @classmethod
     def setUpTestData(cls):
+
+        cls.CURRENT_PRICE, cls.CURRENT_PRICE_STRING = get_current_ad_price_as_int_and_string()
 
         cls.email1 = 'test@test.se'
         cls.password1 = '1X<ISRUkw+tuK'
@@ -315,7 +317,7 @@ class TestSwishCallbackView(TestSetupPaymentViews):
         response_html = response.content.decode('utf-8')
 
         self.assertIn(f'Annons-nummer: {self.user_1_ad_with_initial_payment.pk}', response_html)
-        self.assertIn(CURRENT_PRICE_STRING, response_html)
+        self.assertIn(self.CURRENT_PRICE_STRING, response_html)
 
 
         
@@ -327,4 +329,4 @@ class TestSwishCallbackView(TestSetupPaymentViews):
         response_html = response.content.decode('utf-8')
 
         self.assertIn(f'Annons-nummer: {self.user_1_ad_with_extended_payment.pk}', response_html)
-        self.assertIn(CURRENT_PRICE_STRING, response_html)
+        self.assertIn(self.CURRENT_PRICE_STRING, response_html)
