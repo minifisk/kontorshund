@@ -75,7 +75,7 @@
             {% endif %}
             </b> per vecka</p>
     {% else %}
-        <p>Jag/Vi söker en hund av storlek {{ ad.size_requested }} att ta hand om {{ ad.days_per_week }} 
+        <p>Jag/Vi söker en hund av storlek {% for size in ad.size_requested.all%}{{ size }}/{% endfor %} att ta hand om {{ ad.days_per_week }} 
             {% if ad.days_per_week > 1 %} 
                 dagar 
             {% else %} 
