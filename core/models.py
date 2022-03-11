@@ -187,7 +187,8 @@ class Advertisement(SoftDeleteModel, TimeStampedModel):
 
         return new_payment
 
-    def count_of_ads_with_intiial_payment():
+    @staticmethod
+    def count_of_ads_with_intial_payment():
         return Advertisement.objects.filter(payment__payment_kind=PaymentKind.INITIAL).count()
 
     @staticmethod

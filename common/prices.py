@@ -5,7 +5,7 @@ from kontorshund.settings import REGULAR_PRICE, REGULAR_PRICE_STRING, PRICE_DURI
 
 def get_number_of_ads_left_on_discounted_price():
     from kontorshund.settings import NUMBER_OF_ADS_OFFERED_AT_DISCOUNT
-    count_of_ads_with_initial_payment = Advertisement.count_of_ads_with_intiial_payment()
+    count_of_ads_with_initial_payment = Advertisement.count_of_ads_with_intial_payment()
     return NUMBER_OF_ADS_OFFERED_AT_DISCOUNT - count_of_ads_with_initial_payment
 
 def get_current_ad_price_as_int_and_string():
@@ -17,7 +17,7 @@ def get_current_ad_price_as_int_and_string():
         PRICE_DURING_DISCOUNT_STRING
     )
 
-    count_of_ads_with_initial_payment = Advertisement.count_of_ads_with_intiial_payment()
+    count_of_ads_with_initial_payment = Advertisement.count_of_ads_with_intial_payment()
 
     if count_of_ads_with_initial_payment > NUMBER_OF_ADS_OFFERED_AT_DISCOUNT:
         CURRENT_PRICE = REGULAR_PRICE
