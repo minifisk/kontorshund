@@ -88,7 +88,14 @@
           "province": 1,
           "name": "Piteå"
         }
-    },      {
+    },    {
+        "model": "core.Municipality",
+        "pk": 12,
+        "fields": {
+          "province": 1,
+          "name": "Älvsbyn"
+        }
+    },    {
         "model": "core.Municipality",
         "pk": 13,
         "fields": {
