@@ -136,10 +136,11 @@ class ListAndSearchAdsView(View):
     and when the user click "load more ads", the next part of the queryset is returned for
     each request intil there are no more ads in the matching query to return.
     """
-
-    # @method_decorator(lockdown())
-    # def dispatch(self, *args, **kwargs):
-    #     return super().dispatch(*args, **kwargs)
+    from django.utils.decorators import method_decorator
+    
+    @method_decorator(lockdown())
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
     def get(self, request):
         count_all_ads = Advertisement.get_all_active_ads().count()
