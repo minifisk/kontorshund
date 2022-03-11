@@ -297,7 +297,7 @@ class TestListAdsView(TestSetupListAndCreate):
         self.assertEqual(response.status_code, 200)
         self.assertIn(f'"pk": {self.user_2_offering_ads_halland_falkenberg[0].pk}', json_response)
         self.assertIn(f'"pk": {self.user_2_offering_ads_halland_halmstad[0].pk}', json_response)
-        self.assertIn(f'"pk": {self.user_1_offering_ads_stockholm_stockholms_stad[0].pk}', json_response)
+        self.assertNotIn(f'"pk": {self.user_1_offering_ads_stockholm_stockholms_stad[0].pk}', json_response)
 
     def test_requesting_specific_municipality(self):
             
