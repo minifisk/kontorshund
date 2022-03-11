@@ -369,9 +369,9 @@ class PayForAdSwishTemplate(View):
         if request.user.is_authenticated:
 
             url = request.build_absolute_uri()
+            CURRENT_PRICE, CURRENT_PRICE_STRING = get_current_ad_price_as_int_and_string()
 
             if 'swish-pay/initial' in url:
-                CURRENT_PRICE, CURRENT_PRICE_STRING = get_current_ad_price_as_int_and_string()
             
                 try: 
                     ad_obj = Advertisement.objects.get(pk=pk)
