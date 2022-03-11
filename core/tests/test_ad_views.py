@@ -208,105 +208,158 @@ class TestListAdsView(TestSetupListAndCreate):
         )
 
         json_response = json.loads(response.content.decode("utf-8"))
+
+        all_ads = Advertisement.objects.all().order_by('pk')
+
+        ad_pks = []
+        for ad in all_ads:
+            ad_pks.append(ad.pk)
+
+        first_ten_ad_pks = ad_pks[:10]
+        second_eight_ad_pks = ad_pks[10:]
+
         
         self.assertEqual(response.status_code, 200)
-        self.assertIn('"pk": 1', json_response)
-        self.assertIn('"pk": 7', json_response)
-        self.assertIn('"pk": 10', json_response)
-        self.assertNotIn('"pk": 11', json_response)
+
+        for pk in first_ten_ad_pks:
+            self.assertIn(f'"pk": {pk},', json_response)
+
+        for pk in second_eight_ad_pks:
+            self.assertNotIn(f'"pk": {pk},', json_response)
 
 
-    def test_requesting_first_ten_ads(self):
+    def test_requesting_next_ten_ads(self):
             
-            data = {
-                "type_of_ad": "all",
-                "province":"---------",
-                "municipality":"---------",
-                "area":"---------",
-                "days_per_week":[],
-                "size_offered":[],
-                "size_requested":[],
-                "offset":10
-            }
+        data = {
+            "type_of_ad": "all",
+            "province":"---------",
+            "municipality":"---------",
+            "area":"---------",
+            "days_per_week":[],
+            "size_offered":[],
+            "size_requested":[],
+            "offset":10
+        }
 
-            json_data = json.dumps(data)
+        json_data = json.dumps(data)
 
-            response = self.client.post(
-                '', 
-                json_data,
-                content_type='application/json',
-            )
+        response = self.client.post(
+            '', 
+            json_data,
+            content_type='application/json',
+        )
 
-            json_response = json.loads(response.content.decode("utf-8"))
-            
-            self.assertEqual(response.status_code, 200)
-            self.assertIn('"pk": 11', json_response)
-            self.assertIn('"pk": 13', json_response)
-            self.assertIn('"pk": 15', json_response)
-            self.assertNotIn('"pk": 10', json_response)
+        json_response = json.loads(response.content.decode("utf-8"))
+        
+        all_ads = Advertisement.objects.all().order_by('pk')
+
+        ad_pks = []
+        for ad in all_ads:
+            ad_pks.append(ad.pk)
+
+        first_ten_ad_pks = ad_pks[:10]
+        second_eight_ad_pks = ad_pks[10:]
+
+        
+        self.assertEqual(response.status_code, 200)
+
+        for pk in first_ten_ad_pks:
+            self.assertNotIn(f'"pk": {pk},', json_response)
+
+        for pk in second_eight_ad_pks:
+            self.assertIn(f'"pk": {pk},', json_response)
+
+                
 
     def test_requesting_specific_province(self):
             
-            data = {
-                "type_of_ad": "all",
-                "province":"Halland (0, 0)",
-                "municipality":"---------",
-                "area":"---------",
-                "days_per_week":[],
-                "size_offered":[],
-                "size_requested":[],
-                "offset":0
-            }
+        data = {
+            "type_of_ad": "all",
+            "province":"Halland (0, 0)",
+            "municipality":"---------",
+            "area":"---------",
+            "days_per_week":[],
+            "size_offered":[],
+            "size_requested":[],
+            "offset":0
+        }
 
-            json_data = json.dumps(data)
+        json_data = json.dumps(data)
 
-            response = self.client.post(
-                '', 
-                json_data,
-                content_type='application/json',
-            )
+        response = self.client.post(
+            '', 
+            json_data,
+            content_type='application/json',
+        )
 
-            json_response = json.loads(response.content.decode("utf-8"))
-            
-            self.assertEqual(response.status_code, 200)
-            self.assertIn(f'"pk": {self.user_2_offering_ads_halland_falkenberg[0].pk}', json_response)
-            self.assertIn(f'"pk": {self.user_2_offering_ads_halland_halmstad[0].pk}', json_response)
-            self.assertIn(f'"pk": {self.user_1_offering_ads_stockholm_stockholms_stad[0].pk}', json_response)
+        json_response = json.loads(response.content.decode("utf-8"))
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(f'"pk": {self.user_2_offering_ads_halland_falkenberg[0].pk}', json_response)
+        self.assertIn(f'"pk": {self.user_2_offering_ads_halland_halmstad[0].pk}', json_response)
+        self.assertIn(f'"pk": {self.user_1_offering_ads_stockholm_stockholms_stad[0].pk}', json_response)
 
     def test_requesting_specific_municipality(self):
             
-            data = {
-                "type_of_ad": "all",
-                "province":"Halland (0, 0)",
-                "municipality":"Falkenberg",
-                "area":"---------",
-                "days_per_week":[],
-                "size_offered":[],
-                "size_requested":[],
-                "offset":0
-            }
+        data = {
+            "type_of_ad": "all",
+            "province":"Halland (0, 0)",
+            "municipality":"Falkenberg",
+            "area":"---------",
+            "days_per_week":[],
+            "size_offered":[],
+            "size_requested":[],
+            "offset":0
+        }
 
-            json_data = json.dumps(data)
+        json_data = json.dumps(data)
 
-            response = self.client.post(
-                '', 
-                json_data,
-                content_type='application/json',
-            )
+        response = self.client.post(
+            '', 
+            json_data,
+            content_type='application/json',
+        )
 
-            json_response = json.loads(response.content.decode("utf-8"))
-            
-            self.assertEqual(response.status_code, 200)
-            self.assertIn(f'"pk": {self.user_2_offering_ads_halland_falkenberg[0].pk}', json_response)
-            self.assertNotIn(f'"pk": {self.user_2_offering_ads_halland_halmstad[0].pk}', json_response)
+        json_response = json.loads(response.content.decode("utf-8"))
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(f'"pk": {self.user_2_offering_ads_halland_falkenberg[0].pk}', json_response)
+        self.assertNotIn(f'"pk": {self.user_2_offering_ads_halland_halmstad[0].pk}', json_response)
 
     def test_requesting_specific_area(self):
             
+        data = {
+            "type_of_ad": "all",
+            "province":"Stockholm (0, 0)",
+            "municipality":"Stockholms stad",
+            "area":"Katarina, Sofia",
+            "days_per_week":[],
+            "size_offered":[],
+            "size_requested":[],
+            "offset":0
+        }
+
+        json_data = json.dumps(data)
+
+        response = self.client.post(
+            '', 
+            json_data,
+            content_type='application/json',
+        )
+
+        json_response = json.loads(response.content.decode("utf-8"))
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(f'"pk": {self.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia[0].pk}', json_response)
+        self.assertNotIn(f'"pk": {self.user_2_requesting_ads_sthlm[0].pk}', json_response)
+
+    def test_requesting_all_offering_ads(self):
+                
             data = {
-                "type_of_ad": "all",
-                "province":"Stockholm (0, 0)",
-                "municipality":"Stockholms stad",
-                "area":"Katarina, Sofia",
+                "type_of_ad": "offering",
+                "province":"---------",
+                "municipality":"---------",
+                "area":"---------",
                 "days_per_week":[],
                 "size_offered":[],
                 "size_requested":[],
@@ -327,59 +380,32 @@ class TestListAdsView(TestSetupListAndCreate):
             self.assertIn(f'"pk": {self.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia[0].pk}', json_response)
             self.assertNotIn(f'"pk": {self.user_2_requesting_ads_sthlm[0].pk}', json_response)
 
-    def test_requesting_all_offering_ads(self):
-                
-                data = {
-                    "type_of_ad": "offering",
-                    "province":"---------",
-                    "municipality":"---------",
-                    "area":"---------",
-                    "days_per_week":[],
-                    "size_offered":[],
-                    "size_requested":[],
-                    "offset":0
-                }
-
-                json_data = json.dumps(data)
-
-                response = self.client.post(
-                    '', 
-                    json_data,
-                    content_type='application/json',
-                )
-
-                json_response = json.loads(response.content.decode("utf-8"))
-                
-                self.assertEqual(response.status_code, 200)
-                self.assertIn(f'"pk": {self.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia[0].pk}', json_response)
-                self.assertNotIn(f'"pk": {self.user_2_requesting_ads_sthlm[0].pk}', json_response)
-
     def test_requesting_all_requesting_ads(self):
             
-            data = {
-                "type_of_ad": "requesting",
-                "province":"---------",
-                "municipality":"---------",
-                "area":"---------",
-                "days_per_week":[],
-                "size_offered":[],
-                "size_requested":[],
-                "offset":0
-            }
+        data = {
+            "type_of_ad": "requesting",
+            "province":"---------",
+            "municipality":"---------",
+            "area":"---------",
+            "days_per_week":[],
+            "size_offered":[],
+            "size_requested":[],
+            "offset":0
+        }
 
-            json_data = json.dumps(data)
+        json_data = json.dumps(data)
 
-            response = self.client.post(
-                '', 
-                json_data,
-                content_type='application/json',
-            )
+        response = self.client.post(
+            '', 
+            json_data,
+            content_type='application/json',
+        )
 
-            json_response = json.loads(response.content.decode("utf-8"))
-            
-            self.assertEqual(response.status_code, 200)
-            self.assertIn(f'"pk": {self.user_2_requesting_ads_sthlm[0].pk}', json_response)
-            self.assertNotIn(f'"pk": {self.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia[0].pk}', json_response)
+        json_response = json.loads(response.content.decode("utf-8"))
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(f'"pk": {self.user_2_requesting_ads_sthlm[0].pk}', json_response)
+        self.assertNotIn(f'"pk": {self.user_2_offering_ads_stockholm_stockholms_stad_katarina_sofia[0].pk}', json_response)
 
 
 class TestCreateOfferingDogView(TestSetupListAndCreate):
