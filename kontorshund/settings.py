@@ -193,18 +193,28 @@ WSGI_APPLICATION = 'kontorshund.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
+        'HOST': os.environ.get("DB_HOST"), 
         'NAME': os.environ.get("DB_NAME"),
         'USER': os.environ.get("DB_USER"),
         'PASSWORD': os.environ.get("DB_PASSWORD"),
-        'HOST': os.environ.get("DB_HOST"), 
         'PORT': os.environ.get("DB_PORT")
     }
 }
 
+import os
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+
+
 if 'test' in sys.argv or 'test_coverage' in sys.argv: #Covers regular testing and django-coverage
-    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
-    DATABASES['default']['NAME'] = os.path.join(os.path.dirname(__file__), 'test.db'),
-    DATABASES['default']['TEST_NAME'] = os.path.join(os.path.dirname(__file__), 'test.db'),
+    print('TEST DB SETTINGS')
+    DATABASES['default']['HOST'] = 'test-db'
+    DATABASES['default']['NAME'] = 'postgres'
+    DATABASES['default']['USER'] = 'postgres'
+    DATABASES['default']['PASSWORD'] = 'postgres'
+    DATABASES['default']['PORT'] = '5432'
+
+
+    #DATABASES['default']['TEST_NAME'] = os.path.join(os.path.dirname(__file__), 'test.db'),
 
 
 
