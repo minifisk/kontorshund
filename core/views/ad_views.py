@@ -169,10 +169,9 @@ class ListAndSearchAdsView(View):
         body_json = json.loads(request.body)
 
         
-        unsafe_province = body_json['province'][:-7] # Taking account for "(0, 0) - ad count in field name"
+        unsafe_province = body_json['province']
         unsafe_municipality = body_json['municipality']
         unsafe_area = body_json['area']
-
 
         unsafe_type_of_ad = body_json['type_of_ad']
 
@@ -194,19 +193,22 @@ class ListAndSearchAdsView(View):
         # Check if user input data is valid
         if variable_is_not_empty(unsafe_province):
             try:
-                province = Province.objects.get(name=unsafe_province)
+                unsafe_province_without_count = unsafe_province[:unsafe_province.index(' (')]
+                province = Province.objects.get(name=unsafe_province_without_count)
             except Province.DoesNotExist:
                 raise ValidationError
 
         if variable_is_not_empty(unsafe_municipality):
             try:
-                municipality = Municipality.objects.get(name=unsafe_municipality)
+                unsafe_municipality_without_count = unsafe_municipality[:unsafe_municipality.index(' (')]
+                municipality = Municipality.objects.get(name=unsafe_municipality_without_count)
             except Municipality.DoesNotExist:
                 raise ValidationError
 
         if variable_is_not_empty(unsafe_area):
             try:
-                area = Area.objects.get(name=unsafe_area)
+                unsafe_area_without_count = unsafe_area[:unsafe_area.index(' (')]
+                area = Area.objects.get(name=unsafe_area_without_count)
             except Area.DoesNotExist:
                 raise ValidationError
 
