@@ -38,7 +38,7 @@ class Command(BaseCommand):
 
             for ad in ad_selection:
 
-                ad.is_active = False
+                ad.is_published = False
                 ad.is_deleted = True
                 ad.save()
 
