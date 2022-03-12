@@ -10,6 +10,7 @@ urlpatterns = [
     path('', ad_views.ListAndSearchAdsView.as_view(), name='list_postings'),
     path('profile', ad_views.Profile.as_view(), name='profile'), 
     path('about', TemplateView.as_view(template_name='about.html'), name='about'),
+    path('privacy/', TemplateView.as_view(template_name="core/privacy/terms.html"), name='privacy'),
 
     path('ads/choose', ad_views.ChooseAd.as_view(), name='choose_ad_type'),
     path('ads/<int:pk>', ad_views.AdDetailView.as_view(), name='ad_detail'),

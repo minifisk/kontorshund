@@ -20,7 +20,7 @@ django-autocomplete-light==3.9.0rc1
 django-bootstrap-form==3.4
 django-classy-tags==3.0.1
 #django-cookie-law==2.1.1
-git+https://github.com/minifisk/django-cookie-law.git@7fb178e52d6c9f376d0137ec21d578d63311d33b#django-cookie-law
+git+https://github.com/minifisk/django-cookie-law.git@6090e8d2aa13ffd8b370d8e011315edc0ca53df5#django-cookie-law
 django-crispy-forms==1.11.0
 django-debug-toolbar==3.2.4
 django-extensions==3.1.5
