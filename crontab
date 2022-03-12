@@ -9,7 +9,7 @@
 0 * * * * python3 /home/dockeruser/web/manage.py send_reminder_1_week_before
 23 * * * * python3 /home/dockeruser/web/manage.py deactivate_ads_on_deletion_date
 #0 3 * * * python3 /home/dockeruser/web/manage.py daily_subscribe_mails
-*/3 * * * * python3 /home/dockeruser/web/manage.py daily_subscribe_mails
-*/3 * * * 0 python3 /home/dockeruser/web/manage.py weekly_subscribe_mails
+* * * * * python3 /home/dockeruser/web/manage.py daily_subscribe_mails
+* * * * * python3 /home/dockeruser/web/manage.py weekly_subscribe_mails
 #0 3 * * 0 python3 /home/dockeruser/web/manage.py weekly_subscribe_mails
 # DON'T REMOVE LAST LINE
