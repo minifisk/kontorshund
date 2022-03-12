@@ -114,7 +114,7 @@ INSTALLED_APPS = [
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOCKDOWN_PASSWORDS = ['ölkaka123']
+LOCKDOWN_PASSWORDS = ['hejsan123']
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
