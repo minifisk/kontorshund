@@ -30,7 +30,7 @@
   <br>
   <img class="mt-6 mb-3" id="captchaImg" />
   <br>
-  <button id="completed-payment" class="mt-5 mb-3 btn btn-warning invisible">Jag har betalt </button>
+  <button id="completed-payment-desktop" class="mt-5 mb-3 btn btn-warning invisible">Jag har betalt </button>
   <p id="payment-status"></p>
 
   <hr style="height:1px;border:none;color:#333;background-color:#333;">
@@ -39,7 +39,7 @@
   <h2 class="mb-3">Om du öppnat sidan via en mobiltelefon &#128241; </h2>
   <button id="open-swish" class="btn btn-primary mt-4">Öppna Swish app på denna enhet och betala <b>{{ price }}</b></button>
   <br>
-  <button id="completed-payment" class="mt-5 mb-3 btn btn-warning invisible">Jag har betalt </button>
+  <button id="completed-payment-mobile" class="mt-5 mb-3 btn btn-warning invisible">Jag har betalt </button>
   <p id="payment-status"></p>
   <br>
   <hr style="height:1px;border:none;color:#333;background-color:#333;">
@@ -86,18 +86,22 @@
       /* "PAYMENT-DONE" BUTTON */
       ///////////////////////////
 
+      const completed_payment_desktop = document.getElementById('completed-payment-desktop');
+      const completed_payment_desktop = document.getElementById('completed-payment-mobile');
 
-      function show_completed_payment_button() {
-        const completed_payment = document.getElementById('completed-payment');
-        completed_payment.classList.remove('invisible')
+      function show_completed_payment_button_desktop() {
+        completed_payment_desktop.classList.remove('invisible')
+      }
+
+      function show_completed_payment_button_mobile() {
+        completed_payment_mobile.classList.remove('invisible')
       }
       
         // Creating the request
-        const completed_payment_button = document.getElementById('completed-payment');
         const status_field = document.getElementById('payment-status')
 
 
-        completed_payment_button.addEventListener('click', (event) => {
+        completed_payment_desktop.addEventListener('click', (event) => {
 
           // CSRF Set-up
           let csrftoken = getCookie('csrftoken');
@@ -150,7 +154,7 @@
                   if (xhr_token.status === 201) {
                     
                     // Display button - "I have completed payment"
-                    show_completed_payment_button()
+                    show_completed_payment_button_mobile()
                     
                     // Get variables from token response and open swish-app on ios/android
                     var response = JSON.parse(xhr_token.response)
@@ -200,7 +204,7 @@
                 document.getElementById("captchaImg").setAttribute('src', 'data:image/png;base64,' + btoa(String.fromCharCode.apply(null, new Uint8Array(xhr_qr.response))));
 
                 // Display button - "I have completed payment"
-                show_completed_payment_button()
+                show_completed_payment_button_desktop()
 
               }
           }
