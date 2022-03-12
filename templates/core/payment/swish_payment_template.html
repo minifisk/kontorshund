@@ -88,7 +88,7 @@
       ///////////////////////////
 
       const completed_payment_desktop = document.getElementById('completed-payment-desktop');
-      const completed_payment_desktop = document.getElementById('completed-payment-mobile');
+      const completed_payment_mobile = document.getElementById('completed-payment-mobile');
 
       function show_completed_payment_button_desktop() {
         completed_payment_desktop.classList.remove('invisible')
@@ -102,7 +102,45 @@
         const status_field = document.getElementById('payment-status')
 
 
+
+
+
         completed_payment_desktop.addEventListener('click', (event) => {
+
+          // CSRF Set-up
+          let csrftoken = getCookie('csrftoken');
+
+          var xhr_complete = new XMLHttpRequest();
+          
+          xhr_complete.onload = function () {
+            if (xhr_complete.readyState === xhr_complete.DONE) {
+                if (xhr_complete.status === 200) {
+                 
+                  status_field.innerHTML = 'Annonsen är betald! Du hittar länken till annonsen nedan.'
+                  status_field.style.color = 'green'
+
+                 
+                } 
+                else {
+                  status_field.innerHTML = 'Annonsen är INTE betald, dubbelkolla så att betalningen gått igenom i din Swish-app! Problem? Maila oss på <a href="mailto:info@kontorshund.se">info@kontorshund.se</a> '
+                }
+            }
+          };
+
+          {% if current_end_date %}
+            xhr_complete.open('POST',  "{% url 'check_extended_payment_status' pk %}", true);
+          {% else %}
+            xhr_complete.open('POST',  "{% url 'check_initial_payment_status' pk %}", true);
+          {% endif %}
+          xhr_complete.setRequestHeader("X-CSRFToken", csrftoken); 
+          xhr_complete.setRequestHeader("Content-Type", "text/plain;charset=UTF-8"); 
+          xhr_complete.send();
+
+        });
+
+
+
+        completed_payment_mobile.addEventListener('click', (event) => {
 
           // CSRF Set-up
           let csrftoken = getCookie('csrftoken');
