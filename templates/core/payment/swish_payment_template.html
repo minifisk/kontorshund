@@ -32,7 +32,7 @@
   <img class="mt-6 mb-3" id="captchaImg" />
   <br>
   <button id="completed-payment-desktop" class="mt-5 mb-3 btn btn-warning invisible">Jag har betalt </button>
-  <p id="payment-status"></p>
+  <p id="payment-status-desktop"></p>
 
   <hr style="height:1px;border:none;color:#333;background-color:#333;">
 
@@ -41,7 +41,7 @@
   <button id="open-swish" class="btn btn-primary mt-4">Öppna Swish app på denna enhet och betala <b>{{ price }}</b></button>
   <br>
   <button id="completed-payment-mobile" class="mt-5 mb-3 btn btn-warning invisible">Jag har betalt </button>
-  <p id="payment-status"></p>
+  <p id="payment-status-mobile"></p>
   <br>
   <hr style="height:1px;border:none;color:#333;background-color:#333;">
 
@@ -99,7 +99,8 @@
       }
       
         // Creating the request
-        const status_field = document.getElementById('payment-status')
+        const status_field_desktop = document.getElementById('payment-status-desktop')
+        const status_field_mobile = document.getElementById('payment-status-mobile')
 
 
 
@@ -122,7 +123,7 @@
                  
                 } 
                 else {
-                  status_field.innerHTML = 'Annonsen är INTE betald, dubbelkolla så att betalningen gått igenom i din Swish-app! Problem? Maila oss på <a href="mailto:info@kontorshund.se">info@kontorshund.se</a> '
+                  status_field_desktop.innerHTML = 'Annonsen är INTE betald, dubbelkolla så att betalningen gått igenom i din Swish-app! Problem? Maila oss på <a href="mailto:info@kontorshund.se">info@kontorshund.se</a> '
                 }
             }
           };
@@ -157,7 +158,7 @@
                  
                 } 
                 else {
-                  status_field.innerHTML = 'Annonsen är INTE betald, dubbelkolla så att betalningen gått igenom i din Swish-app! Problem? Maila oss på <a href="mailto:info@kontorshund.se">info@kontorshund.se</a> '
+                  status_field_mobile.innerHTML = 'Annonsen är INTE betald, dubbelkolla så att betalningen gått igenom i din Swish-app! Problem? Maila oss på <a href="mailto:info@kontorshund.se">info@kontorshund.se</a> '
                 }
             }
           };
