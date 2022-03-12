@@ -6,7 +6,7 @@ import locale
 
 from django.http.response import JsonResponse
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect
 
 
@@ -47,6 +47,19 @@ class HandleEmailSubscriptionStatus(View):
         else:
             return redirect('account_login')
 
+class DeactivateEmailSubscription(View):
+
+    def get(self):
+
+        uuid = self.kwargs.get('uuid')
+
+        try:  
+            news_email = NewsEmail.objects.get(uuid=uuid)
+            news_email.is_active = False
+            news_email.save()
+            return HttpResponse('Nyhetsmail avaktiverat!')
+        except NewsEmail.DoesNotExist:
+            return Http404(f'NewsEmail matching uuid {uuid} not found')
 
 ###############
 # reCAPCHA view

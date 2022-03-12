@@ -33,6 +33,8 @@ urlpatterns = [
     path('bg-pay/<int:pk>', payment_views.PayForAdBg.as_view(), name='bg_payment'),
     
     path('handle-email-subscription/<str:uuid>', supporting_views.HandleEmailSubscriptionStatus.as_view(), name='handle_email_subscription_status'), 
+    path('deactivate-email-subscription/<str:uuid>', supporting_views.DeactivateEmailSubscription.as_view(), name='deactivate_email_subscription'), 
+
 
     path('ajax/load-provinces/', supporting_views.LoadProvinces.as_view(), name='ajax_load_provinces'), 
     path('ajax/load-municipalities/', supporting_views.LoadMunicipalities.as_view(), name='ajax_load_municipalities'), 
