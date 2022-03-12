@@ -55,7 +55,7 @@ class DeactivateEmailSubscription(View):
             news_email = NewsEmail.objects.get(uuid=uuid)
             news_email.is_active = False
             news_email.save()
-            return HttpResponse('Nyhetsmail avaktiverat!')
+            return HttpResponse('Nyhetsmail avaktiverat! Du kan alltid återaktivera det under din profil.')
         except NewsEmail.MultipleObjectsReturned:
             return Http404(f'uuid {uuid} not unique')
         except NewsEmail.DoesNotExist:
