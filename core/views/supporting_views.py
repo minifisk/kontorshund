@@ -49,9 +49,7 @@ class HandleEmailSubscriptionStatus(View):
 
 class DeactivateEmailSubscription(View):
 
-    def get(self):
-
-        uuid = self.kwargs.get('uuid')
+    def get(self, uuid):
 
         try:  
             news_email = NewsEmail.objects.get(uuid=uuid)
