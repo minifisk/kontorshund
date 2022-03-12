@@ -87,15 +87,15 @@
       /* "PAYMENT-DONE" BUTTON */
       ///////////////////////////
 
-      const completed_payment_desktop = document.getElementById('completed-payment-desktop');
-      const completed_payment_mobile = document.getElementById('completed-payment-mobile');
+      const completed_payment_button_desktop = document.getElementById('completed-payment-desktop');
+      const completed_payment_button_mobile = document.getElementById('completed-payment-mobile');
 
       function show_completed_payment_button_desktop() {
-        completed_payment_desktop.classList.remove('invisible')
+        completed_payment_button_desktop.classList.remove('invisible')
       }
 
       function show_completed_payment_button_mobile() {
-        completed_payment_mobile.classList.remove('invisible')
+        completed_payment_button_mobile.classList.remove('invisible')
       }
       
         // Creating the request
@@ -106,7 +106,7 @@
 
 
 
-        completed_payment_desktop.addEventListener('click', (event) => {
+        completed_payment_button_desktop.addEventListener('click', (event) => {
 
           // CSRF Set-up
           let csrftoken = getCookie('csrftoken');
@@ -117,7 +117,7 @@
             if (xhr_complete.readyState === xhr_complete.DONE) {
                 if (xhr_complete.status === 200) {
                  
-                  status_field.innerHTML = 'Annonsen är betald! Du hittar länken till annonsen nedan.'
+                  status_field_desktop.innerHTML = 'Annonsen är betald! Du hittar länken till annonsen nedan.'
                   status_field.style.color = 'green'
 
                  
@@ -141,7 +141,7 @@
 
 
 
-        completed_payment_mobile.addEventListener('click', (event) => {
+        completed_payment_button_mobile.addEventListener('click', (event) => {
 
           // CSRF Set-up
           let csrftoken = getCookie('csrftoken');
@@ -152,7 +152,7 @@
             if (xhr_complete.readyState === xhr_complete.DONE) {
                 if (xhr_complete.status === 200) {
                  
-                  status_field.innerHTML = 'Annonsen är betald! Du hittar länken till annonsen nedan.'
+                  status_field_mobile.innerHTML = 'Annonsen är betald! Du hittar länken till annonsen nedan.'
                   status_field.style.color = 'green'
 
                  
