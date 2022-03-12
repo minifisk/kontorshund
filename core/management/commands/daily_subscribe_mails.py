@@ -111,7 +111,7 @@ class Command(BaseCommand):
                         'subscribed_municipality': news_email_subscription_object.municipality,
                         'ad_type': news_email_subscription_object.ad_type,
                         'news_email_uuid': news_email_subscription_object.uuid,
-                        'count_ads': matching_ads_count,
+                        'ad_count': matching_ads_count,
                         'interval': 'daily',
                         'subscription_uuid': news_email_subscription_object.uuid,
                     }
@@ -212,7 +212,7 @@ class Command(BaseCommand):
                         'subscribed_municipality': news_email_subscription_object.municipality,
                         'ad_type': news_email_subscription_object.ad_type,
                         'news_email_uuid': news_email_subscription_object.uuid,
-                        'count_ads': matching_ads_count,
+                        'ad_count': matching_ads_count,
                         'interval': 'daily',
                         'subscription_uuid': news_email_subscription_object.uuid,
                     }
