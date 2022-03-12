@@ -49,13 +49,15 @@ class HandleEmailSubscriptionStatus(View):
 
 class DeactivateEmailSubscription(View):
 
-    def get(self, uuid):
+    def get(self, request, uuid):
 
         try:  
             news_email = NewsEmail.objects.get(uuid=uuid)
             news_email.is_active = False
             news_email.save()
             return HttpResponse('Nyhetsmail avaktiverat!')
+        except NewsEmail.MultipleObjectsReturned:
+            return Http404(f'uuid {uuid} not unique')
         except NewsEmail.DoesNotExist:
             return Http404(f'NewsEmail matching uuid {uuid} not found')
 
