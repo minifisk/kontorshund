@@ -30,17 +30,18 @@
   <br>
   <img class="mt-6 mb-3" id="captchaImg" />
   <br>
-  <button id="completed-payment" class="mt-5 mb-3 btn btn-warning invisible">Jag har betalt </button>
+  <button id="completed-payment-computer" class="mt-5 mb-3 btn btn-warning invisible">Jag har betalt </button>
   <p id="payment-status"></p>
 
   <hr style="height:1px;border:none;color:#333;background-color:#333;">
 
 
   <h2 class="mb-3">Om du öppnat sidan via en mobiltelefon &#128241; </h2>
-  <p>Öppna Swish-appen i din telefon, välj QR-kod och rikta kameran mot QR-koden och utför betalningen.</p>
-  <p>När du godkänt betalningen i din telefon, skickas du automatiskt till den publicerade annonsen.</p>
-  <button id="open-swish" class="btn btn-primary mt-4">Öppna Swish app på denna enhet</button>
+  <p>När du klickar på knappen så öppnas Swish i din telefon så du kan genomföra betalningen om <b>{{ price }}.</b></p>
+  <button id="open-swish" class="btn btn-primary mt-4">Öppna Swish på denna enhet</button>
   <br>
+  <button id="completed-payment-phone" class="mt-5 mb-3 btn btn-warning invisible">Jag har betalt </button>
+  <p id="payment-status"></p>
   <br>
   <hr style="height:1px;border:none;color:#333;background-color:#333;">
 
@@ -87,11 +88,16 @@
       ///////////////////////////
 
 
-      function show_completed_payment_button() {
-        const completed_payment = document.getElementById('completed-payment');
+      function show_completed_payment_button_computer() {
+        const completed_payment = document.getElementById('completed-payment-computer');
         completed_payment.classList.remove('invisible')
       }
       
+      function show_completed_payment_button_phone() {
+        const completed_payment = document.getElementById('completed-payment-phone');
+        completed_payment.classList.remove('invisible')
+      }
+
         // Creating the request
         const completed_payment_button = document.getElementById('completed-payment');
         const status_field = document.getElementById('payment-status')
@@ -150,7 +156,7 @@
                   if (xhr_token.status === 201) {
                     
                     // Display button - "I have completed payment"
-                    show_completed_payment_button()
+                    show_completed_payment_button_phone()
                     
                     // Get variables from token response and open swish-app on ios/android
                     var response = JSON.parse(xhr_token.response)
@@ -200,7 +206,7 @@
                 document.getElementById("captchaImg").setAttribute('src', 'data:image/png;base64,' + btoa(String.fromCharCode.apply(null, new Uint8Array(xhr_qr.response))));
 
                 // Display button - "I have completed payment"
-                show_completed_payment_button()
+                show_completed_payment_button_computer()
 
               }
           }
