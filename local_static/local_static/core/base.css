@@ -224,6 +224,10 @@ display: block;
 
 /* ID's */
 
+#cookie-info-paragraph {
+    font-size: 10px;
+}
+
 #google-login-button {
     background-color: #ce5642; 
     color: white;
