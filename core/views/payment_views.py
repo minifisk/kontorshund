@@ -211,7 +211,7 @@ class SwishCallback(View):
             error_message = data_dict['errorCode']
 
             if error_code != "TM01":
-                logger.error(f'Problem creating payment: {error_code} {error_message}')
+                logger.info(f'Problem creating payment: {error_code} {error_message}')
                 return HttpResponse(status=200)
             
             return HttpResponse(status=200)
