@@ -94,18 +94,40 @@ class Profile(LoginRequiredMixin, View):
 
         if request.user.is_authenticated:
 
+
+            url = request.build_absolute_uri('/')
+            media_url = f'{url}media/'
+            ad_url = f'{url}ads/'
+
+            published_ads = Advertisement.objects.filter(author=request.user, is_published=True)
+            unpublished_ads = Advertisement.objects.filter(author=request.user, is_published=False)
+            deleted_ads = Advertisement.objects.filter(author=request.user, is_deleted=True)
             NewsEmail_obj = NewsEmail.objects.get(user=request.user)
+
             form = NewsEmailForm(request.POST, instance=NewsEmail_obj)
 
             if form.is_valid():
                 logger.info(f'User {request.user.pk} Updated NewsEmail preferences.')
                 form.save()
                 messages.success(request, "Dina bevaknings-inställningar är sparade!" )
-                return redirect('profile')
             else:
-                logger.error(f'User {request.user.pk} tried updating NewsEmail preferences, but form was not valid.')
-                messages.error(request, "Något gick fel, försök igen." )
-                return redirect('profile')
+                logger.debug(f'User {request.user.pk} tried updating NewsEmail preferences, but form was not valid.')
+                messages.error(request, f"Något gick fel när vi försökte spara dina bevakningsinställningar, se över felmeddelanden i formuläret." )
+            
+            return render(
+                request, 
+                'core/profile/profile.html', 
+                    {
+                        'published_ads': published_ads, 
+                        'unpublished_ads': unpublished_ads, 
+                        'deleted_ads': deleted_ads,
+                        'media_url': media_url,
+                        'ad_url': ad_url,
+                        'form': form,
+                        'news_email_obj': NewsEmail_obj,
+                }
+            )
+
         else:
             return redirect('account_login')
 
