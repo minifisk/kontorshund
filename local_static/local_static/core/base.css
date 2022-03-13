@@ -224,9 +224,7 @@ display: block;
 
 /* ID's */
 
-#cookie-info-paragraph {
-    font-size: 10px;
-}
+
 
 #google-login-button {
     background-color: #ce5642; 
@@ -417,6 +415,9 @@ display: block;
         width: 350px;
     }
 
+    #cookie-info-paragraph {
+        font-size: 10px;
+    }
 
 }
 
@@ -454,6 +455,11 @@ display: block;
     margin-top: 30px;
     width: 500px;
     }
+
+    #cookie-info-paragraph {
+        font-size: 12px;
+    }
+
 }
 
 @media (min-width:961px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ 
@@ -483,6 +489,11 @@ display: block;
     width: 700px;
     }
 
+    #cookie-info-paragraph {
+        font-size: 12px;
+    }
+
+
 }
 
 @media (min-width:1281px) { /* hi-res laptops and desktops */ 
@@ -504,6 +515,10 @@ display: block;
         margin-top: 30px;
         width: 500px;
         padding: 30px;
+    }
+
+    #cookie-info-paragraph {
+        font-size: 14px;
     }
 
 
