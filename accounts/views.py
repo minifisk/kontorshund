@@ -33,5 +33,5 @@ class UserDeactivateView(LoginRequiredMixin, View):
             # Give them a success message.
             messages.success(request, 'Account successfully deactivated')
             # Redirect to home page.
-            return redirect(reverse('index'))
+            return redirect(reverse('list_postings'))
 
