@@ -20,14 +20,14 @@
 
   <div id="center-align-container" class="mb-4">
     <p>
-      <a class="btn btn-primary btn-lg mt-3 mb-3" data-toggle="collapse" href="#news-email-collapse" role="button" aria-expanded="false" aria-controls="news-email-collapse">
+      <a class="btn btn-primary btn-lg mt-3 mb-3" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         Dina bevakningar &#128233;
       </a>
       <p class="mb-4">Här kan du skapa bevakningar av nya annonser och få ett mail antingen veckovis eller dagligen när det kommit upp nya annonser som matchar dina kriterier. Du kan närsomhelst gå in här och aktivera/inaktivera dina bevakningar.</p>
     </p>
   </div>
 
-  <div class="collapse" id="news-email-collapse">
+  <div class="collapse" id="collapseExample">
     <div class="card card-body">
       
         <div id="center-align-container" class="mb-4">
@@ -55,13 +55,13 @@
       
         <div id="center-align-container" class="mb-4">
           {% if news_email_obj.is_active %}
-            <button id="handle-subscription-button" class="btn btn-danger mr-2">Deaktivera bevakningar</button>
+            <button id="cancel-subscription-button" class="btn btn-danger mr-2">Deaktivera bevakningar</button>
           {% else %}
-            <button id="handle-subscription-button" class="btn btn-success ml-2">Aktivera bevakningar</button>
+            <button id="cancel-subscription-button" class="btn btn-success ml-2">Aktivera bevakningar</button>
           {% endif %}
         </div>
       
-        <form method="post" id="news-email-form" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
+        <form method="post" enctype="multipart/form-data" id="adForm" data-municipalities-url="{% url 'ajax_load_municipalities' %}" data-areas-url="{% url 'ajax_load_areas' %}" novalidate>
         
           {% csrf_token %}  
       
@@ -255,10 +255,10 @@
 }
   
 
-  const handle_subscription_button = document.getElementById('handle-subscription-button');
+  const cancel_subscription_button = document.getElementById('cancel-subscription-button');
 
 
-  handle_subscription_button.addEventListener("click", function(e) {
+  cancel_subscription_button.addEventListener("click", function(e) {
       e.preventDefault();
 
       var xhr_cancel_subscription = new XMLHttpRequest();
@@ -271,19 +271,19 @@
             if (xhr_cancel_subscription.status === 200) {
                 
                 if (xhr_cancel_subscription.response.includes("Activated")) {
-                  const handle_subscription_button = document.getElementById('handle-subscription-button');
+                  const cancel_subscription_button = document.getElementById('cancel-subscription-button');
                   const heading_subscription_status = document.getElementById('heading_subscription_status');
-                  handle_subscription_button.innerHTML = "Inaktivera bevakningar"
-                  handle_subscription_button.classList.remove('btn-success')
-                  handle_subscription_button.classList.add('btn-danger')
+                  cancel_subscription_button.innerHTML = "Inaktivera bevakningar"
+                  cancel_subscription_button.classList.remove('btn-success')
+                  cancel_subscription_button.classList.add('btn-danger')
                   heading_subscription_status.innerHTML = "&#128236; (Aktiv)"
                 }
                 if (xhr_cancel_subscription.response.includes("Deactivated")) {
-                  const handle_subscription_button = document.getElementById('cancel-subscription-button');
+                  const cancel_subscription_button = document.getElementById('cancel-subscription-button');
                   const heading_subscription_status = document.getElementById('heading_subscription_status');
-                  handle_subscription_button.innerHTML = "Aktivera bevakningar"
-                  handle_subscription_button.classList.remove('btn-danger')
-                  handle_subscription_button.classList.add('btn-success')
+                  cancel_subscription_button.innerHTML = "Aktivera bevakningar"
+                  cancel_subscription_button.classList.remove('btn-danger')
+                  cancel_subscription_button.classList.add('btn-success')
                   heading_subscription_status.innerHTML = "&#128237; (Inaktiv)"
                   
                 }
