@@ -1,5 +1,7 @@
 # Kontorshund (Office Dog)
 
+www.kontorshund.se
+
 Kontorshund.se is a Django powered application, offering people a marketplace for creating advertisements either offering or requesting an "Office dog" - i.e.
 If you have a dog and need/want a few days off during the weekdays, you can create an ad, finding someone who are willing to take care of your dog one/a few weekdays
 every week. At the opposite end, if you work in an office/are retired/just want to take care of a dog but maybe don't have the ability or want to buy your own
@@ -71,7 +73,27 @@ Then rerun:
 
 docker-compose up --build
 
-###
+### Docker
+I have designed the application using Docker as I highly enjoy the way working with dockerized application and become accustomed to it. It makes it very easy to set up the development environment, and combine for example the main web application with an scheduler instance running CRON-jobs, which I have also implemented.
+This also make it easier to set up a test-postgres database, instead of having an external postgres (which I however use for production as it is easier to
+manage an external database in production than to have to go through the abstraction in Docker).
 
+### NGINX
+I have set up the application to run with Gunicorn + NGINX in production, where NGINX handles the static and media files, and Gunicorn serve the actual application, according to branch standards.
+
+### Backup
+I've set up a backup-script which do daily backups on my external Postgres instance, this run directly on the Ubuntu machine where I host the production application, but can be found in the repository under scripts/backup.
+
+### Templates
+I have tried to modularize the templates, saving sections that are repeated in separate files and including them when needed.
+
+### Authentication
+I'm using Django allauth for authentication as it make it much easier to work with for example social authentication (I'm using Google and Facebook in production). 
+
+### Fixtures
+I'm using fixtures for importing essential database posts for making the application work - for example geographies and dog breeds.
+
+### Storage
+I'm using Linode's storage solution, which is a S3 type of storage solution, which enable using Boto3 for handling static and media files, which works very well with Django.
 
 
