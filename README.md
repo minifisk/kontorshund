@@ -96,4 +96,18 @@ I'm using fixtures for importing essential database posts for making the applica
 ### Storage
 I'm using Linode's storage solution, which is a S3 type of storage solution, which enable using Boto3 for handling static and media files, which works very well with Django.
 
+### Payment solution
+The production application is integrated with the Swedish payment solution Swish, which make it possible for customers to do payments via their phone when posting an ad. This is build with certificates obtained by my bank and integrated in the application. The process can be seen in payment_views, where I've implemented the solution both for customers visiting the site via desktop to create a QR code, which they then take a photo of with their mobile and obtain the call for payment with, or for customers who visit the site via mobile and directly can open their Swish application when making their payment. This was a challenging part of building the application, but I got help from another Swedish developer I got contact with in a forum online. Together we set up the open repository for aiding developers in the same situation: https://github.com/johano99/swishsimple
+
+## Final remarks
+This was my last project in the two course series of Harvards CS50 and CS50Web courses (this project being the final project for the latter course). I started my journey toward becoming a developer in 2020, and have now, in march 2022, obtained a position as a back-end developer, which I enjoy very much. Harvards courses made this possible, and I have discovered my passion for coding and web development. 
+
+This was a challenging application to build and it took quiet some time, I've estimated that the total time from the first commit until launch was around 200-220 hours. A lot of the time has gone into designing the application, but also familiarizing myself with how to set up a production ready infrastructure, powered on a Linux machine. I'm very happy to have done it "the right way", and not settling for abstracted services such as Heroku. 
+
+Doing it from the bottom up has been very challenging at times, but I've also found a fascination and love for Linux and the way the system is designed. Finding wonderful packages such as Watchlist, which handle the automatic deployment with Docker has been a life-saver. I'm happy to have entered web development at this point in time, where development don't have to be to cumbersome, but where a single person can build a pretty complex application.
+
+My final thanks goes out to Harvard and the staff at CS50 and CS50W for making this material available for free. It has truly changed the course of my life, for the better.
+
+
+
 
