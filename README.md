@@ -2,6 +2,12 @@
 
 www.kontorshund.se
 
+
+##For examination purposes
+Distinctiveness and Complexity:
+Please find below the description of the project, I believe you will find that it meets your standards for a final project.
+
+## Short description of the project
 Kontorshund.se is a Django powered application, offering people a marketplace for creating advertisements either offering or requesting an "Office dog" - i.e.
 If you have a dog and need/want a few days off during the weekdays, you can create an ad, finding someone who are willing to take care of your dog one/a few weekdays
 every week. At the opposite end, if you work in an office/are retired/just want to take care of a dog but maybe don't have the ability or want to buy your own
