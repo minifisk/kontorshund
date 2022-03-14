@@ -36,6 +36,10 @@ testing the application) by running (make sure you have downloaded and run the D
 
 docker-compose up --build
 
+### How to test the website
+Note that you will not be able to finish payments as intended in the production application, instead if you create an ad, you will need to go into the ad in Django admin and mark it as published for it to show in the search results in the main page.
+
+
 ## Design considerations for the application
 
 ### Django vs separate front-end
