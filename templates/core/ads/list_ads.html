@@ -296,7 +296,10 @@
         </div>
     </div>
 
-    
+
+<form method="post">
+    {% csrf_token %}
+</form>
 
 
 
@@ -512,7 +515,9 @@
 
         // Make request to backend with collected data
         const url = "";
-        let csrftoken = getCookie('csrftoken');
+        //let csrftoken = getCookie('csrftoken');
+        let csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
 
         let response =  fetch(url, {
             method: 'POST',
