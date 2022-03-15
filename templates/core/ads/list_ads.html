@@ -7,6 +7,15 @@
 
 {% block content %}
 
+    <div class="alert alert-success" role="alert" style="text-align: center;">
+        <p>
+            Välkommen till Kontorshund.se!
+        </p>
+        <b>
+            Här kan hundägare mötas med någon som vill ta hand om en hund en eller några dagar i veckan. Lägg upp en annons och hitta varandra!
+        </b>
+    </div>
+
     <div class="alert alert-primary" role="alert" style="text-align: center;">
         <p>
             LANSERINGSERBJUDANDE - FÖRST TILL KVARN!
@@ -15,12 +24,6 @@
             {{ ads_left_on_special_offer }} / {{ number_of_ads_offered_at_discount }} annonser kvar till priset 10 kr, därefter 40 kr/annons!
         </b>
     </div>
-
-    <div class="alert alert-dark" role="alert" style="text-align: center;">
-       Just nu finns det totalt {{ count_all_offering_ads }} "Hund erbjudes", och {{ count_all_requesting_ads }} "Hund sökes" annonser uppe. 
-       <br>
-       Ser du inga annonser här nedan? Det kan bero på att din webbläsare inte kan spara cookies från vår site (om du t.ex. surfar incognito).
-      </div>
   
 
     <div id="center-align-container" class="mb-4">
